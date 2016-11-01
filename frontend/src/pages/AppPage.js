@@ -7,9 +7,11 @@ export class AppPage extends Component {
   render() {
     const { children } = this.props;
     return (
-      <div className="container">
+      <div>
         <TopNavigation/>
-        {children}
+        <div className="container">
+          {children}
+        </div>
         <PageFooter/>
       </div>
     );
