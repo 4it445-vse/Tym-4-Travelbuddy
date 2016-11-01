@@ -4,6 +4,7 @@ import { IndexRoute, Route } from 'react-router';
 import { AppPage } from './pages/AppPage.js';
 // import { ContactPage } from './pages/ContactPage.js';
 import { HomePage } from './pages/HomePage.js';
+import { VypisPage } from './pages/VypisPageCvicna.js';
 // import { NoMatchPage } from './pages/NoMatchPage.js';
 // import { ProductDetailPage } from './pages/ProductDetailPage.js'
 // import { ProductsPage } from './pages/ProductsPage.js';
@@ -14,6 +15,7 @@ export function createRoutes() {
   return (
     <Route path="/" component={AppPage}>
       <IndexRoute component={HomePage}/>
+      <Route path="/vypis" component={VypisPage}/>
       {/* <Route path="/products">
         <IndexRoute component={ProductsPage}/>
         <Route path=":productId" component={ProductDetailPage}/>
