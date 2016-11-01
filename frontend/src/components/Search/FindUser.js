@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { User } from '/home/team04/code/project/frontend/src/components/Search/User.js';
+import { User } from './User.js';
 
 export class FindUser extends Component {
     render() {

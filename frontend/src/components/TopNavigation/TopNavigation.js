@@ -86,7 +86,7 @@ export class TopNavigation extends Component {
               <span className="float-left">
                   Nemáš ještě účet?
               </span>
-              <button type="button" data-dismiss="modal" className="btn btn-primary" data-toggle="modal" data-target="#regmodal"  href="#" className="float-right">Registrace</button>
+              <button type="button" data-dismiss="modal" className="btn btn-primary float-right" data-toggle="modal" data-target="#regmodal"  href="#">Registrace</button>
           </div>
         </Modal.Footer>
       </Modal>
