@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 
 export class User extends Component {
     render() {
-      const { data } = this.props;
-
+      const { buddy } = this.props;
+        console.log("in User 2");
+        console.log(buddy);
       //{products.map(product =>
   //        <ProductListItem product={product} key={product.id}/>
 //)}
@@ -14,7 +15,7 @@ export class User extends Component {
                                 <img src="ss.jpeg" alt="..." className="profil_img rounded" />
                             </div>
                             <div className="col-lg-8 col-md-7 col-sm-5 col-xs-4 v-p-25">
-                                <span className="v-o-25">Pavel Němec</span>
+                                <span className="v-o-25">{buddy.name + " " + buddy.surname}</span>
                             </div>
                             <div className="col-lg-2 col-md-3 col-sm-4 col-xs-3 v-p-25">
                                 <span className="v-o-25">Zobrazit profil</span>

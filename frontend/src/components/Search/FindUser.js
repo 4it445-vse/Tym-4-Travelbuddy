@@ -8,30 +8,33 @@ export class FindUser extends Component {
       super(props);
 
       this.state = {
-          data: {}
+          budies: []
         };
     }
 
   componentDidMount() {
-    axios
-      .get('http://dev.backend.team04.vse.handson.pro/api/buddies')
+    axios.get('http://localhost:3001/api/buddies')
       .then(response => {
         this.setState({
-          data: response,
+          budies: response.data,
         });
       });
   }
 
     render() {
-      const {data} = this.state;
-      console.log(data);
+      const {budies} = this.state;
         return (
             <div className="row">
                 <div className="card v-o-5">
                     <div className="card-block">
                         <h4 className="card-title">Pro město X bylo nalezeno X uživatelů</h4>
                     </div>
-                    <User data={data}/>
+                    {
+                        budies.map(buddy =>
+                                <User buddy={buddy} key={buddy.id}/>
+                        )
+                    }
+
                 </div>
             </div>
         );
