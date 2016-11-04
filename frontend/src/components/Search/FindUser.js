@@ -1,28 +1,14 @@
 import React, { Component } from 'react';
 
 import { User } from './User.js';
-import axios from 'axios';
 
 export class FindUser extends Component {
   constructor(props){
       super(props);
-
-      this.state = {
-          budies: []
-        };
     }
 
-  componentDidMount() {
-    axios.get('http://localhost:3001/api/buddies')
-      .then(response => {
-        this.setState({
-          budies: response.data,
-        });
-      });
-  }
-
     render() {
-      const {budies} = this.state;
+      const {budies} = this.props;
         return (
             <div className="row">
                 <div className="card v-o-5">
