@@ -2,15 +2,20 @@ import React, {Component} from 'react';
 import {Link} from 'react-router';
 import {Modal} from 'react-bootstrap';
 import axios from '../../api';
+import currentUser from '../../actions/CurrentUser.js';
 
 export class TopNavigation extends Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             email: '',
             password: '',
             showLoginModal: false,
             showRegisterModal: false,
+            userLogged: false,
+            showEditModal: false,
+            currentUserIsHosting: false,
+            currentUserHelper: {},
             buddies: [],
             registrationValidation: {//TODO change to undefined values
                 /*
@@ -39,6 +44,22 @@ export class TopNavigation extends Component {
         this.handleSubmitLogIn = this.handleSubmitLogIn.bind(this);
         this.handleSubmitRegistration = this.handleSubmitRegistration.bind(this);
         this.validate = this.validate.bind(this);
+        this.logOut = this.logOut.bind(this);
+        this.openEdit = this.openEdit.bind(this);
+        this.closeEdit = this.closeEdit.bind(this);
+        this.handleSubmitEdit = this.handleSubmitEdit.bind(this);
+        this.onChangeCity = this.onChangeCity.bind(this);
+        currentUser.setLogIn(this.openLogin);
+    }
+
+    onChangeCity(event){
+        var name = event.target.id;
+        var value = event.target.value;
+        this.setState({
+            currentUserHelper:{
+                name: value
+            }
+        });
     }
 
     componentDidMount() {
@@ -48,6 +69,23 @@ export class TopNavigation extends Component {
                     buddies: response.data,
                 });
             });
+    }
+
+    logOut() {
+        console.log("login success");
+        currentUser.setCurrentUser('undefined');
+        this.setState({
+            userLogged: false
+        });
+    }
+
+    openEdit() {
+        this.closeRegister();
+        this.setState({showEditModal: true});
+    }
+
+    closeEdit() {
+        this.setState({showEditModal: false});
     }
 
     openLogin() {
@@ -82,9 +120,19 @@ export class TopNavigation extends Component {
             }
         }).then(response => {
             if (response.data && response.data[0] && response.data[0].password === pass) {
-                alert("success");
+                console.log("login success");
+                currentUser.setCurrentUser(response.data[0]);
+                this.closeLogin();
+                this.setState({
+                    userLogged: true,
+                    currentUserHelper: {
+                        about_me: response.data[0].about_me?response.data[0].about_me:"",
+                        city: response.data[0].city,
+                        is_hosting: response.data[0].is_hosting
+                    }
+                });
             } else {
-                alert("failure");
+                console.log("login failure");
             }
         });
     }
@@ -115,7 +163,7 @@ export class TopNavigation extends Component {
             }
         });
         if (buddy) {
-            alert("given email already used");
+            alert("Email již zadán");
         } else {
             axios.get('buddies', {
                 params: {
@@ -127,7 +175,7 @@ export class TopNavigation extends Component {
                 }
             }).then(response => {
                 if (response.data && response.data[0] && response.data[0].password === pass) {
-                    alert("given email already used");
+                    alert("Email již zadán");
                 } else {
                     axios.post('buddies', {
                         "email": email,
@@ -139,11 +187,45 @@ export class TopNavigation extends Component {
                         "is_hosting": false
 
                     }).then(response => {
-                        alert('success');
+                        console.log('registration success');
+                        this.closeRegister();
                     });
                 }
             });
 
+        }
+    }
+
+    handleSubmitEdit(){
+        var city = document.getElementById("city").value;
+        var about_me = document.getElementById("about_me").value;
+        var is_hosting = document.getElementById("is_hosting").checked;
+        var sex;
+        if(!currentUser.getCurrentUser().sex){
+            let e = document.getElementById("sex");
+            sex = e.options[e.selectedIndex].value;
+        }else{
+            sex = currentUser.getCurrentUser().sex;
+        }
+        if(city) {
+            let constructedBuddy = {
+                "email": currentUser.getCurrentUser().email,
+                "password": currentUser.getCurrentUser().password,
+                "sex": sex,
+                "city": city,
+                "is_hosting": is_hosting,
+                "about_me": about_me,
+                "name": currentUser.getCurrentUser().name,
+                "surname": currentUser.getCurrentUser().surname,
+                "id": currentUser.getCurrentUser().id
+
+            };
+            console.log(constructedBuddy);
+            axios.put('buddies/'+currentUser.getCurrentUser().id, constructedBuddy).then(response => {
+                console.log('registration success');
+                this.closeEdit();
+                currentUser.setCurrentUser(constructedBuddy);
+            });
         }
     }
 
@@ -195,6 +277,8 @@ export class TopNavigation extends Component {
     }
 
     render() {
+        console.log(this.state.userLogged);
+        const loggedUser = currentUser.getCurrentUser();
         return (
             <div>
                 <nav className="navbar navbar-static-top navbar-dark bg-primary">
@@ -206,12 +290,18 @@ export class TopNavigation extends Component {
                             aria-label="Toggle navigation"></button>
                     <div className="collapse navbar-toggleable-md" id="navbarResponsive">
                         <ul className="nav navbar-nav float-lg-right">
-                            <li className="nav-item">
-                                <Link className="nav-link" href="#" onClick={this.openRegister}>Registrovat se</Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" href="#" onClick={this.openLogin}>Přihlásit se</Link>
-                            </li>
+                            {this.state.userLogged ? <li className="nav-item">
+                                <Link className="nav-link" onClick={this.openEdit}>Editovat profil</Link>
+                            </li> : ""}
+                            {this.state.userLogged ? <li className="nav-item">
+                                <Link className="nav-link" onClick={this.logOut}>Odhlaš se</Link>
+                            </li> : ""}
+                            {this.state.userLogged ? "" : <li className="nav-item">
+                                <Link className="nav-link" onClick={this.openRegister}>Registrovat se</Link>
+                            </li>}
+                            {this.state.userLogged ? "" : <li className="nav-item">
+                                <Link className="nav-link" onClick={this.openLogin}>Přihlásit se</Link>
+                            </li>}
                         </ul>
                     </div>
                 </nav>
@@ -316,6 +406,47 @@ export class TopNavigation extends Component {
                     </Modal.Footer>
                 </Modal>
 
+
+
+
+
+                <Modal show={this.state.showEditModal} onHide={this.closeEdit}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Editace profilu - {loggedUser.name} {loggedUser.surname}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <form onSubmit={this.handleSubmitRegistration}>
+                            { loggedUser.sex ? "" :
+                            <div className="form-group">
+                                Pohlaví:
+                                <select className="form-control" id="sex">
+                                    <option value="male">Muž</option>
+                                    <option value="female">Žena</option>
+                                </select>
+                            </div>}
+                            <div className="form-group">
+                                Hostuji:
+                                <input type="checkbox" className="form-control" id="is_hosting"
+                                />
+                            </div>
+                            <div className="form-group">
+                                <input onChange={this.onChangeCity} type="text" className="form-control" id="city"
+                                       value={this.state.currentUserHelper.city}/>
+                            </div>
+                            <div className="form-group">
+                                <textarea onChange={this.onChangeCity} type="text" className="form-control" id="about_me"
+                                       value={this.state.currentUserHelper.about_me}/>
+                            </div>
+                        </form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <div className="form-check">
+                            <button onClick={this.handleSubmitEdit} type="button"
+                                    className="btn btn-primary fullsize v-o-5">Uložit
+                            </button>
+                        </div>
+                    </Modal.Footer>
+                </Modal>
             </div>
         );
     }
