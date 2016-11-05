@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router';
 import {FindUser} from '../components/Search/FindUser.js';
 import {SearchForm} from '../components/Search/SearchForm.js';
 import axios from '../api';
@@ -48,7 +47,7 @@ export class HomePage extends Component {
 
     setSearchedTown(value) {
         if (value) {
-            this.state.searchedTown = value;
+            this.setState({searchedTown: value});
             this.findRelevantBuddies();
         } else {
             this.findAllBuddies();

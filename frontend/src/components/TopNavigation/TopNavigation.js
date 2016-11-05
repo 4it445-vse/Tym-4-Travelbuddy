@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
-import classname from 'classnames';
 import {Link} from 'react-router';
-import {Navbar, Nav, NavItem, Modal, Button} from 'react-bootstrap';
-import {LoginModal} from '../Modals/LoginModal.js';
-import axios from 'axios';
+import {Modal} from 'react-bootstrap';
+import axios from '../../api';
 
 export class TopNavigation extends Component {
     constructor(props) {
@@ -15,12 +13,22 @@ export class TopNavigation extends Component {
             showRegisterModal: false,
             buddies: [],
             registrationValidation: {//TODO change to undefined values
-                name: 'Karel',
-                surname: 'Omáčka',
+                /*
+                 name: 'Karel',
+                 surname: 'Omáčka',
+                 email: 'undefined',
+                 city: 'Praha',
+                 pass: 'heslo',
+                 pass_repeated: 'heslo',
+                 agreed_with_conditions: true
+                 */
+                name: 'undefined',
+                surname: 'undefined',
                 email: 'undefined',
-                city: 'Praha',
-                pass: 'heslo',
-                pass_repeated: 'heslo'
+                city: 'undefined',
+                pass: 'undefined',
+                pass_repeated: 'undefined',
+                agreed_with_conditions: false
             }
         };
 
@@ -34,7 +42,7 @@ export class TopNavigation extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:3001/api/buddies')
+        axios.get('buddies')
             .then(response => {
                 this.setState({
                     buddies: response.data,
@@ -42,48 +50,53 @@ export class TopNavigation extends Component {
             });
     }
 
+    openLogin() {
+        this.closeRegister();
+        this.setState({showLoginModal: true});
+    }
+
     closeLogin() {
         this.setState({showLoginModal: false});
+    }
+
+    openRegister() {
+        this.closeLogin();
+        this.setState({showRegisterModal: true});
     }
 
     closeRegister() {
         this.setState({showRegisterModal: false});
     }
 
-    openLogin() {
-        this.setState({showLoginModal: true});
-    }
-
-    openRegister() {
-        this.setState({showRegisterModal: true});
-    }
-
     handleSubmitLogIn(event) {
         var email = document.getElementById("email-l").value;
         var pass = document.getElementById("pass-l").value;
 
-        var buddy = this.state.buddies.find((v) => {
-            console.log(v.email, email, v.email === email);
-            if (v.email === email) {
-                if (v.password === pass) {
-                    return v;
-                }
+        axios.get('buddies', {
+            params: {
+                filter: {
+                    where: {
+                        email: email,
+                    },
+                },
+            }
+        }).then(response => {
+            if (response.data && response.data[0] && response.data[0].password === pass) {
+                alert("success");
+            } else {
+                alert("failure");
             }
         });
-        console.log(buddy, email);
-        if (buddy) {
-            alert("success");
-        } else {
-            alert("failure");
-        }
     }
 
     handleSubmitRegistration(event) {
         let validated = true;
         console.log(this.state.registrationValidation);
         for (var prop in this.state.registrationValidation) {
-            if (!prop) {
+            console.log(this.state.registrationValidation[prop]);
+            if (!this.state.registrationValidation[prop]) {
                 validated = false;
+                console.log("set to false");
             }
         }
         if (!validated) {
@@ -104,18 +117,33 @@ export class TopNavigation extends Component {
         if (buddy) {
             alert("given email already used");
         } else {
-            axios.post('http://localhost:3001/api/buddies', {
-                "email": email,
-                "password": pass,
-                "sex": "na",
-                "name": name,
-                "surname": surname,
-                "city": city,
-                "is_hosting": false
-
+            axios.get('buddies', {
+                params: {
+                    filter: {
+                        where: {
+                            email: email,
+                        },
+                    },
+                }
             }).then(response => {
-                    alert('success');
-                });
+                if (response.data && response.data[0] && response.data[0].password === pass) {
+                    alert("given email already used");
+                } else {
+                    axios.post('buddies', {
+                        "email": email,
+                        "password": pass,
+                        "sex": "na",
+                        "name": name,
+                        "surname": surname,
+                        "city": city,
+                        "is_hosting": false
+
+                    }).then(response => {
+                        alert('success');
+                    });
+                }
+            });
+
         }
     }
 
@@ -154,6 +182,15 @@ export class TopNavigation extends Component {
                     this.state.registrationValidation[name] = 'undefined';
                 }
                 break;
+            case "agreed_with_conditions":
+                value = event.target.checked;
+                if (value) {
+                    this.state.registrationValidation[name] = true;
+                } else {
+                    this.state.registrationValidation[name] = false;
+                }
+                break;
+            default:
         }
     }
 
@@ -194,15 +231,16 @@ export class TopNavigation extends Component {
                                        placeholder="Heslo"/>
                             </div>
                             <div className="modal-group">
-                                <div className="form-check">
-                                    <label className="form-check-label float-left">
-                                        <input type="checkbox" className="form-check-input" name="remember-me"/>
-                                        Zapamatovat si mě
-                                    </label>
-                                    <a href="#" className="float-right" data-dismiss="modal" data-toggle="modal"
-                                       data-target="#zapommodal">Zapomenuté heslo?</a>
-                                </div>
-
+                                {/*
+                                    <div className="form-check">
+                                        <label className="form-check-label float-left">
+                                            <input type="checkbox" className="form-check-input" name="remember-me"/>
+                                            Zapamatovat si mě
+                                        </label>
+                                        <a href="#" className="float-right" data-dismiss="modal" data-toggle="modal"
+                                           data-target="#zapommodal">Zapomenuté heslo?</a>
+                                    </div>*/
+                                }
                             </div>
                             <div className="form-group">
                                 <button onClick={this.handleSubmitLogIn} type="button"
@@ -217,7 +255,7 @@ export class TopNavigation extends Component {
                   Nemáš ještě účet?
               </span>
                             <button type="button" data-dismiss="modal" className="btn btn-primary float-right"
-                                    data-toggle="modal" data-target="#regmodal" href="#">Registrace
+                                    data-toggle="modal" data-target="#regmodal" onClick={this.openRegister}>Registrace
                             </button>
                         </div>
                     </Modal.Footer>
@@ -254,16 +292,25 @@ export class TopNavigation extends Component {
                                 <input onBlur={this.validate} type="password" className="form-control"
                                        id="pass_repeated" placeholder="Heslo znovu"/>
                             </div>
+                            <div className="form-check">
+                                <label className="form-check-label float-left">
+                                    <input onClick={this.validate} id="agreed_with_conditions" type="checkbox"
+                                           className="form-check-input"/>
+                                    Souhlasím s podmínkami
+                                </label>
+                                <button onClick={this.handleSubmitRegistration} type="button"
+                                        className="btn btn-primary fullsize v-o-5">Registrovat
+                                </button>
+                            </div>
                         </form>
                     </Modal.Body>
                     <Modal.Footer>
                         <div className="form-check">
-                            <label className="form-check-label float-left">
-                                <input type="checkbox" className="form-check-input"/>
-                                Souhlasím s podmínkami
-                            </label>
-                            <button type="button" className="btn btn-primary float-right"
-                                    onClick={this.handleSubmitRegistration}>Registrovat
+              <span className="float-left">
+                  Již máš účet?
+              </span>
+                            <button type="button" data-dismiss="modal" className="btn btn-primary float-right"
+                                    data-toggle="modal" data-target="#regmodal" onClick={this.openLogin}>Přihlášení
                             </button>
                         </div>
                     </Modal.Footer>
