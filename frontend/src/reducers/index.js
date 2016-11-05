@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
 
 const dummy = (state=0, action) => {
-  console.log('---- action:', action, 'state:', state);
 
   switch (action.type) {
     case 'DUMMY_ACTION':
