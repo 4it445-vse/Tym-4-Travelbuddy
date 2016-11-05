@@ -13,9 +13,10 @@ export class User extends Component {
 
     openProfile() {
         if(!! currentUser.getCurrentUser()){
-            alert("Nejdříve se musíš přihlásit");
-        }else{
             this.props.openProfile(this.state.buddy);
+            
+        }else{
+            alert("Nejdříve se musíš přihlásit");
         }
     }
 
