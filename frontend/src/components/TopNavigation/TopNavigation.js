@@ -52,11 +52,11 @@ export class TopNavigation extends Component {
         currentUser.setLogIn(this.openLogin);
     }
 
-    onChangeCity(event){
+    onChangeCity(event) {
         var name = event.target.id;
         var value = event.target.value;
         this.setState({
-            currentUserHelper:{
+            currentUserHelper: {
                 name: value
             }
         });
@@ -72,8 +72,8 @@ export class TopNavigation extends Component {
     }
 
     logOut() {
-        console.log("login success");
-        currentUser.setCurrentUser('undefined');
+        console.log("logout success");
+        currentUser.setCurrentUser(undefined);
         this.setState({
             userLogged: false
         });
@@ -126,7 +126,7 @@ export class TopNavigation extends Component {
                 this.setState({
                     userLogged: true,
                     currentUserHelper: {
-                        about_me: response.data[0].about_me?response.data[0].about_me:"",
+                        about_me: response.data[0].about_me ? response.data[0].about_me : "",
                         city: response.data[0].city,
                         is_hosting: response.data[0].is_hosting
                     }
@@ -139,9 +139,7 @@ export class TopNavigation extends Component {
 
     handleSubmitRegistration(event) {
         let validated = true;
-        console.log(this.state.registrationValidation);
         for (var prop in this.state.registrationValidation) {
-            console.log(this.state.registrationValidation[prop]);
             if (!this.state.registrationValidation[prop]) {
                 validated = false;
                 console.log("set to false");
@@ -196,18 +194,18 @@ export class TopNavigation extends Component {
         }
     }
 
-    handleSubmitEdit(){
+    handleSubmitEdit() {
         var city = document.getElementById("city").value;
         var about_me = document.getElementById("about_me").value;
         var is_hosting = document.getElementById("is_hosting").checked;
         var sex;
-        if(!currentUser.getCurrentUser().sex){
+        if (!currentUser.getCurrentUser().sex) {
             let e = document.getElementById("sex");
             sex = e.options[e.selectedIndex].value;
-        }else{
+        } else {
             sex = currentUser.getCurrentUser().sex;
         }
-        if(city) {
+        if (city) {
             let constructedBuddy = {
                 "email": currentUser.getCurrentUser().email,
                 "password": currentUser.getCurrentUser().password,
@@ -221,7 +219,7 @@ export class TopNavigation extends Component {
 
             };
             console.log(constructedBuddy);
-            axios.put('buddies/'+currentUser.getCurrentUser().id, constructedBuddy).then(response => {
+            axios.put('buddies/' + currentUser.getCurrentUser().id, constructedBuddy).then(response => {
                 console.log('registration success');
                 this.closeEdit();
                 currentUser.setCurrentUser(constructedBuddy);
@@ -277,8 +275,8 @@ export class TopNavigation extends Component {
     }
 
     render() {
-        console.log(this.state.userLogged);
         const loggedUser = currentUser.getCurrentUser();
+        const userLogged = !! loggedUser;
         return (
             <div>
                 <nav className="navbar navbar-static-top navbar-dark bg-primary">
@@ -290,16 +288,16 @@ export class TopNavigation extends Component {
                             aria-label="Toggle navigation"></button>
                     <div className="collapse navbar-toggleable-md" id="navbarResponsive">
                         <ul className="nav navbar-nav float-lg-right">
-                            {this.state.userLogged ? <li className="nav-item">
+                            {userLogged ? <li className="nav-item">
                                 <Link className="nav-link" onClick={this.openEdit}>Editovat profil</Link>
-                            </li> : ""}
-                            {this.state.userLogged ? <li className="nav-item">
+                            </li>  : ""}
+                            {userLogged ? <li className="nav-item">
                                 <Link className="nav-link" onClick={this.logOut}>Odhlaš se</Link>
                             </li> : ""}
-                            {this.state.userLogged ? "" : <li className="nav-item">
+                            {userLogged ? "" : <li className="nav-item">
                                 <Link className="nav-link" onClick={this.openRegister}>Registrovat se</Link>
                             </li>}
-                            {this.state.userLogged ? "" : <li className="nav-item">
+                            {userLogged ? "" : <li className="nav-item">
                                 <Link className="nav-link" onClick={this.openLogin}>Přihlásit se</Link>
                             </li>}
                         </ul>
@@ -322,14 +320,14 @@ export class TopNavigation extends Component {
                             </div>
                             <div className="modal-group">
                                 {/*
-                                    <div className="form-check">
-                                        <label className="form-check-label float-left">
-                                            <input type="checkbox" className="form-check-input" name="remember-me"/>
-                                            Zapamatovat si mě
-                                        </label>
-                                        <a href="#" className="float-right" data-dismiss="modal" data-toggle="modal"
-                                           data-target="#zapommodal">Zapomenuté heslo?</a>
-                                    </div>*/
+                                 <div className="form-check">
+                                 <label className="form-check-label float-left">
+                                 <input type="checkbox" className="form-check-input" name="remember-me"/>
+                                 Zapamatovat si mě
+                                 </label>
+                                 <a href="#" className="float-right" data-dismiss="modal" data-toggle="modal"
+                                 data-target="#zapommodal">Zapomenuté heslo?</a>
+                                 </div>*/
                                 }
                             </div>
                             <div className="form-group">
@@ -406,47 +404,46 @@ export class TopNavigation extends Component {
                     </Modal.Footer>
                 </Modal>
 
-
-
-
-
-                <Modal show={this.state.showEditModal} onHide={this.closeEdit}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Editace profilu - {loggedUser.name} {loggedUser.surname}</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <form onSubmit={this.handleSubmitRegistration}>
-                            { loggedUser.sex ? "" :
-                            <div className="form-group">
-                                Pohlaví:
-                                <select className="form-control" id="sex">
-                                    <option value="male">Muž</option>
-                                    <option value="female">Žena</option>
-                                </select>
-                            </div>}
-                            <div className="form-group">
-                                Hostuji:
-                                <input type="checkbox" className="form-control" id="is_hosting"
-                                />
+                { userLogged ?
+                    <Modal show={this.state.showEditModal} onHide={this.closeEdit}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Editace profilu - {loggedUser.name} {loggedUser.surname}</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <form onSubmit={this.handleSubmitRegistration}>
+                                { loggedUser.sex ? "" :
+                                    <div className="form-group">
+                                        Pohlaví:
+                                        <select className="form-control" id="sex">
+                                            <option value="male">Muž</option>
+                                            <option value="female">Žena</option>
+                                        </select>
+                                    </div>}
+                                <div className="form-group">
+                                    Hostuji:
+                                    <input type="checkbox" className="form-control" id="is_hosting"
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <input onChange={this.onChangeCity} type="text" className="form-control" id="city"
+                                           value={this.state.currentUserHelper.city}/>
+                                </div>
+                                <div className="form-group">
+                                <textarea onChange={this.onChangeCity} type="text" className="form-control"
+                                          id="about_me"
+                                          value={this.state.currentUserHelper.about_me}/>
+                                </div>
+                            </form>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <div className="form-check">
+                                <button onClick={this.handleSubmitEdit} type="button"
+                                        className="btn btn-primary fullsize v-o-5">Uložit
+                                </button>
                             </div>
-                            <div className="form-group">
-                                <input onChange={this.onChangeCity} type="text" className="form-control" id="city"
-                                       value={this.state.currentUserHelper.city}/>
-                            </div>
-                            <div className="form-group">
-                                <textarea onChange={this.onChangeCity} type="text" className="form-control" id="about_me"
-                                       value={this.state.currentUserHelper.about_me}/>
-                            </div>
-                        </form>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <div className="form-check">
-                            <button onClick={this.handleSubmitEdit} type="button"
-                                    className="btn btn-primary fullsize v-o-5">Uložit
-                            </button>
-                        </div>
-                    </Modal.Footer>
-                </Modal>
+                        </Modal.Footer>
+                    </Modal>
+                : ""}
             </div>
         );
     }

@@ -8,12 +8,11 @@ export class User extends Component {
         this.state = {
             buddy: props.buddy
         }
-        console.log(this.state.buddy);
         this.openProfile = this.openProfile.bind(this);
     }
 
     openProfile() {
-        if(currentUser.getCurrentUser().email==='undefined'){
+        if(!! currentUser.getCurrentUser()){
             alert("Nejdříve se musíš přihlásit");
         }else{
             this.props.openProfile(this.state.buddy);

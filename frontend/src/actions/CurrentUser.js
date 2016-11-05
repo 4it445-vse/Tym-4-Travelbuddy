@@ -12,13 +12,19 @@ function setLogIn(fn){
 }
 
 function getCurrentUser(){
-    console.log(currentUser);
+    if(!! currentUser){
+        currentUser = localStorage.getItem('user');
+    }
     return currentUser;
 }
 
 function setCurrentUser(user){
-    console.log(user);
-    currentUser = user;
+    if(!! user){
+        currentUser = user;
+        localStorage.setItem('user', JSON.stringify(user));
+    }else{
+        localStorage.removeItem('user');
+    }
 }
 
 export default {
