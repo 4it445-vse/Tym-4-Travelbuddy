@@ -289,16 +289,16 @@ export class TopNavigation extends Component {
                     <div className="collapse navbar-toggleable-md" id="navbarResponsive">
                         <ul className="nav navbar-nav float-lg-right">
                             {userLogged ? <li className="nav-item">
-                                <Link className="nav-link" onClick={this.openEdit}>Editovat profil</Link>
+                                <Link href="#" className="nav-link" onClick={this.openEdit}>Editovat profil</Link>
                             </li>  : ""}
                             {userLogged ? <li className="nav-item">
-                                <Link className="nav-link" onClick={this.logOut}>Odhlaš se</Link>
+                                <Link href="#" className="nav-link" onClick={this.logOut}>Odhlaš se</Link>
                             </li> : ""}
                             {userLogged ? "" : <li className="nav-item">
-                                <Link className="nav-link" onClick={this.openRegister}>Registrovat se</Link>
+                                <Link href="#" className="nav-link" onClick={this.openRegister}>Registrovat se</Link>
                             </li>}
                             {userLogged ? "" : <li className="nav-item">
-                                <Link className="nav-link" onClick={this.openLogin}>Přihlásit se</Link>
+                                <Link href="#" className="nav-link" onClick={this.openLogin}>Přihlásit se</Link>
                             </li>}
                         </ul>
                     </div>

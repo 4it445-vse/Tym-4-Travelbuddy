@@ -22,7 +22,7 @@ export class User extends Component {
 
     render() {
         return (
-            <a onClick={this.openProfile} className="profil_vypis">
+            <a href="#" onClick={this.openProfile} className="profil_vypis">
                 <div className="card-block">
                     <div className="col-lg-2 col-md-2 col-sm-3 col-xs-5 col">
                         <img
