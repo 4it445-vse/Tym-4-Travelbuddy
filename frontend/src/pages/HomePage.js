@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router';
 import {FindUser} from '../components/Search/FindUser.js';
 import {SearchForm} from '../components/Search/SearchForm.js';
-import axios from 'axios';
+import axios from '../api';
 
 export class HomePage extends Component {
     constructor(props) {
@@ -23,33 +23,27 @@ export class HomePage extends Component {
     }
 
     findAllBuddies() {
-        axios.get('http://localhost:3001/api/buddies')
-            .then(response => {
-                this.setState({
-                    budies: response.data,
-                });
+        axios.get('buddies').then(response => {
+            this.setState({
+                budies: response.data,
             });
+        });
     }
 
     findRelevantBuddies() {
-        console.log(this.state.searchedTown);
-        var newBudiesArr = [];
-        for (var buddy of this.state.budies) {
-            if (buddy.city === this.state.searchedTown) {
-                newBudiesArr.push(buddy);
+        axios.get('buddies', {
+            params: {
+                filter: {
+                    where: {
+                        city: {like: `%${this.state.searchedTown}%`},
+                    },
+                },
             }
-        }
-        this.setState({budies: newBudiesArr});
-        console.log(this.state.budies);
-        /*
-         axios.get('http://localhost:3001/api/buddies', {
-         params: {city: this.state.searchedTown}
-         }).then(response => {
-         console.log(response.data);
-         this.setState({
-         budies: response.data,
-         });
-         });*/
+        }).then(response => {
+            this.setState({
+                budies: response.data,
+            });
+        });
     }
 
     setSearchedTown(value) {
