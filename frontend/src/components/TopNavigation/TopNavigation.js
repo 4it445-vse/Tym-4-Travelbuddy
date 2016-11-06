@@ -206,6 +206,7 @@ export class TopNavigation extends Component {
             sex = currentUser.getCurrentUser().sex;
         }
         if (city) {
+            let currentUserLocal = currentUser.getCurrentUser();
             let constructedBuddy = {
                 "email": currentUser.getCurrentUser().email,
                 "password": currentUser.getCurrentUser().password,
@@ -218,7 +219,6 @@ export class TopNavigation extends Component {
                 "id": currentUser.getCurrentUser().id
 
             };
-            console.log(constructedBuddy);
             axios.put('buddies/' + currentUser.getCurrentUser().id, constructedBuddy).then(response => {
                 console.log('registration success');
                 this.closeEdit();
@@ -277,6 +277,8 @@ export class TopNavigation extends Component {
     render() {
         const loggedUser = currentUser.getCurrentUser();
         const userLogged = !! loggedUser;
+        console.log("called render");
+        console.log("helper: ", this.state.currentUserHelper);
         return (
             <div>
                 <nav className="navbar navbar-static-top navbar-dark bg-primary">
