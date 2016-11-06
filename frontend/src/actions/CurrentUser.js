@@ -1,28 +1,29 @@
-
-var currentUser = "undefined";
+var currentUser = undefined;
 
 var logIn = "undefined";
 
-function logIn(){
+function logIn() {
     logIn();
 }
 
-function setLogIn(fn){
+function setLogIn(fn) {
     logIn = fn;
 }
 
-function getCurrentUser(){
-    if(!! currentUser){
-        currentUser = localStorage.getItem('user');
+function getCurrentUser() {
+    if (!currentUser) {
+        console.log("loaded from localStorage");
+        currentUser = JSON.parse(localStorage.getItem('user'));
     }
+    console.log(currentUser);
     return currentUser;
 }
 
-function setCurrentUser(user){
-    if(!! user){
+function setCurrentUser(user) {
+    if (!!user) {
         currentUser = user;
         localStorage.setItem('user', JSON.stringify(user));
-    }else{
+    } else {
         localStorage.removeItem('user');
     }
 }
