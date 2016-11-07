@@ -5,6 +5,10 @@ body
     background-attachment: fixed;
     background-position: center;
 }
+
+.dummyClass{
+  
+}
 /** Vyhled�vac� li�ta**/
 .SearchIcon
 {
