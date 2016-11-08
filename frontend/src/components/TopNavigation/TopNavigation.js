@@ -295,9 +295,6 @@ export class TopNavigation extends Component {
               <NavbarToggler className="float-sm-right float-lg-right hidden-lg-up collapsed" onClick={this.toggleNavbar} />
               <Collapse className="navbar-toggleable-md" isOpen={!this.state.collapsed}>
                 <Nav navbar className="float-lg-right">
-                  <NavItem className="nav-item">
-                      <Link href="#" className="nav-link" onClick={this.openEdit}>Editovat profil</Link>
-                  </NavItem>
                   {userLogged ? <NavItem className="nav-item">
                       <Link href="#" className="nav-link" onClick={this.openEdit}>Editovat profil</Link>
                   </NavItem>  : ""}
