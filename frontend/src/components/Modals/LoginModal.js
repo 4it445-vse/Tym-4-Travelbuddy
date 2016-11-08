@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import React, {Component} from "react";
 
 export class LoginModal extends Component {
-  render() {
-    return (
-      <div>
-      
-      </div>
-    );
-  }
+    render() {
+        return (
+            <div>
+
+            </div>
+        );
+    }
 }

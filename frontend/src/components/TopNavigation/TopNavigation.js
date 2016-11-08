@@ -3,7 +3,9 @@ import { Link } from 'react-router';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 import { Modal } from 'react-bootstrap';
 import axios from '../../api';
-import currentUser from '../../actions/CurrentUser.js';
+import currentUser from '../../actions/CurrentUser';
+import EditProfileModal from '../Modals/EditProfileModal';
+import RegisterModal from '../Modals/RegisterModal';
 
 export class TopNavigation extends Component {
     constructor(props) {
@@ -356,100 +358,10 @@ export class TopNavigation extends Component {
                     </Modal.Footer>
                 </Modal>
 
-                <Modal show={this.state.showRegisterModal} onHide={this.closeRegister}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Registrace</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <form onSubmit={this.handleSubmitRegistration}>
-                            <div className="form-group">
-                                <input onBlur={this.validate} type="text" className="form-control" id="name"
-                                       placeholder="Jméno"/>
-                            </div>
-                            <div className="form-group">
-                                <input onBlur={this.validate} type="text" className="form-control" id="surname"
-                                       placeholder="Příjmení"/>
-                            </div>
-                            <div className="form-group">
-                                <input onBlur={this.validate} type="email" className="form-control" id="email"
-                                       placeholder="Email"/>
-                            </div>
-                            <div className="form-group">
-                                <input onBlur={this.validate} type="text" className="form-control" id="city"
-                                       placeholder="Město"/>
-                            </div>
-                            <div className="form-group">
-
-                                <input onBlur={this.validate} type="password" className="form-control" id="pass"
-                                       placeholder="Heslo"/>
-                            </div>
-                            <div className="form-group">
-                                <input onBlur={this.validate} type="password" className="form-control"
-                                       id="pass_repeated" placeholder="Heslo znovu"/>
-                            </div>
-                            <div className="form-check">
-                                <label className="form-check-label float-left">
-                                    <input onClick={this.validate} id="agreed_with_conditions" type="checkbox"
-                                           className="form-check-input"/>
-                                    Souhlasím s podmínkami
-                                </label>
-                                <button onClick={this.handleSubmitRegistration} type="button"
-                                        className="btn btn-primary fullsize v-o-5">Registrovat
-                                </button>
-                            </div>
-                        </form>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <div className="form-check">
-              <span className="float-left">
-                  Již máš účet?
-              </span>
-                            <button type="button" data-dismiss="modal" className="btn btn-primary float-right"
-                                    data-toggle="modal" data-target="#regmodal" onClick={this.openLogin}>Přihlášení
-                            </button>
-                        </div>
-                    </Modal.Footer>
-                </Modal>
+                <RegisterModal showProp={this.state.showRegisterModal} hideFn={this.closeRegister} submitFn={this.handleSubmitRegistration} validateFn={this.validate} switchFn={this.openLogin}/>
 
                 { userLogged ?
-                    <Modal show={this.state.showEditModal} onHide={this.closeEdit}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>Editace profilu - {loggedUser.name} {loggedUser.surname}</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <form onSubmit={this.handleSubmitRegistration}>
-                                { loggedUser.sex ? "" :
-                                    <div className="form-group">
-                                        Pohlaví:
-                                        <select className="form-control" id="sex">
-                                            <option value="male">Muž</option>
-                                            <option value="female">Žena</option>
-                                        </select>
-                                    </div>}
-                                <div className="form-group">
-                                    Hostuji:
-                                    <input type="checkbox" className="form-control" id="is_hosting"
-                                    />
-                                </div>
-                                <div className="form-group">
-                                    <input onChange={this.onChangeCity} type="text" className="form-control" id="city"
-                                           value={this.state.currentUserHelper.city}/>
-                                </div>
-                                <div className="form-group">
-                                <textarea onChange={this.onChangeCity} type="text" className="form-control"
-                                          id="about_me"
-                                          value={this.state.currentUserHelper.about_me}/>
-                                </div>
-                            </form>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <div className="form-check">
-                                <button onClick={this.handleSubmitEdit} type="button"
-                                        className="btn btn-primary fullsize v-o-5">Uložit
-                                </button>
-                            </div>
-                        </Modal.Footer>
-                    </Modal>
+                    <EditProfileModal showProp={this.state.showEditModal} hideFn={this.closeEdit} submitFn={this.handleSubmitEdit} />
                 : ""}
             </div>
         );
