@@ -1,6 +1,7 @@
-import React, {Component} from 'react';
-import {Link} from 'react-router';
-import {Modal} from 'react-bootstrap';
+import React, { Component } from 'react';
+import { Link } from 'react-router';
+import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
+import { Modal } from 'react-bootstrap';
 import axios from '../../api';
 import currentUser from '../../actions/CurrentUser.js';
 
@@ -8,6 +9,7 @@ export class TopNavigation extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            collapsed: true,
             email: '',
             password: '',
             showLoginModal: false,
@@ -37,6 +39,7 @@ export class TopNavigation extends Component {
             }
         };
 
+        this.toggleNavbar = this.toggleNavbar.bind(this);
         this.closeLogin = this.closeLogin.bind(this);
         this.openLogin = this.openLogin.bind(this);
         this.closeRegister = this.closeRegister.bind(this);
@@ -69,6 +72,12 @@ export class TopNavigation extends Component {
                     buddies: response.data,
                 });
             });
+    }
+
+    toggleNavbar() {
+      this.setState({
+        collapsed: !this.state.collapsed
+      });
     }
 
     logOut() {
@@ -281,30 +290,29 @@ export class TopNavigation extends Component {
         console.log("helper: ", this.state.currentUserHelper);
         return (
             <div>
-                <nav className="navbar navbar-static-top navbar-dark bg-primary">
-                    <a className="navbar-brand hidden-md-down" href="#">Travel Buddy</a>
-                    <a className="navbar-brand float-md-right float-sm-right float-xl-right float-xs-right hidden-lg-up"
-                       href="#">Travel Buddy</a>
-                    <button className="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse"
-                            data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
-                            aria-label="Toggle navigation"></button>
-                    <div className="collapse navbar-toggleable-md" id="navbarResponsive">
-                        <ul className="nav navbar-nav float-lg-right">
-                            {userLogged ? <li className="nav-item">
-                                <Link href="#" className="nav-link" onClick={this.openEdit}>Editovat profil</Link>
-                            </li>  : ""}
-                            {userLogged ? <li className="nav-item">
-                                <Link href="#" className="nav-link" onClick={this.logOut}>Odhlaš se</Link>
-                            </li> : ""}
-                            {userLogged ? "" : <li className="nav-item">
-                                <Link href="#" className="nav-link" onClick={this.openRegister}>Registrovat se</Link>
-                            </li>}
-                            {userLogged ? "" : <li className="nav-item">
-                                <Link href="#" className="nav-link" onClick={this.openLogin}>Přihlásit se</Link>
-                            </li>}
-                        </ul>
-                    </div>
-                </nav>
+            <Navbar className="bg-primary" dark>
+              <NavbarBrand href="/">Travel Buddy</NavbarBrand>
+              <NavbarToggler className="float-sm-right float-lg-right hidden-lg-up collapsed" onClick={this.toggleNavbar} />
+              <Collapse className="navbar-toggleable-md" isOpen={!this.state.collapsed}>
+                <Nav navbar className="float-lg-right">
+                  <NavItem className="nav-item">
+                      <Link href="#" className="nav-link" onClick={this.openEdit}>Editovat profil</Link>
+                  </NavItem>
+                  {userLogged ? <NavItem className="nav-item">
+                      <Link href="#" className="nav-link" onClick={this.openEdit}>Editovat profil</Link>
+                  </NavItem>  : ""}
+                  {userLogged ? <NavItem className="nav-item">
+                      <Link href="#" className="nav-link" onClick={this.logOut}>Odhlaš se</Link>
+                  </NavItem> : ""}
+                  {userLogged ? "" : <NavItem className="nav-item">
+                      <Link href="#" className="nav-link" onClick={this.openRegister}>Registrovat se</Link>
+                  </NavItem>}
+                  {userLogged ? "" : <NavItem className="nav-item">
+                      <Link href="#" className="nav-link" onClick={this.openLogin}>Přihlásit se</Link>
+                  </NavItem>}
+                </Nav>
+              </Collapse>
+            </Navbar>
 
                 <Modal show={this.state.showLoginModal} onHide={this.closeLogin}>
                     <Modal.Header closeButton>
