@@ -6,6 +6,8 @@ import axios from '../../api';
 import currentUser from '../../actions/CurrentUser';
 import EditProfileModal from '../Modals/EditProfileModal';
 import RegisterModal from '../Modals/RegisterModal';
+import RegisterModal from '../Modals/LoginModal';
+import Menu from '../Modals/Menu';
 
 export class TopNavigation extends Component {
     constructor(props) {
@@ -292,71 +294,9 @@ export class TopNavigation extends Component {
         console.log("helper: ", this.state.currentUserHelper);
         return (
             <div>
-            <Navbar className="bg-primary" dark>
-              <NavbarBrand href="/">Travel Buddy</NavbarBrand>
-              <NavbarToggler className="float-sm-right float-lg-right hidden-lg-up collapsed" onClick={this.toggleNavbar} />
-              <Collapse className="navbar-toggleable-md" isOpen={!this.state.collapsed}>
-                <Nav navbar className="float-lg-right">
-                  {userLogged ? <NavItem className="nav-item">
-                      <Link href="#" className="nav-link" onClick={this.openEdit}>Editovat profil</Link>
-                  </NavItem>  : ""}
-                  {userLogged ? <NavItem className="nav-item">
-                      <Link href="#" className="nav-link" onClick={this.logOut}>Odhlaš se</Link>
-                  </NavItem> : ""}
-                  {userLogged ? "" : <NavItem className="nav-item">
-                      <Link href="#" className="nav-link" onClick={this.openRegister}>Registrovat se</Link>
-                  </NavItem>}
-                  {userLogged ? "" : <NavItem className="nav-item">
-                      <Link href="#" className="nav-link" onClick={this.openLogin}>Přihlásit se</Link>
-                  </NavItem>}
-                </Nav>
-              </Collapse>
-            </Navbar>
-
-                <Modal show={this.state.showLoginModal} onHide={this.closeLogin}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Přihlášení</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <form>
-                            <div className="form-group">
-                                <input type="email" name="email" className="form-control" id="email-l"
-                                       placeholder="Váš email"/>
-                            </div>
-                            <div className="form-group">
-                                <input type="password" name="password" className="form-control" id="pass-l"
-                                       placeholder="Heslo"/>
-                            </div>
-                            <div className="modal-group">
-                                {/*
-                                 <div className="form-check">
-                                 <label className="form-check-label float-left">
-                                 <input type="checkbox" className="form-check-input" name="remember-me"/>
-                                 Zapamatovat si mě
-                                 </label>
-                                 <a href="#" className="float-right" data-dismiss="modal" data-toggle="modal"
-                                 data-target="#zapommodal">Zapomenuté heslo?</a>
-                                 </div>*/
-                                }
-                            </div>
-                            <div className="form-group">
-                                <button onClick={this.handleSubmitLogIn} type="button"
-                                        className="btn btn-primary fullsize v-o-5">Přihlásit
-                                </button>
-                            </div>
-                        </form>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <div className="form-check">
-              <span className="float-left">
-                  Nemáš ještě účet?
-              </span>
-                            <button type="button" data-dismiss="modal" className="btn btn-primary float-right"
-                                    data-toggle="modal" data-target="#regmodal" onClick={this.openRegister}>Registrace
-                            </button>
-                        </div>
-                    </Modal.Footer>
-                </Modal>
+				<Menu toggleNavbar={this.toggleNavbar} collapsed={this.state.collapsed} openEdit={this.openEdit} logOut={this.logOut} openRegister={this.openRegister} openLogin={this.openLogin}/>
+				
+				<LoginModal showProp={this.state.showLoginModal} hideFn={this.closeLogin} submitFn={this.handleSubmitLogIn} switchFn={this.openRegister}/>
 
                 <RegisterModal showProp={this.state.showRegisterModal} hideFn={this.closeRegister} submitFn={this.handleSubmitRegistration} validateFn={this.validate} switchFn={this.openLogin}/>
 
