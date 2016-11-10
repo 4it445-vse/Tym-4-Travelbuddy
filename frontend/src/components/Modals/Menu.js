@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
-import { Modal } from 'react-bootstrap';
-import axios from '../../api';
+import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem } from 'reactstrap';
 import currentUser from '../../actions/CurrentUser';
 
-export class TopNavigation extends Component {
+export default class Menu extends Component {
 
 	constructor(props){
 		super(props);

@@ -1,15 +1,11 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router';
-import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
-import { Modal } from 'react-bootstrap';
-import axios from '../../api';
-import currentUser from '../../actions/CurrentUser';
-import EditProfileModal from '../Modals/EditProfileModal';
-import RegisterModal from '../Modals/RegisterModal';
-import RegisterModal from '../Modals/LoginModal';
-import Menu from '../Modals/Menu';
+import React, {Component} from "react";
+import currentUser from "../../actions/CurrentUser";
+import EditProfileModal from "../Modals/EditProfileModal";
+import RegisterModal from "../Modals/RegisterModal";
+import LoginModal from "../Modals/LoginModal";
+import Menu from "../Modals/Menu";
 
-export class TopNavigation extends Component {
+export default class TopNavigation extends Component {
     constructor(props) {
         super(props);
         this.state = {

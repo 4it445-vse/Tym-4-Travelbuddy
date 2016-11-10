@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import currentUser from '../../actions/CurrentUser';
 import AbstractModal from './AbstractModal';
 import FormGroup from './FormGroup';
+import axios from '../../api';
 
 export default class EditProfileModal extends Component {
 	
@@ -51,7 +52,7 @@ export default class EditProfileModal extends Component {
         const title = "Editace profilu - "+loggedUser.name+" "+loggedUser.surname;
         return (
             <AbstractModal title={title} showProp={showProp} hideFn={hideFn}
-                           submitFn={handleSubmitEdit} submitText={"Uložit"}>
+                           submitFn={this.handleSubmitEdit} submitText={"Uložit"}>
                 <form>
                     { loggedUser.sex ? "" :
                         <FormGroup>

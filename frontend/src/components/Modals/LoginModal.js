@@ -3,6 +3,7 @@ import { Modal } from 'react-bootstrap';
 import FormGroup from './FormGroup';
 import FormCheck from './FormCheck';
 import currentUser from '../../actions/CurrentUser';
+import axios from '../../api';
 
 export default class LoginModal extends Component {
 	

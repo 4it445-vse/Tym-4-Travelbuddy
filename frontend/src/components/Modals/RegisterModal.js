@@ -2,13 +2,14 @@ import React, {Component} from 'react';
 import { Modal } from 'react-bootstrap';
 import FormGroup from './FormGroup';
 import FormCheck from './FormCheck';
+import axios from '../../api';
 
 export default class RegisterModal extends Component {
 	
 	constructor(props){
 		super(props);
 		
-		this.state = {,
+		this.state = {
             buddies: [],
 			registrationValidation: {//TODO change to undefined values
                 /*
