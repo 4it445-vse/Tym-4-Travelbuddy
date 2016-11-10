@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {FindUser} from '../components/Search/FindUser.js';
-import {SearchForm} from '../components/Search/SearchForm.js';
+import FindUser from '../components/Search/FindUser';
+import SearchForm from '../components/Search/SearchForm';
 import axios from '../api';
 
 export class HomePage extends Component {

@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {Modal} from 'react-bootstrap';
 
-import {User} from './User.js';
+import User from './User';
 
-export class FindUser extends Component {
+export default class FindUser extends Component {
 
     constructor(props) {
         super(props);

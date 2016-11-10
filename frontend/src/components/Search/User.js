@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import currentUser from '../../actions/CurrentUser.js';
-import {TopNavigation} from '../TopNavigation/TopNavigation.js';
+import currentUser from '../../actions/CurrentUser';
 
-export class User extends Component {
+export default class User extends Component {
     constructor(props) {
         super(props);
         this.state = {
