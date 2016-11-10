@@ -2,11 +2,40 @@ import React, {Component} from 'react';
 import { Modal } from 'react-bootstrap';
 import FormGroup from './FormGroup';
 import FormCheck from './FormCheck';
+import currentUser from '../../actions/CurrentUser';
 
 export default class LoginModal extends Component {
+	
+	constructor(props){
+		super(props);
+		
+		this.handleSubmitLogIn = this.handleSubmitLogIn.bind(this);
+	}
+
+    handleSubmitLogIn(event) {
+        var email = document.getElementById("email-l").value;
+        var pass = document.getElementById("pass-l").value;
+
+        axios.get('buddies', {
+            params: {
+                filter: {
+                    where: {
+                        email: email,
+                    },
+                },
+            }
+        }).then(response => {
+            if (response.data && response.data[0] && response.data[0].password === pass) {
+                console.log("login success");
+                currentUser.setCurrentUser(response.data[0]);
+                this.closeLogin();
+            } else {
+                console.log("login failure");
+            }
+        });
+    }
     render(){
-        const {showProp, hideFn, submitFn, switchFn} = this.props;
-        const title = "Registrace";
+        const {showProp, hideFn, switchFn} = this.props;
         return(
             <Modal show={showProp} onHide={hideFn}>
                     <Modal.Header closeButton>
@@ -35,7 +64,7 @@ export default class LoginModal extends Component {
                                 }
                             </div>
                             <FormGroup>
-                                <button onClick={submitFn} type="button"
+                                <button onClick={this.handleSubmitLogIn} type="button"
                                         className="btn btn-primary fullsize v-o-5">Přihlásit
                                 </button>
                             </FormGroup>

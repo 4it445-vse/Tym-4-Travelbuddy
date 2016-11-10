@@ -4,8 +4,151 @@ import FormGroup from './FormGroup';
 import FormCheck from './FormCheck';
 
 export default class RegisterModal extends Component {
+	
+	constructor(props){
+		super(props);
+		
+		this.state = {,
+            buddies: [],
+			registrationValidation: {//TODO change to undefined values
+                /*
+                 name: 'Karel',
+                 surname: 'Omáčka',
+                 email: 'undefined',
+                 city: 'Praha',
+                 pass: 'heslo',
+                 pass_repeated: 'heslo',
+                 agreed_with_conditions: true
+                 */
+                name: 'undefined',
+                surname: 'undefined',
+                email: 'undefined',
+                city: 'undefined',
+                pass: 'undefined',
+                pass_repeated: 'undefined',
+                agreed_with_conditions: false
+            }
+		};
+		
+		this.handleSubmitRegistration = this.handleSubmitRegistration.bind(this);
+		this.validate = this.validate.bind(this);
+	}
+	
+    componentDidMount() {
+        axios.get('buddies')
+            .then(response => {
+                this.setState({
+                    buddies: response.data,
+                });
+            });
+    }
+
+    handleSubmitRegistration(event) {
+        let validated = true;
+        for (var prop in this.state.registrationValidation) {
+            if (!this.state.registrationValidation[prop]) {
+                validated = false;
+                console.log("set to false");
+            }
+        }
+        if (!validated) {
+            alert("failure");
+            return;
+        }
+        var name = this.state.registrationValidation.name;
+        var surname = this.state.registrationValidation.surname;
+        var email = this.state.registrationValidation.email;
+        var city = this.state.registrationValidation.city;
+        var pass = this.state.registrationValidation.pass;
+
+        var buddy = this.state.buddies.find((v) => {
+            if (v.email === email) {
+                return v;
+            }
+        });
+        if (buddy) {
+            alert("Email již zadán");
+        } else {
+            axios.get('buddies', {
+                params: {
+                    filter: {
+                        where: {
+                            email: email,
+                        },
+                    },
+                }
+            }).then(response => {
+                if (response.data && response.data[0] && response.data[0].password === pass) {
+                    alert("Email již zadán");
+                } else {
+                    axios.post('buddies', {
+                        "email": email,
+                        "password": pass,
+                        "sex": "na",
+                        "name": name,
+                        "surname": surname,
+                        "city": city,
+                        "is_hosting": false
+
+                    }).then(response => {
+                        console.log('registration success');
+                        this.props.hideFn();
+                    });
+                }
+            });
+
+        }
+    }
+
+    validate(event) {
+        var value = event.target.value;
+        var name = event.target.id;
+        switch (name) {
+            case "name":
+            case "surname":
+            case "city":
+                if (value) {
+                    this.state.registrationValidation[name] = value;
+                } else {
+                    this.state.registrationValidation[name] = 'undefined';
+                }
+                break;
+            case "email":
+                if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
+                    this.state.registrationValidation[name] = value;
+                } else {
+                    this.state.registrationValidation[name] = 'undefined';
+                }
+                break;
+            case "pass":
+                var passw = /^[A-Za-z]\w{7,14}$/;
+                if (value.match(passw)) {
+                    this.state.registrationValidation[name] = value;
+                } else {
+                    this.state.registrationValidation[name] = 'undefined';
+                }
+                break;
+            case "pass_repeated":
+                if (this.state.registrationValidation.pass && value === document.getElementById("pass").value) {
+                    this.state.registrationValidation[name] = value;
+                } else {
+                    this.state.registrationValidation[name] = 'undefined';
+                }
+                break;
+            case "agreed_with_conditions":
+                value = event.target.checked;
+                if (value) {
+                    this.state.registrationValidation[name] = true;
+                } else {
+                    this.state.registrationValidation[name] = false;
+                }
+                break;
+            default:
+        }
+    }
+	
     render(){
-        const {showProp, hideFn, submitFn, validateFn, switchFn} = this.props;
+        const {showProp, hideFn, submitFn, switchFn} = this.props;
         const title = "Registrace";
         return(
             <Modal show={showProp} onHide={hideFn}>
@@ -13,39 +156,39 @@ export default class RegisterModal extends Component {
                     <Modal.Title>{title}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <form onSubmit={this.handleSubmitRegistration}>
+                    <form>
                         <FormGroup>
-                            <input onBlur={validateFn} type="text" className="form-control" id="name"
+                            <input onBlur={this.validate} type="text" className="form-control" id="name"
                                    placeholder="Jméno"/>
                         </FormGroup>
                         <FormGroup>
-                            <input onBlur={validateFn} type="text" className="form-control" id="surname"
+                            <input onBlur={this.validate} type="text" className="form-control" id="surname"
                                    placeholder="Příjmení"/>
                         </FormGroup>
                         <FormGroup>
-                            <input onBlur={validateFn} type="email" className="form-control" id="email"
+                            <input onBlur={this.validate} type="email" className="form-control" id="email"
                                    placeholder="Email"/>
                         </FormGroup>
                         <FormGroup>
-                            <input onBlur={validateFn} type="text" className="form-control" id="city"
+                            <input onBlur={this.validate} type="text" className="form-control" id="city"
                                    placeholder="Město"/>
                         </FormGroup>
                         <FormGroup>
 
-                            <input onBlur={validateFn} type="password" className="form-control" id="pass"
+                            <input onBlur={this.validate} type="password" className="form-control" id="pass"
                                    placeholder="Heslo"/>
                         </FormGroup>
                         <FormGroup>
-                            <input onBlur={validateFn} type="password" className="form-control"
+                            <input onBlur={this.validate} type="password" className="form-control"
                                    id="pass_repeated" placeholder="Heslo znovu"/>
                         </FormGroup>
                         <FormCheck>
                             <label className="form-check-label float-left">
-                                <input onClick={validateFn} id="agreed_with_conditions" type="checkbox"
+                                <input onClick={this.validate} id="agreed_with_conditions" type="checkbox"
                                        className="form-check-input"/>
                                 Souhlasím s podmínkami
                             </label>
-                            <button onClick={submitFn} type="button"
+                            <button onClick={this.handleSubmitRegistration} type="button"
                                     className="btn btn-primary fullsize v-o-5">Registrovat
                             </button>
                         </FormCheck>

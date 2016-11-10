@@ -12,7 +12,7 @@ export class User extends Component {
     }
 
     openProfile() {
-        if(!! currentUser.getCurrentUser()){
+        if(currentUser.getCurrentUser()){ //DONE removed !!
             this.props.openProfile(this.state.buddy);
             
         }else{

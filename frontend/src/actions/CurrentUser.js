@@ -1,15 +1,5 @@
 var currentUser = undefined;
 
-var logIn = "undefined";
-
-function logIn() {
-    logIn();
-}
-
-function setLogIn(fn) {
-    logIn = fn;
-}
-
 function getCurrentUser() {
     if (!currentUser) {
         console.log("loaded from localStorage");
@@ -19,7 +9,7 @@ function getCurrentUser() {
 }
 
 function setCurrentUser(user) {
-    if (!!user) {
+    if (user) {//DONE removed !!
         currentUser = user;
         localStorage.setItem('user', JSON.stringify(user));
     } else {
@@ -29,7 +19,5 @@ function setCurrentUser(user) {
 
 export default {
     getCurrentUser,
-    setCurrentUser,
-    logIn,
-    setLogIn
+    setCurrentUser
 }
