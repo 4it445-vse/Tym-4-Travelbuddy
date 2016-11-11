@@ -9,8 +9,8 @@ function getCurrentUser() {
 }
 
 function setCurrentUser(user) {
-    if (user) {//DONE removed !!
-        currentUser = user;
+    currentUser = user;
+    if (user) {
         localStorage.setItem('user', JSON.stringify(user));
     } else {
         localStorage.removeItem('user');

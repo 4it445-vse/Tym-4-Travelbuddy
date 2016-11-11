@@ -12,6 +12,13 @@ export default class Menu extends Component {
 		};
 		
 		this.toggleNavbar = this.toggleNavbar.bind(this);
+		this.logOut = this.logOut.bind(this);
+	}
+
+	logOut() {
+		console.log("logout success");
+		currentUser.setCurrentUser(undefined)
+		this.setState(this.state);
 	}
 
     toggleNavbar() {
@@ -21,10 +28,9 @@ export default class Menu extends Component {
     }
 	
     render() {
-		const {openEdit, logOut, openRegister, openLogin} = this.props;
+		const {openEdit, openRegister, openLogin} = this.props;
         const loggedUser = currentUser.getCurrentUser();
         const userLogged = !! loggedUser;
-        
         return (
 			<Navbar className="bg-primary" dark>
 			  <NavbarBrand href="/">Travel Buddy</NavbarBrand>
@@ -35,7 +41,7 @@ export default class Menu extends Component {
 					  <Link href="#" className="nav-link" onClick={openEdit}>Editovat profil</Link>
 				  </NavItem>  : ""}
 				  {userLogged ? <NavItem className="nav-item">
-					  <Link href="#" className="nav-link" onClick={logOut}>Odhlaš se</Link>
+					  <Link href="#" className="nav-link" onClick={this.logOut}>Odhlaš se</Link>
 				  </NavItem> : ""}
 				  {userLogged ? "" : <NavItem className="nav-item">
 					  <Link href="#" className="nav-link" onClick={openRegister}>Registrovat se</Link>

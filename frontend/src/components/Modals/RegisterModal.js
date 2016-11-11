@@ -11,22 +11,22 @@ export default class RegisterModal extends Component {
 		
 		this.state = {
             buddies: [],
-			registrationValidation: {//TODO change to undefined values
-                /*
+			registrationValidation: {
+/*
                  name: 'Karel',
                  surname: 'Omáčka',
-                 email: 'undefined',
+                 email: 'special@email2.cz',
                  city: 'Praha',
-                 pass: 'heslo',
-                 pass_repeated: 'heslo',
+                 pass: false,
+                 pass_repeated: false,
                  agreed_with_conditions: true
                  */
-                name: 'undefined',
-                surname: 'undefined',
-                email: 'undefined',
-                city: 'undefined',
-                pass: 'undefined',
-                pass_repeated: 'undefined',
+                name: undefined,
+                surname: undefined,
+                email: undefined,
+                city: undefined,
+                pass: undefined,
+                pass_repeated: undefined,
                 agreed_with_conditions: false
             }
 		};
@@ -46,14 +46,15 @@ export default class RegisterModal extends Component {
 
     handleSubmitRegistration(event) {
         let validated = true;
+        var failedFields = "";
         for (var prop in this.state.registrationValidation) {
             if (!this.state.registrationValidation[prop]) {
                 validated = false;
-                console.log("set to false");
+                failedFields += " "+prop;
             }
         }
         if (!validated) {
-            alert("failure");
+            alert("failure"+failedFields);
             return;
         }
         var name = this.state.registrationValidation.name;
@@ -111,14 +112,14 @@ export default class RegisterModal extends Component {
                 if (value) {
                     this.state.registrationValidation[name] = value;
                 } else {
-                    this.state.registrationValidation[name] = 'undefined';
+                    this.state.registrationValidation[name] = undefined;
                 }
                 break;
             case "email":
                 if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
                     this.state.registrationValidation[name] = value;
                 } else {
-                    this.state.registrationValidation[name] = 'undefined';
+                    this.state.registrationValidation[name] = undefined;
                 }
                 break;
             case "pass":
@@ -126,14 +127,18 @@ export default class RegisterModal extends Component {
                 if (value.match(passw)) {
                     this.state.registrationValidation[name] = value;
                 } else {
-                    this.state.registrationValidation[name] = 'undefined';
+                    this.state.registrationValidation[name] = undefined;
                 }
                 break;
             case "pass_repeated":
-                if (this.state.registrationValidation.pass && value === document.getElementById("pass").value) {
+                console.log(this.state.registrationValidation.pass);
+                console.log(document.getElementById("pass_repeated").value);
+                console.log(this.state.registrationValidation.pass && value === this.state.registrationValidation.pass);
+                if (this.state.registrationValidation.pass && value === this.state.registrationValidation.pass) {
+                    console.log("in here");
                     this.state.registrationValidation[name] = value;
                 } else {
-                    this.state.registrationValidation[name] = 'undefined';
+                    this.state.registrationValidation[name] = undefined;
                 }
                 break;
             case "agreed_with_conditions":

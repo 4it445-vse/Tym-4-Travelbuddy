@@ -29,7 +29,7 @@ export default class LoginModal extends Component {
             if (response.data && response.data[0] && response.data[0].password === pass) {
                 console.log("login success");
                 currentUser.setCurrentUser(response.data[0]);
-                this.closeLogin();
+                this.props.hideFn();
             } else {
                 console.log("login failure");
             }

@@ -18,7 +18,7 @@ export default class EditProfileModal extends Component {
         var about_me = document.getElementById("about_me").value;
         var is_hosting = document.getElementById("is_hosting").checked;
         var sex;
-        if (!currentUser.getCurrentUser().sex) {
+        if (currentUser.getCurrentUser().sex === 'na') {
             let e = document.getElementById("sex");
             sex = e.options[e.selectedIndex].value;
         } else {
@@ -54,17 +54,17 @@ export default class EditProfileModal extends Component {
             <AbstractModal title={title} showProp={showProp} hideFn={hideFn}
                            submitFn={this.handleSubmitEdit} submitText={"Uložit"}>
                 <form>
-                    { loggedUser.sex ? "" :
+                    { loggedUser.sex === "na" ?
                         <FormGroup>
                             Pohlaví:
                             <select className="form-control" id="sex">
                                 <option value="male">Muž</option>
                                 <option value="female">Žena</option>
                             </select>
-                        </FormGroup>}
+                        </FormGroup> : ""}
                     <FormGroup>
                         Hostuji:
-                        <input type="checkbox" className="form-control" id="is_hosting"
+                        <input type="checkbox" className="form-control" id="is_hosting" defaultChecked={loggedUser.is_hosting}
                         />
                     </FormGroup>
                     <FormGroup>

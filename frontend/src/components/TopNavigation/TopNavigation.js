@@ -18,14 +18,8 @@ export default class TopNavigation extends Component {
         this.openLogin = this.openLogin.bind(this);
         this.closeRegister = this.closeRegister.bind(this);
         this.openRegister = this.openRegister.bind(this);
-        this.logOut = this.logOut.bind(this);
         this.openEdit = this.openEdit.bind(this);
         this.closeEdit = this.closeEdit.bind(this);
-    }
-
-    logOut() {
-        console.log("logout success");
-        currentUser.setCurrentUser(undefined);
     }
 
     openEdit() {
@@ -58,10 +52,9 @@ export default class TopNavigation extends Component {
     render() {
         const loggedUser = currentUser.getCurrentUser();
         const userLogged = !! loggedUser;
-        console.log("called render");
         return (
             <div>
-				<Menu openEdit={this.openEdit} logOut={this.logOut} openRegister={this.openRegister} openLogin={this.openLogin}/>
+				<Menu openEdit={this.openEdit} openRegister={this.openRegister} openLogin={this.openLogin}/>
 				
 				<LoginModal showProp={this.state.showLoginModal} hideFn={this.closeLogin} switchFn={this.openRegister}/>
 
