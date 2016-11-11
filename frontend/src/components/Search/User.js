@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import currentUser from '../../actions/CurrentUser.js';
-import {TopNavigation} from '../TopNavigation/TopNavigation.js';
+import currentUser from '../../actions/CurrentUser';
 
-export class User extends Component {
+export default class User extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -12,7 +11,7 @@ export class User extends Component {
     }
 
     openProfile() {
-        if(!! currentUser.getCurrentUser()){
+        if(currentUser.getCurrentUser()){ //DONE removed !!
             this.props.openProfile(this.state.buddy);
             
         }else{
