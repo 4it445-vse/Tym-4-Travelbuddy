@@ -1,7 +1,6 @@
-import React, {Component} from 'react';
-import {Modal} from 'react-bootstrap';
-
-import User from './User';
+import React, {Component} from "react";
+import {Modal} from "react-bootstrap";
+import User from "./User";
 
 export default class FindUser extends Component {
 

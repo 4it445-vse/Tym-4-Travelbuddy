@@ -1,17 +1,17 @@
-import React, {Component} from 'react';
-import currentUser from '../../actions/CurrentUser';
-import AbstractModal from './AbstractModal';
-import FormGroup from './FormGroup';
-import axios from '../../api';
+import React, {Component} from "react";
+import currentUser from "../../actions/CurrentUser";
+import AbstractModal from "./AbstractModal";
+import FormGroup from "./FormGroup";
+import axios from "../../api";
 
 export default class EditProfileModal extends Component {
-	
-	constructor(props){
-		super(props);
-		
-		this.handleSubmitEdit = this.handleSubmitEdit.bind(this);
-	}
-	
+
+    constructor(props) {
+        super(props);
+
+        this.handleSubmitEdit = this.handleSubmitEdit.bind(this);
+    }
+
 
     handleSubmitEdit() {
         var city = document.getElementById("city").value;
@@ -45,11 +45,11 @@ export default class EditProfileModal extends Component {
             });
         }
     }
-	
+
     render() {
         const {showProp, hideFn} = this.props;
         const loggedUser = currentUser.getCurrentUser();
-        const title = "Editace profilu - "+loggedUser.name+" "+loggedUser.surname;
+        const title = "Editace profilu - " + loggedUser.name + " " + loggedUser.surname;
         return (
             <AbstractModal title={title} showProp={showProp} hideFn={hideFn}
                            submitFn={this.handleSubmitEdit} submitText={"Uložit"}>
@@ -64,7 +64,8 @@ export default class EditProfileModal extends Component {
                         </FormGroup> : ""}
                     <FormGroup>
                         Hostuji:
-                        <input type="checkbox" className="form-control" id="is_hosting" defaultChecked={loggedUser.is_hosting}
+                        <input type="checkbox" className="form-control" id="is_hosting"
+                               defaultChecked={loggedUser.is_hosting}
                         />
                     </FormGroup>
                     <FormGroup>

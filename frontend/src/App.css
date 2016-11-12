@@ -70,3 +70,14 @@ body
 .fullsize{
     width: 100%;
 }
+
+.navbar-dark .navbar-toggler {
+    color: white;
+    border: none;
+}
+.navbar-dark .navbar-nav .nav-link {
+    color: white;
+}
+.navbar-toggleable-md {
+    margin-right: 10px;
+}

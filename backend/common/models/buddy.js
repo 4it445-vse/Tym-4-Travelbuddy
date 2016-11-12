@@ -1,5 +1,5 @@
 'use strict';
 
-module.exports = function(Buddy) {
+module.exports = function (Buddy) {
 
 };
