@@ -13,7 +13,7 @@ export default class TopNavigation extends Component {
             showRegisterModal: false,
             showEditModal: false
         };
-		
+
         this.closeLogin = this.closeLogin.bind(this);
         this.openLogin = this.openLogin.bind(this);
         this.closeRegister = this.closeRegister.bind(this);
@@ -51,18 +51,19 @@ export default class TopNavigation extends Component {
 
     render() {
         const loggedUser = currentUser.getCurrentUser();
-        const userLogged = !! loggedUser;
+        const userLogged = !!loggedUser;
         return (
             <div>
-				<Menu openEdit={this.openEdit} openRegister={this.openRegister} openLogin={this.openLogin}/>
-				
-				<LoginModal showProp={this.state.showLoginModal} hideFn={this.closeLogin} switchFn={this.openRegister}/>
+                <Menu openEdit={this.openEdit} openRegister={this.openRegister} openLogin={this.openLogin}/>
 
-                <RegisterModal showProp={this.state.showRegisterModal} hideFn={this.closeRegister} switchFn={this.openLogin}/>
+                <LoginModal showProp={this.state.showLoginModal} hideFn={this.closeLogin} switchFn={this.openRegister}/>
+
+                <RegisterModal showProp={this.state.showRegisterModal} hideFn={this.closeRegister}
+                               switchFn={this.openLogin}/>
 
                 { userLogged ?
                     <EditProfileModal showProp={this.state.showEditModal} hideFn={this.closeEdit}/>
-                : ""}
+                    : ""}
             </div>
         );
     }

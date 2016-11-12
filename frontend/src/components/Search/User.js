@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import currentUser from '../../actions/CurrentUser';
+import React, {Component} from "react";
+import currentUser from "../../actions/CurrentUser";
 
 export default class User extends Component {
     constructor(props) {
@@ -11,10 +11,10 @@ export default class User extends Component {
     }
 
     openProfile() {
-        if(currentUser.getCurrentUser()){ //DONE removed !!
+        if (currentUser.getCurrentUser()) { //DONE removed !!
             this.props.openProfile(this.state.buddy);
-            
-        }else{
+
+        } else {
             alert("Nejdříve se musíš přihlásit");
         }
     }

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from "react";
 //import { Link } from 'react-router';
 
 export class VypisPage extends Component {
@@ -13,35 +13,35 @@ export class VypisPage extends Component {
 
                     <a href="" className="profil_vypis">
                         <div className="card-block">
-                            <div className="col-lg-2 col-md-2 col-sm-3 col-xs-5 col" >
-                                <img src="ss.jpeg" alt="..." className="profil_img rounded" />
-                                </div>
-                                <div className="col-lg-8 col-md-7 col-sm-5 col-xs-4 v-p-25">
-                                    <span className="v-o-25">Pavel Němec</span>
-                                </div>
-                                <div className="col-lg-2 col-md-3 col-sm-4 col-xs-3 v-p-25">
-                                    <span className="v-o-25">Zobrazit profil</span>
-                                </div>
+                            <div className="col-lg-2 col-md-2 col-sm-3 col-xs-5 col">
+                                <img src="ss.jpeg" alt="..." className="profil_img rounded"/>
                             </div>
-                        </a>
-
-                        <a href="" className="profil_vypis">
-                            <div className="card-block">
-                                <div className="col-lg-2 col-md-2 col-sm-3 col-xs-5 col" >
-                                    <img src="ss.jpeg" alt="..." className="profil_img rounded" />
-                                    </div>
-                                    <div className="col-lg-8 col-md-7 col-sm-5 col-xs-4 v-p-25">
-                                        <span className="v-o-25">Pavel Němec</span>
-                                    </div>
-                                    <div className="col-lg-2 col-md-3 col-sm-4 col-xs-3 v-p-25">
-                                        <span className="v-o-25">Zobrazit profil</span>
-                                    </div>
-                                </div>
-                            </a>
-
-
+                            <div className="col-lg-8 col-md-7 col-sm-5 col-xs-4 v-p-25">
+                                <span className="v-o-25">Pavel Němec</span>
+                            </div>
+                            <div className="col-lg-2 col-md-3 col-sm-4 col-xs-3 v-p-25">
+                                <span className="v-o-25">Zobrazit profil</span>
+                            </div>
                         </div>
-                    </div>
+                    </a>
+
+                    <a href="" className="profil_vypis">
+                        <div className="card-block">
+                            <div className="col-lg-2 col-md-2 col-sm-3 col-xs-5 col">
+                                <img src="ss.jpeg" alt="..." className="profil_img rounded"/>
+                            </div>
+                            <div className="col-lg-8 col-md-7 col-sm-5 col-xs-4 v-p-25">
+                                <span className="v-o-25">Pavel Němec</span>
+                            </div>
+                            <div className="col-lg-2 col-md-3 col-sm-4 col-xs-3 v-p-25">
+                                <span className="v-o-25">Zobrazit profil</span>
+                            </div>
+                        </div>
+                    </a>
+
+
+                </div>
+            </div>
         );
     }
 }

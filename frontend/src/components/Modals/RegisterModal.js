@@ -1,18 +1,18 @@
-import React, {Component} from 'react';
-import { Modal } from 'react-bootstrap';
-import FormGroup from './FormGroup';
-import FormCheck from './FormCheck';
-import axios from '../../api';
+import React, {Component} from "react";
+import {Modal} from "react-bootstrap";
+import FormGroup from "./FormGroup";
+import FormCheck from "./FormCheck";
+import axios from "../../api";
 
 export default class RegisterModal extends Component {
-	
-	constructor(props){
-		super(props);
-		
-		this.state = {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
             buddies: [],
-			registrationValidation: {
-/*
+            registrationValidation: {
+                /*
                  name: 'Karel',
                  surname: 'Omáčka',
                  email: 'special@email2.cz',
@@ -29,12 +29,12 @@ export default class RegisterModal extends Component {
                 pass_repeated: undefined,
                 agreed_with_conditions: false
             }
-		};
-		
-		this.handleSubmitRegistration = this.handleSubmitRegistration.bind(this);
-		this.validate = this.validate.bind(this);
-	}
-	
+        };
+
+        this.handleSubmitRegistration = this.handleSubmitRegistration.bind(this);
+        this.validate = this.validate.bind(this);
+    }
+
     componentDidMount() {
         axios.get('buddies')
             .then(response => {
@@ -50,11 +50,11 @@ export default class RegisterModal extends Component {
         for (var prop in this.state.registrationValidation) {
             if (!this.state.registrationValidation[prop]) {
                 validated = false;
-                failedFields += " "+prop;
+                failedFields += " " + prop;
             }
         }
         if (!validated) {
-            alert("failure"+failedFields);
+            alert("failure" + failedFields);
             return;
         }
         var name = this.state.registrationValidation.name;
@@ -152,11 +152,11 @@ export default class RegisterModal extends Component {
             default:
         }
     }
-	
-    render(){
+
+    render() {
         const {showProp, hideFn, submitFn, switchFn} = this.props;
         const title = "Registrace";
-        return(
+        return (
             <Modal show={showProp} onHide={hideFn}>
                 <Modal.Header closeButton>
                     <Modal.Title>{title}</Modal.Title>
@@ -205,9 +205,9 @@ export default class RegisterModal extends Component {
 					  <span className="float-left">
 						  Již máš účet?
 					  </span>
-						<button type="button" data-dismiss="modal" className="btn btn-primary float-right"
-								data-toggle="modal" data-target="#regmodal" onClick={switchFn}>Přihlášení
-						</button>
+                        <button type="button" data-dismiss="modal" className="btn btn-primary float-right"
+                                data-toggle="modal" data-target="#regmodal" onClick={switchFn}>Přihlášení
+                        </button>
                     </FormCheck>
                 </Modal.Footer>
             </Modal>
