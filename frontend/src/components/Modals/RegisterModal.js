@@ -142,11 +142,7 @@ export default class RegisterModal extends Component {
                 }
                 break;
             case "pass_repeated":
-                console.log(this.state.registrationValidation.pass);
-                console.log(document.getElementById("pass_repeated").value);
-                console.log(this.state.registrationValidation.pass && value === this.state.registrationValidation.pass);
                 if (this.state.registrationValidation.pass && value === this.state.registrationValidation.pass) {
-                    console.log("in here");
                     this.state.registrationValidation[name] = value;
                 } else {
                     this.state.registrationValidation[name] = undefined;
