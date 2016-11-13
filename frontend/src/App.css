@@ -81,3 +81,11 @@ body
 .navbar-toggleable-md {
     margin-right: 10px;
 }
+.no-margin {
+    margin-bottom: 0;
+}
+.big_checkbox {
+  width: 20px;
+  height: 20px;
+  margin-top: 10px;
+}
