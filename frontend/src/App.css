@@ -5,6 +5,11 @@ body
     background-attachment: fixed;
     background-position: center;
 }
+
+body.modal-open {
+    overflow: auto !important;
+}
+
 /** Vyhled�vac� li�ta**/
 .SearchIcon
 {
