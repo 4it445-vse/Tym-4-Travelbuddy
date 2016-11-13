@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+﻿import React, {Component} from "react";
 import {Modal} from "react-bootstrap";
 import FormGroup from "./FormGroup";
 import FormCheck from "./FormCheck";
@@ -28,7 +28,17 @@ export default class RegisterModal extends Component {
                 pass: undefined,
                 pass_repeated: undefined,
                 agreed_with_conditions: false
-            }
+            },
+            isFieldValid: {
+                name: false,
+                surname: false,
+                email: false,
+                city: false,
+                pass: false,
+                pass_repeated: false,
+                agreed_with_conditions: false
+            },
+            showValidation: false,
         };
 
         this.handleSubmitRegistration = this.handleSubmitRegistration.bind(this);
@@ -46,15 +56,14 @@ export default class RegisterModal extends Component {
 
     handleSubmitRegistration(event) {
         let validated = true;
-        var failedFields = "";
         for (var prop in this.state.registrationValidation) {
             if (!this.state.registrationValidation[prop]) {
                 validated = false;
-                failedFields += " " + prop;
+                break;
             }
         }
         if (!validated) {
-            alert("failure" + failedFields);
+            this.setState({showValidation: true});
             return;
         }
         var name = this.state.registrationValidation.name;
@@ -69,7 +78,9 @@ export default class RegisterModal extends Component {
             }
         });
         if (buddy) {
-            alert("Email již zadán");
+            var isFieldValid = this.state.isFieldValid;
+            isFieldValid["email"] = "emailAlreadyExists";
+            this.setState({isFieldValid: isFieldValid});
         } else {
             axios.get('buddies', {
                 params: {
@@ -94,6 +105,18 @@ export default class RegisterModal extends Component {
 
                     }).then(response => {
                         console.log('registration success');
+                        this.setState({
+                            isFieldValid: {
+                                name: false,
+                                surname: false,
+                                email: false,
+                                city: false,
+                                pass: false,
+                                pass_repeated: false,
+                                agreed_with_conditions: false
+                            },
+                            showValidation: false
+                        });
                         this.props.hideFn();
                         this.setState({
                             registrationValidation: {
@@ -116,48 +139,60 @@ export default class RegisterModal extends Component {
     validate(event) {
         var value = event.target.value;
         var name = event.target.id;
+        var isFieldValid = this.state.isFieldValid;
         switch (name) {
             case "name":
             case "surname":
             case "city":
                 if (value) {
                     this.state.registrationValidation[name] = value;
+                    isFieldValid[name] = true;
                 } else {
                     this.state.registrationValidation[name] = undefined;
+                    isFieldValid[name] = false;
                 }
                 break;
             case "email":
                 if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
                     this.state.registrationValidation[name] = value;
+                    isFieldValid[name] = isFieldValid[name] == 'emailAlreadyExists' ? 'emailAlreadyExists' : true;
                 } else {
                     this.state.registrationValidation[name] = undefined;
+                    isFieldValid[name] = false;
                 }
                 break;
             case "pass":
                 var passw = /^[A-Za-z]\w{7,14}$/;
                 if (value.match(passw)) {
                     this.state.registrationValidation[name] = value;
+                    isFieldValid[name] = true;
                 } else {
                     this.state.registrationValidation[name] = undefined;
+                    isFieldValid[name] = false;
                 }
                 break;
             case "pass_repeated":
                 if (this.state.registrationValidation.pass && value === this.state.registrationValidation.pass) {
                     this.state.registrationValidation[name] = value;
+                    isFieldValid[name] = true;
                 } else {
                     this.state.registrationValidation[name] = undefined;
+                    isFieldValid[name] = false;
                 }
                 break;
             case "agreed_with_conditions":
                 value = event.target.checked;
                 if (value) {
                     this.state.registrationValidation[name] = true;
+                    isFieldValid[name] = true;
                 } else {
                     this.state.registrationValidation[name] = false;
+                    isFieldValid[name] = false;
                 }
                 break;
             default:
         }
+        this.setState({isFieldValid: isFieldValid});
     }
 
     render() {
@@ -171,31 +206,156 @@ export default class RegisterModal extends Component {
                 <Modal.Body>
                     <form>
                         <FormGroup>
-                            <input onBlur={this.validate} type="text" className="form-control" id="name"
-                                   placeholder="Jméno"/>
+                            {
+                                this.state.showValidation
+                                && !this.state.isFieldValid.name
+                                    ? <span className="validation-error">Zadejte prosím jméno</span>
+                                    : ""
+                            }
+                            <input
+                                onBlur={this.validate}
+                                type="text"
+                                className={
+                                    "form-control"
+                                    + (
+                                        this.state.showValidation
+                                        && !this.state.isFieldValid.name
+                                            ? ' alert-danger'
+                                            : ''
+                                    )
+                                }
+                                id="name"
+                                placeholder="Jméno"
+                            />
                         </FormGroup>
                         <FormGroup>
-                            <input onBlur={this.validate} type="text" className="form-control" id="surname"
-                                   placeholder="Příjmení"/>
+                            {
+                                this.state.showValidation
+                                && !this.state.isFieldValid.surname
+                                    ? <span className="validation-error">Zadejte prosím příjmení</span>
+                                    : ""
+                            }
+                            <input
+                                onBlur={this.validate}
+                                type="text"
+                                className={
+                                    "form-control"
+                                    + (
+                                        this.state.showValidation
+                                        && !this.state.isFieldValid.surname
+                                            ? ' alert-danger'
+                                            : ''
+                                    )
+                                }
+                                id="surname"
+                                placeholder="Příjmení"
+                            />
                         </FormGroup>
                         <FormGroup>
-                            <input onBlur={this.validate} type="email" className="form-control" id="email"
-                                   placeholder="Email"/>
+                            {
+                                this.state.showValidation
+                                && !this.state.isFieldValid.email
+                                    ? <span className="validation-error">Zadejte prosím email ve správném formátu</span>
+                                    : ""
+                            }
+                            {
+                                this.state.showValidation
+                                && this.state.isFieldValid.email === 'emailAlreadyExists'
+                                    ? <span className="validation-error">Uživatel s tímto emailem je již u nás registrován</span>
+                                    : ""
+                            }
+                            <input
+                                onBlur={this.validate}
+                                type="email"
+                                className={
+                                    "form-control"
+                                    + (
+                                        this.state.showValidation
+                                        && !this.state.isFieldValid.email
+                                            ? ' alert-danger'
+                                            : ''
+                                    )
+                                }
+                                id="email"
+                                placeholder="Email"
+                            />
                         </FormGroup>
                         <FormGroup>
-                            <input onBlur={this.validate} type="text" className="form-control" id="city"
-                                   placeholder="Město"/>
+                            {
+                                this.state.showValidation
+                                && !this.state.isFieldValid.city
+                                    ? <span className="validation-error">Zadejte prosím město</span>
+                                    : ""
+                            }
+                            <input
+                                onBlur={this.validate}
+                                type="text"
+                                className={
+                                    "form-control"
+                                    + (
+                                        this.state.showValidation
+                                        && !this.state.isFieldValid.city
+                                            ? ' alert-danger'
+                                            : ''
+                                    )
+                                }
+                                id="city"
+                                placeholder="Město"
+                            />
                         </FormGroup>
                         <FormGroup>
-
-                            <input onBlur={this.validate} type="password" className="form-control" id="pass"
-                                   placeholder="Heslo"/>
+                            {
+                                this.state.showValidation
+                                && !this.state.isFieldValid.pass
+                                    ? <span className="validation-error">Zadejte prosím heslo o minimální délce 8</span>
+                                    : ""
+                            }
+                            <input
+                                onBlur={this.validate}
+                                type="password"
+                                className={
+                                    "form-control"
+                                    + (
+                                        this.state.showValidation
+                                        && this.state.isFieldValid.pass === false
+                                            ? ' alert-danger'
+                                            : ''
+                                    )
+                                }
+                                id="pass"
+                                placeholder="Heslo"
+                            />
                         </FormGroup>
                         <FormGroup>
-                            <input onBlur={this.validate} type="password" className="form-control"
-                                   id="pass_repeated" placeholder="Heslo znovu"/>
+                            {
+                                this.state.showValidation
+                                && !this.state.isFieldValid.pass_repeated
+                                    ? <span className="validation-error">Zadaná hesla nesouhlasí</span>
+                                    : ""
+                            }
+                            <input
+                                onBlur={this.validate}
+                                type="password"
+                                className={
+                                    "form-control"
+                                    + (
+                                        this.state.showValidation
+                                        && this.state.isFieldValid.pass_repeated === false
+                                            ? ' alert-danger'
+                                            : ''
+                                    )
+                                }
+                                id="pass_repeated"
+                                placeholder="Heslo znovu"
+                            />
                         </FormGroup>
                         <FormCheck>
+                            {
+                                this.state.showValidation
+                                && !this.state.isFieldValid.agreed_with_conditions
+                                    ? <p className="validation-error no-margin">Musíte souhlasit s podmínkami služby</p>
+                                    : ""
+                            }
                             <label className="form-check-label float-left">
                                 <input onClick={this.validate} id="agreed_with_conditions" type="checkbox"
                                        className="form-check-input"/>

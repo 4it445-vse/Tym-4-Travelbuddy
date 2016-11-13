@@ -81,3 +81,12 @@ body
 .navbar-toggleable-md {
     margin-right: 10px;
 }
+
+.validation-error {
+    font-size: 10px;
+    color: #a94442;
+}
+
+.no-margin {
+    margin: 0;
+}
