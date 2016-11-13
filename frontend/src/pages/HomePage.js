@@ -47,8 +47,7 @@ export class HomePage extends Component {
 
     setSearchedTown(value) {
         if (value) {
-            this.setState({searchedTown: value});
-            this.findRelevantBuddies();
+            this.setState({searchedTown: value}, () => {this.findRelevantBuddies()});
         } else {
             this.findAllBuddies();
         }
