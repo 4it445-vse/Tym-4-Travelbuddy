@@ -95,6 +95,17 @@ export default class RegisterModal extends Component {
                     }).then(response => {
                         console.log('registration success');
                         this.props.hideFn();
+                        this.setState({
+                            registrationValidation: {
+                                name: undefined,
+                                surname: undefined,
+                                email: undefined,
+                                city: undefined,
+                                pass: undefined,
+                                pass_repeated: undefined,
+                                agreed_with_conditions: false
+                            }
+                        });
                     });
                 }
             });
