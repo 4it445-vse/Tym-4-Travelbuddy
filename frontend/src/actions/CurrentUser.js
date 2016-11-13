@@ -1,11 +1,20 @@
 var currentUser = undefined;
+var openLogInFn;
+
+function openLogIn(){
+    openLogInFn();
+}
+
+function setOpenLogInFn(fn){
+    openLogInFn = fn;
+}
 
 function getCurrentUser() {
     if (!currentUser) {
-        console.log("tried to load from sessionStorage");
+        console.log("tried to load from remembered user");
         currentUser = JSON.parse(sessionStorage.getItem('user'));
         if (!currentUser) {
-            console.log("tried to load from localStorage");
+            console.log("tried to load from normal user");
             currentUser = JSON.parse(localStorage.getItem('user'));
         }
     }
@@ -27,5 +36,7 @@ function setCurrentUser(user, rememberUser) {
 
 export default {
     getCurrentUser,
-    setCurrentUser
+    setCurrentUser,
+    openLogIn,
+    setOpenLogInFn
 }

@@ -55,22 +55,22 @@ export default class EditProfileModal extends Component {
                            submitFn={this.handleSubmitEdit} submitText={"Uložit"}>
               <form>
                 <div className="form-group no-margin row">
-                  <label for="name" className="col-xs-6 col-form-label">Jméno: </label>
-                  <label for="surname" className="col-xs-6 col-form-label">Přijmení: </label>
+                  <label className="col-xs-6 col-form-label">Jméno: {loggedUser.name}</label>
+                  <label className="col-xs-6 col-form-label">Přijmení: {loggedUser.surname}</label>
                 </div>
-                <div className="form-group no-margin row">
+                  {/*<div className="form-group no-margin row">
                   <div className="col-xs-6">
                     <input type="text" className="form-control" id="name" defaultValue={loggedUser.name}/>
                   </div>
                   <div className="col-xs-6">
                     <input type="text" className="form-control" id="surname" defaultValue={loggedUser.surname}/>
                   </div>
-                </div>
+                </div>*/}
                 <div className="form-group no-margin row">
-                  <label for="email" className="col-xs-12 col-form-label">Email: </label>
-                  <div className="col-xs-12">
+                  <label className="col-xs-12 col-form-label">Email: {loggedUser.email}</label>
+                    {/*<div className="col-xs-12">
                     <input type="email" className="form-control" id="email" defaultValue={loggedUser.email}/>
-                  </div>
+                  </div>*/}
                 </div>
                 <hr/>
                 <div className="form-group no-margin row">
@@ -93,7 +93,7 @@ export default class EditProfileModal extends Component {
                     <label for="is_hosting" className="col-form-label"><strong>Chci hostovat! </strong></label>
                   </div>
                   <div className="col-xs-5 text-xs-left">
-                    <input type="checkbox" className="form-check-input big_checkbox" id="is_hosting"/>
+                    <input type="checkbox" className="form-check-input big_checkbox" id="is_hosting" defaultChecked={loggedUser.is_hosting}/>
                   </div>
                 </div>
               </form>

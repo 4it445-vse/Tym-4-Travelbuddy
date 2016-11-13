@@ -22,6 +22,10 @@ export default class TopNavigation extends Component {
         this.closeEdit = this.closeEdit.bind(this);
     }
 
+    componentDidMount() {
+        currentUser.setOpenLogInFn(this.openLogin);
+    }
+
     openEdit() {
         this.closeRegister();
         this.setState({showEditModal: true});

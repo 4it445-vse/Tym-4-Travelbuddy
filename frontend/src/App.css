@@ -5,6 +5,11 @@ body
     background-attachment: fixed;
     background-position: center;
 }
+
+body.modal-open {
+    overflow: auto !important;
+}
+
 /** Vyhled�vac� li�ta**/
 .SearchIcon
 {
@@ -88,4 +93,9 @@ body
   width: 20px;
   height: 20px;
   margin-top: 10px;
+}
+
+.validation-error {
+    font-size: 10px;
+    color: #a94442;
 }
