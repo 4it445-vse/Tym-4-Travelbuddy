@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+﻿import React, {Component} from "react";
 
 
 export default class SearchForm extends Component {
@@ -9,10 +9,9 @@ export default class SearchForm extends Component {
         this.fillSearchTown = this.fillSearchTown.bind(this);
     }
 
-    fillSearchTown() {
+    fillSearchTown(event) {
         var {setSearchedTown} = this.props;
-
-        setSearchedTown(document.getElementById("search-town").value);
+        setSearchedTown(event.target.value);
     }
 
     render() {
@@ -20,7 +19,7 @@ export default class SearchForm extends Component {
             <div className="row">
                 <div className="input-group v-o-15">
                     <input id="search-town" type="search" className="form-control SearchBar SearchHeight SearchBorder"
-                           placeholder="Zadej cílové město"/>
+                           placeholder="Zadej cílové město" onKeyUp={this.fillSearchTown}/>
                     <span className="input-group-btn">
                   <button className="btn btn-defaul SearchButton SearchHeight text-white" type="button"
                           onClick={this.fillSearchTown}>
