@@ -53,31 +53,50 @@ export default class EditProfileModal extends Component {
         return (
             <AbstractModal title={title} showProp={showProp} hideFn={hideFn}
                            submitFn={this.handleSubmitEdit} submitText={"Uložit"}>
-                <form>
-                    { loggedUser.sex === "na" ?
-                        <FormGroup>
-                            Pohlaví:
-                            <select className="form-control" id="sex">
-                                <option value="male">Muž</option>
-                                <option value="female">Žena</option>
-                            </select>
-                        </FormGroup> : ""}
-                    <FormGroup>
-                        Hostuji:
-                        <input type="checkbox" className="form-control" id="is_hosting"
-                               defaultChecked={loggedUser.is_hosting}
-                        />
-                    </FormGroup>
-                    <FormGroup>
-                        <input onChange={this.onChangeCity} type="text" className="form-control" id="city"
-                               defaultValue={loggedUser.city}/>
-                    </FormGroup>
-                    <FormGroup>
-                                <textarea type="text" className="form-control"
-                                          id="about_me"
-                                          defaultValue={loggedUser.about_me}/>
-                    </FormGroup>
-                </form>
+              <form>
+                <div className="form-group no-margin row">
+                  <label className="col-xs-6 col-form-label">Jméno: {loggedUser.name}</label>
+                  <label className="col-xs-6 col-form-label">Přijmení: {loggedUser.surname}</label>
+                </div>
+                  {/*<div className="form-group no-margin row">
+                  <div className="col-xs-6">
+                    <input type="text" className="form-control" id="name" defaultValue={loggedUser.name}/>
+                  </div>
+                  <div className="col-xs-6">
+                    <input type="text" className="form-control" id="surname" defaultValue={loggedUser.surname}/>
+                  </div>
+                </div>*/}
+                <div className="form-group no-margin row">
+                  <label className="col-xs-12 col-form-label">Email: {loggedUser.email}</label>
+                    {/*<div className="col-xs-12">
+                    <input type="email" className="form-control" id="email" defaultValue={loggedUser.email}/>
+                  </div>*/}
+                </div>
+                <hr/>
+                <div className="form-group no-margin row">
+                  <label for="city" className="col-xs-12 col-form-label">Město: </label>
+                  <div className="col-xs-12">
+                    <input type="text" className="form-control" id="city" aria-describedby="CityHelp" defaultValue={loggedUser.city}/>
+                    <small id="emailHelp" className="form-text text-muted text-xs-center">Město je pro nás nejdůležitější informace, pokud chceš hostovat.</small>
+                  </div>
+                </div>
+                <div className="form-group no-margin row">
+                  <label for="about_me" className="col-xs-12 col-form-label">Popis: </label>
+                  <div className="col-xs-12">
+                    <textarea type="text" className="form-control" id="about_me" aria-describedby="AboutHelp" defaultValue={loggedUser.about_me}/>
+                    <small id="emailHelp" className="form-text text-muted text-xs-center">Řekni něco o sobě potencionálním budíkům!</small>
+                  </div>
+                </div>
+                <hr/>
+                <div className="form-group no-margin row">
+                  <div className="col-xs-7 text-xs-right">
+                    <label for="is_hosting" className="col-form-label"><strong>Chci hostovat! </strong></label>
+                  </div>
+                  <div className="col-xs-5 text-xs-left">
+                    <input type="checkbox" className="form-check-input big_checkbox" id="is_hosting" defaultChecked={loggedUser.is_hosting}/>
+                  </div>
+                </div>
+              </form>
             </AbstractModal>
         );
     }
