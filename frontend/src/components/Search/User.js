@@ -15,7 +15,7 @@ export default class User extends Component {
             this.props.openProfile(this.state.buddy);
 
         } else {
-            alert("Nejdříve se musíš přihlásit");
+            currentUser.openLogIn();
         }
     }
 
