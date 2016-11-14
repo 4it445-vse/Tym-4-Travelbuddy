@@ -106,17 +106,25 @@ export default class FindUser extends Component {
                     </Modal.Header>
                     <Modal.Body>
                         <div>
-                            Pohlaví:
+                            <label for="exampleInputFile">Profilový obrázek:</label><br/>
+                            <img
+                                src="http://images.megaupload.cz/mystery-man.png"
+                                alt="..." className="profil_img rounded"/>
+                            <br/><br/>
+                            <b>Pohlaví: </b>
                             {buddy.sex === 'male' ? "muž" : "žena"}
                             <br/>
-                            {"Město: " + buddy.city}
+                            <b>Město: </b>{buddy.city}
                             <br/>
-                            Hostuji:
+                            <b>Hostuji: </b>
                             {buddy.is_hosting ? "ano" : "ne"}
                             <br/>
-                            {"Email: " + buddy.email}
+                            <b>Email: </b>{buddy.email}
                             <br/>
-                            {"O mě: " + buddy.about_me}
+                            <label for="exampleInputFile"><b>O mně:</b></label>
+                                <textarea type="text" className="form-control"
+                                          id="about_me"
+                                          defaultValue={buddy.about_me} disabled/>
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
