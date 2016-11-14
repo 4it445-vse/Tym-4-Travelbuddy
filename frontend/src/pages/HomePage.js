@@ -22,7 +22,15 @@ export class HomePage extends Component {
     }
 
     findAllBuddies() {
-        axios.get('buddies').then(response => {
+        axios.get('buddies', {
+params:{
+filter:{
+where:{
+is_hosting: true
+}
+}
+}
+}).then(response => {
             this.setState({
                 budies: response.data,
             });
@@ -35,6 +43,7 @@ export class HomePage extends Component {
                 filter: {
                     where: {
                         city: {like: `%${this.state.searchedTown}%`},
+is_hosting: true
                     },
                 },
             }
