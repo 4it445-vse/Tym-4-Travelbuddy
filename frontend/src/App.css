@@ -5,10 +5,25 @@ body
     background-attachment: fixed;
     background-position: center;
 }
-
 body.modal-open {
     overflow: auto !important;
 }
+
+/** Posuvník stránek výsledků**/
+.PaginateButton{
+  background-color:#0275d8;
+  border-radius:10px;
+  height: 62px;
+  width: 120px;
+  margin: 5px;
+}
+.PaginateButton:hover{
+  background-color: #50a1ee;
+}
+.PaginateRibbon{
+  text-align: center;
+}
+
 
 /** Vyhled�vac� li�ta**/
 .SearchIcon
