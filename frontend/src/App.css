@@ -19,6 +19,11 @@ body
 .PaginateRibbon{
   text-align: center;
 }
+
+body.modal-open {
+    overflow: auto !important;
+}
+
 /** Vyhled�vac� li�ta**/
 .SearchIcon
 {
@@ -94,4 +99,17 @@ body
 }
 .navbar-toggleable-md {
     margin-right: 10px;
+}
+.no-margin {
+    margin-bottom: 0;
+}
+.big_checkbox {
+  width: 20px;
+  height: 20px;
+  margin-top: 10px;
+}
+
+.validation-error {
+    font-size: 10px;
+    color: #a94442;
 }
