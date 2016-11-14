@@ -18,6 +18,7 @@ export default class EditProfileModal extends Component {
         var about_me = document.getElementById("about_me").value;
         var is_hosting = document.getElementById("is_hosting").checked;
         var sex;
+	console.log(currentUser.getCurrentUser().sex);
         if (currentUser.getCurrentUser().sex === 'na') {
             let e = document.getElementById("sex");
             sex = e.options[e.selectedIndex].value;
@@ -38,8 +39,9 @@ export default class EditProfileModal extends Component {
                 "id": currentUser.getCurrentUser().id
 
             };
+console.log(constructedBuddy);
             axios.put('buddies/' + currentUser.getCurrentUser().id, constructedBuddy).then(response => {
-                console.log('registration success');
+                console.log('edit success');
                 this.props.hideFn();
                 currentUser.setCurrentUser(constructedBuddy);
             });
@@ -58,21 +60,18 @@ export default class EditProfileModal extends Component {
                   <label className="col-xs-6 col-form-label">Jméno: {loggedUser.name}</label>
                   <label className="col-xs-6 col-form-label">Přijmení: {loggedUser.surname}</label>
                 </div>
-                  {/*<div className="form-group no-margin row">
-                  <div className="col-xs-6">
-                    <input type="text" className="form-control" id="name" defaultValue={loggedUser.name}/>
-                  </div>
-                  <div className="col-xs-6">
-                    <input type="text" className="form-control" id="surname" defaultValue={loggedUser.surname}/>
-                  </div>
-                </div>*/}
                 <div className="form-group no-margin row">
                   <label className="col-xs-12 col-form-label">Email: {loggedUser.email}</label>
-                    {/*<div className="col-xs-12">
-                    <input type="email" className="form-control" id="email" defaultValue={loggedUser.email}/>
-                  </div>*/}
                 </div>
                 <hr/>
+{ loggedUser.sex === "na" ?
+                        <FormGroup>
+                            Pohlaví:
+                            <select className="form-control" id="sex">
+                                <option value="male">Muž</option>
+                                <option value="female">Žena</option>
+                            </select>
+                        </FormGroup> : ""}
                 <div className="form-group no-margin row">
                   <label for="city" className="col-xs-12 col-form-label">Město: </label>
                   <div className="col-xs-12">
