@@ -91,7 +91,7 @@ export default class RegisterModal extends Component {
                     },
                 }
             }).then(response => {
-                if (response.data && response.data[0] && response.data[0].password === pass) {
+                if (response.data && response.data[0] && response.data[0].email === email) {
                     alert("Email již zadán");
                 } else {
                     axios.post('buddies', {
@@ -162,7 +162,7 @@ export default class RegisterModal extends Component {
                 }
                 break;
             case "pass":
-                var passw = /^[A-Za-z]\w{7,14}$/;
+                var passw = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
                 if (value.match(passw)) {
                     this.state.registrationValidation[name] = value;
                     isFieldValid[name] = true;
