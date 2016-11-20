@@ -4,6 +4,7 @@ import FormGroup from "./FormGroup";
 import FormCheck from "./FormCheck";
 import currentUser from "../../actions/CurrentUser";
 import axios from "../../api";
+import bcrypt from 'bcryptjs';
 
 export default class LoginModal extends Component {
 
@@ -15,6 +16,7 @@ export default class LoginModal extends Component {
 
     handleSubmitLogIn(event) {
         var email = document.getElementById("email-l").value;
+        var salt = bcrypt.genSaltSync(10);
         var pass = document.getElementById("pass-l").value;
         var rememberUser = document.getElementById("remember_me").checked;
 
@@ -27,7 +29,7 @@ export default class LoginModal extends Component {
                 },
             }
         }).then(response => {
-            if (response.data && response.data[0] && response.data[0].password === pass) {
+            if (response.data && response.data[0] && bcrypt.compareSync(pass, response.data[0].password)) {
                 console.log("login success");
                 currentUser.setCurrentUser(response.data[0], rememberUser);
                 this.props.hideFn();
