@@ -3,6 +3,7 @@ import {Modal} from "react-bootstrap";
 import FormGroup from "./FormGroup";
 import FormCheck from "./FormCheck";
 import axios from "../../api";
+import bcrypt from 'bcryptjs';
 
 export default class RegisterModal extends Component {
 
@@ -70,7 +71,9 @@ export default class RegisterModal extends Component {
         var surname = this.state.registrationValidation.surname;
         var email = this.state.registrationValidation.email;
         var city = this.state.registrationValidation.city;
-        var pass = this.state.registrationValidation.pass;
+      
+        var salt = bcrypt.genSaltSync(10);
+        var pass = bcrypt.hashSync(this.state.registrationValidation.pass, salt);
 
         var buddy = this.state.buddies.find((v) => {
             if (v.email === email) {
