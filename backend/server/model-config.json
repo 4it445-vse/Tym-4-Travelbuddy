@@ -35,5 +35,13 @@
   "Buddy": {
     "dataSource": "mysqlds",
     "public": true
+  },
+  "Buddy_Request": {
+    "dataSource": "mysqlds",
+    "public": true
+  },
+  "Buddy_Message": {
+    "dataSource": "mysqlds",
+    "public": true
   }
 }

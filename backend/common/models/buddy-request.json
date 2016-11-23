@@ -1,0 +1,39 @@
+{
+  "name": "Buddy_Request",
+  "plural": "Buddy_Requests",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "text": {
+      "type": "string",
+      "required": true
+    },
+    "city": {
+      "type": "string",
+      "required": true
+    },
+    "from": {
+      "type": "date"
+    },
+    "to": {
+      "type": "date"
+    },
+    "buddy_id": {
+      "type": "number",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "request_belongs": {
+      "type": "belongsTo",
+      "model": "Buddy",
+      "foreignKey": "buddy_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
