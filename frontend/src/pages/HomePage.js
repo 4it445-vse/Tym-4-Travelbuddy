@@ -23,14 +23,14 @@ export class HomePage extends Component {
 
     findAllBuddies() {
         axios.get('buddies', {
-params:{
-filter:{
-where:{
-is_hosting: true
-}
-}
-}
-}).then(response => {
+            params: {
+                filter: {
+                    where: {
+                        is_hosting: true
+                    }
+                }
+            }
+        }).then(response => {
             this.setState({
                 budies: response.data,
             });
@@ -43,7 +43,7 @@ is_hosting: true
                 filter: {
                     where: {
                         city: {like: `%${this.state.searchedTown}%`},
-is_hosting: true
+                        is_hosting: true
                     },
                 },
             }
@@ -56,7 +56,9 @@ is_hosting: true
 
     setSearchedTown(value) {
         if (value) {
-            this.setState({searchedTown: value}, () => {this.findRelevantBuddies()});
+            this.setState({searchedTown: value}, () => {
+                this.findRelevantBuddies()
+            });
         } else {
             this.findAllBuddies();
         }

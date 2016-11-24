@@ -36,7 +36,23 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "requests": {
+      "type": "hasMany",
+      "model": "Request",
+      "foreignKey": "buddy_id"
+    },
+    "sender": {
+      "type": "hasMany",
+      "model": "Message",
+      "foreignKey": "buddy_id_from"
+    },
+    "recipient": {
+      "type": "hasMany",
+      "model": "Message",
+      "foreignKey": "buddy_id_to"
+    }
+  },
   "acls": [],
   "methods": {}
 }

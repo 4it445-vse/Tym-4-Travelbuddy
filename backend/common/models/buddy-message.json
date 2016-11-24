@@ -1,0 +1,34 @@
+{
+  "name": "Message",
+  "plural": "Messages",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "text": {
+      "type": "string",
+      "required": true
+    },
+    "displayed": {
+      "type": "boolean",
+      "required": true
+    },
+    "date_time": {
+      "type": "date"
+    },
+    "buddy_id_from": {
+      "type": "number",
+      "required": true
+    },
+    "buddy_id_to": {
+      "type": "number",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}
