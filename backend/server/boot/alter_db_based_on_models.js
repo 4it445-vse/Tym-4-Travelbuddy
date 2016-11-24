@@ -5,16 +5,16 @@ module.exports = function (app) {
             return;
         }
     });
-    app.dataSources.mysqlds.autoupdate('Buddy_Request', function (err) {
-        const {Buddyrequest} = app.models;
-        if (!Buddyrequest) {
+    app.dataSources.mysqlds.autoupdate('Request', function (err) {
+        const {Request} = app.models;
+        if (!Request) {
             return;
         }
     });
 
-    app.dataSources.mysqlds.autoupdate('Buddy_Message', function (err) {
-        const {Buddymessage} = app.models;
-        if (!Buddymessage) {
+    app.dataSources.mysqlds.autoupdate('Message', function (err) {
+        const {Message} = app.models;
+        if (!Message) {
             return;
         }
     });

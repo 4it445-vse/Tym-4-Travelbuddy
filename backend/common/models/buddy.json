@@ -39,17 +39,17 @@
   "relations": {
     "buddy_requests": {
       "type": "hasMany",
-      "model": "Buddy_Request",
+      "model": "Request",
       "foreignKey": "buddy_id"
     },
     "sender": {
       "type": "hasMany",
-      "model": "Buddy_Message",
+      "model": "Message",
       "foreignKey": "buddy_id_from"
     },
     "recipient": {
       "type": "hasMany",
-      "model": "Buddy_Message",
+      "model": "Message",
       "foreignKey": "buddy_id_to"
     }
   },

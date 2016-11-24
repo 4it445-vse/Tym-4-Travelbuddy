@@ -1,5 +1,5 @@
 'use strict';
 
-module.exports = function(Buddyrequest) {
+module.exports = function(Request) {
 
 };

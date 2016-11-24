@@ -1,6 +1,6 @@
 {
-  "name": "Buddy_Message",
-  "plural": "Buddy_Messages",
+  "name": "Message",
+  "plural": "Messages",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {

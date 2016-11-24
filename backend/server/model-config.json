@@ -36,11 +36,11 @@
     "dataSource": "mysqlds",
     "public": true
   },
-  "Buddy_Request": {
+  "Request": {
     "dataSource": "mysqlds",
     "public": true
   },
-  "Buddy_Message": {
+  "Message": {
     "dataSource": "mysqlds",
     "public": true
   }

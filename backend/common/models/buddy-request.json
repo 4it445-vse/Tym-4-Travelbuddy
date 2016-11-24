@@ -1,6 +1,6 @@
 {
-  "name": "Buddy_Request",
-  "plural": "Buddy_Requests",
+  "name": "Request",
+  "plural": "Requests",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
