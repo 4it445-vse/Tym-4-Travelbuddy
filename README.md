@@ -1,14 +1,14 @@
 # [4IT445: Agilní vývoj webových aplikací](http://4it445.vse.cz/) na [VŠE](https://www.vse.cz/)
 MySQL:
-ALTER TABLE message ADD FOREIGN KEY (buddy_id_from) REFERENCES buddy(id);
-ALTER TABLE message ADD FOREIGN KEY (buddy_id_to) REFERENCES buddy(id);
-ALTER TABLE request ADD FOREIGN KEY (buddy_id) REFERENCES buddy(id);
-ALTER TABLE `request` MODIFY COLUMN `from` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
-ALTER TABLE `buddy` MODIFY COLUMN `about_me` TEXT;
-ALTER TABLE `message` MODIFY COLUMN `date_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
-ALTER TABLE `request` MODIFY COLUMN `text` TEXT;
-ALTER TABLE `message` MODIFY COLUMN `text` TEXT;
-ALTER TABLE `message` MODIFY COLUMN `displayed` tinyint(1)	DEFAULT 0;
+ALTER TABLE `Message` ADD FOREIGN KEY (buddy_id_from) REFERENCES Buddy(id);
+ALTER TABLE `Message` ADD FOREIGN KEY (buddy_id_to) REFERENCES Buddy(id);
+ALTER TABLE `Request` ADD FOREIGN KEY (buddy_id) REFERENCES Buddy(id);
+ALTER TABLE `Request` MODIFY COLUMN `from` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE `Buddy` MODIFY COLUMN `about_me` TEXT;
+ALTER TABLE `Message` MODIFY COLUMN `date_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE `Request` MODIFY COLUMN `text` TEXT;
+ALTER TABLE `Message` MODIFY COLUMN `text` TEXT;
+ALTER TABLE `Message` MODIFY COLUMN `displayed` tinyint(1)	DEFAULT 0;
 
 INSERT INTO `Buddy` (`id`, `email`, `password`, `sex`, `name`, `surname`, `city`, `about_me`, `is_hosting`) VALUES
 (1, 'karel.pacovsky@seznam.cz', '$2a$10$f86KKcKcHg8a7bOqa7oCGe9NNqvNNv2M9e5b70k.Bhv8sxlh9GNai', 'male', 'Karel', 'Pacovský', 'Olomouc', NULL, 1),
