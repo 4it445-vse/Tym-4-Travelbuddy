@@ -37,7 +37,7 @@
   },
   "validations": [],
   "relations": {
-    "buddy_requests": {
+    "requests": {
       "type": "hasMany",
       "model": "Request",
       "foreignKey": "buddy_id"
