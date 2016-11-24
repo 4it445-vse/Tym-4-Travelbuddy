@@ -16,8 +16,7 @@
       "required": true
     },
     "date_time": {
-      "type": "date",
-      "required": true
+      "type": "date"
     },
     "buddy_id_from": {
       "type": "number",

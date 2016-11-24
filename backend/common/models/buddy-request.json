@@ -28,11 +28,6 @@
   },
   "validations": [],
   "relations": {
-    "request_belongs": {
-      "type": "belongsTo",
-      "model": "Buddy",
-      "foreignKey": "buddy_id"
-    }
   },
   "acls": [],
   "methods": {}
