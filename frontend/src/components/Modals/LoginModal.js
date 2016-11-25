@@ -4,7 +4,6 @@ import FormGroup from "./FormGroup";
 import FormCheck from "./FormCheck";
 import currentUser from "../../actions/CurrentUser";
 import axios from "../../api";
-import bcrypt from 'bcryptjs';
 
 export default class LoginModal extends Component {
 
@@ -16,26 +15,32 @@ export default class LoginModal extends Component {
 
     handleSubmitLogIn(event) {
         var email = document.getElementById("email-l").value;
-        var salt = bcrypt.genSaltSync(10);
         var pass = document.getElementById("pass-l").value;
         var rememberUser = document.getElementById("remember_me").checked;
-
-        axios.get('buddies', {
-            params: {
-                filter: {
-                    where: {
-                        email: email,
-                    },
-                },
-            }
+        axios.post('buddies/login', {
+            email: email,
+            password: pass
         }).then(response => {
-            if (response.data && response.data[0] && bcrypt.compareSync(pass, response.data[0].password)) {
-                console.log("login success");
-                currentUser.setCurrentUser(response.data[0], rememberUser);
-                this.props.hideFn();
-            } else {
-                console.log("login failure");
-            }
+            console.log(response);
+            currentUser.setAuthToken(response.data.id);
+            axios.get('buddies', {
+                params: {
+                    filter: {
+                        where: {
+                            email: email,
+                        },
+                    },
+                }
+            }).then(response => {
+                console.log(response);
+                if (response.data && response.data[0] && response.data[0].email) {
+                    console.log("login success");
+                    currentUser.setCurrentUser(response.data[0], rememberUser);
+                    this.props.hideFn();
+                } else {
+                    console.log("login failure");
+                }
+            });
         });
     }
 

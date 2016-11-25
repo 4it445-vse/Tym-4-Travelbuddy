@@ -3,7 +3,7 @@ import {Modal} from "react-bootstrap";
 import FormGroup from "./FormGroup";
 import FormCheck from "./FormCheck";
 import axios from "../../api";
-import bcrypt from 'bcryptjs';
+import currentUser from "../../actions/CurrentUser";
 
 export default class RegisterModal extends Component {
 
@@ -13,22 +13,22 @@ export default class RegisterModal extends Component {
         this.state = {
             buddies: [],
             registrationValidation: {
-                /*
-                 name: 'Karel',
-                 surname: 'Omáčka',
-                 email: 'special@email2.cz',
+
+                 name: 'Josef',
+                 surname: 'Draslar',
+                 email: 'j.draslar@gmail.com',
                  city: 'Praha',
-                 pass: false,
-                 pass_repeated: false,
+                 pass: 'Aa123456',
+                 pass_repeated: 'Aa123456',
                  agreed_with_conditions: true
-                 */
+                 /*
                 name: undefined,
                 surname: undefined,
                 email: undefined,
                 city: undefined,
                 pass: undefined,
                 pass_repeated: undefined,
-                agreed_with_conditions: false
+                agreed_with_conditions: false*/
             },
             isFieldValid: {
                 name: false,
@@ -71,10 +71,7 @@ export default class RegisterModal extends Component {
         var surname = this.state.registrationValidation.surname;
         var email = this.state.registrationValidation.email;
         var city = this.state.registrationValidation.city;
-      
-        var salt = bcrypt.genSaltSync(10);
-        var pass = bcrypt.hashSync(this.state.registrationValidation.pass, salt);
-
+        var pass = this.state.registrationValidation.pass;
         var buddy = this.state.buddies.find((v) => {
             if (v.email === email) {
                 return v;
@@ -85,6 +82,7 @@ export default class RegisterModal extends Component {
             isFieldValid["email"] = "emailAlreadyExists";
             this.setState({isFieldValid: isFieldValid});
         } else {
+            console.log("calling axios");
             axios.get('buddies', {
                 params: {
                     filter: {
@@ -118,10 +116,7 @@ export default class RegisterModal extends Component {
                                 pass_repeated: false,
                                 agreed_with_conditions: false
                             },
-                            showValidation: false
-                        });
-                        this.props.hideFn();
-                        this.setState({
+                            showValidation: false,
                             registrationValidation: {
                                 name: undefined,
                                 surname: undefined,
@@ -132,6 +127,8 @@ export default class RegisterModal extends Component {
                                 agreed_with_conditions: false
                             }
                         });
+                        currentUser.setAlert({"type":"success", "message":"Registrace proběhla úspěšně. Před přihlášením prosím navštivte svůj email a ověřte ho kliknutím na zaslaný odkaz."})
+                        this.props.hideFn();
                     });
                 }
             });

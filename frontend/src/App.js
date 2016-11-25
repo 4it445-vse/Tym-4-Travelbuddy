@@ -5,8 +5,14 @@ import {useScroll} from "react-router-scroll";
 import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
 import {createRoutes} from "./createRoutes.js";
+import currentUser from "./actions/CurrentUser";
 
 export class App extends Component {
+
+    componentDidMount() {
+        currentUser.loadAuthToken();
+    }
+
     render() {
         const {store} = this.props;
         const routes = createRoutes();
