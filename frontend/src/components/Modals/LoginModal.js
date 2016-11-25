@@ -33,7 +33,7 @@ export default class LoginModal extends Component {
                 }
             }).then(response => {
                 console.log(response);
-                if (response.data && response.data[0] && response.data[0].email) {
+                if (response.data && response.data[0] && response.data[0].emailVerified) {
                     console.log("login success");
                     currentUser.setCurrentUser(response.data[0], rememberUser);
                     this.props.hideFn();

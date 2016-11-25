@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { Alert, Button } from 'react-bootstrap';
-import { Link } from 'react-router';
 import currentUser from "../actions/CurrentUser";
 import { browserHistory } from 'react-router'
 

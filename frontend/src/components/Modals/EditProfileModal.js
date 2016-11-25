@@ -72,7 +72,7 @@ export default class EditProfileModal extends Component {
                             </select>
                         </FormGroup> : ""}
                     <div className="form-group no-margin row">
-                        <label for="city" className="col-xs-12 col-form-label">Město: </label>
+                        <label className="col-xs-12 col-form-label">Město: </label>
                         <div className="col-xs-12">
                             <input type="text" className="form-control" id="city" aria-describedby="CityHelp"
                                    defaultValue={loggedUser.city}/>
@@ -82,7 +82,7 @@ export default class EditProfileModal extends Component {
                         </div>
                     </div>
                     <div className="form-group no-margin row">
-                        <label for="about_me" className="col-xs-12 col-form-label">Popis: </label>
+                        <label className="col-xs-12 col-form-label">Popis: </label>
                         <div className="col-xs-12">
                             <textarea type="text" className="form-control" id="about_me" aria-describedby="AboutHelp"
                                       defaultValue={loggedUser.about_me}/>
@@ -94,7 +94,7 @@ export default class EditProfileModal extends Component {
                     <hr/>
                     <div className="form-group no-margin row">
                         <div className="col-xs-7 text-xs-right">
-                            <label for="is_hosting" className="col-form-label"><strong>Chci hostovat! </strong></label>
+                            <label className="col-form-label"><strong>Chci hostovat! </strong></label>
                         </div>
                         <div className="col-xs-5 text-xs-left">
                             <input type="checkbox" className="form-check-input big_checkbox" id="is_hosting"

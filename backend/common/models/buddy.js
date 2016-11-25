@@ -9,6 +9,16 @@ const {
 
 module.exports = function (Buddy) {
 
+    var excludedProperties = [
+      'realm',
+      'username'
+    ];
+    excludedProperties.forEach(function (p) {
+      delete Buddy.definition.rawProperties[p];
+      delete Buddy.definition.properties[p];
+      delete Buddy.prototype[p];
+    });
+
   /*
    * send verification email after registration
    */

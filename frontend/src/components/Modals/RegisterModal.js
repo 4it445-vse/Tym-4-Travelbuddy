@@ -13,7 +13,7 @@ export default class RegisterModal extends Component {
         this.state = {
             buddies: [],
             registrationValidation: {
-
+                /*
                  name: 'Josef',
                  surname: 'Draslar',
                  email: 'j.draslar@gmail.com',
@@ -21,14 +21,14 @@ export default class RegisterModal extends Component {
                  pass: 'Aa123456',
                  pass_repeated: 'Aa123456',
                  agreed_with_conditions: true
-                 /*
+                 */
                 name: undefined,
                 surname: undefined,
                 email: undefined,
                 city: undefined,
                 pass: undefined,
                 pass_repeated: undefined,
-                agreed_with_conditions: false*/
+                agreed_with_conditions: false
             },
             isFieldValid: {
                 name: false,
