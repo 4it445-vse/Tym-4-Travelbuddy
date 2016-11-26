@@ -112,3 +112,11 @@ body
     font-size: 10px;
     color: #a94442;
 }
+
+.no-validation-error-1st {
+    margin-top: 24px;
+}
+
+.no-validation-error-rest {
+    margin-top: 40px;
+}

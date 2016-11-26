@@ -4,6 +4,7 @@ import {AppPage} from "./pages/AppPage.js";
 import {HomePage} from "./pages/HomePage.js";
 import {VypisPage} from "./pages/VypisPageCvicna.js";
 import { VerifiedPage } from './pages/VerifiedPage.js';
+import { ResetPassword } from './pages/ResetPassword.js';
 // import { ContactPage } from './pages/ContactPage.js';
 // import { NoMatchPage } from './pages/NoMatchPage.js';
 // import { ProductDetailPage } from './pages/ProductDetailPage.js'
@@ -17,6 +18,7 @@ export function createRoutes() {
             <IndexRoute component={HomePage}/>
             <Route path="/vypis" component={VypisPage}/>
             <Route path="/verified" component={VerifiedPage}/>
+            <Route path="/reset-password" component={ResetPassword}/>
             {/* <Route path="/products">
              <IndexRoute component={ProductsPage}/>
              <Route path=":productId" component={ProductDetailPage}/>

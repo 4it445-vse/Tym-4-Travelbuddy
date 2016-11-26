@@ -45,7 +45,7 @@ export default class LoginModal extends Component {
     }
 
     render() {
-        const {showProp, hideFn, switchFn} = this.props;
+        const {showProp, hideFn, switchFn, restorePassFn} = this.props;
         return (
             <Modal show={showProp} onHide={hideFn}>
                 <Modal.Header closeButton>
@@ -69,8 +69,7 @@ export default class LoginModal extends Component {
                                            name="remember-me"/>
                                     Zapamatovat si mě
                                 </label>
-                                {/*<a href="#" className="float-right" data-dismiss="modal" data-toggle="modal"
-                                 data-target="#zapommodal">Zapomenuté heslo?</a>*/}
+                                <a href="#" className="float-right" data-target="#" onClick={restorePassFn}>Zapomenuté heslo?</a>
                             </div>
 
                         </div>
