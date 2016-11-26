@@ -69,7 +69,6 @@ INSERT INTO `Buddy` (`id`, `email`, `password`, `sex`, `name`, `surname`, `city`
 (56, 'x@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'Evžen', 'Radkovský', 'Ostrava', NULL, 0, 1),
 (57, 'y@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'Monika', 'Radlicka', 'Ostrava', NULL, 0, 1),
 (58, 'z@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'Monika', 'Krejcová', 'Praha', NULL, 0, 1),
-(58, 'admin@admin.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'na', 'na', 'na', NULL, 0, 1);
 
 INSERT INTO `Message` (`id`, `text`, `displayed`, `date_time`, `buddy_id_from`, `buddy_id_to`) VALUES
 (1, 'Hi, this is sample message.', 0, '2016-11-24 12:39:48', 1, 2);
