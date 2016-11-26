@@ -65,7 +65,7 @@ module.exports = function (Buddy) {
                     console.log(err);
                     if (err) return cb(null, "Token update failed!");
                     console.log('> password reset processed successfully');
-                    var url = API_PROTOCOL + '://' + API_HOST + ':' + API_PORT_FRONTEND + '/reset-password';
+                    var url = API_PROTOCOL + '://' + API_HOST_FRONTEND + ':' + API_PORT_FRONTEND + '/reset-password';
                     var html = 'Klikni <a href="' + url + '?access_token=' +
                         token + '&email='+info.email+'">zde</a> pro obnovu hesla';
                     console.log("about to send email");
