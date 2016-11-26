@@ -25,7 +25,6 @@ export default class ResetPassModal extends Component {
                 axios.post('messages/request-pass-reset', {
                     email: email
                 }).then(response => {
-                    console.log("response: ", response);
                     if(response.data.status === "OK"){
                         currentUser.setAlert({
                             "type": "success",

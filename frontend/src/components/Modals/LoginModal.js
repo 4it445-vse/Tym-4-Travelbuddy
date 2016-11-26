@@ -21,7 +21,6 @@ export default class LoginModal extends Component {
             email: email,
             password: pass
         }).then(response => {
-            console.log(response);
             currentUser.setAuthToken(response.data.id);
             axios.get('buddies', {
                 params: {
@@ -32,7 +31,6 @@ export default class LoginModal extends Component {
                     },
                 }
             }).then(response => {
-                console.log(response);
                 if (response.data && response.data[0] && response.data[0].emailVerified) {
                     console.log("login success");
                     currentUser.setCurrentUser(response.data[0], rememberUser);

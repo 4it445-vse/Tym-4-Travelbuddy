@@ -67,12 +67,10 @@ export class ResetPassword extends Component {
             case "pass":
                 var passw = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
                 if (value.match(passw)) {
-                    console.log("pass valid");
                     localState.registrationValidation.pass = value;
                     localState.isFieldValid.pass = true;
                     localState.showValidation = false;
                 } else {
-                    console.log("pass invalid");
                     localState.isFieldValid.pass = false;
                     localState.showValidation = true;
                 }
@@ -83,7 +81,6 @@ export class ResetPassword extends Component {
                     localState.isFieldValid.pass_repeated = true;
                     localState.showValidation = false;
                 } else {
-                    console.log("pass invalid");
                     localState.isFieldValid.pass_repeated = false;
                     localState.showValidation = true;
                 }
@@ -94,7 +91,6 @@ export class ResetPassword extends Component {
     }
 
     render() {
-        console.log("render: ", this.state);
         return (
             <div>
                 <div className="row">

@@ -33,9 +33,6 @@ module.exports = function (app) {
   Message.resetPassword = function(body, cb) {
     console.log("here in reset password method");
     if (!body.accessToken) return cb(null, "Access token not supplied!");
-    console.log("Tocken: " + body.accessToken);
-    console.log("email: " + body.email);
-    console.log("password: " + body.password);
     Buddy.update({email: body.email, verificationToken: body.accessToken}, {password: Buddy.hashPassword(body.password), verificationToken:null}, function (err, user) {
       console.log(err);
       if (err) return cb(null, "Password update failed!");
