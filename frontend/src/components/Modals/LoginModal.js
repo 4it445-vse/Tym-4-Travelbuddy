@@ -10,7 +10,17 @@ export default class LoginModal extends Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            showErrorMessage: undefined
+        }
+
         this.handleSubmitLogIn = this.handleSubmitLogIn.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+    }
+
+    closeModal() {
+        this.state.showErrorMessage = undefined;
+        this.props.hideFn();
     }
 
     handleSubmitLogIn(event) {
@@ -31,27 +41,34 @@ export default class LoginModal extends Component {
                     },
                 }
             }).then(response => {
-                if (response.data && response.data[0] && response.data[0].emailVerified) {
+                if (response.data[0].emailVerified) {
                     console.log("login success");
                     currentUser.setCurrentUser(response.data[0], rememberUser);
-                    this.props.hideFn();
+                    this.closeModal();
                 } else {
-                    console.log("login failure");
+                    this.setState({showErrorMessage: "Prosím nejdříve navštivte Váš email a ověř ho kliknutím na zaslaný odkaz!"});
                 }
-            });
-        });
+            })
+        }).catch(error => {
+            this.setState({showErrorMessage: "Špatně zadaný email či heslo!"});
+        });;
     }
 
     render() {
-        const {showProp, hideFn, switchFn, restorePassFn} = this.props;
+        const {showProp, switchFn, restorePassFn} = this.props;
         return (
-            <Modal show={showProp} onHide={hideFn}>
+            <Modal show={showProp} onHide={this.closeModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>Přihlášení</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form>
                         <FormGroup>
+                            {
+                                !!this.state.showErrorMessage
+                                    ? <span className="validation-error-big">{this.state.showErrorMessage}</span>
+                                    : ""
+                            }
                             <input type="email" name="email" className="form-control" id="email-l"
                                    placeholder="Váš email"/>
                         </FormGroup>
@@ -67,7 +84,8 @@ export default class LoginModal extends Component {
                                            name="remember-me"/>
                                     Zapamatovat si mě
                                 </label>
-                                <a href="#" className="float-right" data-target="#" onClick={restorePassFn}>Zapomenuté heslo?</a>
+                                <a href="#" className="float-right" data-target="#" onClick={restorePassFn}>Zapomenuté
+                                    heslo?</a>
                             </div>
 
                         </div>

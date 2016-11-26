@@ -113,6 +113,11 @@ body
     color: #a94442;
 }
 
+.validation-error-big {
+    font-size: 17px;
+    color: #a94442;
+}
+
 .no-validation-error-1st {
     margin-top: 24px;
 }
