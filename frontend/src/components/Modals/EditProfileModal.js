@@ -18,7 +18,6 @@ export default class EditProfileModal extends Component {
         var about_me = document.getElementById("about_me").value;
         var is_hosting = document.getElementById("is_hosting").checked;
         var sex;
-        console.log(currentUser.getCurrentUser().sex);
         if (currentUser.getCurrentUser().sex === 'na') {
             let e = document.getElementById("sex");
             sex = e.options[e.selectedIndex].value;
@@ -33,7 +32,6 @@ export default class EditProfileModal extends Component {
                 "is_hosting": is_hosting,
                 "about_me": about_me
             };
-            console.log(constructedBuddy, currentUserLocal.id);
             axios.post('buddies/update?where[id]=' + currentUserLocal.id, constructedBuddy).then(response => {
                 console.log('edit success');
                 this.props.hideFn();

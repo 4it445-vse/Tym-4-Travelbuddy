@@ -82,7 +82,6 @@ export default class RegisterModal extends Component {
             isFieldValid["email"] = "emailAlreadyExists";
             this.setState({isFieldValid: isFieldValid});
         } else {
-            console.log("calling axios");
             axios.get('buddies', {
                 params: {
                     filter: {

@@ -21,7 +21,6 @@ export default class LoginModal extends Component {
             email: email,
             password: pass
         }).then(response => {
-            console.log(response);
             currentUser.setAuthToken(response.data.id);
             axios.get('buddies', {
                 params: {
@@ -32,7 +31,6 @@ export default class LoginModal extends Component {
                     },
                 }
             }).then(response => {
-                console.log(response);
                 if (response.data && response.data[0] && response.data[0].emailVerified) {
                     console.log("login success");
                     currentUser.setCurrentUser(response.data[0], rememberUser);
@@ -45,7 +43,7 @@ export default class LoginModal extends Component {
     }
 
     render() {
-        const {showProp, hideFn, switchFn} = this.props;
+        const {showProp, hideFn, switchFn, restorePassFn} = this.props;
         return (
             <Modal show={showProp} onHide={hideFn}>
                 <Modal.Header closeButton>
@@ -69,8 +67,7 @@ export default class LoginModal extends Component {
                                            name="remember-me"/>
                                     Zapamatovat si mě
                                 </label>
-                                {/*<a href="#" className="float-right" data-dismiss="modal" data-toggle="modal"
-                                 data-target="#zapommodal">Zapomenuté heslo?</a>*/}
+                                <a href="#" className="float-right" data-target="#" onClick={restorePassFn}>Zapomenuté heslo?</a>
                             </div>
 
                         </div>
