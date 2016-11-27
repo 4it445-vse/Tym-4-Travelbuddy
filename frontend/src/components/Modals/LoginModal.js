@@ -16,7 +16,6 @@ export default class LoginModal extends Component {
 
     handleSubmitLogIn(event) {
         var email = document.getElementById("email-l").value;
-        var salt = bcrypt.genSaltSync(10);
         var pass = document.getElementById("pass-l").value;
         var rememberUser = document.getElementById("remember_me").checked;
 

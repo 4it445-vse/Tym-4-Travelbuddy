@@ -28,7 +28,7 @@ export default class Menu extends Component {
     }
 
     render() {
-        const {openEdit, openRegister, openLogin} = this.props;
+        const {openEdit, openRegister, openLogin, openNewRequest, openEditRequests} = this.props;
         const loggedUser = currentUser.getCurrentUser();
         const userLogged = !!loggedUser;
         return (
@@ -41,6 +41,20 @@ export default class Menu extends Component {
                 </div>
                 <Collapse className="navbar-toggleable-md" isOpen={!this.state.collapsed}>
                     <Nav navbar className="float-lg-right text-xs-center">
+                        {userLogged ? <NavItem>
+                            <Link href="/" className="nav-link">Seznam budíků</Link>
+                        </NavItem> : ""}
+                        {userLogged ? <NavItem className="margin-right-50">
+                            <Link href="/requests" className="nav-link">Seznam jízd</Link>
+                        </NavItem> : ""}
+                        <hr className="xs-visible sm-visible hidden-md-up hidden-lg-up"/>
+                        {userLogged ? <NavItem className="strongNavItem">
+                            <Link href="#" className="nav-link" onClick={openNewRequest}>Chci někam jet!</Link>
+                        </NavItem> : ""}
+                        {userLogged ? <NavItem className="margin-right-50">
+                            <Link href="#" className="nav-link" onClick={openEditRequests}>Editovat moje jízdy</Link>
+                        </NavItem> : ""}
+                        <hr className="xs-visible sm-visible hidden-md-up hidden-lg-up"/>
                         {userLogged ? <NavItem>
                             <Link href="#" className="nav-link" onClick={openEdit}>Editovat profil</Link>
                         </NavItem> : ""}
