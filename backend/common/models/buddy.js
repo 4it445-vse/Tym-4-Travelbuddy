@@ -56,11 +56,10 @@ module.exports = function (Buddy) {
 
     Buddy.on('resetPasswordRequest', function (info) {
         console.log("in resetPasswordRequest");
-        console.log("info email  : ", info);
-        console.log("info user  : ", info.user);
-        /*Buddy.findOne({Filter:{where:{email: info.email}}}, function (err, user) {
-            console.log(user);*/
-            Buddy.generateVerificationToken(JSON.parse(info.user), function(err, token){
+        console.log("info email: ", info);
+        Buddy.findById(info.user.id, function (err, user) {
+            console.log(user);
+            Buddy.generateVerificationToken(user, function(err, token){
                 console.log(user);
                 console.log(token);
                 Buddy.update({id: user.id}, {verificationToken:token}, function (err, user) {
@@ -81,8 +80,8 @@ module.exports = function (Buddy) {
                         console.log('> sending password reset email to:', info.email);
                     });
                 });
-/*
-            });*/
+
+            });
 
         });
 
