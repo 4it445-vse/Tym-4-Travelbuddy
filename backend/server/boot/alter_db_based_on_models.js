@@ -5,6 +5,7 @@ module.exports = function (app) {
 
   Message.resetPassRequest = function(email, cb) {
     console.log("request for email for password reset");
+      console.log("email in resetPassRequest: ", email);
     Buddy.resetPassword({
       email: email
     }, function(err) {
