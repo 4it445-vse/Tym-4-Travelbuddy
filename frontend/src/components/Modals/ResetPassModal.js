@@ -15,27 +15,20 @@ export default class ResetPassModal extends Component {
     handleSubmitResetPass(event) {
         var email = document.getElementById("email-l").value;
         if (email) {
-            /*axios.post('buddies/login', {
-                email: "admin@admin.cz",
-                password: "Aa123456"
+            console.log("about to ask for request-pass-reset");
+            axios.post('messages/request-pass-reset', {
+                email: email
             }).then(response => {
-                console.log("OK setting auth token.");
-                currentUser.setAuthToken(response.data.id);
-*/
-                axios.post('messages/request-pass-reset', {
-                    email: email
-                }).then(response => {
-                    if(response.data.status === "OK"){
-                        currentUser.setAlert({
-                            "type": "success",
-                            "message": "Email k obnovení hesla úspěšně zaslána na Váš email. Prosím navštivte ho."
-                        })
-                        this.props.hideFn();
-                    }else{
-                        console.error("Email was not sent!");
-                    }
-                });
-            /*});*/
+                if (response.data.status === "OK") {
+                    currentUser.setAlert({
+                        "type": "success",
+                        "message": "Email k obnovení hesla úspěšně zaslána na Váš email. Prosím navštivte ho."
+                    })
+                    this.props.hideFn();
+                } else {
+                    console.error("Email was not sent!");
+                }
+            });
         }
     }
 
