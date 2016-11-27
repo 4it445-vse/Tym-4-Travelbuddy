@@ -478,6 +478,11 @@ body
     line-height: 3;
 }
 
+.modal-open {
+    overflow: inherit !important;
+    padding-right: 0 !important;
+}
+
 
 @media (max-width: 575px) {
     .member_list {
