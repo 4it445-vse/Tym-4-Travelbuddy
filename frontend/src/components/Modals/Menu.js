@@ -32,7 +32,7 @@ export default class Menu extends Component {
         const loggedUser = currentUser.getCurrentUser();
         const userLogged = !!loggedUser;
         return (
-            <Navbar className="bg-primary row" dark>
+            <Navbar className="navbar-fixed-top bg-primary row" dark>
                 <div className="col-xs-7 col-md-3 text-xs-left">
                     <NavbarBrand href="/">Travel Buddy</NavbarBrand>
                 </div>
@@ -41,6 +41,11 @@ export default class Menu extends Component {
                 </div>
                 <Collapse className="navbar-toggleable-md" isOpen={!this.state.collapsed}>
                     <Nav navbar className="float-lg-right text-xs-center">
+
+                        {userLogged ? <NavItem>
+                            <Link href="posta" className="nav-link" role="tab" data-toggle="tab">Pošta <span className="label label-success">10</span></Link>
+                        </NavItem> : ""}
+
                         {userLogged ? <NavItem>
                             <Link href="#" className="nav-link" onClick={openEdit}>Editovat profil</Link>
                         </NavItem> : ""}
