@@ -5,7 +5,7 @@ const {
     API_PORT,
     API_PROTOCOL,
     API_PORT_FRONTEND,
-    VERIFY_EMAIL_REDIRECT
+    API_HOST_FRONTEND
 } = process.env;
 
 module.exports = function (Buddy) {
@@ -32,7 +32,7 @@ module.exports = function (Buddy) {
             from: 'noreply@travelbuddy.com',
             subject: 'Travel Buddy | Verify email',
             template: 'server/views/verify.ejs',
-            redirect: VERIFY_EMAIL_REDIRECT,
+            redirect: API_PROTOCOL + '://' + API_HOST_FRONTEND + ':' + API_PORT_FRONTEND + '/verified',
             user: currentBuddy,
             host: API_HOST,
             port: API_PORT,
