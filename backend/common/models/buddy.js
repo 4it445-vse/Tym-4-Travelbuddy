@@ -56,6 +56,7 @@ module.exports = function (Buddy) {
 
     Buddy.on('resetPasswordRequest', function (info) {
         console.log("in resetPasswordRequest");
+        console.log("info email: ", info);
         Buddy.findOne({Filter:{where:{email: info.email}}}, function (err, user) {
             console.log(user);
             Buddy.generateVerificationToken(user, function(err, token){
