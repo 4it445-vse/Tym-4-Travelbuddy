@@ -9,7 +9,17 @@ export default class ResetPassModal extends Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            showErrorMessage: undefined
+        }
+
         this.handleSubmitResetPass = this.handleSubmitResetPass.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+    }
+
+    closeModal() {
+        this.state.showErrorMessage = undefined;
+        this.props.hideFn();
     }
 
     handleSubmitResetPass(event) {
@@ -26,22 +36,27 @@ export default class ResetPassModal extends Component {
                     })
                     this.props.hideFn();
                 } else {
-                    console.error("Email was not sent!");
+                    this.setState({showErrorMessage: "Uživatel s daným emailem nebyl nalezen!"});
                 }
             });
         }
     }
 
     render() {
-        const {showProp, hideFn} = this.props;
+        const {showProp} = this.props;
         return (
-            <Modal show={showProp} onHide={hideFn}>
+            <Modal show={showProp} onHide={this.closeModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>Resetuj heslo přes email</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form>
                         <FormGroup>
+                            {
+                                !!this.state.showErrorMessage
+                                    ? <span className="validation-error-big">{this.state.showErrorMessage}</span>
+                                    : ""
+                            }
                             <input type="email" name="email" className="form-control" id="email-l"
                                    placeholder="Váš email"/>
                         </FormGroup>
