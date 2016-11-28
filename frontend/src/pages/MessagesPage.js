@@ -29,6 +29,7 @@ export default class MessagePage extends Component {
 	}
 	
 	findUsers(value){
+		console.log('In MessgePage.findUsers about to querry all verified users.');
 		axios.get('buddies', {
         params: {
             filter: {
