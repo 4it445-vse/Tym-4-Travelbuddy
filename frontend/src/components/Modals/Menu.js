@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {Link} from "react-router";
 import {Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem} from "reactstrap";
 import currentUser from "../../actions/CurrentUser";
-import axio from "../../api"
+import axios from "../../api"
 
 export default class Menu extends Component {
 
@@ -58,7 +58,7 @@ export default class Menu extends Component {
         const {openEdit, openRegister, openLogin, openNewRequest, openEditRequests} = this.props;
         const loggedUser = currentUser.getCurrentUser();
         const userLogged = !!loggedUser;
-		countIncomingUnreadMessages();
+		this.countIncomingUnreadMessages();
         return (
             <Navbar className="navbar-fixed-top bg-primary row" dark>
                 <div className="col-xs-7 col-md-3 text-xs-left">
