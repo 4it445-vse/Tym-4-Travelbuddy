@@ -9,7 +9,7 @@ export default class Message extends Component {
 					   <img src="https://i.imgur.com/UePbdph.jpg" alt="User Avatar" className="img-circle"/>
 				 </span>
 				<div className="chat-body1 clearfix">
-					<p><b {message.isIncoming ? " className='float-right'" : ""}>10:40</b><br/>
+					<p><b className={message.isIncoming ? "float-right" : ""}>10:40</b><br/>
 						{message.text}
 					</p>
 				</div>
