@@ -5,16 +5,13 @@ export default class MessageUsers extends Component {
     render() {
 		const { users, withMessages, setSelectedConversationUser } = this.props;
         return (
-			<div className="member_list">
-				<ul className="list-unstyled">
-				{
-					users.map(user => 
-						<MessageUser user={user} withMessages={withMessages} setSelectedConversationUser={setSelectedConversationUser}/>
-					)
-				}
-				</ul>
-			</div>
-
+			<ul className="list-unstyled">
+			{
+				users.map(user => 
+					<MessageUser user={user} withMessages={withMessages} setSelectedConversationUser={setSelectedConversationUser}/>
+				)
+			}
+			</ul>
         );
     }
 

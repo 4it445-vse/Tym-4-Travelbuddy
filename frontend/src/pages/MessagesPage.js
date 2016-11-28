@@ -128,10 +128,12 @@ export default class MessagePage extends Component {
                                             Všechny konverzace: <span className="caret float-right"></span>
                                         </div>
                                         <MessageSearch refreshUsersList={this.findUsers}/>
-                                        <MessageUsers users={this.state.usersWithMessages} withMessages={true} setSelectedConversationUser={this.setSelectedConversationUser}/>
-										<hr />
-                                        <MessageUsers users={this.state.otherUsers} withMessages={false} setSelectedConversationUser={this.setSelectedConversationUser}/>
-                                    </div>
+                                        <div className="member_list">
+											<MessageUsers users={this.state.usersWithMessages} withMessages={true} setSelectedConversationUser={this.setSelectedConversationUser}/>
+											<hr />
+											<MessageUsers users={this.state.otherUsers} withMessages={false} setSelectedConversationUser={this.setSelectedConversationUser}/>
+										</div>
+									</div>
                                 </div>
                                 <div className="col-sm-9 message_section">
                                     <Messages selectedConversationUser={this.state.selectedConversationUser} updateSelectedUserInUserViewFn={this.state.updateSelectedUserInUserViewFn}/>
