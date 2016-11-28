@@ -84,7 +84,7 @@ export default class Messages extends Component {
 	}
 	
     render() {
-		{ selectedConversationUser } = this.props;
+		const { selectedConversationUser } = this.props;
 		this.findMessages();
         return (
 			<div className="row">

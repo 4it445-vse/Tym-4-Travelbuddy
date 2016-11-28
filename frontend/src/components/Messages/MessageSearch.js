@@ -2,7 +2,7 @@ import React, {Component} from "react";
 
 export default class MessageSearch extends Component {
     render() {
-		{ refreshUsersList } = this.props;
+		const { refreshUsersList } = this.props;
         return (
 			<div className="input-group">
 				<input id="search-people" type="search"

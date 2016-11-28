@@ -22,7 +22,7 @@ export default class MessageUser extends Component {
 	}
 	
     render() {
-		{ user, withMessages } = this.props;
+		const { user, withMessages } = this.props;
         return (
 			<li className="left clearfix" onClick={this.setSelectedConversationUser}>
 				  <span className="chat-img float-left">
