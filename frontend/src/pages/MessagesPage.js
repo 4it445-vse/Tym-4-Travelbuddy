@@ -12,9 +12,7 @@ export default class MessagePage extends Component {
 		super(props);
 		this.state = {
 			usersWithMessages: [],
-			otherUsers: [],
 			usersWithMessagesChosen: [],
-			otherUsersChosen: [],
 			currentBuddyInternal: undefined,
 			selectedConversationUser: undefined,
 			updateSelectedUserInUserViewFn: undefined
@@ -38,25 +36,17 @@ export default class MessagePage extends Component {
 	
 	restrictUsers(value){
 		let usersWithMessagesChosen = [];
-		let otherUsersChosen = [];
 		if(value){
 			this.state.usersWithMessages.map(message =>{
 				if(message.name.includes(value) || message.surname.includes(value)){
 					usersWithMessagesChosen.push(message);
 				}
 			});
-			this.state.otherUsers.map(message =>{
-				if(message.name.includes(value) || message.surname.includes(value)){
-					otherUsersChosen.push(message);
-				}
-			});
 		}else{
 			usersWithMessagesChosen = this.state.usersWithMessages;
-			otherUsersChosen = this.state.otherUsers;
 		}
 		this.setState({
-			usersWithMessagesChosen: usersWithMessagesChosen,
-			otherUsersChosen: otherUsersChosen
+			usersWithMessagesChosen: usersWithMessagesChosen
 		});
 	}
 	
@@ -122,19 +112,7 @@ export default class MessagePage extends Component {
 								unreadIncomingMessagesNum: unreadIncomingMessagesNum,
 								lastMessageTime: lastMessageTime
 							});
-						}else{
-							this.state.otherUsers.push({
-								id: this.state.currentBuddyInternal.id,
-								name: this.state.currentBuddyInternal.name,
-								surname: this.state.currentBuddyInternal.surname
-							});
 						}
-					}else {
-						this.state.otherUsers.push({
-							id: this.state.currentBuddyInternal.id,
-							name: this.state.currentBuddyInternal.name,
-							surname: this.state.currentBuddyInternal.surname
-						});
 					}
 					
 				});
@@ -162,8 +140,6 @@ export default class MessagePage extends Component {
                                         <MessageSearch refreshUsersList={this.restrictUsers}/>
                                         <div className="member_list">
 											<MessageUsers users={this.state.usersWithMessagesChosen} withMessages={true} setSelectedConversationUser={this.setSelectedConversationUser}/>
-											<hr />
-											<MessageUsers users={this.state.otherUsersChosen} withMessages={false} setSelectedConversationUser={this.setSelectedConversationUser}/>
 										</div>
 									</div>
                                 </div>
@@ -175,8 +151,6 @@ export default class MessagePage extends Component {
                     </div>
                 </div>
             </div>
-
-
         );
     }
 
