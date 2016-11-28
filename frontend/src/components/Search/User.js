@@ -1,13 +1,14 @@
 import React, {Component} from "react";
 import currentUser from "../../actions/CurrentUser";
 import FontAwesome from "react-fontawesome";
+import getAvatar from "../../Avatar";
 
 export default class User extends Component {
     constructor(props) {
         super(props);
         this.state = {
             buddy: props.buddy
-        }
+        };
         this.openProfile = this.openProfile.bind(this);
         this.openContactBuddy = this.openContactBuddy.bind(this);
         this.onClick = this.onClick.bind(this);
@@ -34,11 +35,12 @@ export default class User extends Component {
     }
 
     render() {
+        console.log(getAvatar(this.state.buddy.id));
         return (
             <a href="#" onClick={this.onClick} className="profil_vypis">
                 <div className="card-block" id="buddy-row">
                     <div className="col-md-1 col-xs-3 no-margin no-padding">
-                        <img src="http://images.megaupload.cz/mystery-man.png"
+                        <img src={ getAvatar(this.state.buddy.id) }
                              alt={this.state.buddy.name + " " + this.state.buddy.surname}
                              className="profil_img rounded"/>
                     </div>

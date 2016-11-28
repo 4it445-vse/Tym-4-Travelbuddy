@@ -31,6 +31,28 @@ app.get('/hello', function (req, res) {
     res.send(JSON.stringify(data));
 });
 
+var fs = require('fs');
+app.get('/get-avatar', function (req, res) {
+  var userId = req.query.userId;
+  var avatarUrl;
+
+  fs.access('../frontend/public/avatars/' + userId + '.jpg', (err) => {
+    if (!err) {
+      avatarUrl = "http://localhost:3000/avatars/" + userId + ".jpg";
+    } else {
+        avatarUrl = "http://images.megaupload.cz/mystery-man.png";
+    }
+
+    const data = {
+      userId: userId,
+      avatarUrl: avatarUrl
+    };
+
+    res.header({'Content-Type': 'application/json'});
+    res.send(JSON.stringify(data));
+  });
+});
+
 
 app.start = function () {
     // start the web server
