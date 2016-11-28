@@ -2,8 +2,6 @@ import React, {Component} from "react";
 import MessageUsers from "../components/Messages/MessageUsers";
 import MessageSearch from "../components/Messages/MessageSearch";
 import Messages from "../components/Messages/Messages";
-import MessageUsers from "../components/Messages/MessageUsers";
-import Messages from "../components/Messages/Messages";
 import currentUser from "../actions/CurrentUser";
 import axios from "../api"
 
@@ -26,7 +24,7 @@ export default class Message extends Component {
 	setSelectedConversationUser(value, fn){
 		this.setState({
 			selectedConversationUser: value,
-			updateSelectedUserInUserViewFn, fn
+			updateSelectedUserInUserViewFn: fn
 		});
 	}
 	
@@ -85,24 +83,24 @@ export default class Message extends Component {
 						console.warn("if not undefined than should remove currentBuddyInternal and use this one, "+buddy);
 						if(messagesWithCurrentUserNum>0){
 							this.state.usersWithMessages.push({
-								id: currentBuddyInternal.id,
-								name: currentBuddyInternal.name,
-								surname: currentBuddyInternal.surname,
+								id: this.state.currentBuddyInternal.id,
+								name: this.state.currentBuddyInternal.name,
+								surname: this.state.currentBuddyInternal.surname,
 								unreadIncomingMessagesNum: unreadIncomingMessagesNum,
 								lastMessageTime: lastMessageTime
 							});
 						}else{
 							this.state.otherUsers.push({
-								id: currentBuddyInternal.id,
-								name: currentBuddyInternal.name,
-								surname: currentBuddyInternal.surname
+								id: this.state.currentBuddyInternal.id,
+								name: this.state.currentBuddyInternal.name,
+								surname: this.state.currentBuddyInternal.surname
 							});
 						}
 					}else {
 						this.state.otherUsers.push({
-							id: currentBuddyInternal.id,
-							name: currentBuddyInternal.name,
-							surname: currentBuddyInternal.surname
+							id: this.state.currentBuddyInternal.id,
+							name: this.state.currentBuddyInternal.name,
+							surname: this.state.currentBuddyInternal.surname
 						});
 					}
 					
@@ -135,7 +133,7 @@ export default class Message extends Component {
                                     </div>
                                 </div>
                                 <div className="col-sm-9 message_section">
-                                    <Messages selectedConversationUser={this.state.selectedConversationUser} updateSelectedUserInUserViewFn={updateSelectedUserInUserViewFn}/>
+                                    <Messages selectedConversationUser={this.state.selectedConversationUser} updateSelectedUserInUserViewFn={this.state.updateSelectedUserInUserViewFn}/>
                                 </div>
                             </div>
                         </div>
