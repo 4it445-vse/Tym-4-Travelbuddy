@@ -58,7 +58,10 @@ export default class Menu extends Component {
         const {openEdit, openRegister, openLogin, openNewRequest, openEditRequests} = this.props;
         const loggedUser = currentUser.getCurrentUser();
         const userLogged = !!loggedUser;
-		this.countIncomingUnreadMessages();
+		if(userLogged){
+			this.countIncomingUnreadMessages();
+		}
+		
         return (
             <Navbar className="navbar-fixed-top bg-primary row" dark>
                 <div className="col-xs-7 col-md-3 text-xs-left">
