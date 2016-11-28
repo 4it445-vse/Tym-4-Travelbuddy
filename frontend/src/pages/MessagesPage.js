@@ -64,7 +64,7 @@ export default class MessagePage extends Component {
 			}
 		}
 		}).then(response => {
-			console.log("### Messages: "response.data);
+			console.log("### Messages: ", response.data);
 			
 		});
 		
