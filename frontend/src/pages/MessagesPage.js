@@ -51,8 +51,8 @@ export default class MessagePage extends Component {
 				}
 			});
 		}else{
-			usersWithMessagesChosen = usersWithMessages;
-			otherUsersChosen = otherUsers;
+			usersWithMessagesChosen = this.state.usersWithMessages;
+			otherUsersChosen = this.state.otherUsers;
 		}
 		this.setState({
 			usersWithMessagesChosen: usersWithMessagesChosen,
