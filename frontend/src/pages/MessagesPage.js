@@ -51,6 +51,7 @@ export default class MessagePage extends Component {
 	}
 	
 	findUsers(){
+		let buddy = currentUser.getCurrentUser();
 		axios.get('messages', {
 		params: {
 			filter: {
