@@ -5,7 +5,7 @@ export default class Message extends Component {
 		const { message } = this.props;
         return (
 			<li className="left clearfix">
-				<span className="chat-img1 " + {message.isIncoming ? 'float-right' : 'float-left'}>
+				<span className={"chat-img1 " + (message.isIncoming ? 'float-right' : 'float-left')}>
 					   <img src="https://i.imgur.com/UePbdph.jpg" alt="User Avatar" className="img-circle"/>
 				 </span>
 				<div className="chat-body1 clearfix">
