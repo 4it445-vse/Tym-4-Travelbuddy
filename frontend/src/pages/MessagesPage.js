@@ -51,6 +51,24 @@ export default class MessagePage extends Component {
 	}
 	
 	findUsers(){
+		axios.get('messages', {
+		params: {
+			filter: {
+				where: {
+					or: [
+						{"buddy_id_to": buddy.id},
+						{"buddy_id_from": buddy.id}
+					]
+				}
+			}
+		}
+		}).then(response => {
+			console.log(response.data);
+			
+		});
+		
+		
+		/*
 		console.log('In MessgePage.findUsers about to querry all verified users.');
 		axios.get('buddies', {
         params: {
@@ -122,7 +140,7 @@ export default class MessagePage extends Component {
 				return new Date(b.lastMessageTime) - new Date(a.lastMessageTime);
 			});
 			this.setState(this.state);
-		});
+		});*/
 	}
 	
     render() {
