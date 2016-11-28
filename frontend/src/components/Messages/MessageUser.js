@@ -30,7 +30,7 @@ export default class MessageUser extends Component {
 				  </span>
 				<div className="chat-body clearfix">
 					<div className="header_sec">
-						<strong className="primary-font">{user.name+" "+user.surname</strong>
+						<strong className="primary-font">{user.name+" "+user.surname}</strong>
 						{withMessages ?
 						<strong className="float-right">
 							{user.lastMessageTime}</strong> : ""
