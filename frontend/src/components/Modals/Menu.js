@@ -8,11 +8,13 @@ export default class Menu extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            collapsed: true
+            collapsed: true,
+			incomingUnreadMessagesNum: 0
         };
 
         this.toggleNavbar = this.toggleNavbar.bind(this);
         this.logOut = this.logOut.bind(this);
+        this.countIncomingUnreadMessages = this.countIncomingUnreadMessages.bind(this);
     }
 
     logOut() {
@@ -26,11 +28,36 @@ export default class Menu extends Component {
             collapsed: !this.state.collapsed
         });
     }
+	
+	countIncomingUnreadMessages() {
+		axios.get('messages', {
+		params: {
+			filter: {
+				where: {
+					"buddy_id_to": currentUser.getCurrentUser().id
+				}
+			}
+		}
+		}).then(response => {
+			let buddyMessages = response.data;
+			let incomingUnreadMessagesNum = 0;
+			buddyMessages.map(message => {
+				if(message.displayed === false){
+					incomingUnreadMessagesNum++; 
+				}
+			});
+			
+			this.setState({
+				incomingUnreadMessagesNum: incomingUnreadMessagesNum
+			});
+		});
+	}
 
     render() {
         const {openEdit, openRegister, openLogin, openNewRequest, openEditRequests} = this.props;
         const loggedUser = currentUser.getCurrentUser();
         const userLogged = !!loggedUser;
+		countIncomingUnreadMessages();
         return (
             <Navbar className="navbar-fixed-top bg-primary row" dark>
                 <div className="col-xs-7 col-md-3 text-xs-left">
@@ -43,7 +70,9 @@ export default class Menu extends Component {
                     <Nav navbar className="float-lg-right text-xs-center">
 
                         {userLogged ? <NavItem>
-                            <Link href="posta" className="nav-link" role="tab" data-toggle="tab">Pošta <span className="label label-success">10</span></Link>
+                            <Link href="/messages" className="nav-link" role="tab" data-toggle="tab">Pošta 
+								<span className="label label-success">{this.state.incomingUnreadMessagesNum > 0 ? this.state.incomingUnreadMessagesNum : ""}</span>
+							</Link>
                         </NavItem> : ""}
 
                         {userLogged ? <NavItem>
