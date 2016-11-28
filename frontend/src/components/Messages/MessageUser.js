@@ -18,7 +18,7 @@ export default class MessageUser extends Component {
 	}
 	
 	setSelectedConversationUser(){
-		this.props.setSelectedConversationUser(this.props.user, setUserChanged);
+		this.props.setSelectedConversationUser(this.props.user, this.setUserChanged);
 	}
 	
     render() {
