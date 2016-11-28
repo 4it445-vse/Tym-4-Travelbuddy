@@ -157,7 +157,9 @@ export default class MessagePage extends Component {
                                         </div>
                                         <MessageSearch refreshUsersList={this.restrictUsers}/>
                                         <div className="member_list">
+										/*
 											<MessageUsers users={this.state.usersWithMessagesChosen} withMessages={true} setSelectedConversationUser={this.setSelectedConversationUser}/>
+										*/
 										</div>
 									</div>
                                 </div>
