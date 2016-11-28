@@ -27,6 +27,7 @@ export default class EditProfileModal extends Component {
         var about_me = document.getElementById("about_me").value;
         var is_hosting = document.getElementById("is_hosting").checked;
         var sex;
+        var avatarUpload = document.getElementById("avatarUpload");
         if (currentUser.getCurrentUser().sex === 'na') {
             let e = document.getElementById("sex");
             sex = e.options[e.selectedIndex].value;
@@ -41,15 +42,33 @@ export default class EditProfileModal extends Component {
                 "is_hosting": is_hosting,
                 "about_me": about_me
             };
+            let _this = this;
             axios.post('buddies/update?where[id]=' + currentUserLocal.id, constructedBuddy).then(response => {
-                console.log('edit success');
-                this.props.hideFn();
                 currentUserLocal.sex = constructedBuddy.sex;
                 currentUserLocal.city = constructedBuddy.city;
                 currentUserLocal.is_hosting = constructedBuddy.is_hosting;
                 currentUserLocal.about_me = constructedBuddy.about_me;
 
                 currentUser.setCurrentUser(currentUserLocal);
+            }).then(response => {
+                console.log('reuqest na upload');
+                var data = new FormData();
+                data.append('userId',currentUserLocal.id);
+                data.append('avatarUpload', avatarUpload.files[0]);
+                axios.post('http://localhost:3003/upload-avatar', data)
+                    .then(function (res) {
+                        console.log('edit success');
+                        _this.props.hideFn();
+                    })
+                    .catch(function (err) {
+                       if (err.message == 'Network Error'){
+                           // YOLO, museli by na serveru být povoleny cross-origin requesty. Nejlepší by bylo dotazovat se na stejném portu ale u loopback sewrveru mi nejde post
+                           console.log('edit success');
+                           _this.props.hideFn();
+                       } else {
+                           console.error('Upload failed', err);
+                       }
+                    });
             });
         }
     }
@@ -109,6 +128,15 @@ export default class EditProfileModal extends Component {
                         <div className="col-xs-5 text-xs-left">
                             <input type="checkbox" className="form-check-input big_checkbox" id="is_hosting"
                                    defaultChecked={loggedUser.is_hosting}/>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div className="form-group no-margin row">
+                        <div className="col-xs-7">
+                            <label className="col-form-label"><strong>Tady bude avatar</strong></label>
+                        </div>
+                        <div className="col-xs-5 text-xs-left">
+                            <input type="file" name="avatarUpload" id="avatarUpload" accept=".jpg" />
                         </div>
                     </div>
                 </form>
