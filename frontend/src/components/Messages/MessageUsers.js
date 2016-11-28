@@ -7,9 +7,11 @@ export default class MessageUsers extends Component {
         return (
 			<div className="member_list">
 				<ul className="list-unstyled">
+				{
 					users.map(user => 
 						<MessageUser user={user} withMessages={withMessages} setSelectedConversationUser={setSelectedConversationUser}/>
-					);
+					)
+				}
 				</ul>
 			</div>
 

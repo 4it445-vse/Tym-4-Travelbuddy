@@ -99,7 +99,7 @@ export default class Messages extends Component {
 					{
 						this.state.messages.map(message =>
 							<Message message={message}/>
-						);
+						)
 					}
 					</ul>
 				</div>
