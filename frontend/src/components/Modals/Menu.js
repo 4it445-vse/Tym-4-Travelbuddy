@@ -75,10 +75,12 @@ export default class Menu extends Component {
 
                         {userLogged ? <NavItem>
                             <Link href="/messages" className="nav-link" role="tab" data-toggle="tab">Pošta 
-								<span className="label label-success">{this.state.incomingUnreadMessagesNum > 0 ? this.state.incomingUnreadMessagesNum : ""}</span>
+							{this.state.incomingUnreadMessagesNum > 0 ?
+								<span className="label label-success"> {this.state.incomingUnreadMessagesNum}</span>
+								 : ""}
 							</Link>
                         </NavItem> : ""}
-
+						<hr className="xs-visible sm-visible hidden-md-up hidden-lg-up"/>
                         {userLogged ? <NavItem>
                             <Link href="/" className="nav-link">Seznam budíků</Link>
                         </NavItem> : ""}
