@@ -13,12 +13,20 @@ export default class MessagePage extends Component {
 		this.state = {
 			usersWithMessages: [],
 			otherUsers: [],
+			usersWithMessagesChosen: [],
+			otherUsersChosen: [],
 			currentBuddyInternal: undefined,
 			selectedConversationUser: undefined,
 			updateSelectedUserInUserViewFn: undefined
 		};
 		this.findUsers = this.findUsers.bind(this);
 		this.setSelectedConversationUser = this.setSelectedConversationUser.bind(this);
+		this.restrictUsers = this.restrictUsers.bind(this);
+	}
+	
+	componentDidMount() {
+		this.findUsers();
+		this.restrictUsers("");
 	}
 	
 	setSelectedConversationUser(value, fn){
@@ -28,7 +36,31 @@ export default class MessagePage extends Component {
 		});
 	}
 	
-	findUsers(value){
+	restrictUsers(value){
+		let usersWithMessagesChosen = [];
+		let otherUsersChosen = [];
+		if(value){
+			this.state.usersWithMessages.map(message =>{
+				if(message.name.includes(value) || message.surname.includes(value)){
+					usersWithMessagesChosen.push(message);
+				}
+			});
+			this.state.otherUsers.map(message =>{
+				if(message.name.includes(value) || message.surname.includes(value)){
+					otherUsersChosen.push(message);
+				}
+			});
+		}else{
+			usersWithMessagesChosen = usersWithMessages;
+			otherUsersChosen = otherUsers;
+		}
+		this.setState({
+			usersWithMessagesChosen: usersWithMessagesChosen,
+			otherUsersChosen: otherUsersChosen
+		});
+	}
+	
+	findUsers(){
 		console.log('In MessgePage.findUsers about to querry all verified users.');
 		axios.get('buddies', {
         params: {
@@ -127,11 +159,11 @@ export default class MessagePage extends Component {
                                         <div className="dropdown-toggle">
                                             Všechny konverzace: <span className="caret float-right"></span>
                                         </div>
-                                        <MessageSearch refreshUsersList={this.findUsers}/>
+                                        <MessageSearch refreshUsersList={this.restrictUsers}/>
                                         <div className="member_list">
-											<MessageUsers users={this.state.usersWithMessages} withMessages={true} setSelectedConversationUser={this.setSelectedConversationUser}/>
+											<MessageUsers users={this.state.usersWithMessagesChosen} withMessages={true} setSelectedConversationUser={this.setSelectedConversationUser}/>
 											<hr />
-											<MessageUsers users={this.state.otherUsers} withMessages={false} setSelectedConversationUser={this.setSelectedConversationUser}/>
+											<MessageUsers users={this.state.otherUsersChosen} withMessages={false} setSelectedConversationUser={this.setSelectedConversationUser}/>
 										</div>
 									</div>
                                 </div>
