@@ -53,6 +53,34 @@ app.get('/get-avatar', function (req, res) {
   });
 });
 
+var express = require('express');
+var expressApp = express();
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/')
+  },
+  filename: function (req, file, cb) {
+    console.log('request', file);
+    cb(null, "_" + file.originalname);
+  }
+});
+var upload = multer({ storage: storage });
+
+expressApp.post('/upload-avatar',  upload.single('avatarUpload'), function (req, res) {
+  var userId = req.body.userId;
+  fs.rename('uploads/' + "_" + req.file.originalname, '../frontend/public/avatars/' + userId + '.jpg', function(err) {
+    if ( err ) console.log('ERROR: ' + err);
+  });
+  console.log('Upload avatar picture for user with id ' + userId + ' done');
+  res.status(204).end()
+});
+
+expressApp.listen(3003, function () {
+  console.log('Express app listening on port 3003!')
+});
+
+
 
 app.start = function () {
     // start the web server
