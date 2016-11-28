@@ -61,7 +61,7 @@ export default class Message extends Component {
 						let messagesWithCurrentUserNum = 0;
 						let currentUserId = currentUser.getCurrentUser().id;
 						let lastMessageTime = undefined;
-						buddyMessages.map(message =>
+						buddyMessages.map(message =>{
 							if(message.buddy_id_to === currentUserId || message.buddy_id_from === currentUserId){
 								messagesWithCurrentUserNum++;
 								if(lastMessageTime === undefined){
@@ -77,7 +77,7 @@ export default class Message extends Component {
 								} else if(lastMessageTime && lastMessageTime < message.date_time){
 									lastMessageTime = message.date_time;
 								}
-							}
+						}}
 						);
 						console.warn("if not undefined than should remove currentBuddyInternal and use this one, "+buddy);
 						if(messagesWithCurrentUserNum>0){

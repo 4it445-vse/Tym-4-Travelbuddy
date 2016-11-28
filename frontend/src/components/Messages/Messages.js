@@ -43,7 +43,7 @@ export default class Messages extends Component {
 				let buddyMessages = response.data;
 				if(buddyMessages && buddyMessages[0]){
 					console.log("Buddy with id: "+buddyMessages[0].buddy_id_to+" has "+buddyMessages.size+" messages in Messages.");
-					buddyMessages.map(message =>
+					buddyMessages.map(message => {
 						if(message.buddy_id_to === currentUserId){
 							this.state.messages.push({
 								"text": message.text,
@@ -56,7 +56,7 @@ export default class Messages extends Component {
 								"time": message.date_time,
 								"isIncoming": false
 							});
-						}
+					}}
 					);
 					this.state.messages.sort(function(a,b){
 						return new Date(b.time) - new Date(a.time);
