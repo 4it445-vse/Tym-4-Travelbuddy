@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import Message from "./Message";
 import MessageSend from "./MessageSend";
 import currentUser from "../actions/CurrentUser";
+import axios from "../../api";
 
 export default class Messages extends Component {
 	

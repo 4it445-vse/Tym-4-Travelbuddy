@@ -5,6 +5,8 @@ import Messages from "../components/Messages/Messages";
 import MessageUsers from "../components/Messages/MessageUsers";
 import Messages from "../components/Messages/Messages";
 import currentUser from "../actions/CurrentUser";
+import axios from "../api"
+
 
 export default class Message extends Component {
 	

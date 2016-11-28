@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Link} from "react-router";
 import {Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem} from "reactstrap";
 import currentUser from "../../actions/CurrentUser";
+import axio from "../../api"
 
 export default class Menu extends Component {
 
