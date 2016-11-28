@@ -64,7 +64,7 @@ export default class MessagePage extends Component {
 			}
 		}
 		}).then(response => {
-			console.log(response.data);
+			console.log("### Messages: "response.data);
 			
 		});
 		
@@ -157,16 +157,18 @@ export default class MessagePage extends Component {
                                             Všechny konverzace: <span className="caret float-right"></span>
                                         </div>
                                         <MessageSearch refreshUsersList={this.restrictUsers}/>
-                                        <div className="member_list">
 										/*
+                                        <div className="member_list">
 											<MessageUsers users={this.state.usersWithMessagesChosen} withMessages={true} setSelectedConversationUser={this.setSelectedConversationUser}/>
-										*/
 										</div>
+										*/
 									</div>
                                 </div>
                                 <div className="col-sm-9 message_section">
+								/*
                                     <Messages selectedConversationUser={this.state.selectedConversationUser} updateSelectedUserInUserViewFn={this.state.updateSelectedUserInUserViewFn}/>
-                                </div>
+                                */
+								</div>
                             </div>
                         </div>
                     </div>
