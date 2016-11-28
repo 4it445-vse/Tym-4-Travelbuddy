@@ -17,7 +17,7 @@ export default class SearchForm extends Component {
     render() {
         return (
             <div className="row">
-                <div className="input-group v-o-15">
+                <div className="input-group v-o-5">
                     <input id="search-town" type="search" className="form-control SearchBar SearchHeight SearchBorder"
                            placeholder="Zadej cílové město" onKeyUp={this.fillSearchTown}/>
                     <span className="input-group-btn">

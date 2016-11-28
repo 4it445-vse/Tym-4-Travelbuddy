@@ -3,7 +3,7 @@ import {Modal} from "react-bootstrap";
 import FormGroup from "./FormGroup";
 import FormCheck from "./FormCheck";
 import axios from "../../api";
-import bcrypt from 'bcryptjs';
+import currentUser from "../../actions/CurrentUser";
 
 export default class RegisterModal extends Component {
 
@@ -14,12 +14,12 @@ export default class RegisterModal extends Component {
             buddies: [],
             registrationValidation: {
                 /*
-                 name: 'Karel',
-                 surname: 'Omáčka',
-                 email: 'special@email2.cz',
+                 name: 'Josef',
+                 surname: 'Draslar',
+                 email: 'j.draslar@gmail.com',
                  city: 'Praha',
-                 pass: false,
-                 pass_repeated: false,
+                 pass: 'Aa123456',
+                 pass_repeated: 'Aa123456',
                  agreed_with_conditions: true
                  */
                 name: undefined,
@@ -28,22 +28,32 @@ export default class RegisterModal extends Component {
                 city: undefined,
                 pass: undefined,
                 pass_repeated: undefined,
-                agreed_with_conditions: false
+                agreed_with_conditions: undefined
             },
             isFieldValid: {
-                name: false,
-                surname: false,
-                email: false,
-                city: false,
-                pass: false,
-                pass_repeated: false,
-                agreed_with_conditions: false
+                name: undefined,
+                surname: undefined,
+                email: undefined,
+                city: undefined,
+                pass: undefined,
+                pass_repeated: undefined,
+                agreed_with_conditions: undefined
             },
             showValidation: false,
         };
 
         this.handleSubmitRegistration = this.handleSubmitRegistration.bind(this);
         this.validate = this.validate.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+    }
+
+    closeModal() {
+        for (var prop in this.state.registrationValidation) {
+            this.state.registrationValidation[prop] = undefined;
+            this.state.isFieldValid[prop] = undefined;
+        }
+        this.state.showValidation = false;
+        this.props.hideFn();
     }
 
     componentDidMount() {
@@ -71,78 +81,50 @@ export default class RegisterModal extends Component {
         var surname = this.state.registrationValidation.surname;
         var email = this.state.registrationValidation.email;
         var city = this.state.registrationValidation.city;
-      
-        var salt = bcrypt.genSaltSync(10);
-        var pass = bcrypt.hashSync(this.state.registrationValidation.pass, salt);
+        var pass = this.state.registrationValidation.pass;
 
-        var buddy = this.state.buddies.find((v) => {
-            if (v.email === email) {
-                return v;
+        axios.get('buddies', {
+            params: {
+                filter: {
+                    where: {
+                        email: email,
+                    },
+                },
+            }
+        }).then(response => {
+            if (response.data && response.data[0] && response.data[0].email === email) {
+                var isFieldValid = this.state.isFieldValid;
+                isFieldValid["email"] = "emailAlreadyExists";
+                this.setState({isFieldValid: isFieldValid});
+            } else {
+                axios.post('buddies', {
+                    "email": email,
+                    "password": pass,
+                    "sex": "na",
+                    "name": name,
+                    "surname": surname,
+                    "city": city,
+                    "is_hosting": false
+
+                }).then(response => {
+                    console.log('registration success');
+                    currentUser.setAlert({
+                        "type": "success",
+                        "message": "Registrace proběhla úspěšně. Před přihlášením prosím navštivte svůj email a ověřte ho kliknutím na zaslaný odkaz."
+                    })
+                    this.closeModal();
+                });
             }
         });
-        if (buddy) {
-            var isFieldValid = this.state.isFieldValid;
-            isFieldValid["email"] = "emailAlreadyExists";
-            this.setState({isFieldValid: isFieldValid});
-        } else {
-            axios.get('buddies', {
-                params: {
-                    filter: {
-                        where: {
-                            email: email,
-                        },
-                    },
-                }
-            }).then(response => {
-                if (response.data && response.data[0] && response.data[0].email === email) {
-                    alert("Email již zadán");
-                } else {
-                    axios.post('buddies', {
-                        "email": email,
-                        "password": pass,
-                        "sex": "na",
-                        "name": name,
-                        "surname": surname,
-                        "city": city,
-                        "is_hosting": false
 
-                    }).then(response => {
-                        console.log('registration success');
-                        this.setState({
-                            isFieldValid: {
-                                name: false,
-                                surname: false,
-                                email: false,
-                                city: false,
-                                pass: false,
-                                pass_repeated: false,
-                                agreed_with_conditions: false
-                            },
-                            showValidation: false
-                        });
-                        this.props.hideFn();
-                        this.setState({
-                            registrationValidation: {
-                                name: undefined,
-                                surname: undefined,
-                                email: undefined,
-                                city: undefined,
-                                pass: undefined,
-                                pass_repeated: undefined,
-                                agreed_with_conditions: false
-                            }
-                        });
-                    });
-                }
-            });
 
-        }
     }
 
     validate(event) {
         var value = event.target.value;
         var name = event.target.id;
         var isFieldValid = this.state.isFieldValid;
+        var showValidation = this.state.showValidation;
         switch (name) {
             case "name":
             case "surname":
@@ -153,6 +135,7 @@ export default class RegisterModal extends Component {
                 } else {
                     this.state.registrationValidation[name] = undefined;
                     isFieldValid[name] = false;
+                    showValidation = true;
                 }
                 break;
             case "email":
@@ -162,25 +145,30 @@ export default class RegisterModal extends Component {
                 } else {
                     this.state.registrationValidation[name] = undefined;
                     isFieldValid[name] = false;
+                    showValidation = true;
                 }
                 break;
             case "pass":
-                var passw = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
+                var passw = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
                 if (value.match(passw)) {
                     this.state.registrationValidation[name] = value;
                     isFieldValid[name] = true;
                 } else {
                     this.state.registrationValidation[name] = undefined;
                     isFieldValid[name] = false;
+                    showValidation = true;
                 }
                 break;
             case "pass_repeated":
-                if (this.state.registrationValidation.pass && value === this.state.registrationValidation.pass) {
-                    this.state.registrationValidation[name] = value;
-                    isFieldValid[name] = true;
-                } else {
-                    this.state.registrationValidation[name] = undefined;
-                    isFieldValid[name] = false;
+                if (this.state.registrationValidation.pass) {
+                    if (value === this.state.registrationValidation.pass) {
+                        this.state.registrationValidation[name] = value;
+                        isFieldValid[name] = true;
+                    } else {
+                        this.state.registrationValidation[name] = undefined;
+                        isFieldValid[name] = false;
+                        showValidation = true;
+                    }
                 }
                 break;
             case "agreed_with_conditions":
@@ -191,18 +179,19 @@ export default class RegisterModal extends Component {
                 } else {
                     this.state.registrationValidation[name] = false;
                     isFieldValid[name] = false;
+                    showValidation = true;
                 }
                 break;
             default:
         }
-        this.setState({isFieldValid: isFieldValid});
+        this.setState({isFieldValid: isFieldValid, showValidation: showValidation});
     }
 
     render() {
-        const {showProp, hideFn, submitFn, switchFn} = this.props;
+        const {showProp, switchFn} = this.props;
         const title = "Registrace";
         return (
-            <Modal show={showProp} onHide={hideFn}>
+            <Modal show={showProp} onHide={this.closeModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>{title}</Modal.Title>
                 </Modal.Header>
@@ -211,7 +200,7 @@ export default class RegisterModal extends Component {
                         <FormGroup>
                             {
                                 this.state.showValidation
-                                && !this.state.isFieldValid.name
+                                && this.state.isFieldValid.name === false
                                     ? <span className="validation-error">Zadejte prosím jméno</span>
                                     : ""
                             }
@@ -222,7 +211,7 @@ export default class RegisterModal extends Component {
                                     "form-control"
                                     + (
                                         this.state.showValidation
-                                        && !this.state.isFieldValid.name
+                                        && this.state.isFieldValid.name === false
                                             ? ' alert-danger'
                                             : ''
                                     )
@@ -234,7 +223,7 @@ export default class RegisterModal extends Component {
                         <FormGroup>
                             {
                                 this.state.showValidation
-                                && !this.state.isFieldValid.surname
+                                && this.state.isFieldValid.surname === false
                                     ? <span className="validation-error">Zadejte prosím příjmení</span>
                                     : ""
                             }
@@ -245,7 +234,7 @@ export default class RegisterModal extends Component {
                                     "form-control"
                                     + (
                                         this.state.showValidation
-                                        && !this.state.isFieldValid.surname
+                                        && this.state.isFieldValid.surname === false
                                             ? ' alert-danger'
                                             : ''
                                     )
@@ -257,7 +246,7 @@ export default class RegisterModal extends Component {
                         <FormGroup>
                             {
                                 this.state.showValidation
-                                && !this.state.isFieldValid.email
+                                && this.state.isFieldValid.email === false
                                     ? <span className="validation-error">Zadejte prosím email ve správném formátu</span>
                                     : ""
                             }
@@ -274,7 +263,7 @@ export default class RegisterModal extends Component {
                                     "form-control"
                                     + (
                                         this.state.showValidation
-                                        && !this.state.isFieldValid.email
+                                        && this.state.isFieldValid.email === false
                                             ? ' alert-danger'
                                             : ''
                                     )
@@ -286,7 +275,7 @@ export default class RegisterModal extends Component {
                         <FormGroup>
                             {
                                 this.state.showValidation
-                                && !this.state.isFieldValid.city
+                                && this.state.isFieldValid.city === false
                                     ? <span className="validation-error">Zadejte prosím město</span>
                                     : ""
                             }
@@ -297,7 +286,7 @@ export default class RegisterModal extends Component {
                                     "form-control"
                                     + (
                                         this.state.showValidation
-                                        && !this.state.isFieldValid.city
+                                        && this.state.isFieldValid.city === false
                                             ? ' alert-danger'
                                             : ''
                                     )
@@ -309,8 +298,8 @@ export default class RegisterModal extends Component {
                         <FormGroup>
                             {
                                 this.state.showValidation
-                                && !this.state.isFieldValid.pass
-                                    ? <span className="validation-error">Zadejte prosím heslo o minimální délce 8</span>
+                                && this.state.isFieldValid.pass === false
+                                    ? <span className="validation-error">Zadejte prosím heslo o minimální délce 8, obsahující alespoň 1 velké i malé písmeno a číslici</span>
                                     : ""
                             }
                             <input
@@ -332,7 +321,7 @@ export default class RegisterModal extends Component {
                         <FormGroup>
                             {
                                 this.state.showValidation
-                                && !this.state.isFieldValid.pass_repeated
+                                && this.state.isFieldValid.pass_repeated === false
                                     ? <span className="validation-error">Zadaná hesla nesouhlasí</span>
                                     : ""
                             }
@@ -355,7 +344,7 @@ export default class RegisterModal extends Component {
                         <FormCheck>
                             {
                                 this.state.showValidation
-                                && !this.state.isFieldValid.agreed_with_conditions
+                                && this.state.isFieldValid.agreed_with_conditions === false
                                     ? <p className="validation-error no-margin">Musíte souhlasit s podmínkami služby</p>
                                     : ""
                             }

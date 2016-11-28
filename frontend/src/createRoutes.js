@@ -3,26 +3,18 @@ import {IndexRoute, Route} from "react-router";
 import {AppPage} from "./pages/AppPage.js";
 import {HomePage} from "./pages/HomePage.js";
 import {Message} from "./pages/Message.js";
-// import { ContactPage } from './pages/ContactPage.js';
-// import { NoMatchPage } from './pages/NoMatchPage.js';
-// import { ProductDetailPage } from './pages/ProductDetailPage.js'
-// import { ProductsPage } from './pages/ProductsPage.js';
-// import { ShoppingCartPage } from './pages/ShoppingCartPage.js'
-// import { ShoppingCartCheckoutPage } from './pages/ShoppingCartCheckoutPage.js'
+import {RequestsPage} from "./pages/RequestsPage.js";
+import { VerifiedPage } from './pages/VerifiedPage.js';
+import { ResetPassword } from './pages/ResetPassword.js';
 
 export function createRoutes() {
     return (
         <Route path="/" component={AppPage}>
             <IndexRoute component={HomePage}/>
             <Route path="/posta" component={Message}/>
-            {/* <Route path="/products">
-             <IndexRoute component={ProductsPage}/>
-             <Route path=":productId" component={ProductDetailPage}/>
-             </Route>
-             <Route path="/contact" component={ContactPage}/>
-             <Route path="/cart" component={ShoppingCartPage}/>
-             <Route path="/cart/checkout" component={ShoppingCartCheckoutPage}/>
-             <Route path="*" component={NoMatchPage}/> */}
+            <Route path="/requests" component={RequestsPage}/>
+            <Route path="/verified" component={VerifiedPage}/>
+            <Route path="/reset-password" component={ResetPassword}/>
         </Route>
     );
 }

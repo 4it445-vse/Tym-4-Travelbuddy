@@ -7,5 +7,23 @@
     "name": "mysqlds",
     "connector": "memory",
     "note": "This is overwritten in ./datasources.local.js"
+  },
+  "mailserver": {
+    "name": "mailserver",
+    "connector": "mail",
+    "transports": [
+      {
+        "type": "SMTP",
+        "host": "smtp.gmail.com",
+        "port": 465,
+        "tls": {
+          "rejectUnauthorized": false
+        },
+        "auth": {
+          "user": "travelbuddy9999@gmail.com",
+          "pass": "123321456654789987"
+        }
+      }
+    ]
   }
 }
