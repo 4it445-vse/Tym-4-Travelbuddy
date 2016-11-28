@@ -1,11 +1,14 @@
 import React, {Component} from "react";
 import currentUser from "../../actions/CurrentUser";
+import {Modal} from "react-bootstrap";
 import LoginModal from "../Modals/LoginModal";
 import RegisterModal from "../Modals/RegisterModal";
+import ResetPassModal from "../Modals/ResetPassModal";
 import EditProfileModal from "../Modals/EditProfileModal";
 import NewRequestModal from "../Modals/NewRequestModal";
 import EditRequestModal from "../Modals/EditRequestModal";
 import Menu from "../Modals/Menu";
+import {Alert} from 'react-bootstrap';
 
 export default class TopNavigation extends Component {
     constructor(props) {
@@ -15,6 +18,7 @@ export default class TopNavigation extends Component {
             showRegisterModal: false,
             showEditModal: false,
             showNewRequestModal: false,
+            showRestorePass: false,
             showEditRequestModal: false
         };
 
@@ -27,6 +31,9 @@ export default class TopNavigation extends Component {
         this.openNewRequest = this.openNewRequest.bind(this);
         this.closeNewRequest = this.closeNewRequest.bind(this);
         this.openEditRequests = this.openEditRequests.bind(this);
+        this.closeAlert = this.closeAlert.bind(this);
+        this.openRestorePass = this.openRestorePass.bind(this);
+        this.closeRestorePass = this.closeRestorePass.bind(this);
         this.closeEditRequests = this.closeEditRequests.bind(this);
     }
 
@@ -34,17 +41,28 @@ export default class TopNavigation extends Component {
         currentUser.setOpenLogInFn(this.openLogin);
     }
 
+    openRestorePass() {
+        this.setState({showRestorePass: true, showLoginModal: false});
+    }
+
+    closeRestorePass() {
+        this.setState({showRestorePass: false});
+    }
+
+    closeAlert() {
+        currentUser.setAlert(null);
+        this.setState(this.state);
+    }
+
     openLogin() {
-        this.closeRegister();
-        this.setState({showLoginModal: true});
+        this.setState({showRegisterModal: false, showLoginModal: true});
     }
     closeLogin() {
         this.setState({showLoginModal: false});
     }
 
     openRegister() {
-        this.closeLogin();
-        this.setState({showRegisterModal: true});
+        this.setState({showRegisterModal: true, showLoginModal: false});
     }
     closeRegister() {
         this.setState({showRegisterModal: false});
@@ -76,15 +94,27 @@ export default class TopNavigation extends Component {
     render() {
         const loggedUser = currentUser.getCurrentUser();
         const userLogged = !!loggedUser;
+        const alert = currentUser.getAlert();
         return (
             <div>
                 <Menu openEdit={this.openEdit} openRegister={this.openRegister} openLogin={this.openLogin} openNewRequest={this.openNewRequest} openEditRequests={this.openEditRequests}/>
 
-                <LoginModal showProp={this.state.showLoginModal} hideFn={this.closeLogin} switchFn={this.openRegister}/>
+                <LoginModal restorePassFn={this.openRestorePass} showProp={this.state.showLoginModal} hideFn={this.closeLogin} switchFn={this.openRegister}/>
 
                 <RegisterModal showProp={this.state.showRegisterModal} hideFn={this.closeRegister}
                                switchFn={this.openLogin}/>
-
+                {
+                    (!!alert) ?
+                        <Modal show={true} onHide={this.closeAlert}>
+                            <Modal.Header closeButton>
+                            </Modal.Header>
+                            <Modal.Body>
+                                <Alert bsStyle={alert.type}>
+                                    {alert.message}
+                                </Alert>
+                            </Modal.Body>
+                        </Modal> : ""
+                }
                 { userLogged ?
                   <div>
                     <EditProfileModal showProp={this.state.showEditModal} hideFn={this.closeEdit}/>
@@ -92,6 +122,8 @@ export default class TopNavigation extends Component {
                     <EditRequestModal showProp={this.state.showEditRequestModal} hideFn={this.closeEditRequests} switchFn={this.openNewRequest}/>
                   </div>
                     : ""}
+
+                <ResetPassModal showProp={this.state.showRestorePass} hideFn={this.closeRestorePass} />
             </div>
         );
     }

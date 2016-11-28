@@ -138,3 +138,16 @@ body
   margin: 10px 0px 10px 0px;
   padding: 20px 20px 20px 20px;
 }
+
+.validation-error-big {
+    font-size: 17px;
+    color: #a94442;
+}
+
+.no-validation-error-1st {
+    margin-top: 24px;
+}
+
+.no-validation-error-rest {
+    margin-top: 40px;
+}

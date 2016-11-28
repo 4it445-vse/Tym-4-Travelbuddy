@@ -4,50 +4,71 @@ import FormGroup from "./FormGroup";
 import FormCheck from "./FormCheck";
 import currentUser from "../../actions/CurrentUser";
 import axios from "../../api";
-import bcrypt from 'bcryptjs';
 
 export default class LoginModal extends Component {
 
     constructor(props) {
         super(props);
 
+        this.state = {
+            showErrorMessage: undefined
+        }
+
         this.handleSubmitLogIn = this.handleSubmitLogIn.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+    }
+
+    closeModal() {
+        this.state.showErrorMessage = undefined;
+        this.props.hideFn();
     }
 
     handleSubmitLogIn(event) {
         var email = document.getElementById("email-l").value;
         var pass = document.getElementById("pass-l").value;
         var rememberUser = document.getElementById("remember_me").checked;
-
-        axios.get('buddies', {
-            params: {
-                filter: {
-                    where: {
-                        email: email,
-                    },
-                },
-            }
+        axios.post('buddies/login', {
+            email: email,
+            password: pass
         }).then(response => {
-            if (response.data && response.data[0] && bcrypt.compareSync(pass, response.data[0].password)) {
-                console.log("login success");
-                currentUser.setCurrentUser(response.data[0], rememberUser);
-                this.props.hideFn();
-            } else {
-                console.log("login failure");
-            }
-        });
+            currentUser.setAuthToken(response.data.id);
+            axios.get('buddies', {
+                params: {
+                    filter: {
+                        where: {
+                            email: email,
+                        },
+                    },
+                }
+            }).then(response => {
+                if (response.data[0].emailVerified) {
+                    console.log("login success");
+                    currentUser.setCurrentUser(response.data[0], rememberUser);
+                    this.closeModal();
+                } else {
+                    this.setState({showErrorMessage: "Prosím nejdříve navštivte Váš email a ověř ho kliknutím na zaslaný odkaz!"});
+                }
+            })
+        }).catch(error => {
+            this.setState({showErrorMessage: "Špatně zadaný email či heslo!"});
+        });;
     }
 
     render() {
-        const {showProp, hideFn, switchFn} = this.props;
+        const {showProp, switchFn, restorePassFn} = this.props;
         return (
-            <Modal show={showProp} onHide={hideFn}>
+            <Modal show={showProp} onHide={this.closeModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>Přihlášení</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form>
                         <FormGroup>
+                            {
+                                !!this.state.showErrorMessage
+                                    ? <span className="validation-error-big">{this.state.showErrorMessage}</span>
+                                    : ""
+                            }
                             <input type="email" name="email" className="form-control" id="email-l"
                                    placeholder="Váš email"/>
                         </FormGroup>
@@ -63,8 +84,8 @@ export default class LoginModal extends Component {
                                            name="remember-me"/>
                                     Zapamatovat si mě
                                 </label>
-                                {/*<a href="#" className="float-right" data-dismiss="modal" data-toggle="modal"
-                                 data-target="#zapommodal">Zapomenuté heslo?</a>*/}
+                                <a href="#" className="float-right" data-target="#" onClick={restorePassFn}>Zapomenuté
+                                    heslo?</a>
                             </div>
 
                         </div>

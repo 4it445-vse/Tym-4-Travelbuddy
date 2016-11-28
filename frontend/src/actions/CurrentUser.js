@@ -1,5 +1,32 @@
+import axios from "../api";
+
 var currentUser = undefined;
 var openLogInFn;
+var alert;
+
+function getAlert(){
+    return alert;
+}
+
+function setAlert(al){
+    alert = al;
+}
+
+function setAuthToken(token){
+    if(token){
+        sessionStorage.setItem('token', token);
+        axios.defaults.headers.common['Authorization'] = token;
+    }else{
+        localStorage.removeItem('token');
+    }
+}
+
+function loadAuthToken(){
+    var token = sessionStorage.getItem('token');
+    if(token){
+        axios.defaults.headers.common['Authorization'] = token;
+    }
+}
 
 function openLogIn(){
     openLogInFn();
@@ -38,5 +65,9 @@ export default {
     getCurrentUser,
     setCurrentUser,
     openLogIn,
-    setOpenLogInFn
+    setOpenLogInFn,
+    setAuthToken,
+    loadAuthToken,
+    getAlert,
+    setAlert
 }
