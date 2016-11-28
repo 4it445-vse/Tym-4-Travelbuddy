@@ -28,14 +28,14 @@ export default class Messages extends Component {
 	}
 	
 	findMessages(value){
-		if(selectedConversationUser && this.props.selectedConversationUser.lastMessageTime){
+		if(this.props.selectedConversationUser && this.props.selectedConversationUser.lastMessageTime){
 			axios.get('messages', {
 			params: {
 				filter: {
 					where: {
 						or: [
-							{"buddy_id_to": buddy.id},
-							{"buddy_id_from": buddy.id}
+							{"buddy_id_to": this.props.selectedConversationUser.id},
+							{"buddy_id_from": this.props.selectedConversationUser.id}
 						]
 					}
 				}
@@ -45,7 +45,7 @@ export default class Messages extends Component {
 				if(buddyMessages && buddyMessages[0]){
 					console.log("Buddy with id: "+buddyMessages[0].buddy_id_to+" has "+buddyMessages.size+" messages in Messages.");
 					buddyMessages.map(message => {
-						if(message.buddy_id_to === currentUserId){
+						if(message.buddy_id_to === currentUser.getCurrentUser().id){
 							this.state.messages.push({
 								"text": message.text,
 								"time": message.date_time,
@@ -103,7 +103,7 @@ export default class Messages extends Component {
 					}
 					</ul>
 				</div>
-				<MessagSend sendMessage={this.sendMessage}/>
+				<MessageSend sendMessage={this.sendMessage}/>
 			</div>
         );
     }
