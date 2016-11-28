@@ -3,7 +3,7 @@ import MessageUser from "./MessageUser";
 
 export default class MessageUsers extends Component {
     render() {
-		{ users, withMessages, setSelectedConversationUser } = this.props;
+		const { users, withMessages, setSelectedConversationUser } = this.props;
         return (
 			<div className="member_list">
 				<ul className="list-unstyled">
