@@ -6,7 +6,7 @@ import currentUser from "../actions/CurrentUser";
 import axios from "../api"
 
 
-export default class Message extends Component {
+export default class MessagePage extends Component {
 	
 	constructor(props){
 		super(props);
