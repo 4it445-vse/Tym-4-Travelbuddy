@@ -165,9 +165,7 @@ export default class MessagePage extends Component {
 									</div>
                                 </div>
                                 <div className="col-sm-9 message_section">
-								{/*
                                     <Messages selectedConversationUser={this.state.selectedConversationUser} updateSelectedUserInUserViewFn={this.state.updateSelectedUserInUserViewFn}/>
-                                */}
 								</div>
                             </div>
                         </div>
