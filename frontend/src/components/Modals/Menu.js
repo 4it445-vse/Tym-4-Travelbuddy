@@ -73,7 +73,7 @@ export default class Menu extends Component {
                 <Collapse className="navbar-toggleable-md" isOpen={!this.state.collapsed}>
                     <Nav navbar className="float-lg-right text-xs-center">
 
-                        {userLogged ? <NavItem>
+                        {userLogged ? <NavItem className="margin-right-50">
                             <Link href="/messages" className="nav-link" role="tab" data-toggle="tab">Pošta 
 							{this.state.incomingUnreadMessagesNum > 0 ?
 								<span className="label label-success"> {this.state.incomingUnreadMessagesNum}</span>
