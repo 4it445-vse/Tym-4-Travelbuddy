@@ -40,6 +40,7 @@ export default class Message extends Component {
 		}).then(response => {
 			console.log("All verified buddies:", response.data);
 			response.data.map(buddy =>
+			{
 				console.log("About to count messages for buddy with id: ", buddy.id);
 				this.state.currentBuddyInternal = buddy;
 				axios.get('messages', {
@@ -104,6 +105,7 @@ export default class Message extends Component {
 					}
 					
 				});
+			}
 			);
 			this.state.usersWithMessages.sort(function(a,b){
 				return new Date(b.lastMessageTime) - new Date(a.lastMessageTime);
