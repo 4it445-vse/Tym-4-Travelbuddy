@@ -72,6 +72,7 @@ export default class MessagePage extends Component {
                 let lastMessageTime = undefined;
                 buddyMessages.map(message => {
                     if (message.buddy_id_to === currentUserId) {
+						console.log("### second 0/2 - map: ", messages);
                         let cbm = messages.get(message.buddy_id_from);
 						let obj = {unreadIncomingMessagesNum: 0, id: message.buddy_id_from};
 						if (cbm && cbm.unreadIncomingMessagesNum){
