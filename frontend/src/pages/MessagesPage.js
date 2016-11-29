@@ -105,7 +105,7 @@ export default class MessagePage extends Component {
 						if (cbm && cbm.unreadIncomingMessagesNum){
 							obj.unreadIncomingMessagesNum = cbm.unreadIncomingMessagesNum;
 							console.log("Again: ",cbm.lastMessageTime);
-							console.log(new Date(cbm.lastMessageTime, new Date(message.date_time));
+							console.log(new Date(cbm.lastMessageTime), new Date(message.date_time));
 							console.log((new Date(cbm.lastMessageTime) - new Date(message.date_time)) < 0);
 							if((new Date(cbm.lastMessageTime) - new Date(message.date_time)) < 0){
 								obj.lastMessageTime = message.date_time;
