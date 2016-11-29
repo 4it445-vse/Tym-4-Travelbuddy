@@ -137,6 +137,16 @@ export default class MessagePage extends Component {
 				this.state.usersWithMessages.map(value =>{
 					console.log("value in map: ", value);
 				});
+				this.state.usersWithMessages.sort(function(a,b){
+					return new Date(b.lastMessageTime) - new Date(a.lastMessageTime);
+				});
+                console.log("sorted array: ", this.state.usersWithMessages);
+				this.state.usersWithMessages.map(value =>{
+					console.log("value in map: ", value);
+				});
+				for(let val of this.state.usersWithMessages){
+					console.log("value in map: ", value);
+				}
             }
         });
 
