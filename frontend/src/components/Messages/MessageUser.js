@@ -32,13 +32,12 @@ export default class MessageUser extends Component {
 				<div className="chat-body clearfix">
 					<div className="header_sec">
 						<strong className="primary-font">{user.fullname}</strong>
-						{withMessages ?
 						<strong className="float-right">
-							{user.lastMessageTime}</strong> : ""
-						}
+							{user.lastMessageTime}
+						</strong>
 					</div>
 					<div className="contact_sec">
-					{withMessages && user.unreadIncomingMessagesNum && !this.state.isChanged >0 ?
+					{user.unreadIncomingMessagesNum && !this.state.isChanged >0 ?
 						<span className="badge float-right">{user.unreadIncomingMessagesNum}</span> : ""
 					}
 					</div>
