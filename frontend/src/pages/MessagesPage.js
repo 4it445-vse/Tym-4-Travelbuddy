@@ -96,6 +96,7 @@ export default class MessagePage extends Component {
                         }
 						console.log("### first 4/4- "+obj.lastMessageTime);
 						messages.set(message.buddy_id_from, obj);
+						console.log("### second 5/4 - map: ", messages);
                     } else {
 						let cbm = messages.get(message.buddy_id_to);
 						let obj = {unreadIncomingMessagesNum: 0, lastMessageTime: message.undefined, id: message.buddy_id_to};
