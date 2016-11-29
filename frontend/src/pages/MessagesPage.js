@@ -76,7 +76,7 @@ export default class MessagePage extends Component {
 						let obj = {unreadIncomingMessagesNum: 0, lastMessageTime: message.undefined, id: message.buddy_id_from};
 						if (cbm && cbm.unreadIncomingMessagesNum){
 							obj.unreadIncomingMessagesNum = cbm.unreadIncomingMessagesNum;
-							if(cbm.lastMessageTime < message.date_time){
+							if((new Date(cbm.lastMessageTime) - new Date(message.date_time)) < 0){
 								obj.lastMessageTime = message.date_time;
 							}
 						}else{
@@ -94,7 +94,7 @@ export default class MessagePage extends Component {
 						let obj = {unreadIncomingMessagesNum: 0, lastMessageTime: message.undefined, id: message.buddy_id_to};
 						if (cbm && cbm.unreadIncomingMessagesNum){
 							obj.unreadIncomingMessagesNum = cbm.unreadIncomingMessagesNum;
-							if(cbm.lastMessageTime < message.date_time){
+							if((new Date(cbm.lastMessageTime) - new Date(message.date_time)) < 0){
 								obj.lastMessageTime = message.date_time;
 							}
 						}else{
