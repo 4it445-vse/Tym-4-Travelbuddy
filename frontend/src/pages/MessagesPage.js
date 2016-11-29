@@ -73,9 +73,10 @@ export default class MessagePage extends Component {
                 buddyMessages.map(message => {
                     if (message.buddy_id_to === currentUserId) {
                         let cbm = messages.get(message.buddy_id_from);
-						let obj = {unreadIncomingMessagesNum: 0, lastMessageTime: message.undefined, id: message.buddy_id_from};
+						let obj = {unreadIncomingMessagesNum: 0, lastMessageTime: undefined, id: message.buddy_id_from};
 						if (cbm && cbm.unreadIncomingMessagesNum){
 							obj.unreadIncomingMessagesNum = cbm.unreadIncomingMessagesNum;
+							console.log("(new Date(cbm.lastMessageTime) - new Date(message.date_time)) < 0: ", (new Date(cbm.lastMessageTime) - new Date(message.date_time)) < 0);
 							if((new Date(cbm.lastMessageTime) - new Date(message.date_time)) < 0){
 								obj.lastMessageTime = message.date_time;
 							}
@@ -87,7 +88,7 @@ export default class MessagePage extends Component {
                             unreadIncomingMessagesTotalNum++;
                             obj.unreadIncomingMessagesNum = obj.unreadIncomingMessagesNum + 1;
                         }
-						
+						console.log("Message: "+message+", obj: "+ obj);
 						messages.set(message.buddy_id_from, obj);
                     } else {
 						let cbm = messages.get(message.buddy_id_to);
@@ -115,15 +116,13 @@ export default class MessagePage extends Component {
 							}
 						}
 					}).then(response => {
-						console.log("Found user with id: ", response.data[0].id+" which equals to "+key);
 						let obj = messages.get(key);
 						obj.fullname = response.data[0].name + " " + response.data[0].surname;
-						console.log("new name: ", obj.fullname);
-						messages.set(key, obj);
+						this.state.usersWithMessages.push(obj);
 					});
 				}
-                console.log("enriched map: ", messages);
-				messages.map(value =>{
+                console.log("enriched array: ", this.state.usersWithMessages);
+				this.state.usersWithMessages.map(value =>{
 					console.log("value in map: ", value);
 				});
             }
