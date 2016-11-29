@@ -3,12 +3,13 @@ import MessageUser from "./MessageUser";
 
 export default class MessageUsers extends Component {
     render() {
-		const { users, withMessages, setSelectedConversationUser } = this.props;
+		const { users, setSelectedConversationUser } = this.props;
+		console.log("MessageUsers users: ", users);
         return (
 			<ul className="list-unstyled">
 			{
 				users.map(user => 
-					<MessageUser user={user} withMessages={withMessages} setSelectedConversationUser={setSelectedConversationUser}/>
+					<MessageUser user={user} setSelectedConversationUser={setSelectedConversationUser}/>
 				)
 			}
 			</ul>

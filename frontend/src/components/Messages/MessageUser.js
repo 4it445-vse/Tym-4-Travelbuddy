@@ -22,7 +22,8 @@ export default class MessageUser extends Component {
 	}
 	
     render() {
-		const { user, withMessages } = this.props;
+		const { user } = this.props;
+		console.log("MessageUser user: ", user);
         return (
 			<li className="left clearfix" onClick={this.setSelectedConversationUser}>
 				  <span className="chat-img float-left">
@@ -30,7 +31,7 @@ export default class MessageUser extends Component {
 				  </span>
 				<div className="chat-body clearfix">
 					<div className="header_sec">
-						<strong className="primary-font">{user.name+" "+user.surname}</strong>
+						<strong className="primary-font">{user.fullname}</strong>
 						{withMessages ?
 						<strong className="float-right">
 							{user.lastMessageTime}</strong> : ""
