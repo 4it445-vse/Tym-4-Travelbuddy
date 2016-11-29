@@ -149,8 +149,9 @@ export default class MessagePage extends Component {
 				for(let val of this.state.usersWithMessages){
 					console.log("value in map: ", val);
 				}
+				console.log("array before print: ", this.state.usersWithMessages);
 				console.log("by numbers: "+this.state.usersWithMessages.get(0).lastMessageTime+", "+
-				this.state.usersWithMessages.get(1).lastMessageTime+", "+
+				this.state.usersWithMessages[1].lastMessageTime+", "+
 				this.state.usersWithMessages.get(2).lastMessageTime+", "+
 				this.state.usersWithMessages.get(3).lastMessageTime+", ");
 				this.setState(this.state);
