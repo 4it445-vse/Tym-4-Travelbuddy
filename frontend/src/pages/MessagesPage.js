@@ -145,7 +145,7 @@ export default class MessagePage extends Component {
 					console.log("value in map: ", value);
 				});
 				for(let val of this.state.usersWithMessages){
-					console.log("value in map: ", value);
+					console.log("value in map: ", val);
 				}
             }
         });
