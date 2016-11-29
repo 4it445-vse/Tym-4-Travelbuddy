@@ -85,16 +85,16 @@ export default class MessagePage extends Component {
 								obj.lastMessageTime = message.date_time;
 							}
 						}else{
-							console.log("### first - "+message.buddy_id_from, message.date_time);
+							console.log("### first 1/4- "+message.buddy_id_from, message.date_time);
 							obj.lastMessageTime = message.date_time;
-							console.log("### first - "+message.buddy_id_from, obj.lastMessageTime);
+							console.log("### first 2/4- "+message.buddy_id_from, obj.lastMessageTime);
 						}
-						console.log(obj.lastMessageTime);
+						console.log("### first 3/4- "+obj.lastMessageTime);
                         if (message.displayed === false) {
                             unreadIncomingMessagesTotalNum++;
                             obj.unreadIncomingMessagesNum = obj.unreadIncomingMessagesNum + 1;
                         }
-						console.log(obj.lastMessageTime);
+						console.log("### first 4/4- "+obj.lastMessageTime);
 						messages.set(message.buddy_id_from, obj);
                     } else {
 						let cbm = messages.get(message.buddy_id_to);
