@@ -138,6 +138,7 @@ export default class MessagePage extends Component {
 					console.log("value in map: ", value);
 				});
 				this.state.usersWithMessages.sort(function(a,b){
+					console.log("In comparison: "+b.id+" "+new Date(b.lastMessageTime).getTime()+", "+a.id+" "+new Date(a.lastMessageTime).getTime())
 					return new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime();
 				});
                 console.log("sorted array: ", this.state.usersWithMessages);
