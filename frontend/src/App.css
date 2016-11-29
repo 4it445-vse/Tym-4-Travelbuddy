@@ -151,3 +151,12 @@ body
 .no-validation-error-rest {
     margin-top: 40px;
 }
+
+.ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.request {
+  box-shadow: 3px 3px 15px grey;
+}

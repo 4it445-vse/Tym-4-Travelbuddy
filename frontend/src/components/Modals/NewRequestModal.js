@@ -1,12 +1,17 @@
 import React, {Component} from "react";
 import currentUser from "../../actions/CurrentUser";
 import AbstractModal from "./AbstractModal";
+import moment from 'moment';
 import axios from "../../api";
 
 export default class NewRequestModal extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      errors: {},
+    };
+
     this.handleSubmitEdit = this.handleSubmitRequest.bind(this);
   }
 
@@ -29,13 +34,20 @@ export default class NewRequestModal extends Component {
       }
       axios.put('Requests', request).then(response => {
           this.props.hideFn();
+          this.setState({ errors: {} });
+      }).catch(error => {
+        const { response } = error;
+        this.setState({ errors: response.data.error.details.messages });
       });
     }
   }
 
   render() {
     const {showProp, hideFn} = this.props;
+    const { errors } = this.state;
+    console.log(errors);
     const title = "Chci jet na novou cestu!";
+
     return (
       <AbstractModal title={title} showProp={showProp} hideFn={hideFn}
                      submitFn={this.handleSubmitEdit} submitText={"Uložit jízdu"}>
@@ -46,24 +58,28 @@ export default class NewRequestModal extends Component {
           <hr/>
           <div className="form-group row text-xs-center">
             <label for="city" className="col-xs-3 col-sm-2 col-form-label text-xs-right">Město: </label>
-            <div className="col-xs-9 col-sm-10">
-              <input className="form-control" type="text" id="city" placeholder="Město, do kterého budete cestovat"/>
+            <div className="col-xs-9 col-sm-10 text-xs-left">
+              <input className={ "form-control" + ( errors.city ? ' alert-danger' : '' ) } type="text" id="city" placeholder="Město, do kterého budete cestovat"/>
+              { errors.city ? <span className="validation-error">{errors.city[1]}</span> : ""}
             </div>
           </div>
           <div className="form-group row text-xs-center">
             <label for="from" className="col-xs-2 col-form-label text-xs-right">Datum od:</label>
-            <div className="col-xs-4">
-              <input className="form-control" type="date" id="from" placeholder="YYYY-MM-DD"/>
+            <div className="col-xs-4 text-xs-left">
+              <input className={ "form-control" + ( errors.from ? ' alert-danger' : '' ) } defaultValue={moment(new Date()).add(1, 'day').format('YYYY-MM-DD')} type="date" id="from" placeholder="YYYY-MM-DD"/>
+              { errors.from ? <span className="validation-error">{errors.from[1]}</span> : ""}
             </div>
             <label for="to" className="col-xs-2 col-form-label text-xs-right">Datum do:</label>
-            <div className="col-xs-4">
-              <input className="form-control" type="date" id="to" placeholder="YYYY-MM-DD"/>
+            <div className="col-xs-4 text-xs-left">
+              <input className={ "form-control" + ( errors.to ? ' alert-danger' : '' ) } defaultValue={moment(new Date()).add(5, 'day').format('YYYY-MM-DD')} type="date" id="to" placeholder="YYYY-MM-DD"/>
+              { errors.to ? <span className="validation-error">{errors.to[1]}</span> : ""}
             </div>
           </div>
           <div className="form-group row text-xs-center">
             <label for="text" className="col-xs-3 col-sm-2 col-form-label text-xs-right">Popis: </label>
-            <div className="col-xs-9 col-sm-10">
-              <textarea className="form-control" type="text" id="text" rows="3" placeholder="Vysvětlete potenciálním hostitelům, proč jste právě vy ten pravý/á!"></textarea>
+            <div className="col-xs-9 col-sm-10 text-xs-left">
+              <textarea className={ "form-control" + ( errors.text ? ' alert-danger' : '' ) } type="text" id="text" rows="3" placeholder="Vysvětlete potenciálním hostitelům, proč jste právě vy ten pravý/á!"></textarea>
+              { errors.text ? <span className="validation-error">{errors.text[1]}</span> : ""}
             </div>
           </div>
         </form>

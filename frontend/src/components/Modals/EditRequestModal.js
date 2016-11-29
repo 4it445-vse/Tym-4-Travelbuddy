@@ -10,6 +10,7 @@ export default class RequestModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
+        errors: {},
         requests: [],
         request: {
           city: null,
@@ -38,10 +39,9 @@ export default class RequestModal extends Component {
             var remappedObj = { value: object.id, label: object.city};
             return remappedObj;
           })
-          this.setState({ requests: requestsFormated });
-          this.setState({ selectedRequest: requestsFormated[0] });
+          this.setState({ requests: requestsFormated, selectedRequest: requestsFormated[0] });
           this.handleSelectChange(this.state.selectedRequest);
-      });
+      })
   }
 
   handleSubmitEdit() {
@@ -64,9 +64,14 @@ export default class RequestModal extends Component {
       }
       axios.patch('Requests/' + id, updatedRequest).then(response => {
           this.props.hideFn();
-      }).then(() => {
+      })
+      .then(() => {
         this.findBuddysRequests();
-      }) ;
+      })
+      .catch(error => {
+        const { response } = error;
+        this.setState({ errors: response.data.error.details.messages });
+      });
     }
   }
 
@@ -97,6 +102,7 @@ export default class RequestModal extends Component {
 
   render() {
     const {showProp, hideFn, switchFn} = this.props;
+    const { errors } = this.state;
     const title = "Editovat moje jízdy";
 
     const dateFormat = "YYYY-MM-DD";
@@ -125,24 +131,28 @@ export default class RequestModal extends Component {
            <hr/>
            <div className="form-group row text-xs-center">
              <label htmlFor="city" className="col-xs-3 col-sm-2 col-form-label text-xs-right">Město: </label>
-             <div className="col-xs-9 col-sm-10">
-               <input className="form-control" value={this.state.request.city} onChange={this.handleCityChange} type="text" id="city" placeholder="Město, do kterého budete cestovat"/>
+             <div className="col-xs-9 col-sm-10 text-xs-left">
+               <input className={ "form-control" + ( errors.city ? ' alert-danger' : '' ) } value={this.state.request.city} onChange={this.handleCityChange} type="text" id="city" placeholder="Město, do kterého budete cestovat"/>
+               { errors.city ? <span className="validation-error">{errors.city[1]}</span> : ""}
              </div>
            </div>
            <div className="form-group row text-xs-center">
              <label htmlFor="from" className="col-xs-2 col-form-label text-xs-right">Datum od:</label>
              <div className="col-xs-4">
-               <input className="form-control" value={fromFormated} onChange={this.handleFromChange} type="date" id="from" placeholder="YYYY-MM-DD"/>
+               <input className={ "form-control" + ( errors.from ? ' alert-danger' : '' ) } value={fromFormated} onChange={this.handleFromChange} type="date" id="from" placeholder="YYYY-MM-DD"/>
+               { errors.from ? <span className="validation-error">{errors.from[1]}</span> : ""}
              </div>
              <label htmlFor="to" className="col-xs-2 col-form-label text-xs-right">Datum do:</label>
              <div className="col-xs-4">
-               <input className="form-control" value={toFormated} onChange={this.handleToChange} type="date" id="to" placeholder="YYYY-MM-DD"/>
+               <input className={ "form-control" + ( errors.to ? ' alert-danger' : '' ) } value={toFormated} onChange={this.handleToChange} type="date" id="to" placeholder="YYYY-MM-DD"/>
+               { errors.to ? <span className="validation-error">{errors.to[1]}</span> : ""}
              </div>
            </div>
            <div className="form-group row text-xs-center">
              <label htmlFor="text" className="col-xs-3 col-sm-2 col-form-label text-xs-right">Popis: </label>
-             <div className="col-xs-9 col-sm-10">
-               <textarea className="form-control" value={this.state.request.text} onChange={this.handleTextChange} type="text" id="text" rows="3" placeholder="Vysvětlete potenciálním hostitelům, proč jste právě vy ten pravý/á!"></textarea>
+             <div className="col-xs-9 col-sm-10 text-xs-left">
+               <textarea className={ "form-control" + ( errors.text ? ' alert-danger' : '' ) } value={this.state.request.text} onChange={this.handleTextChange} type="text" id="text" rows="3" placeholder="Vysvětlete potenciálním hostitelům, proč jste právě vy ten pravý/á!"></textarea>
+               { errors.text ? <span className="validation-error">{errors.text[1]}</span> : ""}
              </div>
            </div>
          </form>

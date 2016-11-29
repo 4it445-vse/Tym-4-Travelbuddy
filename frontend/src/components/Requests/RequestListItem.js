@@ -35,18 +35,18 @@ export class RequestListItem extends Component {
           <h2>{city}</h2>
           <hr/>
           <div className="row">
-            <div className="col-xs-4 text-xs-right">
+            <div className="col-xs-3 text-xs-right">
               Buddy:
             </div>
-            <div className="col-xs-8 text-xs-left">
+            <div className="col-xs-9 text-xs-left ellipsis">
               {this.state.name}
             </div>
           </div>
           <div className="row">
-            <div className="col-xs-4 text-xs-right">
+            <div className="col-xs-3 text-xs-right">
               Email:
             </div>
-            <div className="col-xs-8 text-xs-left">
+            <div className="col-xs-9 text-xs-left ellipsis">
               {this.state.email}
             </div>
           </div>
