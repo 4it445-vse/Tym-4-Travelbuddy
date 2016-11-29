@@ -65,60 +65,42 @@ export default class MessagePage extends Component {
         }).then(response => {
             let buddyMessages = response.data;
             let messages = new Map();
-            console.log("### Messages: ", buddyMessages);
             if (buddyMessages && buddyMessages[0]) {
                 let unreadIncomingMessagesTotalNum = 0;
                 let currentUserId = currentU.id;
                 let lastMessageTime = undefined;
                 buddyMessages.map(message => {
                     if (message.buddy_id_to === currentUserId) {
-						console.log("### second 0/2 - map: ", messages);
                         let cbm = messages.get(message.buddy_id_from);
 						let obj = {unreadIncomingMessagesNum: 0, lastMessageTime: message.date_time, id: message.buddy_id_from};
 						if (cbm){
-							console.log("### second 1/2 - map: ", messages);
-							console.log("### second - "+message.buddy_id_from+", "+cbm.id+", "+cbm.lastMessageTime);
 							obj.unreadIncomingMessagesNum = cbm.unreadIncomingMessagesNum;
-							console.log(cbm.lastMessageTime, message.date_time);
-							console.log(new Date(cbm.lastMessageTime), new Date(message.date_time));
-							console.log("(new Date(cbm.lastMessageTime) - new Date(message.date_time)) < 0: ", (new Date(cbm.lastMessageTime) - new Date(message.date_time)) < 0);
 							if((new Date(cbm.lastMessageTime) - new Date(message.date_time)) < 0){
 								obj.lastMessageTime = message.date_time;
 							}else{
 								obj.lastMessageTime = cbm.lastMessageTime;
 							}
 						}
-						console.log("### first 3/4- "+obj.lastMessageTime);
                         if (message.displayed === false) {
                             unreadIncomingMessagesTotalNum++;
                             obj.unreadIncomingMessagesNum = obj.unreadIncomingMessagesNum + 1;
                         }
-						console.log("### first 4/4- "+obj.lastMessageTime);
 						messages.set(message.buddy_id_from, obj);
-						console.log("### second 5/4 - map: ", messages);
                     } else {
-						console.log("send");
-						console.log(messages, message.buddy_id_to);
 						let cbm = messages.get(message.buddy_id_to);
 						let obj = {unreadIncomingMessagesNum: 0, lastMessageTime: message.date_time, id: message.buddy_id_to};
 						if (cbm){
 							obj.unreadIncomingMessagesNum = cbm.unreadIncomingMessagesNum;
-							console.log("Again: ",cbm.lastMessageTime);
-							console.log(new Date(cbm.lastMessageTime), new Date(message.date_time));
-							console.log((new Date(cbm.lastMessageTime) - new Date(message.date_time)) < 0);
 							if((new Date(cbm.lastMessageTime) - new Date(message.date_time)) < 0){
 								obj.lastMessageTime = message.date_time;
 							}else{
 								obj.lastMessageTime = cbm.lastMessageTime;
 							}
 						}
-						console.log("round");
 						messages.set(message.buddy_id_to, obj);
                     }
                 });
-                console.log("map: ", messages);
                 for (let [key, value] of messages) {
-					console.log("In loop: "+key, value);
 					axios.get('buddies', {
 						params: {
 							filter: {
@@ -131,36 +113,27 @@ export default class MessagePage extends Component {
 						let obj = messages.get(key);
 						obj.fullname = response.data[0].name + " " + response.data[0].surname;
 						this.state.usersWithMessages.push(obj);
+						
+						this.state.usersWithMessages.sort(function(a,b){
+							return new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime();
+							
+							this.state.usersWithMessages.map(value =>{
+								console.log("value in map: ", value);
+							});
+							this.state.usersWithMessages.sort(function(a,b){
+								console.log("In comparison: "+b.id+" "+new Date(b.lastMessageTime).getTime()+", "+a.id+" "+new Date(a.lastMessageTime).getTime())
+								return new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime();
+							});
+							this.setState(this.state);
+						});
 					});
 				}
-                console.log("enriched array: ", this.state.usersWithMessages);
-				this.state.usersWithMessages.map(value =>{
-					console.log("value in map: ", value);
-				});
-				console.log("Before comparison.");
-				this.state.usersWithMessages.sort(function(a,b){
-					console.log("In comparison: "+b.id+" "+new Date(b.lastMessageTime).getTime()+", "+a.id+" "+new Date(a.lastMessageTime).getTime())
-					return new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime();
-				});
-                console.log("sorted array: ", this.state.usersWithMessages);
-				this.state.usersWithMessages.map(value =>{
-					console.log("value in map: ", value);
-				});
-				for(let val of this.state.usersWithMessages){
-					console.log("value in map: ", val);
-				}
-				console.log(this.state.usersWithMessages[0]);
-				console.log("array before print: ", this.state.usersWithMessages);
-				console.log("by numbers: "+this.state.usersWithMessages.get(0).lastMessageTime+", "+
-				this.state.usersWithMessages[1].lastMessageTime+", "+
-				this.state.usersWithMessages.get(2).lastMessageTime+", "+
-				this.state.usersWithMessages.get(3).lastMessageTime+", ");
-				this.setState(this.state);
             }
         });
     }
 
     render() {
+		console.log(this.state.usersWithMessagesChosen.length, this.state.usersWithMessagesChosen);
         return (
             <div className="row">
                 <div className="v-o-5">
