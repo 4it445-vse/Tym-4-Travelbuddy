@@ -119,7 +119,7 @@ export default class MessagePage extends Component {
 						let obj = messages.get(key);
 						obj.fullname = response.data[0].name + " " + response.data[0].surname;
 						console.log("new name: ", obj.fullname);
-						messages.set(message.buddy_id_to, obj);
+						messages.set(key, obj);
 					});
 				}
                 console.log("enriched map: ", messages);
