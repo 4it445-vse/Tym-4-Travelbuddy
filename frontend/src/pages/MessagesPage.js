@@ -84,11 +84,9 @@ export default class MessagePage extends Component {
 							console.log("(new Date(cbm.lastMessageTime) - new Date(message.date_time)) < 0: ", (new Date(cbm.lastMessageTime) - new Date(message.date_time)) < 0);
 							if((new Date(cbm.lastMessageTime) - new Date(message.date_time)) < 0){
 								obj.lastMessageTime = message.date_time;
+							}else{
+								obj.lastMessageTime = cbm.lastMessageTime;
 							}
-						}else{
-							console.log("### first 1/4- "+message.buddy_id_from, message.date_time);
-							obj.lastMessageTime = message.date_time;
-							console.log("### first 2/4- "+message.buddy_id_from, obj.lastMessageTime);
 						}
 						console.log("### first 3/4- "+obj.lastMessageTime);
                         if (message.displayed === false) {
@@ -110,11 +108,11 @@ export default class MessagePage extends Component {
 							console.log((new Date(cbm.lastMessageTime) - new Date(message.date_time)) < 0);
 							if((new Date(cbm.lastMessageTime) - new Date(message.date_time)) < 0){
 								obj.lastMessageTime = message.date_time;
+							}else{
+								obj.lastMessageTime = cbm.lastMessageTime;
 							}
-						}else{
-							console.log("First time: ",message.date_time);
-							obj.lastMessageTime = message.date_time;
 						}
+						console.log("round");
 						messages.set(message.buddy_id_to, obj);
                     }
                 });
