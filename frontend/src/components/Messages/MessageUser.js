@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import moment from 'moment';
 
 export default class MessageUser extends Component {
 	
@@ -33,7 +34,7 @@ export default class MessageUser extends Component {
 					<div className="header_sec">
 						<strong className="primary-font">{user.fullname}</strong>
 						<strong className="float-right">
-							{user.lastMessageTime}
+							{moment(user.lastMessageTime).format('hh.mm DD.MM.YYYY')}
 						</strong>
 					</div>
 					<div className="contact_sec">
