@@ -34,7 +34,7 @@ export default class MessageUser extends Component {
 					<div className="header_sec">
 						<strong className="primary-font">{user.fullname}</strong>
 						<strong className="float-right">
-							{moment(user.lastMessageTime).format('hh.mm DD.MM.YYYY')}
+							{moment(user.lastMessageTime).format('lll')}
 						</strong>
 					</div>
 					<div className="contact_sec">
