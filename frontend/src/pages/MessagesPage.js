@@ -73,35 +73,59 @@ export default class MessagePage extends Component {
                 buddyMessages.map(message => {
                     if (message.buddy_id_to === currentUserId) {
                         let cbm = messages.get(message.buddy_id_from);
-                        let obj = {unreadIncomingMessagesNum:0, lastMessageTime:undefined};
-                        if (cbm && cbm.unreadIncomingMessagesNum && message.displayed === false) {
+						let obj = {unreadIncomingMessagesNum: 0, lastMessageTime: message.undefined, id: message.buddy_id_from};
+						if (cbm && cbm.unreadIncomingMessagesNum){
+							obj.unreadIncomingMessagesNum = cbm.unreadIncomingMessagesNum;
+							if(cbm.lastMessageTime < message.date_time){
+								obj.lastMessageTime = message.date_time;
+							}
+						}else{
+							obj.lastMessageTime = message.date_time;
+						}
+						
+                        if (message.displayed === false) {
                             unreadIncomingMessagesTotalNum++;
-                            messages.set(message.buddy_id_from, {unreadIncomingMessagesNum: cbm.unreadIncomingMessagesNum + 1});
-                        } else if (cbm && cbm.unreadIncomingMessagesNum) {
-                            messages.set(message.buddy_id_from, {unreadIncomingMessagesNum: cbm.unreadIncomingMessagesNum});
-                        } else if (message.displayed === false) {
-                            unreadIncomingMessagesTotalNum++;
-                            messages.set(message.buddy_id_from, {unreadIncomingMessagesNum: 1});
-                        } else {
-                            messages.set(message.buddy_id_from, {unreadIncomingMessagesNum: 0});
+                            obj.unreadIncomingMessagesNum = obj.unreadIncomingMessagesNum + 1;
                         }
-                        if (lastMessageTime === undefined || lastMessageTime && lastMessageTime < message.date_time) {
-                            lastMessageTime = message.date_time;
-                        }
+						
+						messages.set(message.buddy_id_from, obj);
                     } else {
-                        if (lastMessageTime === undefined || lastMessageTime && lastMessageTime < message.date_time) {
-                            lastMessageTime = message.date_time;
-                        }
-                        let cbm = messages.get(message.buddy_id_to);
-                        if (cbm && cbm.unreadIncomingMessagesNum) {
-                            messages.set(message.buddy_id_from, {unreadIncomingMessagesNum: cbm.unreadIncomingMessagesNum});
-                        } else {
-                            messages.set(message.buddy_id_from, {unreadIncomingMessagesNum: 0});
-                        }
+						let cbm = messages.get(message.buddy_id_to);
+						let obj = {unreadIncomingMessagesNum: 0, lastMessageTime: message.undefined, id: message.buddy_id_to};
+						if (cbm && cbm.unreadIncomingMessagesNum){
+							obj.unreadIncomingMessagesNum = cbm.unreadIncomingMessagesNum;
+							if(cbm.lastMessageTime < message.date_time){
+								obj.lastMessageTime = message.date_time;
+							}
+						}else{
+							obj.lastMessageTime = message.date_time;
+						}
+						messages.set(message.buddy_id_to, obj);
                     }
                 });
                 console.log("map: ", messages);
-                console.warn("if not undefined than should remove currentBuddyInternal and use this one, " + currentUser);
+                for (let [key, value] of messages) {
+					console.log("In loop: "+key, value);
+					axios.get('buddies', {
+						params: {
+							filter: {
+								where: {
+									id: key
+								}
+							}
+						}
+					}).then(response => {
+						console.log("Found user with id: ", response.data[0].id+" which equals to "+key);
+						let obj = messages.get(key);
+						obj.fullname = response.data[0].name + " " + response.data[0].surname;
+						console.log("new name: ", obj.fullname);
+						messages.set(message.buddy_id_to, obj);
+					});
+				}
+                console.log("enriched map: ", messages);
+				messages.map(value =>{
+					console.log("value in map: ", value);
+				});
             }
         });
 
