@@ -116,16 +116,8 @@ export default class MessagePage extends Component {
 						
 						this.state.usersWithMessages.sort(function(a,b){
 							return new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime();
-							
-							this.state.usersWithMessages.map(value =>{
-								console.log("value in map: ", value);
-							});
-							this.state.usersWithMessages.sort(function(a,b){
-								console.log("In comparison: "+b.id+" "+new Date(b.lastMessageTime).getTime()+", "+a.id+" "+new Date(a.lastMessageTime).getTime())
-								return new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime();
-							});
-							this.setState(this.state);
 						});
+						this.setState(this.state);
 					});
 				}
             }
@@ -134,6 +126,7 @@ export default class MessagePage extends Component {
 
     render() {
 		console.log(this.state.usersWithMessagesChosen.length, this.state.usersWithMessagesChosen);
+		console.log(this.state.usersWithMessages.length, this.state.usersWithMessages);
         return (
             <div className="row">
                 <div className="v-o-5">
