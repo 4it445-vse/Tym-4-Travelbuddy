@@ -74,7 +74,7 @@ export default class MessagePage extends Component {
                     if (message.buddy_id_to === currentUserId) {
 						console.log("### second 0/2 - map: ", messages);
                         let cbm = messages.get(message.buddy_id_from);
-						let obj = {unreadIncomingMessagesNum: 0, id: message.buddy_id_from};
+						let obj = {unreadIncomingMessagesNum: 0, lastMessageTime: message.date_time, id: message.buddy_id_from};
 						if (cbm && cbm.unreadIncomingMessagesNum){
 							console.log("### second 1/2 - map: ", messages);
 							console.log("### second - "+message.buddy_id_from+", "+cbm.id+", "+cbm.lastMessageTime);
@@ -101,7 +101,7 @@ export default class MessagePage extends Component {
                     } else {
 						console.log("send");
 						let cbm = messages.get(message.buddy_id_to);
-						let obj = {unreadIncomingMessagesNum: 0, lastMessageTime: message.undefined, id: message.buddy_id_to};
+						let obj = {unreadIncomingMessagesNum: 0, lastMessageTime: message.date_time, id: message.buddy_id_to};
 						if (cbm && cbm.unreadIncomingMessagesNum){
 							obj.unreadIncomingMessagesNum = cbm.unreadIncomingMessagesNum;
 							console.log("Again: ",cbm.lastMessageTime);
