@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import MessageUsers from "../components/Messages/MessageUsers";
 import MessageSearch from "../components/Messages/MessageSearch";
+import Messages from "../components/Messages/Messages";
 import currentUser from "../actions/CurrentUser";
 import axios from "../api";
 
@@ -146,11 +147,9 @@ export default class MessagePage extends Component {
                                         </div>
                                     </div>
                                 </div>
-                                {/*
                                  <div className="col-sm-9 message_section">
-                                 <Messages selectedConversationUser={this.state.selectedConversationUser} updateSelectedUserInUserViewFn={this.state.updateSelectedUserInUserViewFn}/>
+                                    <Messages selectedConversationUser={this.state.selectedConversationUser} updateSelectedUserInUserViewFn={this.state.updateSelectedUserInUserViewFn}/>
                                  </div>
-                                 */}
                             </div>
                         </div>
                     </div>

@@ -27,7 +27,7 @@ export default class Messages extends Component {
 		});
 	}
 	
-	findMessages(value){
+	findMessages(){
 		if(this.props.selectedConversationUser && this.props.selectedConversationUser.lastMessageTime){
 			axios.get('messages', {
 			params: {
@@ -85,12 +85,11 @@ export default class Messages extends Component {
 	
     render() {
 		const { selectedConversationUser } = this.props;
-		this.findMessages();
         return (
 			<div className="row">
 				<div className="new_message_head">
 					<div className="push-right">
-					{!!selectedConversationUser ? "Konverzace s uživatelem "+selectedConversationUser.name+" "+selectedConversationUser.surname:
+					{!!selectedConversationUser ? "Konverzace s uživatelem "+selectedConversationUser.fullname :
 					"Prosím vyberte si konverzaci"}
 					</div>
 				</div>
@@ -98,12 +97,12 @@ export default class Messages extends Component {
 					<ul className="list-unstyled">
 					{
 						this.state.messages.map(message =>
-							<Message message={message}/>
+							<Message key={message.id} message={message}/>
 						)
 					}
 					</ul>
 				</div>
-				<MessageSend sendMessage={this.sendMessage}/>
+				<MessageSend sendMessage={!!selectedConversationUser ? this.sendMessage : undefined}/>
 			</div>
         );
     }

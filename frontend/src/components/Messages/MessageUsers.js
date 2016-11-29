@@ -9,7 +9,7 @@ export default class MessageUsers extends Component {
 			<ul className="list-unstyled">
 			{
 				users.map(user => 
-					<MessageUser user={user} setSelectedConversationUser={setSelectedConversationUser}/>
+					<MessageUser key={user.fullname} user={user} setSelectedConversationUser={setSelectedConversationUser}/>
 				)
 			}
 			</ul>

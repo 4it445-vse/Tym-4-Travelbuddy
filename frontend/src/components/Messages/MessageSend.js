@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {Component, Button} from "react";
 import Message from "./Message";
 
 export default class MessageSend extends Component {
@@ -17,12 +17,16 @@ export default class MessageSend extends Component {
 	}
 	
     render() {
+    	console.log(this.props.sendMessage, !!this.props.sendMessage);
         return (
 			<div className="message_write">
 				<textarea className="form-control" placeholder="Napiš zprávu"></textarea>
 				<div className="clearfix"></div>
 				<div className="chat_bottom">
-					<a href="#" className="float-right btn btn-primary" onClick={this.submitSendMessage}>Odeslat zprávu</a>
+					{!!this.props.sendMessage ?
+						<a href="#" className="float-right btn btn-primary"  onClick={this.submitSendMessage} >Odeslat zprávu</a>
+						:
+						<a href="#" className="float-right btn btn-primary" >Odeslat zprávu</a> }
 				</div>
 			</div>
         );
