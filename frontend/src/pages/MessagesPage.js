@@ -76,6 +76,8 @@ export default class MessagePage extends Component {
 						let obj = {unreadIncomingMessagesNum: 0, lastMessageTime: undefined, id: message.buddy_id_from};
 						if (cbm && cbm.unreadIncomingMessagesNum){
 							obj.unreadIncomingMessagesNum = cbm.unreadIncomingMessagesNum;
+							console.log(cbm.lastMessageTime, message.date_time);
+							console.log(new Date(cbm.lastMessageTime), new Date(message.date_time));
 							console.log("(new Date(cbm.lastMessageTime) - new Date(message.date_time)) < 0: ", (new Date(cbm.lastMessageTime) - new Date(message.date_time)) < 0);
 							if((new Date(cbm.lastMessageTime) - new Date(message.date_time)) < 0){
 								obj.lastMessageTime = message.date_time;
@@ -88,7 +90,6 @@ export default class MessagePage extends Component {
                             unreadIncomingMessagesTotalNum++;
                             obj.unreadIncomingMessagesNum = obj.unreadIncomingMessagesNum + 1;
                         }
-						console.log("Message: "+message+", obj: "+ obj);
 						messages.set(message.buddy_id_from, obj);
                     } else {
 						let cbm = messages.get(message.buddy_id_to);
