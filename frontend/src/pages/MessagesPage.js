@@ -27,8 +27,6 @@ export default class MessagePage extends Component {
     }
 
     setSelectedConversationUser(value, fn) {
-		console.log("In setSelectedConversationUser with value: ", value);
-		this.restrictUsers(value);
         this.setState({
             selectedConversationUser: value,
             updateSelectedUserInUserViewFn: fn
