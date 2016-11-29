@@ -37,7 +37,7 @@ export default class MessagePage extends Component {
         let usersWithMessagesChosen = [];
         if (value) {
             this.state.usersWithMessages.map(message => {
-                if (message.name.includes(value) || message.surname.includes(value)) {
+                if (message.fullname.includes(value)) {
                     usersWithMessagesChosen.push(message);
                 }
             });
@@ -137,7 +137,7 @@ export default class MessagePage extends Component {
 				this.state.usersWithMessages.map(value =>{
 					console.log("value in map: ", value);
 				});
-				this.state.usersWithMessages.sort(function(a,b){
+				this.state.usersWithMessages = this.state.usersWithMessages.sort(function(a,b){
 					return new Date(b.lastMessageTime) - new Date(a.lastMessageTime);
 				});
                 console.log("sorted array: ", this.state.usersWithMessages);
