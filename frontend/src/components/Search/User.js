@@ -2,13 +2,15 @@ import React, {Component} from "react";
 import currentUser from "../../actions/CurrentUser";
 import FontAwesome from "react-fontawesome";
 import getAvatar from "../../Avatar";
+import axios from "axios";
 
 export default class User extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            buddy: props.buddy
-        };
+            buddy: props.buddy,
+            avatarSrc: "http://images.megaupload.cz/mystery-man.png"
+        }
         this.openProfile = this.openProfile.bind(this);
         this.openContactBuddy = this.openContactBuddy.bind(this);
         this.onClick = this.onClick.bind(this);
@@ -26,6 +28,17 @@ export default class User extends Component {
         }
     }
 
+    componentDidMount(){
+        axios.get('/get-avatar?userId=' + this.props.buddy.id).then(response =>{
+            let avatarSrc = response.data.avatarUrl;
+            console.log("User id: ", avatarSrc);
+            if(avatarSrc && avatarSrc !== "http://images.megaupload.cz/mystery-man.png"){
+                console.log("avata set");
+                this.setState({avatarSrc: avatarSrc});
+            }
+        });
+    }
+
     openProfile() {
         currentUser.openProfile(this.state.buddy, true);
     }
@@ -40,7 +53,7 @@ export default class User extends Component {
             <a href="#" onClick={this.onClick} className="profil_vypis">
                 <div className="card-block" id="buddy-row">
                     <div className="col-md-1 col-xs-3 no-margin no-padding">
-                        <img src={ getAvatar(this.state.buddy.id) }
+                        <img src={ this.state.avatarSrc }
                              alt={this.state.buddy.name + " " + this.state.buddy.surname}
                              className="profil_img rounded"/>
                     </div>

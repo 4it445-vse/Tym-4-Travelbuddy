@@ -33,6 +33,7 @@ app.get('/hello', function (req, res) {
 
 var fs = require('fs');
 app.get('/get-avatar', function (req, res) {
+    console.log("in get-avatar");
   var userId = req.query.userId;
   var avatarUrl;
 
@@ -47,7 +48,7 @@ app.get('/get-avatar', function (req, res) {
       userId: userId,
       avatarUrl: avatarUrl
     };
-
+    console.log(userId, avatarUrl);
     res.header({'Content-Type': 'application/json'});
     res.send(JSON.stringify(data));
   });
