@@ -24,10 +24,11 @@ export default class RequestModal extends Component {
     this.handleSubmitEdit = this.handleSubmitEdit.bind(this);
     this.findBuddysRequests = this.findBuddysRequests.bind(this);
     this.handleSelectChange = this.handleSelectChange.bind(this);
-    this.handleCityChange = this.handleCityChange.bind(this);
-    this.handleFromChange = this.handleFromChange.bind(this);
-    this.handleToChange = this.handleToChange.bind(this);
-    this.handleTextChange = this.handleTextChange.bind(this);
+    this.onChange = this.onChange.bind(this);
+  }
+
+  onChange(e) {
+    this.state.request[e.target.name] = e.target.value;
   }
 
   findBuddysRequests() {
@@ -39,17 +40,23 @@ export default class RequestModal extends Component {
             var remappedObj = { value: object.id, label: object.city};
             return remappedObj;
           })
-          this.setState({ requests: requestsFormated, selectedRequest: requestsFormated[0] });
+          this.setState({ requests: requestsFormated, selectedRequest: requestsFormated[0],
+          request: {
+            city: requestsFormated[0].city,
+            from: requestsFormated[0].from,
+            to: requestsFormated[0].to,
+            text: requestsFormated[0].text
+          }});
           this.handleSelectChange(this.state.selectedRequest);
       })
   }
 
   handleSubmitEdit() {
     var id = this.state.request.id;
-    var city = document.getElementById("city").value;
-    var from = document.getElementById("from").value;
-    var to = document.getElementById("to").value;
-    var text = document.getElementById("text").value;
+    var city = this.state.request.city;
+    var from = this.state.request.from;
+    var to = this.state.request.to;
+    var text = this.state.request.text;
     var buddy_id = currentUser.getCurrentUser().id;
 
     var fieldsAreValid = true;
@@ -81,19 +88,6 @@ export default class RequestModal extends Component {
         this.setState({ request: response.data });
     });
     this.setState({ selectedRequest: requestFormated.value});
-  }
-
-  handleCityChange(event) {
-    this.setState({ request: { ...this.state.request, city: event.target.value }});
-  }
-  handleFromChange(event) {
-    this.setState({ request: { ...this.state.request, from: event.target.value }});
-  }
-  handleToChange(event) {
-    this.setState({ request: { ...this.state.request, to: event.target.value }});
-  }
-  handleTextChange(event) {
-    this.setState({ request: { ...this.state.request, text: event.target.value }});
   }
 
   componentDidMount() {
@@ -132,26 +126,26 @@ export default class RequestModal extends Component {
            <div className="form-group row text-xs-center">
              <label htmlFor="city" className="col-xs-3 col-sm-2 col-form-label text-xs-right">Město: </label>
              <div className="col-xs-9 col-sm-10 text-xs-left">
-               <input className={ "form-control" + ( errors.city ? ' alert-danger' : '' ) } value={this.state.request.city} onChange={this.handleCityChange} type="text" id="city" placeholder="Město, do kterého budete cestovat"/>
+               <input className={ "form-control" + ( errors.city ? ' alert-danger' : '' ) } defaultValue={this.state.request.city} onChange={this.onChange} type="text" name="city" placeholder="Město, do kterého budete cestovat"/>
                { errors.city ? <span className="validation-error">{errors.city[1]}</span> : ""}
              </div>
            </div>
            <div className="form-group row text-xs-center">
              <label htmlFor="from" className="col-xs-2 col-form-label text-xs-right">Datum od:</label>
              <div className="col-xs-4">
-               <input className={ "form-control" + ( errors.from ? ' alert-danger' : '' ) } value={fromFormated} onChange={this.handleFromChange} type="date" id="from" placeholder="YYYY-MM-DD"/>
+               <input className={ "form-control" + ( errors.from ? ' alert-danger' : '' ) } defaultValue={fromFormated} onChange={this.onChange} type="date" name="from" placeholder="YYYY-MM-DD"/>
                { errors.from ? <span className="validation-error">{errors.from[1]}</span> : ""}
              </div>
              <label htmlFor="to" className="col-xs-2 col-form-label text-xs-right">Datum do:</label>
              <div className="col-xs-4">
-               <input className={ "form-control" + ( errors.to ? ' alert-danger' : '' ) } value={toFormated} onChange={this.handleToChange} type="date" id="to" placeholder="YYYY-MM-DD"/>
+               <input className={ "form-control" + ( errors.to ? ' alert-danger' : '' ) } defaultValue={toFormated} onChange={this.onChange} type="date" name="to" placeholder="YYYY-MM-DD"/>
                { errors.to ? <span className="validation-error">{errors.to[1]}</span> : ""}
              </div>
            </div>
            <div className="form-group row text-xs-center">
              <label htmlFor="text" className="col-xs-3 col-sm-2 col-form-label text-xs-right">Popis: </label>
              <div className="col-xs-9 col-sm-10 text-xs-left">
-               <textarea className={ "form-control" + ( errors.text ? ' alert-danger' : '' ) } value={this.state.request.text} onChange={this.handleTextChange} type="text" id="text" rows="3" placeholder="Vysvětlete potenciálním hostitelům, proč jste právě vy ten pravý/á!"></textarea>
+               <textarea className={ "form-control" + ( errors.text ? ' alert-danger' : '' ) } defaultValue={this.state.request.text} onChange={this.onChange} type="text" name="text" rows="3" placeholder="Vysvětlete potenciálním hostitelům, proč jste právě vy ten pravý/á!"></textarea>
                { errors.text ? <span className="validation-error">{errors.text[1]}</span> : ""}
              </div>
            </div>
