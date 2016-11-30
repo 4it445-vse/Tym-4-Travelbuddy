@@ -34,7 +34,7 @@ module.exports = function(Request) {
   }, {
     message: {
       fromIsMandatory: 'Potřebujeme vědět, od kdy plánujete cestu.',
-      fromWrongFromat: 'Datum je bohužel ve špatném formátu.'
+      fromWrongFromat: 'Datum je ve špatném formátu. Správný formát: 2016-01-01'
     },
   });
 
