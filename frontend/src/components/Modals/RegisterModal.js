@@ -4,6 +4,7 @@ import FormGroup from "./FormGroup";
 import FormCheck from "./FormCheck";
 import axios from "../../api";
 import bcrypt from 'bcryptjs';
+import GooglePlacesSuggest from "../Autosuggest/SuggestCity"
 
 export default class RegisterModal extends Component {
 
@@ -43,7 +44,20 @@ export default class RegisterModal extends Component {
         };
 
         this.handleSubmitRegistration = this.handleSubmitRegistration.bind(this);
+        this.handleOnHide = this.handleOnHide.bind(this);
         this.validate = this.validate.bind(this);
+    }
+
+    handleSearchChange = (e) => {
+      var fields = this.state.registrationValidation;
+      fields.city = e.target.value;
+      this.setState({ registrationValidation: fields })
+    }
+
+    handleSelectSuggest = (suggestName, coordinate) => {
+      var fields = this.state.registrationValidation;
+      fields.city = suggestName;
+      this.setState({ registrationValidation: fields })
     }
 
     componentDidMount() {
@@ -71,7 +85,7 @@ export default class RegisterModal extends Component {
         var surname = this.state.registrationValidation.surname;
         var email = this.state.registrationValidation.email;
         var city = this.state.registrationValidation.city;
-      
+
         var salt = bcrypt.genSaltSync(10);
         var pass = bcrypt.hashSync(this.state.registrationValidation.pass, salt);
 
@@ -198,11 +212,26 @@ export default class RegisterModal extends Component {
         this.setState({isFieldValid: isFieldValid});
     }
 
+    handleOnHide(){
+      this.props.hideFn();
+      this.setState({
+          registrationValidation: {
+              name: undefined,
+              surname: undefined,
+              email: undefined,
+              city: undefined,
+              pass: undefined,
+              pass_repeated: undefined,
+              agreed_with_conditions: false
+          }
+      });
+    }
+
     render() {
         const {showProp, hideFn, submitFn, switchFn} = this.props;
         const title = "Registrace";
         return (
-            <Modal show={showProp} onHide={hideFn}>
+            <Modal show={showProp} onHide={this.handleOnHide}>
                 <Modal.Header closeButton>
                     <Modal.Title>{title}</Modal.Title>
                 </Modal.Header>
@@ -290,9 +319,12 @@ export default class RegisterModal extends Component {
                                     ? <span className="validation-error">Zadejte prosím město</span>
                                     : ""
                             }
+                            <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.registrationValidation.city }>
                             <input
                                 onBlur={this.validate}
+                                onChange={this.handleSearchChange}
                                 type="text"
+                                autoComplete="off"
                                 className={
                                     "form-control"
                                     + (
@@ -304,7 +336,9 @@ export default class RegisterModal extends Component {
                                 }
                                 id="city"
                                 placeholder="Město"
+                                value = { this.state.registrationValidation.city }
                             />
+                            </GooglePlacesSuggest>
                         </FormGroup>
                         <FormGroup>
                             {

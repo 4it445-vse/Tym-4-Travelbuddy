@@ -1,0 +1,179 @@
+import './SuggestCity.css'
+import React, { Component, PropTypes } from 'react'
+import classNames from 'classnames'
+
+export default class GooglePlacesSuggest extends Component {
+
+  static propTypes = {
+    onSelectSuggest: PropTypes.func,
+    search: PropTypes.string,
+    suggestRadius: PropTypes.number,
+  }
+
+  static defaultProps = {
+    onSelectSuggest: () => {},
+    search: '',
+    suggestRadius: 20,
+  }
+
+  constructor(props) {
+      super(props);
+      this.state = {
+        coordinate: null,
+        googleMaps: window.google.maps,
+        focusedSuggestIndex: 0,
+        selectedLabel: '',
+        suggests: [],
+      }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.search !== nextProps.search){
+      this.updateSuggests(nextProps.search)
+    }
+  }
+
+  handleSelectSuggest = (suggest) => {
+    const { onSelectSuggest } = this.props
+
+    this.geocodeSuggest(suggest.label, () => {
+      this.setState({ selectedLabel: suggest.label, suggests: [] }, () => {
+        onSelectSuggest(suggest.label, this.state.coordinate)
+      })
+    })
+  }
+
+  updateSuggests(search) {
+    const { suggestRadius } = this.props
+    const { googleMaps } = this.state
+    const autocompleteService = new googleMaps.places.AutocompleteService()
+
+    if (!search) {
+      this.setState({suggests: []})
+      return
+    }
+
+    autocompleteService.getPlacePredictions({
+      input: search,
+      location: new googleMaps.LatLng(0, 0),
+      radius: suggestRadius,
+      types: ['(cities)']
+    }, (googleSuggests) => {
+      if (!googleSuggests) {
+        this.setState({suggests: []})
+        return
+      }
+
+      const suggests = googleSuggests.map((suggest, key) => {
+        const [ label, ...items ] = suggest.terms
+        const address = items.map((item) => item.value).join(', ')
+        const firstMatchedString = suggest.matched_substrings.shift()
+
+        return {
+          label: label.value,
+          labelParts: {
+            before: label.value.substr(0, firstMatchedString.offset),
+            matched: label.value.substr(firstMatchedString.offset, firstMatchedString.length),
+            after: label.value.substr(firstMatchedString.offset + firstMatchedString.length),
+          },
+          address: address,
+        }
+      })
+
+      this.setState({ focusedSuggestIndex: 0, suggests })
+    })
+  }
+
+  geocodeSuggest(suggestLabel, callback) {
+    const { googleMaps } = this.state
+    const geocoder = new googleMaps.Geocoder()
+
+    geocoder.geocode({ address: suggestLabel }, (results, status) => {
+      if (status === googleMaps.GeocoderStatus.OK) {
+        const location = results[0].geometry.location
+        const coordinate = {
+          latitude: location.lat(),
+          longitude: location.lng(),
+          title: suggestLabel,
+        }
+
+        this.setState({ coordinate }, callback)
+      }
+    })
+  }
+
+  handleKeyDown = (e) => {
+    const { focusedSuggestIndex, suggests } = this.state
+
+    switch (e.key) {
+      case 'Enter':
+        this.handleSelectSuggest(suggests[focusedSuggestIndex])
+        break
+
+      case 'ArrowUp':
+        if (suggests.length > 0 && focusedSuggestIndex > 0) {
+          this.focusSuggest(focusedSuggestIndex - 1)
+        }
+        break
+
+      case 'ArrowDown':
+        if (suggests.length > 0 && focusedSuggestIndex < suggests.length - 1) {
+          this.focusSuggest(focusedSuggestIndex + 1)
+        }
+        break
+
+      case 'Escape':
+        this.setState({suggests: []})
+        break;
+
+      case 'Tab':
+        this.handleSelectSuggest(suggests[focusedSuggestIndex])
+        break
+    }
+  }
+
+  focusSuggest(index) {
+    this.setState({ focusedSuggestIndex: index })
+  }
+
+  renderSuggest(suggest, key) {
+    const { focusedSuggestIndex } = this.state
+    const { labelParts } = suggest
+
+    return (
+      <li
+        key={ key }
+        className={ classNames('placesSuggest_suggest', focusedSuggestIndex === key && 'placesSuggest_suggest-active') }
+        onClick={ () => this.handleSelectSuggest(suggest) }>
+        <span className="placesSuggest_suggestLabel">
+          { labelParts.before.length > 0 ? <span>{ labelParts.before }</span> : null }
+          <span className="placesSuggest_suggestLabel-matched">{ labelParts.matched }</span>
+          { labelParts.after.length > 0 ? <span>{ labelParts.after }</span> : null }
+        </span>
+        <span className="placesSuggest_suggestAddress">{ suggest.address }</span>
+      </li>
+    )
+  }
+
+  renderSuggests() {
+    const { suggests } = this.state
+
+    return (
+      <ul className="placesSuggest_suggests">
+        { suggests.map((suggest, key) => this.renderSuggest(suggest, key)) }
+      </ul>
+    )
+  }
+
+  render() {
+    const { search } = this.props
+    const { selectedLabel } = this.state
+
+    return (
+      <div className="placesSuggest" onKeyDown={ this.handleKeyDown }>
+        { this.props.children }
+        { selectedLabel !== search && search ? this.renderSuggests() : null }
+      </div>
+    )
+  }
+}
