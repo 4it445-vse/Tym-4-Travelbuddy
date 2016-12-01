@@ -18,6 +18,10 @@ export default class RequestModal extends Component {
                 to: null,
                 text: null
             },
+            showValidation: {
+                city: false,
+                text: false
+            },
             selectedRequest: null
         };
 
@@ -27,14 +31,24 @@ export default class RequestModal extends Component {
         this.onChange = this.onChange.bind(this);
         this.prepareRemoveRequest = this.prepareRemoveRequest.bind(this);
         this.removeRequest = this.removeRequest.bind(this);
+        this.hideModal = this.hideModal.bind(this);
     }
 
     hideModal(){
-        this.state.request = {
-            city: null,
-            from: null,
-            to: null,
-            text: null
+        this.state = {
+            errors: {},
+            requests: [],
+            request: {
+                city: null,
+                from: null,
+                to: null,
+                text: null
+            },
+            showValidation: {
+                city: false,
+                text: false
+            },
+            selectedRequest: null
         };
         this.props.hideFn();
     }
@@ -52,11 +66,95 @@ export default class RequestModal extends Component {
         axios.delete('Requests/' + id).then(response => {
             console.log("ok");
             currentUser.setAlert({"type": "success", "message": "Poptávka úspěšně odstraněna."});
+            this.props.hideFn();
         });
     }
 
+    validate(name, value, fields) {
+        var showValidation = this.state.showValidation;
+        if (value) {
+            fields[name] = value;
+            showValidation[name] = true;
+            this.setState({
+                fields: fields,
+                showValidation: showValidation
+            });
+        } else {
+            fields[name] = undefined;
+            showValidation[name] = true;
+            this.setState({
+                fields: fields,
+                showValidation: showValidation
+            });
+        }
+    }
+
+
     onChange(e) {
-        this.state.request[e.target.name] = e.target.value;
+        console.log(e.target);
+        let name = e.target.name;
+        let value = e.target.value;
+        let errors = this.state.errors;
+        let fields = this.state.request;
+        switch (name) {
+            case "city":
+                this.validate(name, value, fields);
+                break;
+            case "text":
+                this.validate(name, value, fields);
+                break;
+            case "from":
+                if (value) {
+                    if (moment(value).isValid()) {
+                        errors[name] = undefined;
+                        fields[name] = value;
+                        this.setState({
+                            errors: errors,
+                            fields: fields
+                        });
+                    } else {
+                        errors[name] = "Datum je bohužel ve špatném formátu.";
+                        fields[name] = value;
+                        this.setState({
+                            errors: errors,
+                            fields: fields
+                        });
+                    }
+                } else {
+                    errors[name] = "Potřebujeme vědět, od kdy plánujete cestu.";
+                    fields[name] = value;
+                    this.setState({
+                        errors: errors,
+                        fields: fields
+                    });
+                }
+                break;
+            case "to":
+                if (value) {
+                    if (moment(value).isValid()) {
+                        errors[name] = undefined;
+                        fields[name] = value;
+                        this.setState({
+                            errors: errors,
+                            fields: fields
+                        });
+                    } else {
+                        errors[name] = "Datum je bohužel ve špatném formátu.";
+                        fields[name] = value;
+                        this.setState({
+                            errors: errors,
+                            fields: fields
+                        });
+                    }
+                } else {
+                    errors[name] = "Potřebujeme vědět, do kdy plánujete cestu.";
+                    fields[name] = value;
+                    this.setState({
+                        errors: errors,
+                        fields: fields
+                    });
+                }
+        }
     }
 
     findBuddysRequests() {
@@ -91,6 +189,13 @@ export default class RequestModal extends Component {
         var buddy_id = currentUser.getCurrentUser().id;
 
         var fieldsAreValid = true;
+        this.state.showValidation.city = true;
+        this.state.showValidation.text = true;
+        for( var name of ["city", "from", "to", "text"]){
+            if(!this.state.request[name]){
+                fieldsAreValid = false;
+            }
+        }
 
         if (fieldsAreValid) {
             var updatedRequest = {
@@ -111,10 +216,13 @@ export default class RequestModal extends Component {
                     const {response} = error;
                     this.setState({errors: response.data.error.details.messages});
                 });
+        }else{
+            this.setState(this.state);
         }
     }
 
     handleSelectChange(requestFormated) {
+        console.log("in handleSelectChange");
         axios.get('Requests/' + requestFormated.value)
             .then(response => {
                 this.setState({request: response.data});
@@ -162,36 +270,36 @@ export default class RequestModal extends Component {
                     <div className="form-group row text-xs-center">
                         <label htmlFor="city" className="col-xs-3 col-sm-2 col-form-label text-xs-right">Město: </label>
                         <div className="col-xs-9 col-sm-10 text-xs-left">
-                            <input className={ "form-control" + ( errors.city ? ' alert-danger' : '' ) }
-                                   defaultValue={this.state.request.city} onChange={this.onChange} type="text"
+                            <input className={ "form-control" + ( this.state.showValidation.city && !this.state.request.city ? ' alert-danger' : '' ) }
+                                   value={this.state.request.city} onBlur={this.onChange} onChange={this.onChange} type="text"
                                    name="city" placeholder="Město, do kterého budete cestovat"/>
-                            { errors.city ? <span className="validation-error">{errors.city[1]}</span> : ""}
+                            { this.state.showValidation.city && !this.state.request.city ? <span className="validation-error">Město je povinné pole, to abychom Vás mohli najít.</span> : ""}
                         </div>
                     </div>
                     <div className="form-group row text-xs-center">
                         <label htmlFor="from" className="col-xs-2 col-form-label text-xs-right">Datum od:</label>
                         <div className="col-xs-4">
                             <input className={ "form-control" + ( errors.from ? ' alert-danger' : '' ) }
-                                   defaultValue={fromFormated} onChange={this.onChange} type="date" name="from"
+                                   value={fromFormated} onChange={this.onChange} type="date" name="from"
                                    placeholder="YYYY-MM-DD"/>
-                            { errors.from ? <span className="validation-error">{errors.from[1]}</span> : ""}
+                            { errors.from ? <span className="validation-error">{errors.from}</span> : ""}
                         </div>
                         <label htmlFor="to" className="col-xs-2 col-form-label text-xs-right">Datum do:</label>
                         <div className="col-xs-4">
                             <input className={ "form-control" + ( errors.to ? ' alert-danger' : '' ) }
-                                   defaultValue={toFormated} onChange={this.onChange} type="date" name="to"
+                                   value={toFormated} onChange={this.onChange} type="date" name="to"
                                    placeholder="YYYY-MM-DD"/>
-                            { errors.to ? <span className="validation-error">{errors.to[1]}</span> : ""}
+                            { errors.to ? <span className="validation-error">{errors.to}</span> : ""}
                         </div>
                     </div>
                     <div className="form-group row text-xs-center">
                         <label htmlFor="text" className="col-xs-3 col-sm-2 col-form-label text-xs-right">Popis: </label>
                         <div className="col-xs-9 col-sm-10 text-xs-left">
-                            <textarea className={ "form-control" + ( errors.text ? ' alert-danger' : '' ) }
-                                      defaultValue={this.state.request.text} onChange={this.onChange} type="text"
+                            <textarea className={ "form-control" + ( this.state.showValidation.text && !this.state.request.text ? ' alert-danger' : '' ) }
+                                      value={this.state.request.text} onBlur={this.onChange} onChange={this.onChange} type="text"
                                       name="text" rows="3"
                                       placeholder="Vysvětlete potenciálním hostitelům, proč jste právě vy ten pravý/á!"></textarea>
-                            { errors.text ? <span className="validation-error">{errors.text[1]}</span> : ""}
+                            { this.state.showValidation.text && !this.state.request.text ? <span className="validation-error">Řekněte něco o sobě potencionálním buddíkům!</span> : ""}
                         </div>
                     </div>
                 </form>

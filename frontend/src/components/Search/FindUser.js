@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import {Modal} from "react-bootstrap";
 import User from "./User";
-import {ActivityIndicator} from 'react-native';
 
 export default class FindUser extends Component {
 
@@ -134,7 +133,7 @@ export default class FindUser extends Component {
                 {
                     budies.length === 0 ?
                         <div className="row">
-                            <ActivityIndicator size="large" color="#aa3300"/>
+
                         </div> :
 
 

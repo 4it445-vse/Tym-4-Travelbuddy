@@ -6,7 +6,6 @@ import currentUser from "../actions/CurrentUser";
 import {Modal} from "react-bootstrap";
 import ShowRequestModal from "../components/Modals/ShowRequestModal";
 import ContactBuddyModal from "../components/Modals/ContactBuddyModal";
-import {ActivityIndicator} from 'react-native';
 import {Alert} from 'react-bootstrap';
 
 export class RequestsPage extends Component {
@@ -131,8 +130,7 @@ export class RequestsPage extends Component {
                 {requests === null ?
 
                     <div className="row">
-                        <ActivityIndicator size="large" color="#aa3300"/>
-                    </div> :
+                         </div> :
                     <RequestsList requests={requests} openShowRequestShowModal={this.openShowRequestShowModal}
                                   openContactBuddy={this.openContactBuddy}/>
                 }

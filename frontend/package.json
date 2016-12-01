@@ -22,8 +22,7 @@
     "react-router-scroll": "^0.3.2",
     "react-select": "^1.0.0-rc.2",
     "reactstrap": "^3.8.1",
-    "redux": "^3.6.0",
-    "react-native": "0.38.0"
+    "redux": "^3.6.0"
   },
   "scripts": {
     "start": "react-scripts start",
