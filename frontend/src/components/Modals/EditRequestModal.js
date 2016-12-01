@@ -29,6 +29,16 @@ export default class RequestModal extends Component {
         this.removeRequest = this.removeRequest.bind(this);
     }
 
+    hideModal(){
+        this.state.request = {
+            city: null,
+            from: null,
+            to: null,
+            text: null
+        };
+        this.props.hideFn();
+    }
+
     prepareRemoveRequest() {
         currentUser.setQuestion({
             text: "Chcete opravdu odstranit tuto poptávku?",
@@ -92,7 +102,7 @@ export default class RequestModal extends Component {
             }
             axios.patch('Requests/' + id, updatedRequest).then(response => {
                 currentUser.setAlert({"type": "success", "message": "Poptávka úspěšně upravena."});
-                this.props.hideFn();
+                this.hideModal();
             })
                 .then(() => {
                     this.findBuddysRequests();
@@ -136,7 +146,7 @@ export default class RequestModal extends Component {
         }
 
         return (
-            <AbstractModal title={title} showProp={showProp} hideFn={hideFn}
+            <AbstractModal title={title} showProp={showProp} hideFn={this.hideModal}
                            submitFn={this.handleSubmitEdit} submitText={"Uložit jízdu"}>
                 <form>
                     <div className="form-group row text-xs-center">

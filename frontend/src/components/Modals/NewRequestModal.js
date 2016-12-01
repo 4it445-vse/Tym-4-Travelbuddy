@@ -16,8 +16,17 @@ export default class NewRequestModal extends Component {
             }
         };
 
-        this.handleSubmitEdit = this.handleSubmitRequest.bind(this);
+        this.handleSubmitRequest = this.handleSubmitRequest.bind(this);
         this.onChange = this.onChange.bind(this);
+        this.onChange = this.onChange.bind(this);
+    }
+
+    hideModal(){
+        this.state.fields = {
+            from: moment(new Date()).add(5, 'day').format('YYYY-MM-DD'),
+            to: moment(new Date()).add(5, 'day').format('YYYY-MM-DD')
+        };
+        this.props.hideFn();
     }
 
     onChange(e) {
@@ -45,11 +54,13 @@ export default class NewRequestModal extends Component {
             }
             axios.put('Requests', request).then(response => {
                 currentUser.setAlert({"type": "success", "message": "Poptávka úspěšně uložena."});
-                this.props.hideFn();
+                this.hideModal();
                 this.setState({errors: {}});
             }).catch(error => {
-                const {response} = error;
-                this.setState({errors: response.data.error.details.messages});
+                console.log("Chyba: ", error);
+                console.log("Chyba: ", error.data);
+                console.log("Chyba: ", error.data.error, error.data.error.details);
+                this.setState({errors: error.data.error.details.messages});
             });
         }
     }
@@ -61,8 +72,8 @@ export default class NewRequestModal extends Component {
         const title = "Chci jet na novou cestu!";
 
         return (
-            <AbstractModal title={title} showProp={showProp} hideFn={hideFn}
-                           submitFn={this.handleSubmitEdit} submitText={"Uložit jízdu"}>
+            <AbstractModal title={title} showProp={showProp} hideFn={this.hideModal}
+                           submitFn={this.handleSubmitRequest} submitText={"Uložit jízdu"}>
                 <form>
                     <div className="form-group row text-xs-center">
                         <span>Pokud jedeš na novou cestu a nenašel si nikoho, kdo by hostoval ve tvém městě, napiš pro potencionální hostitele poptávku a vysvětli jim, proč by si měli vybrat právě tebe. Někdo se určitě najde a přijme tě za svého Buddyho!</span>

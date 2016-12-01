@@ -7,9 +7,7 @@ module.exports = function(Request) {
   Request.validateAsync('city', function cityValidator(errorCallback, doneCallback) {
     if (!this.city) {
       errorCallback('cityIsMandatory');
-
-    }
-    if (this.city.length > 30) {
+    } else if (this.city.length > 30) {
       errorCallback('cityTooLong');
     }
 
@@ -24,8 +22,7 @@ module.exports = function(Request) {
   Request.validateAsync('from', function fromValidator(errorCallback, doneCallback) {
     if (!this.from) {
       errorCallback('fromIsMandatory');
-    }
-    if (!moment(this.from).isValid()) {
+    } else if (!moment(this.from).isValid()) {
       errorCallback('fromIsMandatory');
       errorCallback('fromWrongFromat');
     }
@@ -41,8 +38,7 @@ module.exports = function(Request) {
   Request.validateAsync('to', function toValidator(errorCallback, doneCallback) {
     if (!this.to) {
       errorCallback('toIsMandatory');
-    }
-    if (!moment(this.to).isValid()) {
+    } else if (!moment(this.to).isValid()) {
       errorCallback('toIsMandatory');
       errorCallback('toWrongFromat');
     }

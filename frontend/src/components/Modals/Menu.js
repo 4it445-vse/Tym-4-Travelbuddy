@@ -75,15 +75,6 @@ export default class Menu extends Component {
                                 </NavItem>
                                 <hr className="xs-visible sm-visible hidden-md-up hidden-lg-up"/>
                                 <NavItem className="margin-right-30">
-                                    <Link href="/messages" className="nav-link" role="tab" data-toggle="tab">Pošta&nbsp;
-                                        {this.state.incomingUnreadMessagesNum > 0 ?
-                                            <span
-                                                className="label label-success">{this.state.incomingUnreadMessagesNum}</span>
-                                            : ""}
-                                    </Link>
-                                </NavItem>
-                                <hr className="xs-visible sm-visible hidden-md-up hidden-lg-up"/>
-                                <NavItem className="margin-right-30">
                                     <Link href="#" className="nav-link" onClick={openEdit}>Editovat profil</Link>
                                 </NavItem>
                                 <hr className="xs-visible sm-visible hidden-md-up hidden-lg-up"/>
