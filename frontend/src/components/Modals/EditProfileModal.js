@@ -3,15 +3,24 @@ import currentUser from "../../actions/CurrentUser";
 import AbstractModal from "./AbstractModal";
 import FormGroup from "./FormGroup";
 import axios from "../../api";
+import GooglePlacesSuggest from "../Autosuggest/SuggestCity"
 
 export default class EditProfileModal extends Component {
 
     constructor(props) {
         super(props);
 
+        this.state = {
+          city: undefined
+        }
+
         this.handleSubmitEdit = this.handleSubmitEdit.bind(this);
+                this.handleSearchChange = this.handleSearchChange.bind(this);
     }
 
+    conponentDidMount(){
+      this.state.city = currentUser.getCurrentUser().city;
+    }
 
     handleSubmitEdit() {
         var city = document.getElementById("city").value;
@@ -45,6 +54,14 @@ export default class EditProfileModal extends Component {
         }
     }
 
+    handleSearchChange = (e) => {
+      this.setState({ city: e.target.value })
+    }
+
+    handleSelectSuggest = (suggestName, coordinate) => {
+      this.setState({ city: suggestName })
+    }
+
     render() {
         const {showProp, hideFn} = this.props;
         const loggedUser = currentUser.getCurrentUser();
@@ -72,11 +89,12 @@ export default class EditProfileModal extends Component {
                     <div className="form-group no-margin row">
                         <label className="col-xs-12 col-form-label">Město: </label>
                         <div className="col-xs-12">
-                            <input type="text" className="form-control" id="city" aria-describedby="CityHelp"
-                                   defaultValue={loggedUser.city}/>
-                            <small id="emailHelp" className="form-text text-muted text-xs-center">Město je pro nás
-                                nejdůležitější informace, pokud chceš hostovat.
-                            </small>
+                                              <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.city }>
+                      <input type="text" autoComplete="off" onChange = { this.handleSearchChange} className="form-control" id="city" aria-describedby="CityHelp" value={this.state.city}/>
+                      </GooglePlacesSuggest>
+                      <small id="emailHelp" className="form-text text-muted text-xs-center">
+                                Město nejdůležitější informace, pokud chceš hostovat.
+                      </small>
                         </div>
                     </div>
                     <div className="form-group no-margin row">

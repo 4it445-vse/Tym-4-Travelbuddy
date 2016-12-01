@@ -4,6 +4,7 @@ import FormGroup from "./FormGroup";
 import FormCheck from "./FormCheck";
 import axios from "../../api";
 import currentUser from "../../actions/CurrentUser";
+import GooglePlacesSuggest from "../Autosuggest/SuggestCity"
 
 export default class RegisterModal extends Component {
 
@@ -54,6 +55,18 @@ export default class RegisterModal extends Component {
         }
         this.state.showValidation = false;
         this.props.hideFn();
+    }
+
+    handleSearchChange = (e) => {
+      var fields = this.state.registrationValidation;
+      fields.city = e.target.value;
+      this.setState({ registrationValidation: fields })
+    }
+
+    handleSelectSuggest = (suggestName, coordinate) => {
+      var fields = this.state.registrationValidation;
+      fields.city = suggestName;
+      this.setState({ registrationValidation: fields })
     }
 
     componentDidMount() {
@@ -279,9 +292,12 @@ export default class RegisterModal extends Component {
                                     ? <span className="validation-error">Zadejte prosím město</span>
                                     : ""
                             }
+                            <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.registrationValidation.city }>
                             <input
                                 onBlur={this.validate}
+                                onChange={this.handleSearchChange}
                                 type="text"
+                                autoComplete="off"
                                 className={
                                     "form-control"
                                     + (
@@ -293,7 +309,9 @@ export default class RegisterModal extends Component {
                                 }
                                 id="city"
                                 placeholder="Město"
+                                value = { this.state.registrationValidation.city }
                             />
+                            </GooglePlacesSuggest>
                         </FormGroup>
                         <FormGroup>
                             {

@@ -4,6 +4,7 @@ import {AppPage} from "./pages/AppPage.js";
 import {HomePage} from "./pages/HomePage.js";
 import {RequestsPage} from "./pages/RequestsPage.js";
 import {VypisPage} from "./pages/VypisPageCvicna.js";
+import GooglePlaces from "./pages/GooglePlaces.js"
 import { VerifiedPage } from './pages/VerifiedPage.js';
 import { ResetPassword } from './pages/ResetPassword.js';
 
@@ -12,6 +13,7 @@ export function createRoutes() {
         <Route path="/" component={AppPage}>
             <IndexRoute component={HomePage}/>
             <Route path="/vypis" component={VypisPage}/>
+            <Route path="/google" component={GooglePlaces}/>
             <Route path="/requests" component={RequestsPage}/>
             <Route path="/verified" component={VerifiedPage}/>
             <Route path="/reset-password" component={ResetPassword}/>
