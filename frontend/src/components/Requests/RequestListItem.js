@@ -7,11 +7,20 @@ export class RequestListItem extends Component {
     super(props);
     this.state = {
       buddy_id: props.request.buddy_id,
-      name: null,
-      email: null
+      buddy: {}
     };
 
     this.fetchBuddy = this.fetchBuddy.bind(this);
+    this.showRequestDetails = this.showRequestDetails.bind(this);
+    this.openContactBuddy = this.openContactBuddy.bind(this);
+  }
+
+  openContactBuddy(){
+    this.props.openContactBuddy(this.state.buddy);
+  }
+
+  showRequestDetails(){
+    this.props.openShowRequestShowModal(this.state.buddy, this.props.request);
   }
 
   componentDidMount() {
@@ -21,13 +30,15 @@ export class RequestListItem extends Component {
   fetchBuddy(buddy_id) {
     axios.get('buddies/' + buddy_id)
       .then((response) => {
-        this.setState({ name: response.data.name });
-        this.setState({ email: response.data.email });
+        this.setState({
+          buddy: response.data
+        });
+        this.setState({  });
       });
   }
 
   render() {
-    const { request } = this.props;
+    const { request, openContactBuddy } = this.props;
     const { city, from, to } = request;
     return (
       <div className="col-lg-4 col-md-6 col-xs-12">
@@ -39,7 +50,7 @@ export class RequestListItem extends Component {
               Buddy:
             </div>
             <div className="col-xs-9 text-xs-left ellipsis">
-              {this.state.name}
+              {this.state.buddy.name}
             </div>
           </div>
           <div className="row">
@@ -47,7 +58,7 @@ export class RequestListItem extends Component {
               Email:
             </div>
             <div className="col-xs-9 text-xs-left ellipsis">
-              {this.state.email}
+              {this.state.buddy.email}
             </div>
           </div>
           <hr/>
@@ -70,10 +81,10 @@ export class RequestListItem extends Component {
           <hr/>
           <div className="row">
             <div className="col-xs-6">
-              <button className="btn btn-defaul SearchButton text-white" type="button" /*onClick={Todo: Detail}*/>Detail</button>
+              <button className="btn btn-defaul SearchButton text-white" type="button" onClick={this.showRequestDetails}>Detail</button>
             </div>
             <div className="col-xs-6">
-              <button className="btn btn-defaul SearchButton text-white" type="button" /*onClick={Todo: Kontaktovat}*/>Kontaktovat</button>
+              <button className="btn btn-defaul SearchButton text-white" type="button" onClick={this.openContactBuddy}>Kontaktovat</button>
             </div>
           </div>
         </div>

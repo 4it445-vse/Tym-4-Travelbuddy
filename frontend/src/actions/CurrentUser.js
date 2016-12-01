@@ -3,6 +3,15 @@ import axios from "../api";
 var currentUser = undefined;
 var openLogInFn;
 var alert;
+var question;
+
+function getQuestion(){
+    return question;
+}
+
+function setQuestion(al){
+    question = al;
+}
 
 function getAlert(){
     return alert;
@@ -69,5 +78,7 @@ export default {
     setAuthToken,
     loadAuthToken,
     getAlert,
-    setAlert
+    setAlert,
+    getQuestion,
+    setQuestion
 }

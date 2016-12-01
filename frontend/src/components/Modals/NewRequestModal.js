@@ -44,6 +44,7 @@ export default class NewRequestModal extends Component {
                 "buddy_id": buddy_id
             }
             axios.put('Requests', request).then(response => {
+                currentUser.setAlert({"type": "success", "message": "Poptávka úspěšně uložena."});
                 this.props.hideFn();
                 this.setState({errors: {}});
             }).catch(error => {

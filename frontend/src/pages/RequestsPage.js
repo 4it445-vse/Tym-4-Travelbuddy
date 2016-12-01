@@ -1,63 +1,142 @@
 import React, {Component} from "react";
-import SearchForm from "../components/Search/SearchForm";
-import { RequestsList } from '../components/Requests/RequestsList.js';
-import lodash from 'lodash';
+import {RequestsList} from "../components/Requests/RequestsList.js";
+import lodash from "lodash";
 import axios from "../api";
+import currentUser from "../actions/CurrentUser";
+import {Modal} from "react-bootstrap";
+import ShowRequestModal from "../components/Modals/ShowRequestModal";
+import ContactBuddyModal from "../components/Modals/ContactBuddyModal";
+import {ActivityIndicator} from 'react-native';
+import {Alert} from 'react-bootstrap';
 
 export class RequestsPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      requests: null,
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            requests: null,
+            showRequestShowModal: false,
+            showContactBuddyModal: false,
+            requestShowModalContent: {
+                buddy: {},
+                request: {}
+            }
+        };
 
-    this.fetchRequestsDebounced = lodash.debounce(this.fetchRequests, 500);
-    this.handleSearchChange = this.handleSearchChange.bind(this);
-  }
+        this.fetchRequestsDebounced = lodash.debounce(this.fetchRequests, 500);
+        this.handleSearchChange = this.handleSearchChange.bind(this);
+        this.closeShowRequestShowModal = this.closeShowRequestShowModal.bind(this);
+        this.openShowRequestShowModal = this.openShowRequestShowModal.bind(this);
+        this.closeAlert = this.closeAlert.bind(this);
+        this.openContactBuddy = this.openContactBuddy.bind(this);
+        this.closeContactBuddy = this.closeContactBuddy.bind(this);
+    }
 
-  handleSearchChange(event) {
-    const searchString  = event.target.value;
-    this.fetchRequestsDebounced(searchString);
-  }
+    closeAlert() {
+        currentUser.setAlert(null);
+        this.setState(this.state);
+    }
 
-  paramsForSerchString(searchString) {
-    if (!searchString) { return {}; }
-    return { filter: { where: { city: { like: `%${searchString}%` }, }, },}
-  }
+    closeShowRequestShowModal() {
+        this.setState({
+            showRequestShowModal: false
+        });
+    }
 
-  fetchRequests(searchString) {
-    axios.get('Requests', { params: this.paramsForSerchString(searchString) })
-      .then((response) => {
-        this.setState({ requests: response.data });
-      });
-  }
+    openContactBuddy(buddyTo) {
+        if (buddyTo && buddyTo.name) {
+            console.log("sdaabvdv");
+            this.state.requestShowModalContent.buddy = buddyTo;
+        }
+        this.setState({
+            showRequestShowModal: false,
+            showContactBuddyModal: true
+        });
+    }
 
-  componentDidMount() {
-    this.fetchRequests();
-  }
+    closeContactBuddy() {
+        this.setState({
+            showContactBuddyModal: false
+        });
+    }
 
-  render() {
-    const { requests } = this.state;
+    openShowRequestShowModal(buddy, request) {
+        this.setState({
+            showRequestShowModal: true,
+            requestShowModalContent: {
+                buddy: buddy,
+                request: request
+            }
+        });
+    }
 
-    return (
-      <div>
-        <div className="row">
-          <div className="input-group v-o-5">
-            <input id="search-town" type="search" className="form-control SearchBar SearchHeight SearchBorder"
-                   placeholder="Zadej cílové město" onChange={this.handleSearchChange}/>
-            <span className="input-group-btn">
+    handleSearchChange(event) {
+        const searchString = event.target.value;
+        this.fetchRequestsDebounced(searchString);
+    }
+
+    paramsForSerchString(searchString) {
+        if (!searchString) {
+            return {};
+        }
+        return {filter: {where: {city: {like: `%${searchString}%`},},},}
+    }
+
+    fetchRequests(searchString) {
+        axios.get('Requests', {params: this.paramsForSerchString(searchString)})
+            .then((response) => {
+                this.setState({requests: response.data});
+            });
+    }
+
+    componentDidMount() {
+        this.fetchRequests();
+    }
+
+    render() {
+        const {requests} = this.state;
+        console.log(this.state.requestShowModalContent);
+        const alert = currentUser.getAlert();
+        return (
+            <div>
+                {
+                    (!!alert) ?
+                        <Modal show={true} onHide={this.closeAlert}>
+                            <Modal.Header closeButton>
+                            </Modal.Header>
+                            <Modal.Body>
+                                <Alert bsStyle={alert.type}>
+                                    {alert.message}
+                                </Alert>
+                            </Modal.Body>
+                        </Modal> : ""
+                }
+                <ShowRequestModal showProp={this.state.showRequestShowModal} hideFn={this.closeShowRequestShowModal}
+                                  requestShowModalContent={this.state.requestShowModalContent}
+                                  contactBuddy={this.openContactBuddy}/>
+                <ContactBuddyModal showProp={this.state.showContactBuddyModal} hideFn={this.closeContactBuddy}
+                                   buddyTo={this.state.requestShowModalContent.buddy}/>
+                <div className="row">
+                    <div className="input-group v-o-5">
+                        <input id="search-town" type="search"
+                               className="form-control SearchBar SearchHeight SearchBorder"
+                               placeholder="Zadej cílové město" onChange={this.handleSearchChange}/>
+                        <span className="input-group-btn">
               <button className="btn btn-defaul SearchButton SearchHeight text-white" type="button"
                       onClick={this.handleSearchChange}>
                   <i className="fa fa-search SearchIcon" aria-hidden="true"></i> Hledej
               </button>
             </span>
+                    </div>
+                </div>
+                {requests === null ?
+
+                    <div className="row">
+                        <ActivityIndicator size="large" color="#aa3300"/>
+                    </div> :
+                    <RequestsList requests={requests} openShowRequestShowModal={this.openShowRequestShowModal}
+                                  openContactBuddy={this.openContactBuddy}/>
+                }
             </div>
-        </div>
-        {requests === null ?
-          <div>Načítání jízd...</div> :
-          <RequestsList requests={requests}/>
-        }
-      </div>
-    );
-  }
+        );
+    }
 }
