@@ -2,31 +2,19 @@ import React from "react";
 import {IndexRoute, Route} from "react-router";
 import {AppPage} from "./pages/AppPage.js";
 import {HomePage} from "./pages/HomePage.js";
+import {RequestsPage} from "./pages/RequestsPage.js";
 import {VypisPage} from "./pages/VypisPageCvicna.js";
 import { VerifiedPage } from './pages/VerifiedPage.js';
 import { ResetPassword } from './pages/ResetPassword.js';
-// import { ContactPage } from './pages/ContactPage.js';
-// import { NoMatchPage } from './pages/NoMatchPage.js';
-// import { ProductDetailPage } from './pages/ProductDetailPage.js'
-// import { ProductsPage } from './pages/ProductsPage.js';
-// import { ShoppingCartPage } from './pages/ShoppingCartPage.js'
-// import { ShoppingCartCheckoutPage } from './pages/ShoppingCartCheckoutPage.js'
 
 export function createRoutes() {
     return (
         <Route path="/" component={AppPage}>
             <IndexRoute component={HomePage}/>
             <Route path="/vypis" component={VypisPage}/>
+            <Route path="/requests" component={RequestsPage}/>
             <Route path="/verified" component={VerifiedPage}/>
             <Route path="/reset-password" component={ResetPassword}/>
-            {/* <Route path="/products">
-             <IndexRoute component={ProductsPage}/>
-             <Route path=":productId" component={ProductDetailPage}/>
-             </Route>
-             <Route path="/contact" component={ContactPage}/>
-             <Route path="/cart" component={ShoppingCartPage}/>
-             <Route path="/cart/checkout" component={ShoppingCartCheckoutPage}/>
-             <Route path="*" component={NoMatchPage}/> */}
         </Route>
     );
 }
