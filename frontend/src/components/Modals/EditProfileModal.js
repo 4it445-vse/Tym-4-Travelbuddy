@@ -92,8 +92,9 @@ export default class EditProfileModal extends Component {
                                               <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.city }>
                       <input type="text" autoComplete="off" onChange = { this.handleSearchChange} className="form-control" id="city" aria-describedby="CityHelp" value={this.state.city}/>
                       </GooglePlacesSuggest>
-                                nejdůležitější informace, pokud chceš hostovat.
-                            </small>
+                      <small id="emailHelp" className="form-text text-muted text-xs-center">
+                                Město nejdůležitější informace, pokud chceš hostovat.
+                      </small>
                         </div>
                     </div>
                     <div className="form-group no-margin row">

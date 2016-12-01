@@ -29,7 +29,9 @@ export default class SearchForm extends Component {
     render() {
         return (
             <div className="row">
-                                <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.search }>
+                              <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.search }>
+              <div className="input-group v-o-5">
+
 
                     <input id="search-town" type="text" className="form-control SearchBar SearchHeight SearchBorder"
                            placeholder="Zadej cílové město" onChange={this.handleSearchChange} value={this.state.search}/>
@@ -40,8 +42,9 @@ export default class SearchForm extends Component {
                       <i className="fa fa-search SearchIcon" aria-hidden="true"></i> Hledej
                   </button>
               </span>
+
                 </div>
-                                    </GooglePlacesSuggest>
+                                </GooglePlacesSuggest>
             </div>
         );
     }
