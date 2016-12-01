@@ -99,6 +99,11 @@ body {
     height: 50px;
 }
 
+.editProfile_Avatar {
+    width: 245px;
+    height: auto;
+}
+
 .profil_o-30 {
     margin-left: 30px;
 }
