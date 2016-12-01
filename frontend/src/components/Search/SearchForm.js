@@ -30,7 +30,6 @@ export default class SearchForm extends Component {
         return (
             <div className="row">
                                 <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.search }>
-                <div className="input-group v-o-15">
 
                     <input id="search-town" type="text" className="form-control SearchBar SearchHeight SearchBorder"
                            placeholder="Zadej cílové město" onChange={this.handleSearchChange} value={this.state.search}/>

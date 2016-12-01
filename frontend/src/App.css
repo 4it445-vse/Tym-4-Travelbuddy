@@ -1,5 +1,4 @@
-body
-{
+body {
     background-image: url(http://www.travelingjobsnow.com/assets/img/slider1.jpg);
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -8,84 +7,118 @@ body
 }
 
 /** Posuvník stránek výsledků**/
-.PaginateButton{
-  background-color:#0275d8;
-  border-radius:10px;
-  height: 62px;
-  width: 120px;
-  margin: 5px;
-}
-.PaginateButton:hover{
-  background-color: #50a1ee;
-}
-.PaginateRibbon{
-  text-align: center;
-}
-
-
-/** Vyhled�vac� li�ta**/
-.SearchIcon
-{
-    color:#fff;
-}
-.SearchButton
-{
-    background-color:#0275d8;
-    border-radius:10px;
-}
-.SearchButton:hover{
-    background-color: #50a1ee;
-}
-.SearchBorder{
-    border-color: #0275d8;
-}
-.SearchHeight{
+.PaginateButton {
+    background-color: #0275d8;
+    border-radius: 10px;
     height: 62px;
+    width: 120px;
+    margin: 5px;
 }
-/** Vertik�ln� odsazen�**/
-.v-o-15{
-    margin-top: 15%;
-}
-.v-o-25{
-    margin-top: 25px;
-}
-.v-p-25{
-    padding-top: 25px;
-}
-.v-o-5{
-    margin-top: 5%;
-}
-.m-r-30{
+
+.btn-margin-right-30 {
     margin-right: 30px;
 }
-.m-r-15{
+
+.PaginateButton:hover {
+    background-color: #50a1ee;
+}
+
+.PaginateRibbon {
+    text-align: center;
+}
+
+/** Navbar **/
+.strongNavItem {
+    font-weight: bold;
+}
+
+@media (min-width: 992px) {
+    .margin-right-30 {
+        margin-right: 30px;
+    }
+
+    .margin-right-50 {
+        margin-right: 50px;
+    }
+}
+
+/** Vyhled�vac� li�ta**/
+.SearchIcon {
+    color: #fff;
+}
+
+.SearchButton {
+    background-color: #0275d8;
+    border-radius: 10px;
+}
+
+.SearchButton:hover {
+    background-color: #50a1ee;
+}
+
+.SearchBorder {
+    border-color: #0275d8;
+}
+
+.SearchHeight {
+    height: 62px;
+}
+
+/** Vertik�ln� odsazen�**/
+.v-o-15 {
+    margin-top: 15%;
+}
+
+.v-o-25 {
+    margin-top: 25px;
+}
+
+.v-p-25 {
+    padding-top: 25px;
+}
+
+.v-o-5 {
+    margin-top: 5%;
+}
+
+.m-r-30 {
+    margin-right: 30px;
+}
+
+.m-r-15 {
     margin-right: 15px;
 }
 
-.profil_img{
+.profil_img {
     width: 80px;
     height: 80px;
 }
-.profil_o-30{
+
+.profil_o-30 {
     margin-left: 30px;
 }
 
-.profil_vypis{
-  color: #2b2d2f;
+.profil_vypis {
+    color: #2b2d2f;
 }
-.profil_vypis:hover{
+
+.profil_vypis:hover {
     text-decoration: none;
 }
-.profil_vypis:hover div{
+
+.profil_vypis:hover div {
     background-color: #faf6f6;
 }
-.float-left{
+
+.float-left {
     float: left;
 }
-.float-right{
+
+.float-right {
     float: right;
 }
-.fullsize{
+
+.fullsize {
     width: 100%;
 }
 
@@ -93,22 +126,105 @@ body
     color: white;
     border: none;
 }
+
 .navbar-dark .navbar-nav .nav-link {
     color: white;
 }
+
 .navbar-toggleable-md {
     margin-right: 10px;
 }
+
 .no-margin {
     margin-bottom: 0;
 }
+
 .big_checkbox {
-  width: 20px;
-  height: 20px;
-  margin-top: 10px;
+    width: 20px;
+    height: 20px;
+    margin-top: 10px;
 }
 
 .validation-error {
     font-size: 10px;
     color: #a94442;
+}
+
+.modal-dialog {
+    max-width: 700px;
+}
+
+.requests {
+    text-align: center;
+}
+
+.request {
+    background-color: #FBFBFB;
+    border-radius: 4px 4px 4px 4px;
+    margin: 10px 0px 10px 0px;
+    padding: 20px 20px 20px 20px;
+}
+
+.validation-error-big {
+    font-size: 17px;
+    color: #a94442;
+}
+
+.no-validation-error-1st {
+    margin-top: 24px;
+}
+
+.no-validation-error-rest {
+    margin-top: 40px;
+}
+
+.ellipsis {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.request {
+    box-shadow: 3px 3px 15px grey;
+}
+
+.dropdown-toggle {
+    background: none !important;
+}
+
+.dropdown-menu {
+    cursor: pointer;
+    margin-top: 8px;
+    background: #ffffff;
+    border-radius: 0;
+    border-color: #0275d8;
+}
+
+@media (max-width: 991px) {
+    .dropdown-menu {
+        cursor: pointer;
+        margin-top: 8px;
+        background: #0275d8;
+        border-radius: 0;
+        border-color: #0275d8;
+        text-align: center;
+    }
+
+    .dropdown-menu a {
+        color: white !important;
+    }
+
+    .dropdown-menu a:hover {
+        color: #bfdcf0 !important;
+        background: #0275d8;
+    }
+
+    .navbar-toggleable-md {
+        margin-top: 35px;
+    }
+
+}
+
+.pointer {
+    cursor: pointer !important;
 }
