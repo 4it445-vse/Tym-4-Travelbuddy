@@ -18,7 +18,7 @@ export default class EditProfileModal extends Component {
                 this.handleSearchChange = this.handleSearchChange.bind(this);
     }
 
-    conponentDidMount(){
+    componentDidMount(){
       this.state.city = currentUser.getCurrentUser().city;
     }
 
