@@ -83,7 +83,7 @@ export default class RegisterModal extends Component {
         for (var prop in this.state.registrationValidation) {
             if (!this.state.registrationValidation[prop]) {
                 validated = false;
-                break;
+		this.state.isFieldValid[prop] = false;
             }
         }
         if (!validated) {
