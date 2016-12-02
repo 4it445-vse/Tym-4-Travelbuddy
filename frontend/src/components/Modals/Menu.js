@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Link} from "react-router";
 import {Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem} from "reactstrap";
 import currentUser from "../../actions/CurrentUser";
+import axios from "../../api"
 
 export default class Menu extends Component {
 
@@ -14,6 +15,7 @@ export default class Menu extends Component {
 
         this.toggleNavbar = this.toggleNavbar.bind(this);
         this.logOut = this.logOut.bind(this);
+        this.countIncomingUnreadMessages = this.countIncomingUnreadMessages.bind(this);
         this.setCollapsedMyTravelling = this.setCollapsedMyTravelling.bind(this);
     }
 
@@ -33,14 +35,41 @@ export default class Menu extends Component {
             collapsed: !this.state.collapsed
         });
     }
+	
+	countIncomingUnreadMessages() {
+		axios.get('messages', {
+		params: {
+			filter: {
+				where: {
+					"buddy_id_to": currentUser.getCurrentUser().id
+				}
+			}
+		}
+		}).then(response => {
+			let buddyMessages = response.data;
+			let incomingUnreadMessagesNum = 0;
+			buddyMessages.map(message => {
+				if(message.displayed === false){
+					incomingUnreadMessagesNum++; 
+				}
+			});
+			
+			this.setState({
+				incomingUnreadMessagesNum: incomingUnreadMessagesNum
+			});
+		});
+	}
 
     render() {
         const {openEdit, openRegister, openLogin, openNewRequest, openEditRequests} = this.props;
         const loggedUser = currentUser.getCurrentUser();
         const userLogged = !!loggedUser;
-        console.log("in render", this.state.collapsedMyTravelling);
+		if(userLogged){
+			this.countIncomingUnreadMessages();
+		}
+		
         return (
-            <Navbar className="bg-primary row" dark>
+            <Navbar className="navbar-fixed-top bg-primary row" dark>
                 <div className="col-xs-9 col-md-3 text-xs-left">
                     <NavbarBrand href="/">Travel Buddy</NavbarBrand>
                 </div>
@@ -52,7 +81,15 @@ export default class Menu extends Component {
                         {userLogged ?
                             <div>
                                 <NavItem className="margin-right-30">
-                                    <Link href="/" className="nav-link">Seznam budíků</Link>
+                                <Link href="/messages" className="nav-link" role="tab" data-toggle="tab">Pošta 
+							{this.state.incomingUnreadMessagesNum > 0 ?
+								<span className="label label-success"> {this.state.incomingUnreadMessagesNum}</span>
+								 : ""}
+							</Link>
+                        </NavItem> 
+						<hr className="xs-visible sm-visible hidden-md-up hidden-lg-up"/>
+<NavItem className="margin-riht-30">                                    
+<Link href="/" className="nav-link">Seznam budíků</Link>
                                 </NavItem>
                                 <hr className="xs-visible sm-visible hidden-md-up hidden-lg-up"/>
                                 <NavItem className="margin-right-30">
