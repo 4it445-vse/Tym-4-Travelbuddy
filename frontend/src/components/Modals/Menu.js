@@ -88,7 +88,7 @@ export default class Menu extends Component {
 							</Link>
                         </NavItem> 
 						<hr className="xs-visible sm-visible hidden-md-up hidden-lg-up"/>
-<NavItem className="margin-riht-30">                                    
+<NavItem className="margin-right-30">                                    
 <Link href="/" className="nav-link">Seznam budíků</Link>
                                 </NavItem>
                                 <hr className="xs-visible sm-visible hidden-md-up hidden-lg-up"/>
