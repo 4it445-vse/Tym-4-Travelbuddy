@@ -35,6 +35,8 @@ export default class TopNavigation extends Component {
         this.openRestorePass = this.openRestorePass.bind(this);
         this.closeRestorePass = this.closeRestorePass.bind(this);
         this.closeEditRequests = this.closeEditRequests.bind(this);
+        this.closeQuestion = this.closeQuestion.bind(this);
+        this.removeUser = this.removeUser.bind(this);
     }
 
     componentDidMount() {
@@ -54,9 +56,15 @@ export default class TopNavigation extends Component {
         this.setState(this.state);
     }
 
+    closeQuestion() {
+        currentUser.setQuestion(null);
+        this.setState(this.state);
+    }
+
     openLogin() {
         this.setState({showRegisterModal: false, showLoginModal: true});
     }
+
     closeLogin() {
         this.setState({showLoginModal: false});
     }
@@ -64,6 +72,7 @@ export default class TopNavigation extends Component {
     openRegister() {
         this.setState({showRegisterModal: true, showLoginModal: false});
     }
+
     closeRegister() {
         this.setState({showRegisterModal: false});
     }
@@ -72,34 +81,46 @@ export default class TopNavigation extends Component {
         this.closeRegister();
         this.setState({showEditModal: true});
     }
+
     closeEdit() {
         this.setState({showEditModal: false});
     }
 
     openNewRequest() {
-      this.closeEditRequests();
-      this.setState({showNewRequestModal: true});
+        this.closeEditRequests();
+        this.setState({showNewRequestModal: true});
     }
+
     closeNewRequest() {
-      this.setState({showNewRequestModal: false});
+        this.setState({showNewRequestModal: false});
     }
 
     openEditRequests() {
-      this.setState({showEditRequestModal: true});
+        this.setState({showEditRequestModal: true});
     }
+
     closeEditRequests() {
-      this.setState({showEditRequestModal: false});
+        this.setState({showEditRequestModal: false});
+    }
+
+    removeUser() {
+        const question = currentUser.getQuestion();
+        question.cb();
+        this.closeQuestion();
     }
 
     render() {
         const loggedUser = currentUser.getCurrentUser();
         const userLogged = !!loggedUser;
         const alert = currentUser.getAlert();
+        const question = currentUser.getQuestion();
         return (
             <div>
-                <Menu openEdit={this.openEdit} openRegister={this.openRegister} openLogin={this.openLogin} openNewRequest={this.openNewRequest} openEditRequests={this.openEditRequests}/>
+                <Menu openEdit={this.openEdit} openRegister={this.openRegister} openLogin={this.openLogin}
+                      openNewRequest={this.openNewRequest} openEditRequests={this.openEditRequests}/>
 
-                <LoginModal restorePassFn={this.openRestorePass} showProp={this.state.showLoginModal} hideFn={this.closeLogin} switchFn={this.openRegister}/>
+                <LoginModal restorePassFn={this.openRestorePass} showProp={this.state.showLoginModal}
+                            hideFn={this.closeLogin} switchFn={this.openRegister}/>
 
                 <RegisterModal showProp={this.state.showRegisterModal} hideFn={this.closeRegister}
                                switchFn={this.openLogin}/>
@@ -115,15 +136,37 @@ export default class TopNavigation extends Component {
                             </Modal.Body>
                         </Modal> : ""
                 }
+                {
+                    (!!question) ?
+                        <Modal show={true} onHide={this.closeQuestion}>
+                            <Modal.Header closeButton>
+                            </Modal.Header>
+                            <Modal.Body>
+                                {question.text}
+                                <div>
+                                    <button className="btn btn-defaul SearchButton text-white btn-margin-right-30"
+                                            type="button"
+                                            onClick={this.removeUser}>ANO
+                                    </button>
+
+                                    <button className="btn btn-defaul SearchButton text-white" type="button"
+                                            onClick={this.closeQuestion}>NE
+                                    </button>
+
+                                </div>
+                            </Modal.Body>
+                        </Modal> : ""
+                }
                 { userLogged ?
-                  <div>
-                    <EditProfileModal showProp={this.state.showEditModal} hideFn={this.closeEdit}/>
-                    <NewRequestModal showProp={this.state.showNewRequestModal} hideFn={this.closeNewRequest}/>
-                    <EditRequestModal showProp={this.state.showEditRequestModal} hideFn={this.closeEditRequests} switchFn={this.openNewRequest}/>
-                  </div>
+                    <div>
+                        <EditProfileModal showProp={this.state.showEditModal} hideFn={this.closeEdit}/>
+                        <NewRequestModal showProp={this.state.showNewRequestModal} hideFn={this.closeNewRequest}/>
+                        <EditRequestModal showProp={this.state.showEditRequestModal} hideFn={this.closeEditRequests}
+                                          switchFn={this.openNewRequest}/>
+                    </div>
                     : ""}
 
-                <ResetPassModal showProp={this.state.showRestorePass} hideFn={this.closeRestorePass} />
+                <ResetPassModal showProp={this.state.showRestorePass} hideFn={this.closeRestorePass}/>
             </div>
         );
     }

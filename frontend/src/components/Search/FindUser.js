@@ -130,34 +130,44 @@ export default class FindUser extends Component {
                     <Modal.Footer>
                     </Modal.Footer>
                 </Modal>
-                <div className="row">
-                    <div className="card v-o-5">
-                        <div className="card-block">
-                            <h4 className="card-title">Bylo
-                                nalezeno {budies.length} {budies.length === 1 ? "uživatel" : "uživatelů"}</h4>
+                {
+                    budies.length === 0 ?
+                        <div className="row">
+
+                        </div> :
+
+
+                        <div className="row">
+                            <div className="card v-o-5">
+                                <div className="card-block">
+                                    <h4 className="card-title">Bylo
+                                        nalezeno {budies.length} {budies.length === 1 ? "uživatel" : "uživatelů"}</h4>
+                                </div>
+                                {
+                                    budies.slice(this.state.startIndex, this.state.endIndex).map(buddy =>
+                                        <User buddy={buddy} key={buddy.id} openProfile={this.openProfile}/>
+                                    )
+                                }
+                                <div className="card-block PaginateRibbon">
+                                    {
+                                        this.state.prevButtonVisible &&
+                                        <button className={this.paginationButton} type="button"
+                                                onClick={this.renderPreviousPage}>
+                                            Předchozí
+                                        </button>
+                                    }
+                                    {
+                                        this.state.nextButtonVisible &&
+                                        <button className={this.paginationButton} type="button"
+                                                onClick={this.renderNextPage}>
+                                            Další
+                                        </button>
+                                    }
+                                </div>
+                            </div>
                         </div>
-                        {
-                            budies.slice(this.state.startIndex,this.state.endIndex).map(buddy =>
-                                <User buddy={buddy} key={buddy.id} openProfile={this.openProfile}/>
-                            )
-                        }
-                        <div className="card-block PaginateRibbon">
-                          {
-                            this.state.prevButtonVisible && <button className={this.paginationButton} type="button"
-                                  onClick={this.renderPreviousPage}>
-                              Předchozí
-                            </button>
-                          }
-                          {
-                            this.state.nextButtonVisible && <button className={this.paginationButton} type="button"
-                                  onClick={this.renderNextPage}>
-                              Další
-                            </button>
-                          }
-                        </div>
-                    </div>
+                }
                 </div>
-            </div>
         );
     }
 }
