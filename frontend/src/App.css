@@ -368,9 +368,10 @@ body {
 }
 .member_list {
     background: white;
-    height: 453px;
+    height: 452px;
     overflow-x: hidden;
     overflow-y: auto;
+    margin-top: -1px;
 }
 .sub_menu_ {
     background: #e8e6e7 none repeat scroll 0 0;
@@ -706,4 +707,8 @@ body {
 
 .pointer {
     cursor: pointer !important;
+}
+.dropdown-toggle1 {
+   background: #f1f1f1 !important;
+   padding: 15px 10px 16px 10px;
 }

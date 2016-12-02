@@ -372,7 +372,7 @@ export default class RegisterModal extends Component {
                                 Souhlasím s podmínkami
                             </label>
                             <button onClick={this.handleSubmitRegistration} type="button"
-                                    className="btn btn-primary fullsize v-o-5">Registrovat
+                                    className="btn btn-primary fullsize v-o-25">Registrovat
                             </button>
                         </FormCheck>
                     </form>

@@ -35,7 +35,7 @@ export default class Menu extends Component {
             collapsed: !this.state.collapsed
         });
     }
-	
+
 	countIncomingUnreadMessages() {
 		axios.get('messages', {
 		params: {
@@ -50,10 +50,10 @@ export default class Menu extends Component {
 			let incomingUnreadMessagesNum = 0;
 			buddyMessages.map(message => {
 				if(message.displayed === false){
-					incomingUnreadMessagesNum++; 
+					incomingUnreadMessagesNum++;
 				}
 			});
-			
+
 			this.setState({
 				incomingUnreadMessagesNum: incomingUnreadMessagesNum
 			});
@@ -67,7 +67,7 @@ export default class Menu extends Component {
 		if(userLogged){
 			this.countIncomingUnreadMessages();
 		}
-		
+
         return (
             <Navbar className="navbar-fixed-top bg-primary row" dark>
                 <div className="col-xs-9 col-md-3 text-xs-left">
@@ -81,14 +81,12 @@ export default class Menu extends Component {
                         {userLogged ?
                             <div>
                                 <NavItem className="margin-right-30">
-                                <Link href="/messages" className="nav-link" role="tab" data-toggle="tab">Pošta 
-							{this.state.incomingUnreadMessagesNum > 0 ?
-								<span className="label label-success"> {this.state.incomingUnreadMessagesNum}</span>
+                                <Link href="/messages" className="nav-link" role="tab" data-toggle="tab">Pošta {this.state.incomingUnreadMessagesNum > 0 ?<span className="label label-success"> {this.state.incomingUnreadMessagesNum}</span>
 								 : ""}
 							</Link>
-                        </NavItem> 
+                        </NavItem>
 						<hr className="xs-visible sm-visible hidden-md-up hidden-lg-up"/>
-<NavItem className="margin-right-30">                                    
+<NavItem className="margin-right-30">
 <Link href="/" className="nav-link">Seznam budíků</Link>
                                 </NavItem>
                                 <hr className="xs-visible sm-visible hidden-md-up hidden-lg-up"/>

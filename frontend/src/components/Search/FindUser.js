@@ -106,7 +106,7 @@ export default class FindUser extends Component {
                     </Modal.Header>
                     <Modal.Body>
                         <div>
-                            <label for="exampleInputFile">Profilový obrázek:</label><br/>
+                            <label htmlFor="exampleInputFile">Profilový obrázek:</label><br/>
                             <img
                                 src="http://images.megaupload.cz/mystery-man.png"
                                 alt="..." className="profil_img rounded"/>
@@ -121,7 +121,7 @@ export default class FindUser extends Component {
                             <br/>
                             <b>Email: </b>{buddy.email}
                             <br/>
-                            <label for="exampleInputFile"><b>O mně:</b></label>
+                            <label htmlFor="exampleInputFile"><b>O mně:</b></label>
                                 <textarea type="text" className="form-control"
                                           id="about_me"
                                           defaultValue={buddy.about_me} disabled/>

@@ -15,7 +15,7 @@ export default class AbstractModal extends Component {
                 <Modal.Footer>
                     <div className="form-check">
                         <button onClick={submitFn} type="button"
-                                className="btn btn-primary fullsize v-o-5">{submitText}
+                                className="btn btn-primary fullsize">{submitText}
                         </button>
                     </div>
                 </Modal.Footer>

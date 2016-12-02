@@ -61,7 +61,7 @@ export default class ResetPassModal extends Component {
                                    placeholder="Váš email"/>
                         </FormGroup>
                         <button onClick={this.handleSubmitResetPass} type="button"
-                                className="btn btn-primary fullsize v-o-5">Resetuj heslo
+                                className="btn btn-primary fullsize">Resetuj heslo
                         </button>
                     </form>
                 </Modal.Body>

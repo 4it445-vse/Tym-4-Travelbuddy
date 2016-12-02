@@ -116,7 +116,7 @@ export default class MessagePage extends Component {
 						let obj = messages.get(key);
 						obj.fullname = response.data[0].name + " " + response.data[0].surname;
 						this.state.usersWithMessages.push(obj);
-						
+
 						this.state.usersWithMessages.sort(function(a,b){
 							return new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime();
 						});
@@ -138,7 +138,7 @@ export default class MessagePage extends Component {
                             <div className="chat_container">
                                 <div className="col-sm-3 chat_sidebar">
                                     <div className="row">
-<div className="dropdown-toggle">
+<div className="dropdown-toggle1">
                                             Všechny konverzace: <span className="caret float-right"></span>
                                         </div>
                                         <MessageSearch refreshUsersList={this.restrictUsers}/>

@@ -91,7 +91,7 @@ export default class LoginModal extends Component {
                         </div>
                         <FormGroup>
                             <button onClick={this.handleSubmitLogIn} type="button"
-                                    className="btn btn-primary fullsize v-o-5">Přihlásit
+                                    className="btn btn-primary fullsize v-o-25">Přihlásit
                             </button>
                         </FormGroup>
                     </form>
