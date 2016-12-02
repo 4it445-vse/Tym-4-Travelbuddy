@@ -138,7 +138,7 @@ export default class MessagePage extends Component {
                             <div className="chat_container">
                                 <div className="col-sm-3 chat_sidebar">
                                     <div className="row">
-                                        <div className="dropdown-toggle">
+<div className="dropdown-toggle">
                                             Všechny konverzace: <span className="caret float-right"></span>
                                         </div>
                                         <MessageSearch refreshUsersList={this.restrictUsers}/>

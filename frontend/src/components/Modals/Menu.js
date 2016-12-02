@@ -86,9 +86,10 @@ export default class Menu extends Component {
 								<span className="label label-success"> {this.state.incomingUnreadMessagesNum}</span>
 								 : ""}
 							</Link>
-                        </NavItem> : ""}
+                        </NavItem> 
 						<hr className="xs-visible sm-visible hidden-md-up hidden-lg-up"/>
-                                    <Link href="/" className="nav-link">Seznam budíků</Link>
+<NavItem className="margin-riht-30">                                    
+<Link href="/" className="nav-link">Seznam budíků</Link>
                                 </NavItem>
                                 <hr className="xs-visible sm-visible hidden-md-up hidden-lg-up"/>
                                 <NavItem className="margin-right-30">
