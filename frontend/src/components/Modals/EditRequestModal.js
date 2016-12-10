@@ -252,7 +252,6 @@ export default class RequestModal extends Component {
                 </AbstractModal>
             );
         }
-
         return (
             <AbstractModal title={title} showProp={showProp} hideFn={this.hideModal}
                            submitFn={this.handleSubmitEdit} submitText={"Uložit jízdu"}>
