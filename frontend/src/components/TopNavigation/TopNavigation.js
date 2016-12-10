@@ -8,6 +8,7 @@ import EditProfileModal from "../Modals/EditProfileModal";
 import ShowProfileModal from "../Modals/ShowProfileModal";
 import NewRequestModal from "../Modals/NewRequestModal";
 import EditRequestModal from "../Modals/EditRequestModal";
+import ContactBuddyModal from "../Modals/ContactBuddyModal";
 import Menu from "../Modals/Menu";
 import {Alert} from 'react-bootstrap';
 
@@ -22,6 +23,7 @@ export default class TopNavigation extends Component {
             showRestorePass: false,
             showEditRequestModal: false,
             showProfileModal: false,
+            showContactBuddyModal: false,
             selectedBuddy: undefined,
             showContactButton: undefined
         };
@@ -43,11 +45,22 @@ export default class TopNavigation extends Component {
         this.removeUser = this.removeUser.bind(this);
         this.openProfileModal = this.openProfileModal.bind(this);
         this.closeProfileModal = this.closeProfileModal.bind(this);
+        this.openContactBuddy = this.openContactBuddy.bind(this);
+        this.closeContactBuddy = this.closeContactBuddy.bind(this);
     }
 
     componentDidMount() {
         currentUser.setOpenLogInFn(this.openLogin);
         currentUser.setOpenProfilefn(this.openProfileModal);
+        currentUser.setOpenContactBuddy(this.openContactBuddy);
+    }
+
+    openContactBuddy(selectedBuddy) {
+        this.setState({showContactBuddyModal: true, selectedBuddy: selectedBuddy});
+    }
+
+    closeContactBuddy() {
+        this.setState({showContactBuddyModal: false});
     }
 
     openRestorePass() {
@@ -139,6 +152,14 @@ export default class TopNavigation extends Component {
 
                 <RegisterModal showProp={this.state.showRegisterModal} hideFn={this.closeRegister}
                                switchFn={this.openLogin}/>
+
+                {
+                    this.state.showContactBuddyModal ?
+                <ContactBuddyModal showProp={this.state.showContactBuddyModal} hideFn={this.closeContactBuddy}
+                                   buddyTo={this.state.selectedBuddy}/>
+                        : ""
+                }
+
                 {
                     this.state.showProfileModal ?
                         <ShowProfileModal showProp={this.state.showProfileModal} hideFn={this.closeProfileModal}

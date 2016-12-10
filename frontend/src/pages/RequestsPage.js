@@ -27,7 +27,6 @@ export class RequestsPage extends Component {
         this.openShowRequestShowModal = this.openShowRequestShowModal.bind(this);
         this.closeAlert = this.closeAlert.bind(this);
         this.openContactBuddy = this.openContactBuddy.bind(this);
-        this.closeContactBuddy = this.closeContactBuddy.bind(this);
     }
 
     closeAlert() {
@@ -43,19 +42,11 @@ export class RequestsPage extends Component {
 
     openContactBuddy(buddyTo) {
         if (buddyTo && buddyTo.name) {
-            console.log("sdaabvdv");
-            this.state.requestShowModalContent.buddy = buddyTo;
+            this.setState({
+                showRequestShowModal: false
+            });
+            currentUser.openContactBuddy(buddyTo);
         }
-        this.setState({
-            showRequestShowModal: false,
-            showContactBuddyModal: true
-        });
-    }
-
-    closeContactBuddy() {
-        this.setState({
-            showContactBuddyModal: false
-        });
     }
 
     openShowRequestShowModal(buddy, request) {
@@ -112,8 +103,6 @@ export class RequestsPage extends Component {
                 <ShowRequestModal showProp={this.state.showRequestShowModal} hideFn={this.closeShowRequestShowModal}
                                   requestShowModalContent={this.state.requestShowModalContent}
                                   contactBuddy={this.openContactBuddy}/>
-                <ContactBuddyModal showProp={this.state.showContactBuddyModal} hideFn={this.closeContactBuddy}
-                                   buddyTo={this.state.requestShowModalContent.buddy}/>
                 <div className="row">
                     <div className="input-group v-o-5">
                         <input id="search-town" type="search"

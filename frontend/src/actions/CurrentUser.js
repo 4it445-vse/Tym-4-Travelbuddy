@@ -3,6 +3,7 @@ import axios from "../api";
 var currentUser = undefined;
 var openLogInFn;
 var openProfilefn;
+var openContactBuddyFn;
 var alert;
 var question;
 
@@ -46,12 +47,20 @@ function setOpenLogInFn(fn){
     openLogInFn = fn;
 }
 
-function openProfile(selectedBuddy){
-    openProfilefn(selectedBuddy);
+function openProfile(selectedBuddy, showContactButton){
+    openProfilefn(selectedBuddy, showContactButton);
 }
 
 function setOpenProfilefn(fn){
     openProfilefn = fn;
+}
+
+function openContactBuddy(selectedBuddy){
+    openContactBuddyFn(selectedBuddy);
+}
+
+function setOpenContactBuddy(fn){
+    openContactBuddyFn = fn;
 }
 
 function getCurrentUser() {
@@ -91,5 +100,7 @@ export default {
     getQuestion,
     setQuestion,
     setOpenProfilefn,
-    openProfile
+    openProfile,
+    openContactBuddy,
+    setOpenContactBuddy
 }
