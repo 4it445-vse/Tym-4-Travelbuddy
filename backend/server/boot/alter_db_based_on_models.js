@@ -3,6 +3,33 @@ module.exports = function (app) {
   var Message = app.models.Message;
   var Buddy = app.models.Buddy;
 
+  Message.messagesDisplayed = function(where, cb) {
+    console.log("where in messagesDisplayed: ", where);
+    Message.updateAll(where, {displayed: true}, function(err, info) {
+      console.log("Error: ", err);
+      console.log("Info: ", info, info.count);
+      if (err) return cb(null, "FAIL");
+
+      cb(null, "OK");
+    });
+  };
+  Message.remoteMethod(
+    'messagesDisplayed', {
+      http: {
+        path: '/messages-displayed',
+        verb: 'post'
+      },
+      accepts: {
+        arg: 'where',
+        type: 'object'
+      },
+      returns: {
+        arg: 'status',
+        type: 'string'
+      }
+    }
+  );
+
   Message.resetPassRequest = function(email, cb) {
     console.log("request for email for password reset");
       console.log("email in resetPassRequest: ", email);

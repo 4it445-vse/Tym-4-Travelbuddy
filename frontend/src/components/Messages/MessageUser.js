@@ -24,7 +24,6 @@ export default class MessageUser extends Component {
 	
     render() {
 		const { user } = this.props;
-		console.log("MessageUser user: ", user);
         return (
 			<li className="left clearfix" onClick={this.setSelectedConversationUser}>
 				  <span className="chat-img float-left">

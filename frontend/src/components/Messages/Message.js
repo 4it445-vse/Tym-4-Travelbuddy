@@ -3,6 +3,7 @@ import React, {Component} from "react";
 export default class Message extends Component {
     render() {
 		const { message } = this.props;
+		console.log("Message: ", message);
         return (
 			<li className="left clearfix">
 				<span className={"chat-img1 " + (message.isIncoming ? 'float-right' : 'float-left')}>
@@ -10,7 +11,7 @@ export default class Message extends Component {
 				 </span>
 				<div className="chat-body1 clearfix">
 					<p><b className={message.isIncoming ? "float-right" : ""}>10:40</b><br/>
-						{message.text}
+						<div dangerouslySetInnerHTML={{__html: message.text}} />
 					</p>
 				</div>
 			</li>

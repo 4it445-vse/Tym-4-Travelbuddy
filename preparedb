@@ -2,9 +2,7 @@
 ALTER TABLE `Message` ADD FOREIGN KEY (buddy_id_from) REFERENCES Buddy(id);
 ALTER TABLE `Message` ADD FOREIGN KEY (buddy_id_to) REFERENCES Buddy(id);
 ALTER TABLE `Request` ADD FOREIGN KEY (buddy_id) REFERENCES Buddy(id);
-ALTER TABLE `Request` MODIFY COLUMN `from` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE `Buddy` MODIFY COLUMN `about_me` TEXT;
-ALTER TABLE `Message` MODIFY COLUMN `date_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE `Request` MODIFY COLUMN `text` TEXT;
 ALTER TABLE `Message` MODIFY COLUMN `text` TEXT;
 ALTER TABLE `Message` MODIFY COLUMN `displayed` tinyint(1)	DEFAULT 0;
@@ -77,11 +75,6 @@ INSERT INTO `Request` (`id`, `text`, `city`, `from`, `to`, `buddy_id`) VALUES
 (1, 'Nechtěl by mě někdo provést Prahou, jsem uživatel 1?', 'Praha', '2016-11-24 12:38:35', '2016-11-24 12:38:35', 1),
 (3, 'Nechtěl by mě někdo provést Prahou, jsem uživatel 1?', 'Praha', '2016-11-24 12:39:48', '2016-11-24 12:39:48', 1);
 
---logged user 31 j.draslar@gmail.com Aa123456
---1 .. 06:39:48 .. 2
---2 .. 05:39:48 .. 1
---3 .. 09:39:48 .. 0
---4 .. 21:39:48 .. 0
 INSERT INTO `Message` (`text`, `displayed`, `date_time`, `buddy_id_from`, `buddy_id_to`) VALUES
 ('Hi, this is sample message. TO', 0, '2016-11-24 05:30:48', 1, 31),
 ('Hi, this is sample message. FROM', 1, '2016-11-24 01:39:48', 31, 1),
@@ -96,3 +89,9 @@ INSERT INTO `Message` (`text`, `displayed`, `date_time`, `buddy_id_from`, `buddy
 ('Hi, this is sample message. FROM', 1, '2016-11-24 17:39:48', 31, 4),
 ('Hi, this is sample message. FROM', 1, '2016-11-24 21:39:48', 31, 4),
 ('Hi, this is sample message. FROM', 1, '2016-11-24 16:39:48', 31, 4);
+
+--logged user 31 j.draslar@gmail.com Aa123456
+--1 .. 06:39:48 .. 2
+--2 .. 05:39:48 .. 1
+--3 .. 09:39:48 .. 0
+--4 .. 21:39:48 .. 0

@@ -17,9 +17,11 @@ export default class MessagePage extends Component {
             selectedConversationUser: undefined,
             updateSelectedUserInUserViewFn: undefined
         };
+        this.findUserMessages = undefined;
         this.findUsers = this.findUsers.bind(this);
         this.setSelectedConversationUser = this.setSelectedConversationUser.bind(this);
         this.restrictUsers = this.restrictUsers.bind(this);
+        this.setFindUserMessages = this.setFindUserMessages.bind(this);
     }
 
     componentDidMount() {
@@ -27,7 +29,17 @@ export default class MessagePage extends Component {
         this.restrictUsers("");
     }
 
+    setFindUserMessages(fn) {
+        this.findUserMessages = fn;
+    }
+
     setSelectedConversationUser(value, fn) {
+        if (this.findUserMessages) {
+            console.log("called")
+            this.findUserMessages(value, fn);
+        } else {
+            console.log("not called");
+        }
         this.setState({
             selectedConversationUser: value,
             updateSelectedUserInUserViewFn: fn
@@ -37,9 +49,9 @@ export default class MessagePage extends Component {
     restrictUsers(value) {
         let usersWithMessagesChosen = [];
         if (value) {
-			console.log("In restrictUsers");
+            console.log("In restrictUsers");
             this.state.usersWithMessages.map(message => {
-				console.log(message.fullname, value, message.fullname.includes(value));
+                console.log(message.fullname, value, message.fullname.includes(value));
                 if (message.fullname.includes(value)) {
                     usersWithMessagesChosen.push(message);
                 }
@@ -75,61 +87,67 @@ export default class MessagePage extends Component {
                 buddyMessages.map(message => {
                     if (message.buddy_id_to === currentUserId) {
                         let cbm = messages.get(message.buddy_id_from);
-						let obj = {unreadIncomingMessagesNum: 0, lastMessageTime: message.date_time, id: message.buddy_id_from};
-						if (cbm){
-							obj.unreadIncomingMessagesNum = cbm.unreadIncomingMessagesNum;
-							if((new Date(cbm.lastMessageTime) - new Date(message.date_time)) < 0){
-								obj.lastMessageTime = message.date_time;
-							}else{
-								obj.lastMessageTime = cbm.lastMessageTime;
-							}
-						}
+                        let obj = {
+                            unreadIncomingMessagesNum: 0,
+                            lastMessageTime: message.date_time,
+                            id: message.buddy_id_from
+                        };
+                        if (cbm) {
+                            obj.unreadIncomingMessagesNum = cbm.unreadIncomingMessagesNum;
+                            if ((new Date(cbm.lastMessageTime) - new Date(message.date_time)) < 0) {
+                                obj.lastMessageTime = message.date_time;
+                            } else {
+                                obj.lastMessageTime = cbm.lastMessageTime;
+                            }
+                        }
                         if (message.displayed === false) {
                             unreadIncomingMessagesTotalNum++;
                             obj.unreadIncomingMessagesNum = obj.unreadIncomingMessagesNum + 1;
                         }
-						messages.set(message.buddy_id_from, obj);
+                        messages.set(message.buddy_id_from, obj);
                     } else {
-						let cbm = messages.get(message.buddy_id_to);
-						let obj = {unreadIncomingMessagesNum: 0, lastMessageTime: message.date_time, id: message.buddy_id_to};
-						if (cbm){
-							obj.unreadIncomingMessagesNum = cbm.unreadIncomingMessagesNum;
-							if((new Date(cbm.lastMessageTime) - new Date(message.date_time)) < 0){
-								obj.lastMessageTime = message.date_time;
-							}else{
-								obj.lastMessageTime = cbm.lastMessageTime;
-							}
-						}
-						messages.set(message.buddy_id_to, obj);
+                        let cbm = messages.get(message.buddy_id_to);
+                        let obj = {
+                            unreadIncomingMessagesNum: 0,
+                            lastMessageTime: message.date_time,
+                            id: message.buddy_id_to
+                        };
+                        if (cbm) {
+                            obj.unreadIncomingMessagesNum = cbm.unreadIncomingMessagesNum;
+                            if ((new Date(cbm.lastMessageTime) - new Date(message.date_time)) < 0) {
+                                obj.lastMessageTime = message.date_time;
+                            } else {
+                                obj.lastMessageTime = cbm.lastMessageTime;
+                            }
+                        }
+                        messages.set(message.buddy_id_to, obj);
                     }
                 });
                 for (let [key, value] of messages) {
-					axios.get('buddies', {
-						params: {
-							filter: {
-								where: {
-									id: key
-								}
-							}
-						}
-					}).then(response => {
-						let obj = messages.get(key);
-						obj.fullname = response.data[0].name + " " + response.data[0].surname;
-						this.state.usersWithMessages.push(obj);
+                    axios.get('buddies', {
+                        params: {
+                            filter: {
+                                where: {
+                                    id: key
+                                }
+                            }
+                        }
+                    }).then(response => {
+                        let obj = messages.get(key);
+                        obj.fullname = response.data[0].name + " " + response.data[0].surname;
+                        this.state.usersWithMessages.push(obj);
 
-						this.state.usersWithMessages.sort(function(a,b){
-							return new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime();
-						});
-						this.setState(this.state);
-					});
-				}
+                        this.state.usersWithMessages.sort(function (a, b) {
+                            return new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime();
+                        });
+                        this.setState(this.state);
+                    });
+                }
             }
         });
     }
 
     render() {
-		console.log(this.state.usersWithMessagesChosen.length, this.state.usersWithMessagesChosen);
-		console.log(this.state.usersWithMessages.length, this.state.usersWithMessages);
         return (
             <div className="row">
                 <div className="v-o-5">
@@ -138,18 +156,21 @@ export default class MessagePage extends Component {
                             <div className="chat_container">
                                 <div className="col-sm-3 chat_sidebar">
                                     <div className="row">
-<div className="dropdown-toggle1">
+                                        <div className="dropdown-toggle1">
                                             Všechny konverzace: <span className="caret float-right"></span>
                                         </div>
                                         <MessageSearch refreshUsersList={this.restrictUsers}/>
                                         <div className="member_list">
-                                            <MessageUsers users={this.state.usersWithMessagesChosen} setSelectedConversationUser={this.setSelectedConversationUser}/>
+                                            <MessageUsers users={this.state.usersWithMessagesChosen}
+                                                          setSelectedConversationUser={this.setSelectedConversationUser}/>
                                         </div>
                                     </div>
                                 </div>
-                                 <div className="col-sm-9 message_section">
-                                    <Messages selectedConversationUser={this.state.selectedConversationUser} updateSelectedUserInUserViewFn={this.state.updateSelectedUserInUserViewFn}/>
-                                 </div>
+                                <div className="col-sm-9 message_section">
+                                    <Messages setFindUserMessages={this.setFindUserMessages}
+                                              selectedConversationUser={this.state.selectedConversationUser}
+                                              updateSelectedUserInUserViewFn={this.state.updateSelectedUserInUserViewFn}/>
+                                </div>
                             </div>
                         </div>
                     </div>
