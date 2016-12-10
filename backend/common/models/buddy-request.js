@@ -14,15 +14,16 @@ module.exports = function(Request) {
     doneCallback();
   }, {
     message: {
-      cityIsMandatory: 'Město je povinné pole, to abychom Vás mohli najít.',
-      cityTooLong: 'Název města je příliš dlouhý. Maximální počet znaků je 30.',
+      cityIsMandatory: 'City is mandatory, so other buddies can find you.',
+      cityTooLong: 'City name is too long. Maximum number of characters is 50.',
     },
   });
 
   Request.validateAsync('from', function fromValidator(errorCallback, doneCallback) {
     if (!this.from) {
       errorCallback('fromIsMandatory');
-    } else if (!moment(this.from).isValid()) {
+    } else
+    if (!moment(this.from).isValid()) {
       errorCallback('fromIsMandatory');
       errorCallback('fromWrongFromat');
     }
@@ -30,24 +31,30 @@ module.exports = function(Request) {
     doneCallback();
   }, {
     message: {
-      fromIsMandatory: 'Potřebujeme vědět, od kdy plánujete cestu.',
-      fromWrongFromat: 'Datum je ve špatném formátu.'
+      fromIsMandatory: 'We need to know, when are you planning the trip.',
+      fromWrongFromat: 'Date is in wrong format.'
     },
   });
 
   Request.validateAsync('to', function toValidator(errorCallback, doneCallback) {
     if (!this.to) {
       errorCallback('toIsMandatory');
-    } else if (!moment(this.to).isValid()) {
+    } else
+    if (!moment(this.to).isValid()) {
       errorCallback('toIsMandatory');
       errorCallback('toWrongFromat');
+    } else
+    if (!moment(this.to).isSameOrAfter(moment(this.from))) {
+      errorCallback('toIsMandatory');
+      errorCallback('toBiggerThanFrom');
     }
 
     doneCallback();
   }, {
     message: {
-      toIsMandatory: 'Potřebujeme vědět, do kdy plánujete cestu.',
-      toWrongFromat: 'Datum je bohužel ve špatném formátu.'
+      toIsMandatory: 'When you are planning the trip?',
+      toWrongFromat: 'Right format for date is YYYY-MM-DD.',
+      toBiggerThanFrom: 'Date To can not be after date From.'
     },
   });
 
@@ -59,8 +66,20 @@ module.exports = function(Request) {
     doneCallback();
   }, {
     message: {
-      textIsMandatory: 'Řekněte něco o sobě potencionálním buddíkům!'
+      textIsMandatory: 'Tell something about you to future buddies!'
     },
   });
 
+  //Taking care of onChange Events.
+  Request.validateAsync('onChange', function onChange(successCallback, doneCallback) {
+    if (this.onChange) {
+      successCallback('onChange');
+    }
+
+    doneCallback();
+  }, {
+    message: {
+      onChange: 'Ready to Submit.',
+    },
+  });
 };
