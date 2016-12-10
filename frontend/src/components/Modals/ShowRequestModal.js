@@ -3,13 +3,24 @@ import AbstractModal from "./AbstractModal";
 
 export default class ShowRequestModal extends Component {
 
+    constructor(props){
+        super(props);
+
+        this.constactBuddy = this.constactBuddy.bind(this);
+    }
+
+    constactBuddy(){
+        console.log(this.props.requestShowModalContent.buddy);
+        this.props.contactBuddy(this.props.requestShowModalContent.buddy);
+    }
+
     render() {
-        const {showProp, hideFn, requestShowModalContent, contactBuddy} = this.props;
+        const {showProp, hideFn, requestShowModalContent} = this.props;
         const {buddy, request} = requestShowModalContent;
         const title = buddy.name + " " + buddy.surname + " " + " hledá buddyho v městě " + request.city;
         return (
             <AbstractModal title={title} showProp={showProp} hideFn={hideFn}
-                           submitFn={contactBuddy} submitText={"Kontaktovat"}>
+                           submitFn={this.constactBuddy} submitText={"Kontaktovat"}>
                 <div>
                     <img
                         src="http://images.megaupload.cz/mystery-man.png"
@@ -28,7 +39,7 @@ export default class ShowRequestModal extends Component {
                     <br/>
                     <b>Email: </b>{buddy.email}
                     <br/>
-                    <label forHtml="exampleInputFile"><b>Text:</b></label>
+                    <label><b>Text:</b></label>
                     <textarea type="text" className="form-control"
                               id="text"
                               defaultValue={request.text} disabled/>

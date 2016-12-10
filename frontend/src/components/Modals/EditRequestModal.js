@@ -250,7 +250,7 @@ export default class RequestModal extends Component {
         var fromFormated = moment(this.state.request.from).format(dateFormat);
         var toFormated = moment(this.state.request.to).format(dateFormat);
 
-        if (this.state.requests.length === 0) {
+        if (this.state.requests.length === 0 ) {
             return (
                 <AbstractModal title={title} showProp={showProp} hideFn={hideFn} submitFn={switchFn}
                                submitText={"Chci někam jet!"}>
@@ -259,7 +259,6 @@ export default class RequestModal extends Component {
                 </AbstractModal>
             );
         }
-
         return (
             <AbstractModal title={title} showProp={showProp} hideFn={this.hideModal}
                            submitFn={this.handleSubmitEdit} submitText={"Uložit jízdu"}>

@@ -15,6 +15,7 @@ export default class Messages extends Component {
         };
         this.findMessages = this.findMessages.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
+        this.openProfile = this.openProfile.bind(this);
     }
 
     componentDidMount() {
@@ -120,13 +121,20 @@ export default class Messages extends Component {
         }
     }
 
+    openProfile() {
+        axios.get('buddies/'+this.state.selectedConversationUser.id).then(response => {
+            console.log(response.data);
+            currentUser.openProfile(response.data);
+        });
+    }
+
     render() {
         const {selectedConversationUser} = this.state;
         return (
             <div className="row">
                 <div className="new_message_head">
                     <div className="push-right">
-                        {!!selectedConversationUser ? "Konverzace s uživatelem " + selectedConversationUser.fullname :
+                        {!!selectedConversationUser ? <div>Konverzace s uživatelem <a href="#" onClick={this.openProfile}>{selectedConversationUser.fullname}</a></div> :
                             "Prosím vyberte si konverzaci"}
                     </div>
                 </div>

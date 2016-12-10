@@ -5,8 +5,10 @@ import LoginModal from "../Modals/LoginModal";
 import RegisterModal from "../Modals/RegisterModal";
 import ResetPassModal from "../Modals/ResetPassModal";
 import EditProfileModal from "../Modals/EditProfileModal";
+import ShowProfileModal from "../Modals/ShowProfileModal";
 import NewRequestModal from "../Modals/NewRequestModal";
 import EditRequestModal from "../Modals/EditRequestModal";
+import ContactBuddyModal from "../Modals/ContactBuddyModal";
 import Menu from "../Modals/Menu";
 import {Alert} from 'react-bootstrap';
 
@@ -19,7 +21,11 @@ export default class TopNavigation extends Component {
             showEditModal: false,
             showNewRequestModal: false,
             showRestorePass: false,
-            showEditRequestModal: false
+            showEditRequestModal: false,
+            showProfileModal: false,
+            showContactBuddyModal: false,
+            selectedBuddy: undefined,
+            showContactButton: undefined
         };
 
         this.closeLogin = this.closeLogin.bind(this);
@@ -37,10 +43,24 @@ export default class TopNavigation extends Component {
         this.closeEditRequests = this.closeEditRequests.bind(this);
         this.closeQuestion = this.closeQuestion.bind(this);
         this.removeUser = this.removeUser.bind(this);
+        this.openProfileModal = this.openProfileModal.bind(this);
+        this.closeProfileModal = this.closeProfileModal.bind(this);
+        this.openContactBuddy = this.openContactBuddy.bind(this);
+        this.closeContactBuddy = this.closeContactBuddy.bind(this);
     }
 
     componentDidMount() {
         currentUser.setOpenLogInFn(this.openLogin);
+        currentUser.setOpenProfilefn(this.openProfileModal);
+        currentUser.setOpenContactBuddy(this.openContactBuddy);
+    }
+
+    openContactBuddy(selectedBuddy) {
+        this.setState({showContactBuddyModal: true, selectedBuddy: selectedBuddy});
+    }
+
+    closeContactBuddy() {
+        this.setState({showContactBuddyModal: false});
     }
 
     openRestorePass() {
@@ -67,6 +87,14 @@ export default class TopNavigation extends Component {
 
     closeLogin() {
         this.setState({showLoginModal: false});
+    }
+
+    openProfileModal(selectedBuddy, showContactButton) {
+        this.setState({selectedBuddy: selectedBuddy, showContactButton: showContactButton, showProfileModal: true});
+    }
+
+    closeProfileModal() {
+        this.setState({showProfileModal: false});
     }
 
     openRegister() {
@@ -124,6 +152,21 @@ export default class TopNavigation extends Component {
 
                 <RegisterModal showProp={this.state.showRegisterModal} hideFn={this.closeRegister}
                                switchFn={this.openLogin}/>
+
+                {
+                    this.state.showContactBuddyModal ?
+                <ContactBuddyModal showProp={this.state.showContactBuddyModal} hideFn={this.closeContactBuddy}
+                                   buddyTo={this.state.selectedBuddy}/>
+                        : ""
+                }
+
+                {
+                    this.state.showProfileModal ?
+                        <ShowProfileModal showProp={this.state.showProfileModal} hideFn={this.closeProfileModal}
+                                          buddy={this.state.selectedBuddy} showContactButton={this.state.showContactButton}/>
+                        : ""
+                }
+
                 {
                     (!!alert) ?
                         <Modal show={true} onHide={this.closeAlert}>
@@ -161,8 +204,10 @@ export default class TopNavigation extends Component {
                     <div>
                         <EditProfileModal showProp={this.state.showEditModal} hideFn={this.closeEdit}/>
                         <NewRequestModal showProp={this.state.showNewRequestModal} hideFn={this.closeNewRequest}/>
+                        { this.state.showEditRequestModal ?
                         <EditRequestModal showProp={this.state.showEditRequestModal} hideFn={this.closeEditRequests}
                                           switchFn={this.openNewRequest}/>
+                            : ""}
                     </div>
                     : ""}
 

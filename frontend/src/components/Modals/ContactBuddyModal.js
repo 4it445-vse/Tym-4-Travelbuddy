@@ -46,8 +46,9 @@ export default class ContactBuddyModal extends Component {
         }
         console.log("about to send message: ", this.props.buddyTo);
         const loggedUser = currentUser.getCurrentUser();
+        let text = this.state.text.replace(/\r?\n/g, '</br>');
         axios.post('messages', {
-            "text": this.state.text,
+            "text": text,
             "displayed": false,
             "date_time": new Date(),
             "buddy_id_from": loggedUser.id,
@@ -70,7 +71,7 @@ export default class ContactBuddyModal extends Component {
             <AbstractModal title={title} showProp={showProp} hideFn={this.closeModal}
                            submitFn={this.handleSubmitContactBuddy} submitText={"Odešli"}>
                 <form>
-                    <div className="form-group no-margin row">
+                    <div className="form-group no-margin-bottom-bottom row">
                         <label className="col-xs-12 col-form-label">Text: </label>
                         <div className="col-xs-12">
                             {
