@@ -11,9 +11,8 @@ export default class User extends Component {
     }
 
     openProfile() {
-        if (currentUser.getCurrentUser()) { //DONE removed !!
-            this.props.openProfile(this.state.buddy);
-
+        if (currentUser.getCurrentUser()) {
+            currentUser.openProfile(this.state.buddy, true);
         } else {
             currentUser.openLogIn();
         }

@@ -1,16 +1,11 @@
 import React, {Component} from "react";
-import currentUser from "../../actions/CurrentUser";
-import AbstractModal from "./AbstractModal";
-import FormGroup from "./FormGroup";
-import axios from "../../api";
-import GooglePlacesSuggest from "../Autosuggest/SuggestCity"
+import {Modal} from "react-bootstrap";
 
 export default class ShowProfileModal extends Component {
 
     render() {
-        const {showProp, hideFn, buddy} = this.props;
-        const loggedUser = currentUser.getCurrentUser();
-        const title = "Editace profilu - " + loggedUser.name + " " + loggedUser.surname;
+        const {showProp, hideFn, buddy, showContactButton} = this.props;
+        console.log("### buddy in showprofilemodal: ", buddy, this.props);
         return (
             <Modal show={showProp} onHide={hideFn}>
                 <Modal.Header closeButton>

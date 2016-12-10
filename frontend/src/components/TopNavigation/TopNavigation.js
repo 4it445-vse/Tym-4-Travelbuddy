@@ -22,7 +22,8 @@ export default class TopNavigation extends Component {
             showRestorePass: false,
             showEditRequestModal: false,
             showProfileModal: false,
-            selectedBuddy: undefined
+            selectedBuddy: undefined,
+            showContactButton: undefined
         };
 
         this.closeLogin = this.closeLogin.bind(this);
@@ -75,8 +76,8 @@ export default class TopNavigation extends Component {
         this.setState({showLoginModal: false});
     }
 
-    openProfileModal(selectedBuddy) {
-        this.setState({showProfileModal: true, selectedBuddy: selectedBuddy});
+    openProfileModal(selectedBuddy, showContactButton) {
+        this.setState({selectedBuddy: selectedBuddy, showContactButton: showContactButton, showProfileModal: true});
     }
 
     closeProfileModal() {
@@ -140,7 +141,8 @@ export default class TopNavigation extends Component {
                                switchFn={this.openLogin}/>
                 {
                     this.state.showProfileModal ?
-                        <ShowProfileModal showProp={this.state.showProfileModal} hideFn={this.closeProfileModal}/>
+                        <ShowProfileModal showProp={this.state.showProfileModal} hideFn={this.closeProfileModal}
+                                          buddy={this.state.selectedBuddy} showContactButton={this.state.showContactButton}/>
                         : ""
                 }
 
@@ -181,8 +183,10 @@ export default class TopNavigation extends Component {
                     <div>
                         <EditProfileModal showProp={this.state.showEditModal} hideFn={this.closeEdit}/>
                         <NewRequestModal showProp={this.state.showNewRequestModal} hideFn={this.closeNewRequest}/>
+                        { this.state.showEditRequestModal ?
                         <EditRequestModal showProp={this.state.showEditRequestModal} hideFn={this.closeEditRequests}
                                           switchFn={this.openNewRequest}/>
+                            : ""}
                     </div>
                     : ""}
 

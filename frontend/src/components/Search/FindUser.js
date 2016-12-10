@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import User from "./User";
-import CurrentUser from "../../actions/CurrentUser";
 
 export default class FindUser extends Component {
 
@@ -19,8 +18,6 @@ export default class FindUser extends Component {
             nextButtonVisible: false
         };
 
-        this.openProfile = this.openProfile.bind(this);
-        this.closeProfile = this.closeProfile.bind(this);
         this.renderNextPage = this.renderNextPage.bind(this);
         this.renderPreviousPage = this.renderPreviousPage.bind(this);
     }
@@ -83,10 +80,6 @@ export default class FindUser extends Component {
     }
 
 
-    openProfile(buddy) {
-        CurrentUser.openProfile(buddy);
-    }
-
     render() {
         const {budies} = this.props;
         return (
@@ -107,7 +100,7 @@ export default class FindUser extends Component {
                                 </div>
                                 {
                                     budies.slice(this.state.startIndex, this.state.endIndex).map(buddy =>
-                                        <User buddy={buddy} key={buddy.id} openProfile={this.openProfile}/>
+                                        <User buddy={buddy} key={buddy.id}/>
                                     )
                                 }
                                 <div className="card-block PaginateRibbon">
