@@ -38,7 +38,7 @@ export default class MessagePage extends Component {
     }
 
     setUpObserver() {
-        if(this.checkpoint){
+        if (this.checkpoint) {
             axios.get('messages/count', {
                 params: {
                     filter: {
@@ -49,7 +49,7 @@ export default class MessagePage extends Component {
                 }
             }).then(response => {
                 console.log("####count: ", response.data.count);
-                if(response.data.count > this.checkpoint) {
+                if (response.data.count > this.checkpoint) {
                     console.log("### new message came");
                     this.findUsers();
                     this.restrictUsers("");
@@ -181,7 +181,7 @@ export default class MessagePage extends Component {
                                 return new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime();
                             });
                             let state = this.state;
-                            if(state.selectedConversationUser && state.selectedConversationUser.id === obj.id){
+                            if (state.selectedConversationUser && state.selectedConversationUser.id === obj.id) {
                                 this.findUserMessages(value);
                             }
                             this.setState(state);
@@ -195,32 +195,15 @@ export default class MessagePage extends Component {
     render() {
         return (
             <div className="row">
-                <div className="v-o-5">
-                    <div className="main_section">
-                        <div className="container">
-                            <div className="chat_container">
-                                <div className="col-sm-3 chat_sidebar">
-                                    <div className="row">
-                                        <div className="dropdown-toggle1">
-                                            Všechny konverzace: <span className="caret float-right"></span>
-                                        </div>
-                                        <MessageSearch refreshUsersList={this.restrictUsers}/>
-                                        <div className="member_list"
-                                             id={!!this.state.selectedConversationUser ? "" : "member_list_noone_selected"}>
-                                            <MessageUsers users={this.state.usersWithMessagesChosen}
-                                                          setSelectedConversationUser={this.setSelectedConversationUser} selectedConversationUser={this.state.selectedConversationUser}/>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-sm-9 message_section">
-                                    <Messages setFindUserMessages={this.setFindUserMessages}
-                                              selectedConversationUser={this.state.selectedConversationUser}
-                                              updateSelectedUserInUserViewFn={this.state.updateSelectedUserInUserViewFn}
-                                              incrementCheckout={this.incrementCheckout}/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div className="dropdown-toggle1">
+                    Všechny konverzace: <span className="caret float-right"></span>
+                </div>
+                <MessageSearch refreshUsersList={this.restrictUsers}/>
+                <div className="member_list"
+                     id={!!this.state.selectedConversationUser ? "" : "member_list_noone_selected"}>
+                    <MessageUsers users={this.state.usersWithMessagesChosen}
+                                  setSelectedConversationUser={this.setSelectedConversationUser}
+                                  selectedConversationUser={this.state.selectedConversationUser}/>
                 </div>
             </div>
         );

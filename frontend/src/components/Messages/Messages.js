@@ -3,6 +3,7 @@ import Message from "./Message";
 import MessageSend from "./MessageSend";
 import currentUser from "../../actions/CurrentUser";
 import axios from "../../api";
+import ReactDOM from 'react-dom';
 
 export default class Messages extends Component {
 
@@ -20,6 +21,14 @@ export default class Messages extends Component {
         this.props.setFindUserMessages(this.findMessages);
     }
 
+    componentDidUpdate() {
+        var len = this.state.messages.length - 1;
+        const node = ReactDOM.findDOMNode(this['_div' + len]);
+        if (node) {
+            node.scrollIntoView();
+        }
+    }
+
     sendMessage(message) {
         var obj = {
             'text': message,
@@ -32,7 +41,8 @@ export default class Messages extends Component {
 
         axios.post('messages', obj).then(response => {
             console.log('### Message successfully sent. from ' + currentUser.getCurrentUser().id + ' to ' + this.props.selectedConversationUser.id);
-            this.findMessages(this.state.selectedConversationUser)
+            this.props.incrementCheckout();
+            this.findMessages(this.state.selectedConversationUser);
         });
     }
 
@@ -120,11 +130,11 @@ export default class Messages extends Component {
                             "Prosím vyberte si konverzaci"}
                     </div>
                 </div>
-                <div className="chat_area">
+                <div className="chat_area" id={ !!selectedConversationUser ? "" : "chat_area_noone_selected"}>
                     <ul className="list-unstyled">
                         {
-                            this.state.messages.map(message =>
-                                <Message key={message.id} message={message}/>
+                            this.state.messages.map((message, idx) =>
+                                <Message key={message.id} message={message} ref={(ref) => this['_div' + idx] = ref}/>
                             )
                         }
                     </ul>

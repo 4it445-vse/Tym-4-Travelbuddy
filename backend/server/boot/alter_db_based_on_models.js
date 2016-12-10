@@ -96,6 +96,30 @@ module.exports = function (app) {
       }
   );
 
+  Message.setObserver = function(userId, cb) {
+    console.log("email in setObserver: ", userId);
+    Message.on('changed', function(obj) {
+      console.log("observer registred", obj, userId);
+      cb("RELOAD_MESSAGES");
+    });
+  };
+  Message.remoteMethod(
+    'setObserver', {
+      http: {
+        path: '/set-observer',
+        verb: 'post'
+      },
+      accepts: {
+        arg: 'userId',
+        type: 'number'
+      },
+      returns: {
+        arg: 'status',
+        type: 'string'
+      }
+    }
+  );
+
   app.dataSources.mysqlds.autoupdate('Buddy', function (err) {
     if (!Buddy) {
       return;

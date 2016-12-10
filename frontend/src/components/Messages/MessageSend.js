@@ -12,14 +12,13 @@ export default class MessageSend extends Component {
         this.setMessageText = this.setMessageText.bind(this);
     }
 
-    setMessageText(e){
+    setMessageText(e) {
         var text = e.target.value;
         this.setState({messageText: text});
     }
 
     submitSendMessage() {
-        var text = this.state.messageText.replace(/\r?\n/g, '</br>');;
-        console.log("in submitSendMessage and text is: ", text);
+        var text = this.state.messageText.replace(/\r?\n/g, '</br>');
         if (text) {
             this.setState({messageText: ""});
             this.props.sendMessage(text);
@@ -28,22 +27,24 @@ export default class MessageSend extends Component {
     }
 
     render() {
-        const { sendMessage } = this.props;
+        const {sendMessage} = this.props;
         return (
             <div className="message_write">
                 {
                     !!sendMessage ?
-                    <div>
-                        <textarea onChange={this.setMessageText} value={this.state.messageText} className="form-control" placeholder="Napiš zprávu"></textarea>
-                        <div className="clearfix"></div>
-                        <div className="chat_bottom">
-                            {!!this.props.sendMessage ?
-                                <a href="#" className="float-right btn btn-primary" onClick={this.submitSendMessage}>Odeslat
-                                    zprávu</a>
-                                :
-                                <a href="#" className="float-right btn btn-primary">Odeslat zprávu</a> }
+                        <div>
+                            <textarea onChange={this.setMessageText} value={this.state.messageText}
+                                      className="form-control" placeholder="Napiš zprávu"></textarea>
+                            <div className="clearfix"></div>
+                            <div className="chat_bottom">
+                                {!!this.props.sendMessage ?
+                                    <a href="#" className="float-right btn btn-primary"
+                                       onClick={this.submitSendMessage}>Odeslat
+                                        zprávu</a>
+                                    :
+                                    <a href="#" className="float-right btn btn-primary">Odeslat zprávu</a> }
+                            </div>
                         </div>
-                    </div>
                         : ""
                 }
             </div>
