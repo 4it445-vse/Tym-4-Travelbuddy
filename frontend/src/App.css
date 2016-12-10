@@ -184,6 +184,10 @@ body {
     font-size: 120px;
   }
 }
+.iconsColor {
+  color: #0275d8;
+}
+
 .heading-container{
   padding: 10px 10px 10px 10px;
 }

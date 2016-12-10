@@ -79,6 +79,8 @@ export class HomePage extends Component {
                         <h4 className="hidden-sm-down">Traveling Alone</h4>
                         <h6 className="hidden-md-up">Traveling Alone</h6>
                       </div>
+                      <FontAwesome className="iconsColor hidden-sm-down" name="arrow-right" size="3x"></FontAwesome>
+                      <FontAwesome className="iconsColor hidden-md-up" name="arrow-right" size="1x"></FontAwesome>
                     </div>
                   </div>
                   <div className="col-xs-4">
@@ -90,6 +92,8 @@ export class HomePage extends Component {
                         <h4 className="hidden-sm-down">Register and Login</h4>
                         <h6 className="hidden-md-up">Register and Login</h6>
                       </div>
+                      <FontAwesome className="iconsColor hidden-sm-down" name="arrow-right" size="3x"></FontAwesome>
+                      <FontAwesome className="iconsColor hidden-md-up" name="arrow-right" size="1x"></FontAwesome>
                     </div>
                   </div>
                   <div className="col-xs-4">
@@ -101,6 +105,8 @@ export class HomePage extends Component {
                         <h4 className="hidden-sm-down">Find Buddies</h4>
                         <h6 className="hidden-md-up">Find Buddies</h6>
                       </div>
+                      <FontAwesome className="iconsColor hidden-sm-down" name="thumbs-up" size="3x"></FontAwesome>
+                      <FontAwesome className="iconsColor hidden-md-up" name="thumbs-up" size="1x"></FontAwesome>
                     </div>
                   </div>
                 </div>
