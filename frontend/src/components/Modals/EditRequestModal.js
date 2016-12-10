@@ -4,6 +4,7 @@ import Select from "react-select";
 import axios from "../../api";
 import moment from 'moment';
 import currentUser from "../../actions/CurrentUser";
+import GooglePlacesSuggest from "../Autosuggest/SuggestCity"
 
 export default class RequestModal extends Component {
 
@@ -234,6 +235,12 @@ export default class RequestModal extends Component {
         this.findBuddysRequests();
     }
 
+    handleSelectSuggest = (suggestName, coordinate) => {
+      var request = this.state.request;
+      request.city = suggestName;
+      this.setState({ request : request });
+    }
+
     render() {
         const {showProp, hideFn, switchFn} = this.props;
         const {errors} = this.state;
@@ -270,10 +277,13 @@ export default class RequestModal extends Component {
                     <div className="form-group row text-xs-center">
                         <label htmlFor="city" className="col-xs-3 col-sm-2 col-form-label text-xs-right">Město: </label>
                         <div className="col-xs-9 col-sm-10 text-xs-left">
+                        <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.request.city }>
                             <input className={ "form-control" + ( this.state.showValidation.city && !this.state.request.city ? ' alert-danger' : '' ) }
                                    value={this.state.request.city} onBlur={this.onChange} onChange={this.onChange} type="text"
-                                   name="city" placeholder="Město, do kterého budete cestovat"/>
+                                   name="city" placeholder="Město, do kterého budete cestovat"
+                                   autoComplete="off"/>
                             { this.state.showValidation.city && !this.state.request.city ? <span className="validation-error">Město je povinné pole, to abychom Vás mohli najít.</span> : ""}
+                        </GooglePlacesSuggest>
                         </div>
                     </div>
                     <div className="form-group row text-xs-center">

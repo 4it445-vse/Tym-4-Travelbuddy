@@ -3,6 +3,7 @@ import currentUser from "../../actions/CurrentUser";
 import AbstractModal from "./AbstractModal";
 import moment from "moment";
 import axios from "../../api";
+import GooglePlacesSuggest from "../Autosuggest/SuggestCity";
 
 export default class NewRequestModal extends Component {
 
@@ -160,6 +161,18 @@ export default class NewRequestModal extends Component {
         }
     }
 
+    handleSearchChange = (e) => {
+      var fields = this.state.fields;
+      fields.city = e.target.value;
+      this.setState({ fields: fields });
+    }
+
+    handleSelectSuggest = (suggestName, coordinate) => {
+      var fields = this.state.fields;
+      fields.city = suggestName;
+      this.setState({ fields: fields });
+    }
+
     render() {
         const {showProp, hideFn} = this.props;
         const {errors} = this.state;
@@ -177,9 +190,14 @@ export default class NewRequestModal extends Component {
                     <div className="form-group row text-xs-center">
                         <label htmlFor="city" className="col-xs-3 col-sm-2 col-form-label text-xs-right">Město: </label>
                         <div className="col-xs-9 col-sm-10 text-xs-left">
+                        <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.fields.city }>
                             <input className={ "form-control" + ( this.state.showValidation.city && !this.state.fields.city ? ' alert-danger' : '' ) }
                                    onBlur={this.onChange} type="text" name="city"
-                                   placeholder="Město, do kterého budete cestovat"/>
+                                   placeholder="Město, do kterého budete cestovat"
+                                   value={this.state.fields.city}
+                                   onChange={this.handleSearchChange}
+                                   autoComplete="off"/>
+                       </GooglePlacesSuggest>
                             { this.state.showValidation.city && !this.state.fields.city ? <span className="validation-error">Město je povinné pole, to abychom Vás mohli najít.</span> : ""}
                         </div>
                     </div>

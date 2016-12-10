@@ -7,11 +7,13 @@ import {Modal} from "react-bootstrap";
 import ShowRequestModal from "../components/Modals/ShowRequestModal";
 import ContactBuddyModal from "../components/Modals/ContactBuddyModal";
 import {Alert} from 'react-bootstrap';
+import GooglePlacesSuggest from "../components/Autosuggest/SuggestCity"
 
 export class RequestsPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            search: "",
             requests: null,
             showRequestShowModal: false,
             showContactBuddyModal: false,
@@ -21,7 +23,7 @@ export class RequestsPage extends Component {
             }
         };
 
-        this.fetchRequestsDebounced = lodash.debounce(this.fetchRequests, 500);
+        this.fetchRequestsDebounced = lodash.debounce(this.fetchRequests, 50);
         this.handleSearchChange = this.handleSearchChange.bind(this);
         this.closeShowRequestShowModal = this.closeShowRequestShowModal.bind(this);
         this.openShowRequestShowModal = this.openShowRequestShowModal.bind(this);
@@ -77,18 +79,22 @@ export class RequestsPage extends Component {
         if (!searchString) {
             return {};
         }
-        return {filter: {where: {city: {like: `%${searchString}%`},},},}
+        return {filter: {where: {city: {like: `%${searchString}%`,},},},}
     }
 
     fetchRequests(searchString) {
         axios.get('Requests', {params: this.paramsForSerchString(searchString)})
             .then((response) => {
-                this.setState({requests: response.data});
+                this.setState({requests: response.data, search: searchString});
             });
     }
 
     componentDidMount() {
         this.fetchRequests();
+    }
+
+    handleSelectSuggest = (suggestName, coordinate) => {
+      this.fetchRequestsDebounced(suggestName);
     }
 
     render() {
@@ -115,10 +121,13 @@ export class RequestsPage extends Component {
                 <ContactBuddyModal showProp={this.state.showContactBuddyModal} hideFn={this.closeContactBuddy}
                                    buddyTo={this.state.requestShowModalContent.buddy}/>
                 <div className="row">
+                <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.search }>
                     <div className="input-group v-o-5">
                         <input id="search-town" type="search"
                                className="form-control SearchBar SearchHeight SearchBorder"
-                               placeholder="Zadej cílové město" onChange={this.handleSearchChange}/>
+                               placeholder="Zadej cílové město" onChange={this.handleSearchChange}
+                               autoComplete="off"
+                               value={this.state.search}/>
                         <span className="input-group-btn">
               <button className="btn btn-defaul SearchButton SearchHeight text-white" type="button"
                       onClick={this.handleSearchChange}>
@@ -126,6 +135,7 @@ export class RequestsPage extends Component {
               </button>
             </span>
                     </div>
+                </GooglePlacesSuggest>
                 </div>
                 {requests === null ?
 
