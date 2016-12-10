@@ -95,8 +95,8 @@ body {
 }
 
 .profil_img {
-    width: 80px;
-    height: 80px;
+    width: 50px;
+    height: 50px;
 }
 
 .profil_o-30 {
@@ -140,8 +140,15 @@ body {
     margin-right: 10px;
 }
 
-.no-margin {
+.no-margin-bottom {
     margin-bottom: 0;
+}
+
+.no-margin {
+    margin: 0 !important;
+}
+.no-padding {
+    padding: 0 !important;
 }
 
 .big_checkbox {
@@ -170,6 +177,9 @@ body {
   border: 1px solid #0275d8 ;
   margin-left: 10px;
   margin-right: 10px;
+}
+.sexIcon {
+  margin-top: 7px;
 }
 
 @media (max-width: 768px) {
@@ -703,6 +713,14 @@ body {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+}
+.ellipsis2 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  max-height: 50px;
 }
 
 .request {

@@ -70,7 +70,7 @@ export default class ContactBuddyModal extends Component {
             <AbstractModal title={title} showProp={showProp} hideFn={this.closeModal}
                            submitFn={this.handleSubmitContactBuddy} submitText={"Odešli"}>
                 <form>
-                    <div className="form-group no-margin row">
+                    <div className="form-group no-margin-bottom-bottom row">
                         <label className="col-xs-12 col-form-label">Text: </label>
                         <div className="col-xs-12">
                             {

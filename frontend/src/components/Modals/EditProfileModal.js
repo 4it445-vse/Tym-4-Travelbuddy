@@ -70,11 +70,11 @@ export default class EditProfileModal extends Component {
             <AbstractModal title={title} showProp={showProp} hideFn={hideFn}
                            submitFn={this.handleSubmitEdit} submitText={"Uložit"}>
                 <form>
-                    <div className="form-group no-margin row">
+                    <div className="form-group no-margin-bottom row">
                         <label className="col-xs-6 col-form-label">Jméno: {loggedUser.name}</label>
                         <label className="col-xs-6 col-form-label">Přijmení: {loggedUser.surname}</label>
                     </div>
-                    <div className="form-group no-margin row">
+                    <div className="form-group no-margin-bottom row">
                         <label className="col-xs-12 col-form-label">Email: {loggedUser.email}</label>
                     </div>
                     <hr/>
@@ -86,7 +86,7 @@ export default class EditProfileModal extends Component {
                                 <option value="female">Žena</option>
                             </select>
                         </FormGroup> : ""}
-                    <div className="form-group no-margin row">
+                    <div className="form-group no-margin-bottom row">
                         <label className="col-xs-12 col-form-label">Město: </label>
                         <div className="col-xs-12">
                                               <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.city }>
@@ -97,7 +97,7 @@ export default class EditProfileModal extends Component {
                       </small>
                         </div>
                     </div>
-                    <div className="form-group no-margin row">
+                    <div className="form-group no-margin-bottom row">
                         <label className="col-xs-12 col-form-label">Popis: </label>
                         <div className="col-xs-12">
                             <textarea type="text" className="form-control" id="about_me" aria-describedby="AboutHelp"
@@ -108,7 +108,7 @@ export default class EditProfileModal extends Component {
                         </div>
                     </div>
                     <hr/>
-                    <div className="form-group no-margin row">
+                    <div className="form-group no-margin-bottom row">
                         <div className="col-xs-7 text-xs-right">
                             <label className="col-form-label"><strong>Chci hostovat! </strong></label>
                         </div>
