@@ -1,9 +1,8 @@
 import React, {Component} from "react";
-import MessageUsers from "../components/Messages/MessageUsers";
-import MessageSearch from "../components/Messages/MessageSearch";
-import Messages from "../components/Messages/Messages";
-import currentUser from "../actions/CurrentUser";
-import axios from "../api";
+import MessageUsers from "./MessageUsers";
+import MessageSearch from "./MessageSearch";
+import currentUser from "../../actions/CurrentUser";
+import axios from "../../api";
 
 
 export default class MessagePage extends Component {
@@ -12,67 +11,21 @@ export default class MessagePage extends Component {
         super(props);
         this.state = {
             usersWithMessages: [],
-            usersWithMessagesChosen: [],
-            currentBuddyInternal: undefined,
-            selectedConversationUser: undefined,
-            updateSelectedUserInUserViewFn: undefined
+            usersWithMessagesChosen: []
         };
-        this.checkpoint = undefined;
-        this.findUserMessages = undefined;
         this.findUsers = this.findUsers.bind(this);
-        this.setSelectedConversationUser = this.setSelectedConversationUser.bind(this);
         this.restrictUsers = this.restrictUsers.bind(this);
-        this.setFindUserMessages = this.setFindUserMessages.bind(this);
-        this.setUpObserver = this.setUpObserver.bind(this);
-        this.incrementCheckout = this.incrementCheckout.bind(this);
+        this.refreshUsers = this.refreshUsers.bind(this);
     }
 
     componentDidMount() {
+        this.props.setRefreshUsers(this.refreshUsers);
+        this.refreshUsers();
+    }
+
+    refreshUsers() {
         this.findUsers();
         this.restrictUsers("");
-        setInterval(this.setUpObserver, 5000);
-    }
-
-    incrementCheckout() {
-        this.checkpoint++;
-    }
-
-    setUpObserver() {
-        if (this.checkpoint) {
-            axios.get('messages/count', {
-                params: {
-                    filter: {
-                        where: {
-                            buddy_id_to: currentUser.getCurrentUser().id
-                        }
-                    }
-                }
-            }).then(response => {
-                console.log("####count: ", response.data.count);
-                if (response.data.count > this.checkpoint) {
-                    console.log("### new message came");
-                    this.findUsers();
-                    this.restrictUsers("");
-                }
-            });
-        }
-    }
-
-    setFindUserMessages(fn) {
-        this.findUserMessages = fn;
-    }
-
-    setSelectedConversationUser(value, fn) {
-        if (this.findUserMessages) {
-            console.log("called")
-            this.findUserMessages(value, fn);
-        } else {
-            console.log("not called");
-        }
-        this.setState({
-            selectedConversationUser: value,
-            updateSelectedUserInUserViewFn: fn
-        });
     }
 
     restrictUsers(value) {
@@ -105,7 +58,7 @@ export default class MessagePage extends Component {
                 }
             }
         }).then(response => {
-            this.checkpoint = response.data.count;
+            this.props.setCheckPoint(response.data.count);
             axios.get('messages', {
                 params: {
                     filter: {
@@ -180,11 +133,10 @@ export default class MessagePage extends Component {
                             this.state.usersWithMessages.sort(function (a, b) {
                                 return new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime();
                             });
-                            let state = this.state;
-                            if (state.selectedConversationUser && state.selectedConversationUser.id === obj.id) {
-                                this.findUserMessages(value);
+                            if (this.props.selectedConversationUser && this.props.selectedConversationUser.id === obj.id) {
+                                this.props.findUserMessages(value);
                             }
-                            this.setState(state);
+                            this.setState(this.state);
                         });
                     }
                 }
@@ -193,6 +145,7 @@ export default class MessagePage extends Component {
     }
 
     render() {
+        const {selectedConversationUser, setSelectedConversationUser} = this.props;
         return (
             <div className="row">
                 <div className="dropdown-toggle1">
@@ -200,10 +153,10 @@ export default class MessagePage extends Component {
                 </div>
                 <MessageSearch refreshUsersList={this.restrictUsers}/>
                 <div className="member_list"
-                     id={!!this.state.selectedConversationUser ? "" : "member_list_noone_selected"}>
+                     id={!!selectedConversationUser ? "" : "member_list_noone_selected"}>
                     <MessageUsers users={this.state.usersWithMessagesChosen}
-                                  setSelectedConversationUser={this.setSelectedConversationUser}
-                                  selectedConversationUser={this.state.selectedConversationUser}/>
+                                  setSelectedConversationUser={setSelectedConversationUser}
+                                  selectedConversationUser={selectedConversationUser}/>
                 </div>
             </div>
         );

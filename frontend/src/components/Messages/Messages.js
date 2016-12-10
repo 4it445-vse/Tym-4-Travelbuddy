@@ -41,7 +41,7 @@ export default class Messages extends Component {
 
         axios.post('messages', obj).then(response => {
             console.log('### Message successfully sent. from ' + currentUser.getCurrentUser().id + ' to ' + this.props.selectedConversationUser.id);
-            this.props.incrementCheckout();
+            this.props.incrementCheckPoint();
             this.findMessages(this.state.selectedConversationUser);
         });
     }
