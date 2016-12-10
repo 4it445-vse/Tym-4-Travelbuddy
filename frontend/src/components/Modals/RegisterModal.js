@@ -363,7 +363,7 @@ export default class RegisterModal extends Component {
                             {
                                 this.state.showValidation
                                 && this.state.isFieldValid.agreed_with_conditions === false
-                                    ? <p className="validation-error no-margin">Musíte souhlasit s podmínkami služby</p>
+                                    ? <p className="validation-error no-margin-bottom">Musíte souhlasit s podmínkami služby</p>
                                     : ""
                             }
                             <label className="form-check-label float-left">
