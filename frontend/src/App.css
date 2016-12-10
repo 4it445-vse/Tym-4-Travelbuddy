@@ -368,7 +368,7 @@ body {
 }
 .member_list {
     background: white;
-    height: 452px;
+    height: 454px;
     overflow-x: hidden;
     overflow-y: auto;
     margin-top: -1px;
@@ -417,6 +417,9 @@ body {
     width: 100%;
     background: white;
 }
+#chat_area_noone_selected{
+    height: 471px;
+}
 .chat_area li {
     padding: 14px 14px 0;
 }
@@ -435,6 +438,14 @@ body {
 .chat-body1 p {
     background: #fbebde none repeat scroll 0 0;
     padding: 10px;
+    margin-right: 50px;
+    word-break: break-all;
+}
+.my-message p {
+    background-color: #a6bddb;
+}
+.selected-conversation-user {
+    background-color: #fbebde;
 }
 .chat_area .admin_chat .chat-body2 {
     margin-left: 0;
@@ -529,6 +540,12 @@ body {
         overflow-x: hidden;
         overflow-y: auto;
     }
+    #member_list_noone_selected {
+        max-height: 285px;
+    }
+    #chat_area_noone_selected{
+        height: 0px;
+    }
     .chat_area {
         float: left;
         max-height: 165px;
@@ -542,9 +559,12 @@ body {
 @media (min-width: 768px) and (max-width: 991px) {
     .member_list {
         background: white;
-        height: 483px;
+        height: 484px;
         overflow-x: hidden;
         overflow-y: auto;
+    }
+    #chat_area_noone_selected{
+        height: 501px;
     }
     .chat_area {
         float: left;
@@ -587,7 +607,7 @@ body {
 @media (min-width: 576px) and (max-width: 767px) {
     .member_list {
         background: white;
-        height: 461px;
+        height: 460px;
         overflow-x: hidden;
         overflow-y: auto;
     }
@@ -596,6 +616,9 @@ body {
     }
     .member_list strong{
         font-size: 14px;
+    }
+    #chat_area_noone_selected{
+        height: 501px;
     }
     .chat_area {
         float: left;

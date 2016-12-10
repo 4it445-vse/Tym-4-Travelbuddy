@@ -23,10 +23,9 @@ export default class MessageUser extends Component {
 	}
 	
     render() {
-		const { user } = this.props;
-		console.log("MessageUser user: ", user);
+		const { user, selectedConversationUser } = this.props;
         return (
-			<li className="left clearfix" onClick={this.setSelectedConversationUser}>
+			<li className={"left clearfix" + (!!selectedConversationUser && selectedConversationUser.id === user.id ? ' selected-conversation-user' : '')} onClick={this.setSelectedConversationUser}>
 				  <span className="chat-img float-left">
 			 <img src="https://i.imgur.com/UePbdph.jpg" alt="User Avatar" className="img-circle" />
 				  </span>

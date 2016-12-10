@@ -1,6 +1,5 @@
 import React, {Component} from "react";
-import MessageUsers from "../components/Messages/MessageUsers";
-import MessageSearch from "../components/Messages/MessageSearch";
+import MessagesUserPart from "../components/Messages/MessagesUserPart";
 import Messages from "../components/Messages/Messages";
 import currentUser from "../actions/CurrentUser";
 import axios from "../api";
@@ -11,125 +10,74 @@ export default class MessagePage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            usersWithMessages: [],
-            usersWithMessagesChosen: [],
-            currentBuddyInternal: undefined,
             selectedConversationUser: undefined,
             updateSelectedUserInUserViewFn: undefined
         };
-        this.findUsers = this.findUsers.bind(this);
+        this.checkpoint = undefined;
+        this.findUserMessages = undefined;
+        this.refreshUsers = undefined;
         this.setSelectedConversationUser = this.setSelectedConversationUser.bind(this);
-        this.restrictUsers = this.restrictUsers.bind(this);
+        this.setFindUserMessages = this.setFindUserMessages.bind(this);
+        this.setUpObserver = this.setUpObserver.bind(this);
+        this.incrementCheckPoint = this.incrementCheckPoint.bind(this);
+        this.setRefreshUsers = this.setRefreshUsers.bind(this);
+        this.setCheckPoint = this.setCheckPoint.bind(this);
     }
 
     componentDidMount() {
-        this.findUsers();
-        this.restrictUsers("");
+        setInterval(this.setUpObserver, 5000);
+    }
+
+    setRefreshUsers(fn) {
+        this.refreshUsers = fn;
+    }
+
+    setCheckPoint(val) {
+        this.checkpoint = val;
+    }
+
+    incrementCheckPoint() {
+        this.checkpoint++;
+    }
+
+    setUpObserver() {
+        if(this.checkpoint){
+            axios.get('messages/count', {
+                params: {
+                    filter: {
+                        where: {
+                            buddy_id_to: currentUser.getCurrentUser().id
+                        }
+                    }
+                }
+            }).then(response => {
+                console.log("####count: ", response.data.count);
+                if(response.data.count > this.checkpoint) {
+                    console.log("### new message came", this.refreshUsers);
+                    this.refreshUsers();
+                }
+            });
+        }
+    }
+
+    setFindUserMessages(fn) {
+        this.findUserMessages = fn;
     }
 
     setSelectedConversationUser(value, fn) {
+        if (this.findUserMessages) {
+            console.log("called")
+            this.findUserMessages(value);
+        } else {
+            console.log("not called");
+        }
         this.setState({
             selectedConversationUser: value,
             updateSelectedUserInUserViewFn: fn
         });
     }
 
-    restrictUsers(value) {
-        let usersWithMessagesChosen = [];
-        if (value) {
-			console.log("In restrictUsers");
-            this.state.usersWithMessages.map(message => {
-				console.log(message.fullname, value, message.fullname.includes(value));
-                if (message.fullname.includes(value)) {
-                    usersWithMessagesChosen.push(message);
-                }
-            });
-        } else {
-            usersWithMessagesChosen = this.state.usersWithMessages;
-        }
-        this.setState({
-            usersWithMessagesChosen: usersWithMessagesChosen
-        });
-    }
-
-    findUsers() {
-        let currentU = currentUser.getCurrentUser();
-        axios.get('messages', {
-            params: {
-                filter: {
-                    where: {
-                        or: [
-                            {"buddy_id_to": currentU.id},
-                            {"buddy_id_from": currentU.id}
-                        ]
-                    }
-                }
-            }
-        }).then(response => {
-            let buddyMessages = response.data;
-            let messages = new Map();
-            if (buddyMessages && buddyMessages[0]) {
-                let unreadIncomingMessagesTotalNum = 0;
-                let currentUserId = currentU.id;
-                let lastMessageTime = undefined;
-                buddyMessages.map(message => {
-                    if (message.buddy_id_to === currentUserId) {
-                        let cbm = messages.get(message.buddy_id_from);
-						let obj = {unreadIncomingMessagesNum: 0, lastMessageTime: message.date_time, id: message.buddy_id_from};
-						if (cbm){
-							obj.unreadIncomingMessagesNum = cbm.unreadIncomingMessagesNum;
-							if((new Date(cbm.lastMessageTime) - new Date(message.date_time)) < 0){
-								obj.lastMessageTime = message.date_time;
-							}else{
-								obj.lastMessageTime = cbm.lastMessageTime;
-							}
-						}
-                        if (message.displayed === false) {
-                            unreadIncomingMessagesTotalNum++;
-                            obj.unreadIncomingMessagesNum = obj.unreadIncomingMessagesNum + 1;
-                        }
-						messages.set(message.buddy_id_from, obj);
-                    } else {
-						let cbm = messages.get(message.buddy_id_to);
-						let obj = {unreadIncomingMessagesNum: 0, lastMessageTime: message.date_time, id: message.buddy_id_to};
-						if (cbm){
-							obj.unreadIncomingMessagesNum = cbm.unreadIncomingMessagesNum;
-							if((new Date(cbm.lastMessageTime) - new Date(message.date_time)) < 0){
-								obj.lastMessageTime = message.date_time;
-							}else{
-								obj.lastMessageTime = cbm.lastMessageTime;
-							}
-						}
-						messages.set(message.buddy_id_to, obj);
-                    }
-                });
-                for (let [key, value] of messages) {
-					axios.get('buddies', {
-						params: {
-							filter: {
-								where: {
-									id: key
-								}
-							}
-						}
-					}).then(response => {
-						let obj = messages.get(key);
-						obj.fullname = response.data[0].name + " " + response.data[0].surname;
-						this.state.usersWithMessages.push(obj);
-
-						this.state.usersWithMessages.sort(function(a,b){
-							return new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime();
-						});
-						this.setState(this.state);
-					});
-				}
-            }
-        });
-    }
-
     render() {
-		console.log(this.state.usersWithMessagesChosen.length, this.state.usersWithMessagesChosen);
-		console.log(this.state.usersWithMessages.length, this.state.usersWithMessages);
         return (
             <div className="row">
                 <div className="v-o-5">
@@ -137,19 +85,18 @@ export default class MessagePage extends Component {
                         <div className="container">
                             <div className="chat_container">
                                 <div className="col-sm-3 chat_sidebar">
-                                    <div className="row">
-<div className="dropdown-toggle1">
-                                            Všechny konverzace: <span className="caret float-right"></span>
-                                        </div>
-                                        <MessageSearch refreshUsersList={this.restrictUsers}/>
-                                        <div className="member_list">
-                                            <MessageUsers users={this.state.usersWithMessagesChosen} setSelectedConversationUser={this.setSelectedConversationUser}/>
-                                        </div>
-                                    </div>
+                                    <MessagesUserPart selectedConversationUser={this.state.selectedConversationUser}
+                                                      setSelectedConversationUser={this.setSelectedConversationUser}
+                                                      findUserMessages={this.findUserMessages}
+                                                      setRefreshUsers={this.setRefreshUsers}
+                                                      setCheckPoint={this.setCheckPoint}/>
                                 </div>
-                                 <div className="col-sm-9 message_section">
-                                    <Messages selectedConversationUser={this.state.selectedConversationUser} updateSelectedUserInUserViewFn={this.state.updateSelectedUserInUserViewFn}/>
-                                 </div>
+                                <div className="col-sm-9 message_section">
+                                    <Messages setFindUserMessages={this.setFindUserMessages}
+                                              selectedConversationUser={this.state.selectedConversationUser}
+                                              updateSelectedUserInUserViewFn={this.state.updateSelectedUserInUserViewFn}
+                                              incrementCheckPoint={this.incrementCheckPoint}/>
+                                </div>
                             </div>
                         </div>
                     </div>
