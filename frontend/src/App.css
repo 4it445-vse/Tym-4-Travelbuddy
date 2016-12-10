@@ -1,10 +1,12 @@
 body {
-    background-image: url(http://www.travelingjobsnow.com/assets/img/slider1.jpg);
+    background-image: url(http://aweinclusive.com/wp-content/uploads/2013/03/635848860383333875-1067205284_Girl-Travel.jpg);
+    background-color: #7DE1E1;
     background-repeat: no-repeat;
-    background-attachment: fixed;
+    background-size: cover;
     background-position: center;
     overflow-x: hidden !important;
 }
+
 
 /** Posuvník stránek výsledků**/
 .PaginateButton {
@@ -80,6 +82,9 @@ body {
 .v-o-5 {
     margin-top: 100px;
 }
+.v-o-4 {
+  margin-top: 80px;
+}
 
 .m-r-30 {
     margin-right: 30px;
@@ -149,7 +154,39 @@ body {
     font-size: 10px;
     color: #a94442;
 }
+.iconContainer {
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 8px 8px 8px 8px;
+  padding: 10px 10px 10px 10px;
+  border: 2px solid #0275d8 ;
+}
+.main-info {
+  padding-top: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 20px;
+}
+.card {
+  border: 1px solid #0275d8 ;
+  margin-left: 10px;
+  margin-right: 10px;
+}
 
+@media (max-width: 768px) {
+  .bigIcons {
+    color: #0275d8;
+    font-size: 40px;
+  }
+}
+@media (min-width: 769px) {
+  .bigIcons {
+    color: #0275d8;
+    font-size: 120px;
+  }
+}
+.heading-container{
+  padding: 10px 10px 10px 10px;
+}
 
 .label-success {
     background-color: #5cb85c;
