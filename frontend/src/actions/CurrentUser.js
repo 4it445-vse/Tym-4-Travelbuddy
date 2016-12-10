@@ -2,6 +2,8 @@ import axios from "../api";
 
 var currentUser = undefined;
 var openLogInFn;
+var openProfilefn;
+var openContactBuddyFn;
 var alert;
 var question;
 
@@ -45,6 +47,22 @@ function setOpenLogInFn(fn){
     openLogInFn = fn;
 }
 
+function openProfile(selectedBuddy, showContactButton){
+    openProfilefn(selectedBuddy, showContactButton);
+}
+
+function setOpenProfilefn(fn){
+    openProfilefn = fn;
+}
+
+function openContactBuddy(selectedBuddy){
+    openContactBuddyFn(selectedBuddy);
+}
+
+function setOpenContactBuddy(fn){
+    openContactBuddyFn = fn;
+}
+
 function getCurrentUser() {
     if (!currentUser) {
         console.log("tried to load from remembered user");
@@ -80,5 +98,9 @@ export default {
     getAlert,
     setAlert,
     getQuestion,
-    setQuestion
+    setQuestion,
+    setOpenProfilefn,
+    openProfile,
+    openContactBuddy,
+    setOpenContactBuddy
 }

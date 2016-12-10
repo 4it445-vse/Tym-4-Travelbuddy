@@ -46,8 +46,9 @@ export default class ContactBuddyModal extends Component {
         }
         console.log("about to send message: ", this.props.buddyTo);
         const loggedUser = currentUser.getCurrentUser();
+        let text = this.state.text.replace(/\r?\n/g, '</br>');
         axios.post('messages', {
-            "text": this.state.text,
+            "text": text,
             "displayed": false,
             "date_time": new Date(),
             "buddy_id_from": loggedUser.id,
