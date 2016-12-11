@@ -14,20 +14,19 @@ export default class User extends Component {
     }
 
     onClick(e) {
-        if (e.target.id === 'envelope') {
-            this.openContactBuddy();
+        if (currentUser.getCurrentUser()) {
+            if (e.target.id === 'envelope') {
+                this.openContactBuddy();
+            } else {
+                this.openProfile();
+            }
         } else {
-            this.openProfile();
+            currentUser.openLogIn();
         }
     }
 
     openProfile() {
-        if (currentUser.getCurrentUser()) {
-            console.log("calling open profile: ", this.state.buddy);
-            currentUser.openProfile(this.state.buddy, true);
-        } else {
-            currentUser.openLogIn();
-        }
+        currentUser.openProfile(this.state.buddy, true);
     }
 
     openContactBuddy() {
