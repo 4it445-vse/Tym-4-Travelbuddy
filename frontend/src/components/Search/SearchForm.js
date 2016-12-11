@@ -29,7 +29,7 @@ export default class SearchForm extends Component {
     render() {
         return (
             <div className="row">
-                              <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.search }>
+                              <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.search } display={true}>
               <div className="input-group">
 
 

@@ -89,7 +89,7 @@ export default class EditProfileModal extends Component {
                     <div className="form-group no-margin-bottom row">
                         <label className="col-xs-12 col-form-label">Město: </label>
                         <div className="col-xs-12">
-                                              <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.city }>
+                                              <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.city } display={true}>
                       <input type="text" autoComplete="off" onChange = { this.handleSearchChange} className="form-control" id="city" aria-describedby="CityHelp" value={this.state.city}/>
                       </GooglePlacesSuggest>
                       <small id="emailHelp" className="form-text text-muted text-xs-center">
