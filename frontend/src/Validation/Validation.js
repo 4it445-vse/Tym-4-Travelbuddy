@@ -1,80 +1,57 @@
 /**
  * Created by jdraslar on 12/11/2016.
  */
+import moment from "moment";
 
-function checkThis(){
-    console.log("in check this.");
-}
-
-function checkNotEmpty(errorMessage){
-    if(!value){
+function checkNotEmpty(value, errorMessage) {
+    if (!value) {
         return errorMessage;
     }
     return undefined;
 }
 
-function validate(name, value) {
-    console.log("in validation: ", fieldName, value);
+function validateDates(dateFrom, dateTo, errors, name) {
+    console.log("### in validateDates: ", dateFrom, dateTo);
+    errors['from'] = undefined;
+    errors['to'] = undefined;
+    const faultyDateFormat = "Datum je bohužel ve špatném formátu.";
+    if (dateFrom) {
+        if (!moment(dateFrom).isValid()) {
+            errors['from'] = faultyDateFormat;
+        }
+    } else {
+        errors['from'] = "Potřebujeme vědět, od kdy plánujete cestu.";
+    }
+    if (dateTo) {
+        if (!moment(dateTo).isValid()) {
+            errors['to'] = faultyDateFormat;
+        }
+    } else {
+        errors['to'] = "Potřebujeme vědět, do kdy plánujete cestu.";
+    }
+    console.log("### date validation: ", new Date(dateFrom).getTime() - new Date(dateTo).getTime());
+    if ((new Date(dateFrom).getTime() - new Date(dateTo).getTime()) > 0) {
+        errors[name] = "Datum konce je dříve než datum začátku!";
+    }
+    return errors;
+}
+
+function validate(name, value, otherValue) {
+    console.log("### in validation: ", name, value);
 
     let errorMessage = undefined;
     switch (name) {
         case "city":
-            errorMessage = checkNotEmpty("Město je povinné pole, to abychom Vás mohli najít.");
+            errorMessage = checkNotEmpty(value, "Město je povinné pole, to abychom Vás mohli najít.");
             break;
         case "text":
-            errorMessage = checkNotEmpty("Řekněte něco o sobě potencionálním buddíkům!");
-            break;
-        case "from":
-            if (value) {
-                if (moment(value).isValid()) {
-                    errors[name] = undefined;
-                    fields[name] = value;
-                    this.setState({
-                        errors: errors,
-                        fields: fields
-                    });
-                } else {
-                    errors[name] = "Datum je bohužel ve špatném formátu.";
-                    this.setState({
-                        errors: errors
-                    });
-                }
-            } else {
-                errors[name] = "Potřebujeme vědět, od kdy plánujete cestu.";
-                this.setState({
-                    errors: errors
-                });
-            }
-            break;
-        case "to":
-            if (value) {
-                if (moment(value).isValid()) {
-                    errors[name] = undefined;
-                    fields[name] = value;
-                    this.setState({
-                        errors: errors,
-                        fields: fields
-                    });
-                } else {
-                    errors[name] = "Datum je bohužel ve špatném formátu.";
-                    this.setState({
-                        errors: errors
-                    });
-                }
-            } else {
-                errors[name] = "Potřebujeme vědět, do kdy plánujete cestu.";
-                this.setState({
-                    errors: errors
-                });
-            }
-            break;
-        case "email":
-
+            errorMessage = checkNotEmpty(value, "Řekněte něco o sobě potencionálním buddíkům!");
             break;
     }
     return errorMessage;
 }
 
 export default{
-    validate
+    validate,
+    validateDates
 }
