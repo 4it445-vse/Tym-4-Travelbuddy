@@ -445,6 +445,9 @@ body {
 .all_conversation ul li:hover .sub_menu_ {
     display: block;
 }
+.separate-from-top{
+    margin-top: 25px;
+}
 .new_message_head button {
     background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
     border: medium none;
