@@ -77,13 +77,15 @@ export default class Messages extends Component {
                                 this.state.messages.push({
                                     "text": message.text,
                                     "time": message.date_time,
-                                    "isIncoming": true
+                                    "isIncoming": true,
+                                    "fromUser": message.buddy_id_from
                                 });
                             } else {
                                 this.state.messages.push({
                                     "text": message.text,
                                     "time": message.date_time,
-                                    "isIncoming": false
+                                    "isIncoming": false,
+                                    "fromUser": message.buddy_id_from
                                 });
                             }
                         }

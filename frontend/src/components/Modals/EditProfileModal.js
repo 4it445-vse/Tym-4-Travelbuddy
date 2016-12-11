@@ -21,12 +21,6 @@ export default class EditProfileModal extends Component {
 
     componentDidMount(){
       this.state.city = currentUser.getCurrentUser().city;
-        axios.get('http://localhost:3000/get-avatar?userId=' +currentUser.getCurrentUser().id).then(response =>{
-            let avatarSrc = response.data.avatarUrl;
-            if(avatarSrc && avatarSrc !== "http://images.megaupload.cz/mystery-man.png"){
-                this.setState({avatarSrc: avatarSrc});
-            }
-        });
     }
 
     handleSubmitEdit() {
@@ -67,15 +61,7 @@ export default class EditProfileModal extends Component {
                         .then(function (res) {
                             console.log('edit success');
                             _this.props.hideFn();
-                        })
-                        .catch(function (err) {
-                            if (err.message == 'Network Error'){
-                                // YOLO, museli by na serveru být povoleny cross-origin requesty. Nejlepší by bylo dotazovat se na stejném portu ale u loopback sewrveru mi nejde post
-                                this.setState({avatarSrc: "asdsa"});
-                                _this.props.hideFn();
-                            } else {
-                                console.error('Upload failed', err);
-                            }
+                            location.reload();
                         });
                 }
             });
@@ -142,7 +128,7 @@ export default class EditProfileModal extends Component {
                     <hr/>
                     <div className="form-group no-margin row">
                         <div className="col-xs-6">
-                            <img src={this.state.avatarSrc} alt="..." className="editProfile_Avatar rounded"/>
+                            <img src={ "/avatars/" + loggedUser.id + ".jpg" } alt="..." className="editProfile_Avatar rounded"/>
                         </div>
                         <div className="col-xs-6 text-xs-left">
                             <input type="file" name="avatarUpload" id="avatarUpload" accept=".jpg" />

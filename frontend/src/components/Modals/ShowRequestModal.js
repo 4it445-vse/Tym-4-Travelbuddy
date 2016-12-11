@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+﻿import React, {Component} from "react";
 import AbstractModal from "./AbstractModal";
 
 export default class ShowRequestModal extends Component {
@@ -23,7 +23,7 @@ export default class ShowRequestModal extends Component {
                            submitFn={this.constactBuddy} submitText={"Message"}>
                 <div>
                     <img
-                        src="http://images.megaupload.cz/mystery-man.png"
+                        src={ "/avatars/" + buddy.id + ".jpg" }
                         alt="..." className="profil_img rounded"/>
                     <br/><br/>
                     <b>Name: </b>{buddy.name + " " + buddy.surname}

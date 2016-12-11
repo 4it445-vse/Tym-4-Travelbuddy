@@ -54,15 +54,23 @@ app.get('/get-avatar', function (req, res) {
   });
 });
 
+/**
+ * Avatar upload
+ */
 var express = require('express');
 var expressApp = express();
+
+expressApp.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'uploads/')
   },
   filename: function (req, file, cb) {
-    console.log('request', file);
     cb(null, "_" + file.originalname);
   }
 });
@@ -78,7 +86,7 @@ expressApp.post('/upload-avatar',  upload.single('avatarUpload'), function (req,
 });
 
 expressApp.listen(3003, function () {
-  console.log('Express app listening on port 3003!')
+  console.log('Express app (for image upload) listening on port 3003!')
 });
 
 

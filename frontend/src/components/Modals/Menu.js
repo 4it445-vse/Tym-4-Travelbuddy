@@ -100,7 +100,7 @@ export default class Menu extends Component {
                                            href="#" id="supportedContentDropdown"
                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                                            onClick={this.setCollapsedMyTravelling}
-                                           >Moje
+                                           >My travels
                                             cestování</a>
                                         <div className="dropdown-menu">
                                             <a className="dropdown-item" onClick={openNewRequest}>Create New Request</a>
