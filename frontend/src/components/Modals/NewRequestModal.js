@@ -190,7 +190,7 @@ export default class NewRequestModal extends Component {
                     <div className="form-group row text-xs-center">
                         <label htmlFor="city" className="col-xs-3 col-sm-2 col-form-label text-xs-right">Město: </label>
                         <div className="col-xs-9 col-sm-10 text-xs-left">
-                        <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.fields.city }>
+                        <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.fields.city } display={true}>
                             <input className={ "form-control" + ( this.state.showValidation.city && !this.state.fields.city ? ' alert-danger' : '' ) }
                                    onBlur={this.onChange} type="text" name="city"
                                    placeholder="Město, do kterého budete cestovat"
