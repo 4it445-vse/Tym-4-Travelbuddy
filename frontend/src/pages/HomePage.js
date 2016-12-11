@@ -70,66 +70,67 @@ export class HomePage extends Component {
     render() {
         return (
             <div>
-                <div className="row text-xs-center v-o-4">
-                    <div className="col-xs-4">
-                        <div className="iconContainer">
-                            <div className="row">
-                                <FontAwesome className="bigIcons" name="user"></FontAwesome>
-                            </div>
-                            <div className="row heading-container">
-                                <h5 className="hidden-sm-down">Traveling Alone</h5>
-                                <h6 className="hidden-md-up">Traveling Alone</h6>
-                            </div>
-                            <FontAwesome className="iconsColor hidden-sm-down" name="arrow-right"
-                                         size="2x"></FontAwesome>
-                            <FontAwesome className="iconsColor hidden-md-up" name="arrow-right"></FontAwesome>
-                        </div>
-                    </div>
-                    <div className="col-xs-4">
-                        <div className="iconContainer">
-                            <div className="row">
-                                <FontAwesome className="bigIcons" name="user-plus"></FontAwesome>
-                            </div>
-                            <div className="row heading-container">
-                                <h5 className="hidden-sm-down">Register and Login</h5>
-                                <h6 className="hidden-md-up">Register and Login</h6>
-                            </div>
-                            <FontAwesome className="iconsColor hidden-sm-down" name="arrow-right"
-                                         size="2x"></FontAwesome>
-                            <FontAwesome className="iconsColor hidden-md-up" name="arrow-right"></FontAwesome>
-                        </div>
-                    </div>
-                    <div className="col-xs-4">
-                        <div className="iconContainer">
-                            <div className="row">
-                                <FontAwesome className="bigIcons" name="users"></FontAwesome>
-                            </div>
-                            <div className="row heading-container">
-                                <h5 className="hidden-sm-down">Find Buddies</h5>
-                                <h6 className="hidden-md-up">Find Buddies</h6>
-                            </div>
-                            <FontAwesome className="iconsColor hidden-sm-down" name="thumbs-up" size="2x"></FontAwesome>
-                            <FontAwesome className="iconsColor hidden-md-up" name="thumbs-up"></FontAwesome>
-                        </div>
-                    </div>
-                </div>
+              <h1 className="v-o-4">Buddies</h1>
                 {
                     !!currentUser.getCurrentUser() ?
-                        <div className="separate-from-top">
+                        <div>
                             <SearchForm setSearchedTown={this.state.setSearchedTown}/>
                         </div>
                         :
                         <div>
-                            <div className="row text-xs-center main-info">
-                                <p className="hidden-md-up"><b>We would like to welcome you on the TravelBuddy page.</b>
-                                </p>
-                                <p className="hidden-sm-down"><b>We would like to welcome you on the TravelBuddy page.
-                                    By
-                                    using TravelBuddy you can quickly get from traveling alone to best vacation in your
-                                    live
-                                    by meeting new friends and buddies in your destination. </b></p>
-                            </div>
-                            <SearchForm setSearchedTown={this.state.setSearchedTown}/>
+                          <div className="row text-xs-center v-o-4">
+                              <div className="col-xs-4">
+                                  <div className="iconContainer">
+                                      <div className="row">
+                                          <FontAwesome className="bigIcons" name="user"></FontAwesome>
+                                      </div>
+                                      <div className="row heading-container">
+                                          <h5 className="hidden-sm-down">Traveling Alone</h5>
+                                          <h6 className="hidden-md-up">Traveling Alone</h6>
+                                      </div>
+                                      <FontAwesome className="iconsColor hidden-sm-down" name="arrow-right"
+                                                   size="2x"></FontAwesome>
+                                      <FontAwesome className="iconsColor hidden-md-up" name="arrow-right"></FontAwesome>
+                                  </div>
+                              </div>
+                              <div className="col-xs-4">
+                                  <div className="iconContainer">
+                                      <div className="row">
+                                          <FontAwesome className="bigIcons" name="user-plus"></FontAwesome>
+                                      </div>
+                                      <div className="row heading-container">
+                                          <h5 className="hidden-sm-down">Register and Login</h5>
+                                          <h6 className="hidden-md-up">Register and Login</h6>
+                                      </div>
+                                      <FontAwesome className="iconsColor hidden-sm-down" name="arrow-right"
+                                                   size="2x"></FontAwesome>
+                                      <FontAwesome className="iconsColor hidden-md-up" name="arrow-right"></FontAwesome>
+                                  </div>
+                              </div>
+                              <div className="col-xs-4">
+                                  <div className="iconContainer">
+                                      <div className="row">
+                                          <FontAwesome className="bigIcons" name="users"></FontAwesome>
+                                      </div>
+                                      <div className="row heading-container">
+                                          <h5 className="hidden-sm-down">Find Buddies</h5>
+                                          <h6 className="hidden-md-up">Find Buddies</h6>
+                                      </div>
+                                      <FontAwesome className="iconsColor hidden-sm-down" name="thumbs-up" size="2x"></FontAwesome>
+                                      <FontAwesome className="iconsColor hidden-md-up" name="thumbs-up"></FontAwesome>
+                                  </div>
+                              </div>
+                          </div>
+                          <div className="row text-xs-center main-info">
+                              <p className="hidden-md-up"><b>We would like to welcome you on the TravelBuddy page.</b>
+                              </p>
+                              <p className="hidden-sm-down"><b>We would like to welcome you on the TravelBuddy page.
+                                  By
+                                  using TravelBuddy you can quickly get from traveling alone to best vacation in your
+                                  live
+                                  by meeting new friends and buddies in your destination. </b></p>
+                          </div>
+                          <SearchForm setSearchedTown={this.state.setSearchedTown}/>
                         </div>
                 }
 

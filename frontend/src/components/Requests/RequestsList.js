@@ -7,7 +7,7 @@ export class RequestsList extends Component {
 
         return (
         <div className="row">
-            <div className="requests v-o-5">
+            <div className="requests m-t-10">
                 {requests.map(request =>
                     <RequestListItem request={request} key={request.id}
                                      openShowRequestShowModal={openShowRequestShowModal} openContactBuddy={openContactBuddy}/>

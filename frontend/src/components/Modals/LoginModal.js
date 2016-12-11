@@ -50,7 +50,7 @@ export default class LoginModal extends Component {
                 }
             })
         }).catch(error => {
-            this.setState({showErrorMessage: "Wrong e-mail or psawword!"});
+            this.setState({showErrorMessage: "Wrong e-mail or password!"});
         });;
     }
 
@@ -63,36 +63,42 @@ export default class LoginModal extends Component {
                 </Modal.Header>
                 <Modal.Body>
                     <form>
-                        <FormGroup>
-                            {
-                                !!this.state.showErrorMessage
-                                    ? <span className="validation-error-big">{this.state.showErrorMessage}</span>
-                                    : ""
-                            }
-                            <input type="email" name="email" className="form-control" id="email-l"
-                                   placeholder="Your E-mail"/>
-                        </FormGroup>
-                        <FormGroup>
-                            <input type="password" name="password" className="form-control" id="pass-l"
-                                   placeholder="Your Password"/>
-                        </FormGroup>
-                        <div className="modal-group">
-
-                            <div className="form-check">
-                                <label className="form-check-label float-left">
-                                    <input id="remember_me" type="checkbox" className="form-check-input"
-                                           name="remember-me"/>
-                                    Remember Me
-                                </label>
-                                <a href="#" className="float-right" data-target="#" onClick={restorePassFn}>I forgot my password?</a>
-                            </div>
-
+                      <div className="row m-b-10">
+                        <div className="col-xs-3 col-sm-2">
+                          <label htmlFor="email-l" className="col-form-label">E-mail: </label>
                         </div>
-                        <FormGroup>
-                            <button onClick={this.handleSubmitLogIn} type="button"
-                                    className="btn btn-primary fullsize v-o-25">Sign In
-                            </button>
-                        </FormGroup>
+                        <div className="col-xs-9 col-sm-10">
+                          <input type="email" name="email" id="email-l" placeholder="Your E-mail"
+                                 className={ "form-control" + ( !!this.state.showErrorMessage ? ' alert-danger' : '') }/>
+                        </div>
+                      </div>
+                      <div className="row m-b-10">
+                        <div className="col-xs-3 col-sm-2">
+                          <label htmlFor="pass-l" className="col-form-label">Password: </label>
+                        </div>
+                        <div className="col-xs-9 col-sm-10">
+                          <input type="password" name="password" id="pass-l" placeholder="Your Password"
+                                 className={ "form-control" + ( !!this.state.showErrorMessage ? ' alert-danger' : '') }/>
+                          {
+                            !!this.state.showErrorMessage?
+                            <span className="validation-error">{this.state.showErrorMessage}</span> : ""
+                          }
+                        </div>
+                      </div>
+                      <hr/>
+                      <div className="row">
+                        <div className="col-xs-6 text-xs-left">
+                          <label className="form-check-label float-left">
+                            <input id="remember_me" type="checkbox" className="form-check-input" name="remember-me"/>
+                            <span>Remember Me</span>
+                          </label>
+                        </div>
+                        <div className="col-xs-6 text-xs-right">
+                          <a href="#" className="float-right" data-target="#" onClick={restorePassFn}>I forgot my password</a>
+                        </div>
+                      </div>
+                      <hr/>
+                      <button onClick={this.handleSubmitLogIn} type="button" className="btn btn-primary fullsize">Sign In</button>
                     </form>
                 </Modal.Body>
                 <Modal.Footer>
