@@ -65,14 +65,14 @@ export default class EditProfileModal extends Component {
     render() {
         const {showProp, hideFn} = this.props;
         const loggedUser = currentUser.getCurrentUser();
-        const title = "Editace profilu - " + loggedUser.name + " " + loggedUser.surname;
+        const title = "Edit Profile: " + loggedUser.name + " " + loggedUser.surname;
         return (
             <AbstractModal title={title} showProp={showProp} hideFn={hideFn}
-                           submitFn={this.handleSubmitEdit} submitText={"Uložit"}>
+                           submitFn={this.handleSubmitEdit} submitText={"Save"}>
                 <form>
                     <div className="form-group no-margin-bottom row">
-                        <label className="col-xs-6 col-form-label">Jméno: {loggedUser.name}</label>
-                        <label className="col-xs-6 col-form-label">Přijmení: {loggedUser.surname}</label>
+                        <label className="col-xs-6 col-form-label">Name: {loggedUser.name}</label>
+                        <label className="col-xs-6 col-form-label">Surname: {loggedUser.surname}</label>
                     </div>
                     <div className="form-group no-margin-bottom row">
                         <label className="col-xs-12 col-form-label">Email: {loggedUser.email}</label>
@@ -80,37 +80,31 @@ export default class EditProfileModal extends Component {
                     <hr/>
                     { loggedUser.sex === "na" ?
                         <FormGroup>
-                            Pohlaví:
+                            Sex:
                             <select className="form-control" id="sex">
-                                <option value="male">Muž</option>
-                                <option value="female">Žena</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
                             </select>
                         </FormGroup> : ""}
                     <div className="form-group no-margin-bottom row">
-                        <label className="col-xs-12 col-form-label">Město: </label>
+                        <label className="col-xs-12 col-form-label">City: </label>
                         <div className="col-xs-12">
                                               <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.city } display={true}>
-                      <input type="text" autoComplete="off" onChange = { this.handleSearchChange} className="form-control" id="city" aria-describedby="CityHelp" value={this.state.city}/>
+                      <input type="text" placeholder="City is the single most important information, when you want to host." autoComplete="off" onChange = { this.handleSearchChange} className="form-control" id="city" aria-describedby="CityHelp" value={this.state.city}/>
                       </GooglePlacesSuggest>
-                      <small id="emailHelp" className="form-text text-muted text-xs-center">
-                                Město nejdůležitější informace, pokud chceš hostovat.
-                      </small>
                         </div>
                     </div>
                     <div className="form-group no-margin-bottom row">
-                        <label className="col-xs-12 col-form-label">Popis: </label>
+                        <label className="col-xs-12 col-form-label">Description: </label>
                         <div className="col-xs-12">
                             <textarea type="text" className="form-control" id="about_me" aria-describedby="AboutHelp"
-                                      defaultValue={loggedUser.about_me}/>
-                            <small id="emailHelp" className="form-text text-muted text-xs-center">Řekni něco o sobě
-                                potencionálním budíkům!
-                            </small>
-                        </div>
+                                      defaultValue={loggedUser.about_me} placeholder="Tell something about you to pontetial buddies."/>
+                            </div>
                     </div>
                     <hr/>
                     <div className="form-group no-margin-bottom row">
                         <div className="col-xs-7 text-xs-right">
-                            <label className="col-form-label"><strong>Chci hostovat! </strong></label>
+                            <label className="col-form-label"><strong>Want to host! </strong></label>
                         </div>
                         <div className="col-xs-5 text-xs-left">
                             <input type="checkbox" className="form-check-input big_checkbox" id="is_hosting"

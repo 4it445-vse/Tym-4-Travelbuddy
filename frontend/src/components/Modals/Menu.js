@@ -81,17 +81,17 @@ export default class Menu extends Component {
                         {userLogged ?
                             <div>
                                 <NavItem className="margin-right-30">
-                                <Link href="/messages" className="nav-link" role="tab" data-toggle="tab">Pošta {this.state.incomingUnreadMessagesNum > 0 ?<span className="label label-success"> {this.state.incomingUnreadMessagesNum}</span>
+                                <Link href="/messages" className="nav-link" role="tab" data-toggle="tab">Messages {this.state.incomingUnreadMessagesNum > 0 ?<span className="label label-success"> {this.state.incomingUnreadMessagesNum}</span>
 								 : ""}
 							</Link>
                         </NavItem>
 						<hr className="xs-visible sm-visible hidden-md-up hidden-lg-up"/>
 <NavItem className="margin-right-30">
-<Link href="/" className="nav-link">Seznam budíků</Link>
+<Link href="/" className="nav-link">All Buddies</Link>
                                 </NavItem>
                                 <hr className="xs-visible sm-visible hidden-md-up hidden-lg-up"/>
                                 <NavItem className="margin-right-30">
-                                    <Link href="/requests" className="nav-link">Seznam jízd</Link>
+                                    <Link href="/requests" className="nav-link">All Requests</Link>
                                 </NavItem>
                                 <hr className="xs-visible sm-visible hidden-md-up hidden-lg-up"/>
                                 <NavItem className="margin-right-30">
@@ -103,18 +103,18 @@ export default class Menu extends Component {
                                            >Moje
                                             cestování</a>
                                         <div className="dropdown-menu">
-                                            <a className="dropdown-item" onClick={openNewRequest}>Zadat novou cestu</a>
-                                            <a className="dropdown-item" onClick={openEditRequests}>Editovat cestu</a>
+                                            <a className="dropdown-item" onClick={openNewRequest}>Create New Request</a>
+                                            <a className="dropdown-item" onClick={openEditRequests}>Edit My Requests</a>
                                         </div>
                                     </li>
                                 </NavItem>
                                 <hr className="xs-visible sm-visible hidden-md-up hidden-lg-up"/>
                                 <NavItem className="margin-right-30">
-                                    <Link href="#" className="nav-link" onClick={openEdit}>Editovat profil</Link>
+                                    <Link href="#" className="nav-link" onClick={openEdit}>Edit Profile</Link>
                                 </NavItem>
                                 <hr className="xs-visible sm-visible hidden-md-up hidden-lg-up"/>
                                 <NavItem>
-                                    <Link href="#" className="nav-link" onClick={this.logOut}>Odhlaš se</Link>
+                                    <Link href="#" className="nav-link" onClick={this.logOut}>Log Out</Link>
                                 </NavItem>
                             </div>
                             : ""
@@ -122,10 +122,10 @@ export default class Menu extends Component {
                         {userLogged ? "" :
                             <div>
                                 <NavItem className="margin-right-30">
-                                    <Link href="#" className="nav-link" onClick={openRegister}>Registrovat se</Link>
+                                    <Link href="#" className="nav-link" onClick={openRegister}>Sign Up</Link>
                                 </NavItem>
                                 <NavItem>
-                                    <Link href="#" className="nav-link" onClick={openLogin}>Přihlásit se</Link>
+                                    <Link href="#" className="nav-link" onClick={openLogin}>Sign In</Link>
                                 </NavItem>
                             </div>
                         }

@@ -55,7 +55,7 @@ export class RequestListItem extends Component {
           </div>
           <div className="row">
             <div className="col-xs-3 text-xs-right">
-              Email:
+              E-mail:
             </div>
             <div className="col-xs-9 text-xs-left ellipsis">
               {this.state.buddy.email}
@@ -63,18 +63,18 @@ export class RequestListItem extends Component {
           </div>
           <hr/>
           <div className="row">
-            <div className="col-xs-5 text-xs-right">
-              Datum od:
+            <div className="col-xs-3 text-xs-right">
+              From:
             </div>
-            <div className="col-xs-7">
+            <div className="col-xs-9 text-xs-left ellipsis">
               {moment(from).format('DD.MM.YYYY')}
             </div>
           </div>
           <div className="row">
-            <div className="col-xs-5 text-xs-right">
-              Datum do:
+            <div className="col-xs-3 text-xs-right">
+              To:
             </div>
-            <div className="col-xs-7">
+            <div className="col-xs-9 text-xs-left ellipsis">
               {moment(to).format('DD.MM.YYYY')}
             </div>
           </div>
@@ -84,7 +84,7 @@ export class RequestListItem extends Component {
               <button className="btn btn-defaul SearchButton text-white" type="button" onClick={this.showRequestDetails}>Detail</button>
             </div>
             <div className="col-xs-6">
-              <button className="btn btn-defaul SearchButton text-white" type="button" onClick={this.openContactBuddy}>Kontaktovat</button>
+              <button className="btn btn-defaul SearchButton text-white" type="button" onClick={this.openContactBuddy}>Message</button>
             </div>
           </div>
         </div>

@@ -14,24 +14,24 @@ function validateDates(dateFrom, dateTo, errors, name) {
     console.log("### in validateDates: ", dateFrom, dateTo);
     errors['from'] = undefined;
     errors['to'] = undefined;
-    const faultyDateFormat = "Datum je bohužel ve špatném formátu.";
+    const faultyDateFormat = "Unfortunately, date is in wrong format.";
     if (dateFrom) {
         if (!moment(dateFrom).isValid()) {
             errors['from'] = faultyDateFormat;
         }
     } else {
-        errors['from'] = "Potřebujeme vědět, od kdy plánujete cestu.";
+        errors['from'] = "When shall your travel start?";
     }
     if (dateTo) {
         if (!moment(dateTo).isValid()) {
             errors['to'] = faultyDateFormat;
         }
     } else {
-        errors['to'] = "Potřebujeme vědět, do kdy plánujete cestu.";
+        errors['to'] = "When shall your travel end?";
     }
     console.log("### date validation: ", new Date(dateFrom).getTime() - new Date(dateTo).getTime());
     if ((new Date(dateFrom).getTime() - new Date(dateTo).getTime()) > 0) {
-        errors[name] = "Datum konce je dříve než datum začátku!";
+        errors[name] = "End date of your travel is ahead of start date!";
     }
     return errors;
 }
@@ -42,10 +42,10 @@ function validate(name, value, otherValue) {
     let errorMessage = undefined;
     switch (name) {
         case "city":
-            errorMessage = checkNotEmpty(value, "Město je povinné pole, to abychom Vás mohli najít.");
+            errorMessage = checkNotEmpty(value, "City is a mandatory field, so buddies could find you.");
             break;
         case "text":
-            errorMessage = checkNotEmpty(value, "Řekněte něco o sobě potencionálním buddíkům!");
+            errorMessage = checkNotEmpty(value, "Tell something about you to pontetial buddies!");
             break;
     }
     return errorMessage;

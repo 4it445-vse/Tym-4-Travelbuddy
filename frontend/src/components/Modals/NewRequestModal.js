@@ -121,21 +121,21 @@ export default class NewRequestModal extends Component {
 
         return (
             <AbstractModal title={title} showProp={showProp} hideFn={this.hideModal}
-                           submitFn={this.handleSubmitRequest} submitText={"Uložit jízdu"}>
+                           submitFn={this.handleSubmitRequest} submitText={"Save Request"}>
                 <form>
                     <div className="form-group row text-xs-center">
                         <span>Pokud jedeš na novou cestu a nenašel si nikoho, kdo by hostoval ve tvém městě, napiš pro potencionální hostitele poptávku a vysvětli jim, proč by si měli vybrat právě tebe. Někdo se určitě najde a přijme tě za svého Buddyho!</span>
                     </div>
                     <hr/>
                     <div className="form-group row text-xs-center">
-                        <label htmlFor="city" className="col-xs-3 col-sm-2 col-form-label text-xs-right">Město: </label>
+                        <label htmlFor="city" className="col-xs-3 col-sm-2 col-form-label text-xs-right">City: </label>
                         <div className="col-xs-9 col-sm-10 text-xs-left">
                             <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest }
                                                  search={ this.state.fields.city } display={true}>
                                 <input
                                     className={ "form-control" + ( !!errors.city ? ' alert-danger' : '' ) }
                                     onBlur={this.onChange} type="text" name="city"
-                                    placeholder="Město, do kterého budete cestovat"
+                                    placeholder="City, where you are going to travel."
                                     value={this.state.fields.city}
                                     onChange={this.handleSearchChange}
                                     autoComplete="off"/>
@@ -145,7 +145,7 @@ export default class NewRequestModal extends Component {
                         </div>
                     </div>
                     <div className="form-group row text-xs-center">
-                        <label htmlFor="from" className="col-xs-2 col-form-label text-xs-right">Datum od:</label>
+                        <label htmlFor="from" className="col-xs-2 col-form-label text-xs-right">From: </label>
                         <div className="col-xs-4 text-xs-left">
                             <input className={ "form-control" + ( errors.from ? ' alert-danger' : '' ) }
                                    onChange={this.onChange}
@@ -153,7 +153,7 @@ export default class NewRequestModal extends Component {
                                    name="from" placeholder="YYYY-MM-DD"/>
                             { errors.from ? <span className="validation-error">{errors.from}</span> : ""}
                         </div>
-                        <label htmlFor="to" className="col-xs-2 col-form-label text-xs-right">Datum do:</label>
+                        <label htmlFor="to" className="col-xs-2 col-form-label text-xs-right">To: </label>
                         <div className="col-xs-4 text-xs-left">
                             <input className={ "form-control" + ( errors.to ? ' alert-danger' : '' ) }
                                    onChange={this.onChange}
@@ -163,12 +163,12 @@ export default class NewRequestModal extends Component {
                         </div>
                     </div>
                     <div className="form-group row text-xs-center">
-                        <label htmlFor="text" className="col-xs-3 col-sm-2 col-form-label text-xs-right">Popis: </label>
+                        <label htmlFor="text" className="col-xs-3 col-sm-2 col-form-label text-xs-right">Description: </label>
                         <div className="col-xs-9 col-sm-10 text-xs-left">
                             <textarea
                                 className={ "form-control" + ( !!errors.text ? ' alert-danger' : '' ) }
                                 onBlur={this.onChange} onChange={this.onChange} type="text" name="text" rows="3"
-                                placeholder="Vysvětlete potenciálním hostitelům, proč jste právě vy ten pravý/á!"></textarea>
+                                placeholder="Explain your buddies the reason, why they should choose you, over other people!"></textarea>
                             { !!errors.text ?
                                 <span className="validation-error">{errors.text}</span> : ""}
                         </div>

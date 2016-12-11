@@ -48,7 +48,7 @@ export class ResetPassword extends Component {
             }
         }).then(response => {
             if (response.data.status === "OK") {
-                currentUser.setAlert({"type": "success", "message": "Heslo úspěšně změněno, nyní se můžeš přihlásit."});
+                currentUser.setAlert({"type": "success", "message": "Password has been successfully changed, you can login now."});
                 browserHistory.push("/");
             } else {
                 console.error(response);
@@ -102,7 +102,7 @@ export class ResetPassword extends Component {
                                         this.state.showValidation
                                         && this.state.isFieldValid.pass === false
                                             ? <span
-                                            className="validation-error">Zadejte prosím heslo o minimální délce 8</span>
+                                            className="validation-error">The password has to be at least 8 characters long and has to contain capital letter, non-capital letter and number.</span>
                                             : ""
                                     }
                                     <input
@@ -118,14 +118,14 @@ export class ResetPassword extends Component {
                                             )
                                         }
                                         id="pass"
-                                        placeholder="Heslo"
+                                        placeholder="Password"
                                     />
                                 </FormGroup>
                                 <FormGroup>
                                     {
                                         this.state.showValidation
                                         && this.state.isFieldValid.pass_repeated === false
-                                            ? <span className="validation-error">Zadaná hesla nesouhlasí</span>
+                                            ? <span className="validation-error">Inserted passwords don't match.</span>
                                             : ""
                                     }
                                     <input
@@ -141,12 +141,12 @@ export class ResetPassword extends Component {
                                             )
                                         }
                                         id="pass_repeated"
-                                        placeholder="Heslo znovu"
+                                        placeholder="Repeat your password"
                                     />
                                 </FormGroup>
                                 <FormGroup>
                                     <button onClick={this.handleSubmitPassReset} type="button"
-                                            className="btn btn-primary fullsize v-o-5">Nastav nové heslo
+                                            className="btn btn-primary fullsize v-o-5">Reset password
                                     </button>
                                 </FormGroup>
                             </form>

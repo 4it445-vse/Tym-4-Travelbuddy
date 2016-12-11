@@ -46,11 +46,11 @@ export default class LoginModal extends Component {
                     currentUser.setCurrentUser(response.data[0], rememberUser);
                     this.closeModal();
                 } else {
-                    this.setState({showErrorMessage: "Prosím nejdříve navštivte Váš email a ověř ho kliknutím na zaslaný odkaz!"});
+                    this.setState({showErrorMessage: "Please verify your e-mail, before first login, by clicking on the link we have send you on provided e-mail."});
                 }
             })
         }).catch(error => {
-            this.setState({showErrorMessage: "Špatně zadaný email či heslo!"});
+            this.setState({showErrorMessage: "Wrong e-mail or psawword!"});
         });;
     }
 
@@ -59,7 +59,7 @@ export default class LoginModal extends Component {
         return (
             <Modal show={showProp} onHide={this.closeModal}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Přihlášení</Modal.Title>
+                    <Modal.Title>Sign In</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form>
@@ -70,11 +70,11 @@ export default class LoginModal extends Component {
                                     : ""
                             }
                             <input type="email" name="email" className="form-control" id="email-l"
-                                   placeholder="Váš email"/>
+                                   placeholder="Your E-mail"/>
                         </FormGroup>
                         <FormGroup>
                             <input type="password" name="password" className="form-control" id="pass-l"
-                                   placeholder="Heslo"/>
+                                   placeholder="Your Password"/>
                         </FormGroup>
                         <div className="modal-group">
 
@@ -82,16 +82,15 @@ export default class LoginModal extends Component {
                                 <label className="form-check-label float-left">
                                     <input id="remember_me" type="checkbox" className="form-check-input"
                                            name="remember-me"/>
-                                    Zapamatovat si mě
+                                    Remember Me
                                 </label>
-                                <a href="#" className="float-right" data-target="#" onClick={restorePassFn}>Zapomenuté
-                                    heslo?</a>
+                                <a href="#" className="float-right" data-target="#" onClick={restorePassFn}>I forgot my password?</a>
                             </div>
 
                         </div>
                         <FormGroup>
                             <button onClick={this.handleSubmitLogIn} type="button"
-                                    className="btn btn-primary fullsize v-o-25">Přihlásit
+                                    className="btn btn-primary fullsize v-o-25">Sign In
                             </button>
                         </FormGroup>
                     </form>
@@ -99,10 +98,10 @@ export default class LoginModal extends Component {
                 <Modal.Footer>
                     <FormCheck>
 						  <span className="float-left">
-							  Nemáš ještě účet?
+							  You don't have account yet?
 						  </span>
                         <button type="button" data-dismiss="modal" className="btn btn-primary float-right"
-                                data-toggle="modal" data-target="#regmodal" onClick={switchFn}>Registrace
+                                data-toggle="modal" data-target="#regmodal" onClick={switchFn}>Sign Up
                         </button>
                     </FormCheck>
                 </Modal.Footer>

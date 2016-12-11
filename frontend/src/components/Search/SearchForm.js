@@ -34,12 +34,12 @@ export default class SearchForm extends Component {
 
 
                     <input id="search-town" type="text" className="form-control SearchBar SearchHeight SearchBorder"
-                           placeholder="Zadej cílové město" onChange={this.handleSearchChange} value={this.state.search}/>
+                           placeholder="Enter destination..." onChange={this.handleSearchChange} value={this.state.search}/>
 
                     <span className="input-group-btn">
                   <button className="btn btn-defaul SearchButton SearchHeight text-white" type="button"
                           onClick={this.props.setSearchedTown}>
-                      <i className="fa fa-search SearchIcon" aria-hidden="true"></i> Hledej
+                      <i className="fa fa-search SearchIcon" aria-hidden="true"></i> Search
                   </button>
               </span>
 

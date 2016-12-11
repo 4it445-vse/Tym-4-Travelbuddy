@@ -36,7 +36,7 @@ export default class RequestModal extends Component {
         this.hideModal = this.hideModal.bind(this);
     }
 
-    hideModal(){
+    hideModal() {
         this.state = {
             errors: {},
             requests: [],
@@ -58,7 +58,7 @@ export default class RequestModal extends Component {
 
     prepareRemoveRequest() {
         currentUser.setQuestion({
-            text: "Chcete opravdu odstranit tuto poptávku?",
+            text: "Are you sure, you want to delete this request?",
             cb: this.removeRequest
         });
         this.props.hideFn();
@@ -68,7 +68,7 @@ export default class RequestModal extends Component {
         var id = this.state.selectedRequest
         axios.delete('Requests/' + id).then(response => {
             console.log("ok");
-            currentUser.setAlert({"type": "success", "message": "Poptávka úspěšně odstraněna."});
+            currentUser.setAlert({"type": "success", "message": "Request has been successfully deleted."});
             this.props.hideFn();
         });
     }
@@ -118,7 +118,7 @@ export default class RequestModal extends Component {
                             fields: fields
                         });
                     } else {
-                        errors[name] = "Datum je bohužel ve špatném formátu.";
+                        errors[name] = "Unfortunately, date is in wrong format.";
                         fields[name] = value;
                         this.setState({
                             errors: errors,
@@ -126,7 +126,7 @@ export default class RequestModal extends Component {
                         });
                     }
                 } else {
-                    errors[name] = "Potřebujeme vědět, od kdy plánujete cestu.";
+                    errors[name] = "When you are planning to travel?";
                     fields[name] = value;
                     this.setState({
                         errors: errors,
@@ -144,7 +144,7 @@ export default class RequestModal extends Component {
                             fields: fields
                         });
                     } else {
-                        errors[name] = "Datum je bohužel ve špatném formátu.";
+                        errors[name] = "Unfortunately, date is in wrong format.";
                         fields[name] = value;
                         this.setState({
                             errors: errors,
@@ -152,7 +152,7 @@ export default class RequestModal extends Component {
                         });
                     }
                 } else {
-                    errors[name] = "Potřebujeme vědět, do kdy plánujete cestu.";
+                    errors[name] = "When you are planning to travel?";
                     fields[name] = value;
                     this.setState({
                         errors: errors,
@@ -197,8 +197,8 @@ export default class RequestModal extends Component {
         var fieldsAreValid = true;
         this.state.showValidation.city = true;
         this.state.showValidation.text = true;
-        for( var name of ["city", "from", "to", "text"]){
-            if(!this.state.request[name]){
+        for (var name of ["city", "from", "to", "text"]) {
+            if (!this.state.request[name]) {
                 fieldsAreValid = false;
             }
         }
@@ -212,7 +212,7 @@ export default class RequestModal extends Component {
                 "buddy_id": buddy_id
             }
             axios.patch('Requests/' + id, updatedRequest).then(response => {
-                currentUser.setAlert({"type": "success", "message": "Poptávka úspěšně upravena."});
+                currentUser.setAlert({"type": "success", "message": "Request has been successfully updated."});
                 this.hideModal();
             })
                 .then(() => {
@@ -222,7 +222,7 @@ export default class RequestModal extends Component {
                     const {response} = error;
                     this.setState({errors: response.data.error.details.messages});
                 });
-        }else{
+        } else {
             this.setState(this.state);
         }
     }
@@ -241,64 +241,67 @@ export default class RequestModal extends Component {
     }
 
     handleSelectSuggest = (suggestName, coordinate) => {
-      var request = this.state.request;
-      request.city = suggestName;
-      this.setState({ request : request });
+        var request = this.state.request;
+        request.city = suggestName;
+        this.setState({request: request});
     }
 
     render() {
         const {showProp, hideFn, switchFn} = this.props;
         const {errors} = this.state;
-        const title = "Editovat moje jízdy";
+        const title = "Edit My Requests";
 
         const dateFormat = "YYYY-MM-DD";
         var fromFormated = moment(this.state.request.from).format(dateFormat);
         var toFormated = moment(this.state.request.to).format(dateFormat);
 
-        if (this.state.requests.length === 0 ) {
+        if (this.state.requests.length === 0) {
             return (
                 <AbstractModal title={title} showProp={showProp} hideFn={hideFn} submitFn={switchFn}
-                               submitText={"Chci někam jet!"}>
-                    <p>Bohužel, ještě jste nevytvořil/a žádné jízdy a proto je nemůžete editovat.</p>
-                    <p>Novou jízdu si můžete vytvořit v sekci: Chci někam jet!</p>
+                               submitText={"I want to go somewhere!"}>
+                    <p>Unfortunately, you have not created any requests, so you can not edit them.</p>
+                    <p>You can create new request in section: New Request.</p>
                 </AbstractModal>
             );
         }
         return (
             <AbstractModal title={title} showProp={showProp} hideFn={this.hideModal}
-                           submitFn={this.handleSubmitEdit} submitText={"Uložit jízdu"}>
+                           submitFn={this.handleSubmitEdit} submitText={"Save Request"}>
                 <form>
                     <div className="form-group row text-xs-center">
-                        <label htmlFor="rides" className="col-xs-6 col-form-label text-xs-right">Vyberte jízdu, kterou
-                            chcete editovat: </label>
+                        <label htmlFor="rides" className="col-xs-6 col-form-label text-xs-right">Choose a request, which
+                            you want to edit.</label>
                         <div className="col-xs-6">
                             <Select name="form-field-name" value={this.state.selectedRequest}
                                     options={this.state.requests} onChange={this.handleSelectChange}/>
-                            <a href="#" onClick={this.prepareRemoveRequest}>odstranit požadavek</a>
                         </div>
                     </div>
                     <hr/>
                     <div className="form-group row text-xs-center">
-                        <label htmlFor="city" className="col-xs-3 col-sm-2 col-form-label text-xs-right">Město: </label>
+                        <label htmlFor="city" className="col-xs-3 col-sm-2 col-form-label text-xs-right">City: </label>
                         <div className="col-xs-9 col-sm-10 text-xs-left">
-                        <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.request.city } display= {this.state.displaySuggest}>
-                            <input className={ "form-control" + ( this.state.showValidation.city && !this.state.request.city ? ' alert-danger' : '' ) }
-                                   value={this.state.request.city} onBlur={this.onChange} onChange={this.onChange} type="text"
-                                   name="city" placeholder="Město, do kterého budete cestovat"
-                                   autoComplete="off"/>
-                            { this.state.showValidation.city && !this.state.request.city ? <span className="validation-error">Město je povinné pole, to abychom Vás mohli najít.</span> : ""}
-                        </GooglePlacesSuggest>
+                            <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest }
+                                                 search={ this.state.request.city } display={this.state.displaySuggest}>
+                                <input
+                                    className={ "form-control" + ( this.state.showValidation.city && !this.state.request.city ? ' alert-danger' : '' ) }
+                                    value={this.state.request.city} onBlur={this.onChange} onChange={this.onChange}
+                                    type="text"
+                                    name="city" placeholder="City, where you are going to travel."
+                                    autoComplete="off"/>
+                                { this.state.showValidation.city && !this.state.request.city ?
+                                    <span className="validation-error">City is a mandatory field, so buddies could find you.</span> : ""}
+                            </GooglePlacesSuggest>
                         </div>
                     </div>
                     <div className="form-group row text-xs-center">
-                        <label htmlFor="from" className="col-xs-2 col-form-label text-xs-right">Datum od:</label>
+                        <label htmlFor="from" className="col-xs-2 col-form-label text-xs-right">From: </label>
                         <div className="col-xs-4">
                             <input className={ "form-control" + ( errors.from ? ' alert-danger' : '' ) }
                                    value={fromFormated} onChange={this.onChange} type="date" name="from"
                                    placeholder="YYYY-MM-DD"/>
                             { errors.from ? <span className="validation-error">{errors.from}</span> : ""}
                         </div>
-                        <label htmlFor="to" className="col-xs-2 col-form-label text-xs-right">Datum do:</label>
+                        <label htmlFor="to" className="col-xs-2 col-form-label text-xs-right">To: </label>
                         <div className="col-xs-4">
                             <input className={ "form-control" + ( errors.to ? ' alert-danger' : '' ) }
                                    value={toFormated} onChange={this.onChange} type="date" name="to"
@@ -307,13 +310,25 @@ export default class RequestModal extends Component {
                         </div>
                     </div>
                     <div className="form-group row text-xs-center">
-                        <label htmlFor="text" className="col-xs-3 col-sm-2 col-form-label text-xs-right">Popis: </label>
+                        <label htmlFor="text"
+                               className="col-xs-3 col-sm-2 col-form-label text-xs-right">Description: </label>
                         <div className="col-xs-9 col-sm-10 text-xs-left">
-                            <textarea className={ "form-control" + ( this.state.showValidation.text && !this.state.request.text ? ' alert-danger' : '' ) }
-                                      value={this.state.request.text} onBlur={this.onChange} onChange={this.onChange} type="text"
-                                      name="text" rows="3"
-                                      placeholder="Vysvětlete potenciálním hostitelům, proč jste právě vy ten pravý/á!"></textarea>
-                            { this.state.showValidation.text && !this.state.request.text ? <span className="validation-error">Řekněte něco o sobě potencionálním buddíkům!</span> : ""}
+                            <textarea
+                                className={ "form-control" + ( this.state.showValidation.text && !this.state.request.text ? ' alert-danger' : '' ) }
+                                value={this.state.request.text} onBlur={this.onChange} onChange={this.onChange}
+                                type="text"
+                                name="text" rows="3"
+                                placeholder="Explain your buddies the reason, why they should choose you, over other people!"></textarea>
+                            { this.state.showValidation.text && !this.state.request.text ? <span
+                                className="validation-error">Tell something about you to pontetial buddies!</span> : ""}
+                        </div>
+                    </div>
+                    <hr/>
+                    <div className="row">
+                        <div className="col-xs-12">
+                            <a href="#" onClick={this.prepareRemoveRequest}>
+                                <button type="button" className="col-xs-12 btn btn-danger">Delete request</button>
+                            </a>
                         </div>
                     </div>
                 </form>
