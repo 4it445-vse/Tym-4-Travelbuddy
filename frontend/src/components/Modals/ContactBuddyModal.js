@@ -76,12 +76,12 @@ export default class ContactBuddyModal extends Component {
                         <div className="col-xs-12">
                             {
                                 this.state.showValidation
-                                    ? <span className="validation-error">Musíte zadat nějaký text zprávy!</span>
+                                    ? <span className="validation-error">You have to enter some message text!</span>
                                     : ""
                             }
                             <textarea type="text" className="form-control" id="about_me" aria-describedby="AboutHelp"
                                       onChange={this.validate}/>
-                            <small id="emailHelp" className="form-text text-muted text-xs-center">Napiš text zprávy.
+                            <small id="emailHelp" className="form-text text-muted text-xs-center">Write the message text.
                             </small>
                         </div>
                     </div>

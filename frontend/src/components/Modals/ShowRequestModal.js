@@ -17,29 +17,29 @@ export default class ShowRequestModal extends Component {
     render() {
         const {showProp, hideFn, requestShowModalContent} = this.props;
         const {buddy, request} = requestShowModalContent;
-        const title = buddy.name + " " + buddy.surname + " " + " hledá buddyho v městě " + request.city;
+        const title = buddy.name + " " + buddy.surname + " " + " looking for buddies in " + request.city;
         return (
             <AbstractModal title={title} showProp={showProp} hideFn={hideFn}
-                           submitFn={this.constactBuddy} submitText={"Kontaktovat"}>
+                           submitFn={this.constactBuddy} submitText={"Message"}>
                 <div>
                     <img
                         src="http://images.megaupload.cz/mystery-man.png"
                         alt="..." className="profil_img rounded"/>
                     <br/><br/>
-                    <b>Jméno: </b>{buddy.name + " " + buddy.surname}
+                    <b>Name: </b>{buddy.name + " " + buddy.surname}
                     <br/>
-                    <b>Město: </b>{buddy.city}
+                    <b>Surname: </b>{buddy.city}
                     <br/>
-                    <b>Od: </b>{request.from}
+                    <b>From: </b>{request.from}
                     <br/>
-                    <b>Do: </b>{request.to}
+                    <b>To: </b>{request.to}
                     <br/>
-                    <b>Pohlaví: </b>
+                    <b>Sex: </b>
                     {buddy.sex === 'male' ? "muž" : "žena"}
                     <br/>
-                    <b>Email: </b>{buddy.email}
+                    <b>E-mail: </b>{buddy.email}
                     <br/>
-                    <label><b>Text:</b></label>
+                    <label><b>Description:</b></label>
                     <textarea type="text" className="form-control"
                               id="text"
                               defaultValue={request.text} disabled/>

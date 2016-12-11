@@ -34,13 +34,12 @@ export default class MessageSend extends Component {
                     !!sendMessage ?
                         <div>
                             <textarea onChange={this.setMessageText} value={this.state.messageText}
-                                      className="form-control" placeholder="Napiš zprávu"></textarea>
+                                      className="form-control" placeholder="Message text..."></textarea>
                             <div className="clearfix"></div>
                             <div className="chat_bottom">
                                 {!!this.props.sendMessage ?
                                     <a href="#" className="float-right btn btn-primary"
-                                       onClick={this.submitSendMessage}>Odeslat
-                                        zprávu</a>
+                                       onClick={this.submitSendMessage}>Send message</a>
                                     :
                                     <a href="#" className="float-right btn btn-primary">Odeslat zprávu</a> }
                             </div>

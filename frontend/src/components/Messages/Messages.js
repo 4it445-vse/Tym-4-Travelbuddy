@@ -134,8 +134,8 @@ export default class Messages extends Component {
             <div className="row">
                 <div className="new_message_head">
                     <div className="push-right">
-                        {!!selectedConversationUser ? <div>Konverzace s uživatelem <a href="#" onClick={this.openProfile}>{selectedConversationUser.fullname}</a></div> :
-                            "Prosím vyberte si konverzaci"}
+                        {!!selectedConversationUser ? <div>Conversetaion with buddy <a href="#" onClick={this.openProfile}>{selectedConversationUser.fullname}</a></div> :
+                            "Please choose a conversation."}
                     </div>
                 </div>
                 <div className="chat_area" id={ !!selectedConversationUser ? "" : "chat_area_noone_selected"}>

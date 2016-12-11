@@ -6,7 +6,7 @@ export class VerifiedPage extends Component {
 
     constructor(props){
         super(props);
-        currentUser.setAlert({"type":"success", "message":"Děkujeme! Již se můžete přihlásit."});
+        currentUser.setAlert({"type":"success", "message":"Thank you! You can login now."});
         browserHistory.push("/");
     }
 
