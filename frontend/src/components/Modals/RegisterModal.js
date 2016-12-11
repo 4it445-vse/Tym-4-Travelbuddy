@@ -292,7 +292,7 @@ export default class RegisterModal extends Component {
                                     ? <span className="validation-error">Zadejte prosím město</span>
                                     : ""
                             }
-                            <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.registrationValidation.city }>
+                            <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.registrationValidation.city } display={true}>
                             <input
                                 onBlur={this.validate}
                                 onChange={this.handleSearchChange}

@@ -23,7 +23,8 @@ export default class RequestModal extends Component {
                 city: false,
                 text: false
             },
-            selectedRequest: null
+            selectedRequest: null,
+            displaySuggest: true
         };
 
         this.handleSubmitEdit = this.handleSubmitEdit.bind(this);
@@ -49,7 +50,8 @@ export default class RequestModal extends Component {
                 city: false,
                 text: false
             },
-            selectedRequest: null
+            selectedRequest: null,
+            displaySuggest: true
         };
         this.props.hideFn();
     }
@@ -78,7 +80,9 @@ export default class RequestModal extends Component {
             showValidation[name] = true;
             this.setState({
                 fields: fields,
-                showValidation: showValidation
+                showValidation: showValidation,
+                displaySuggest: true
+
             });
         } else {
             fields[name] = undefined;
@@ -158,7 +162,7 @@ export default class RequestModal extends Component {
         }
     }
 
-    findBuddysRequests() {
+    findBuddysRequests(suggest) {
         axios.get('Requests', {
             params: {filter: {where: {buddy_id: currentUser.getCurrentUser().id}}}
         })
@@ -175,7 +179,8 @@ export default class RequestModal extends Component {
                         from: requestsFormated[0].from,
                         to: requestsFormated[0].to,
                         text: requestsFormated[0].text
-                    }
+                    },
+                    displaySuggest: suggest
                 });
                 this.handleSelectChange(this.state.selectedRequest);
             })
@@ -211,7 +216,7 @@ export default class RequestModal extends Component {
                 this.hideModal();
             })
                 .then(() => {
-                    this.findBuddysRequests();
+                    this.findBuddysRequests(true);
                 })
                 .catch(error => {
                     const {response} = error;
@@ -226,13 +231,13 @@ export default class RequestModal extends Component {
         console.log("in handleSelectChange");
         axios.get('Requests/' + requestFormated.value)
             .then(response => {
-                this.setState({request: response.data});
+                this.setState({request: response.data, displaySuggest: false});
             });
         this.setState({selectedRequest: requestFormated.value});
     }
 
     componentDidMount() {
-        this.findBuddysRequests();
+        this.findBuddysRequests(false);
     }
 
     handleSelectSuggest = (suggestName, coordinate) => {
@@ -276,7 +281,7 @@ export default class RequestModal extends Component {
                     <div className="form-group row text-xs-center">
                         <label htmlFor="city" className="col-xs-3 col-sm-2 col-form-label text-xs-right">Město: </label>
                         <div className="col-xs-9 col-sm-10 text-xs-left">
-                        <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.request.city }>
+                        <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.request.city } display= {this.state.displaySuggest}>
                             <input className={ "form-control" + ( this.state.showValidation.city && !this.state.request.city ? ' alert-danger' : '' ) }
                                    value={this.state.request.city} onBlur={this.onChange} onChange={this.onChange} type="text"
                                    name="city" placeholder="Město, do kterého budete cestovat"

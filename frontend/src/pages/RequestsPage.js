@@ -109,7 +109,7 @@ export class RequestsPage extends Component {
                                   requestShowModalContent={this.state.requestShowModalContent}
                                   contactBuddy={this.openContactBuddy}/>
                 <div className="row">
-                <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.search }>
+                <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.search } display={true}>
                     <div className="input-group v-o-5">
                         <input id="search-town" type="search"
                                className="form-control SearchBar SearchHeight SearchBorder"

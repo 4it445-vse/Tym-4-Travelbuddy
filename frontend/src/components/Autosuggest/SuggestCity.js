@@ -168,11 +168,12 @@ export default class GooglePlacesSuggest extends Component {
   render() {
     const { search } = this.props
     const { selectedLabel } = this.state
+    const { display } = this.props
 
     return (
       <div className="placesSuggest" onKeyDown={ this.handleKeyDown }>
         { this.props.children }
-        { selectedLabel !== search && search ? this.renderSuggests() : null }
+        { selectedLabel !== search && search && display ? this.renderSuggests() : null }
       </div>
     )
   }
