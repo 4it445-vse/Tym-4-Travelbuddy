@@ -5,7 +5,6 @@ import axios from "../api";
 import currentUser from "../actions/CurrentUser";
 import {Modal} from "react-bootstrap";
 import ShowRequestModal from "../components/Modals/ShowRequestModal";
-import ContactBuddyModal from "../components/Modals/ContactBuddyModal";
 import {Alert} from 'react-bootstrap';
 
 export class RequestsPage extends Component {

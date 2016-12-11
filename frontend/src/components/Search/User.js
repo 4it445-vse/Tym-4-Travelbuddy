@@ -10,6 +10,15 @@ export default class User extends Component {
         }
         this.openProfile = this.openProfile.bind(this);
         this.openContactBuddy = this.openContactBuddy.bind(this);
+        this.onClick = this.onClick.bind(this);
+    }
+
+    onClick(e) {
+        if (e.target.id === 'envelope') {
+            this.openContactBuddy();
+        } else {
+            this.openProfile();
+        }
     }
 
     openProfile() {
@@ -27,8 +36,8 @@ export default class User extends Component {
 
     render() {
         return (
-            <a href="#" onClick={this.openProfile} className="profil_vypis">
-                <div className="card-block">
+            <a href="#" onClick={this.onClick} className="profil_vypis">
+                <div className="card-block" id="buddy-row">
                     <div className="col-md-1 col-xs-3 no-margin no-padding">
                         <img src="http://images.megaupload.cz/mystery-man.png"
                              alt={this.state.buddy.name + " " + this.state.buddy.surname}
@@ -55,8 +64,8 @@ export default class User extends Component {
                         <p className="no-margin ellipsis2">{this.state.buddy.about_me}</p>
                     </div>
                     <div className="col-md-1 col-xs-2">
-                        <a href="#" onClick={this.openContactBuddy} className="profil_vypis">
-                            <FontAwesome className="sexIcon" name="envelope" size="2x"
+                        <a href="#" onClick={this.onClick} className="profil_vypis" name="envelope">
+                            <FontAwesome className="sexIcon" name="envelope" size="2x" id="envelope"
                                          style={{color: '#0275d8'}}></FontAwesome>
                         </a>
                     </div>
