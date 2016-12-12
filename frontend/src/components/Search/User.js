@@ -1,16 +1,42 @@
 import React, {Component} from "react";
 import currentUser from "../../actions/CurrentUser";
 import FontAwesome from "react-fontawesome";
+import api from "../../api"
 
 export default class User extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            buddy: props.buddy
+            buddy: {
+              about_me: null,
+              name: null,
+              surname: null,
+              sex: null,
+              city: null
+            },
+            render: false
         }
+
+        const url = 'buddies/' + this.props.buddyId;
+        api.get(url).then(response => {
+            this.state.buddy = response.data
+
+        });
+
+
         this.openProfile = this.openProfile.bind(this);
         this.openContactBuddy = this.openContactBuddy.bind(this);
         this.onClick = this.onClick.bind(this);
+    }
+
+    componentDidMount(){
+      const url = 'buddies/' + this.props.buddyId;
+      api.get(url).then(response => {
+          this.setState({
+            buddy:response.data,
+            render:true
+          });
+      });
     }
 
     onClick(e) {
@@ -34,7 +60,11 @@ export default class User extends Component {
     }
 
     render() {
-        return (
+
+        const {render} = this.state;
+        const loader = require('../../images/lazyload.gif');
+
+        if(render) return (
             <a href="#" onClick={this.onClick} className="profil_vypis">
                 <div className="card-block" id="buddy-row">
                     <div className="col-md-1 col-xs-3 no-margin no-padding">
@@ -70,6 +100,7 @@ export default class User extends Component {
                     </div>
                 </div>
             </a>
-        );
+        )
+        else return(<div className="card-block text-xs-center" id="buddy-row"><img src={loader}/></div>)
     }
 }

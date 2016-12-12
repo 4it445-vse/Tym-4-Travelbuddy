@@ -751,6 +751,11 @@ h1{
     padding: 20px 20px 20px 20px;
 }
 
+.lazyloadReq {
+  min-height: 300px;
+  vertical-align: middle;
+}
+
 .validation-error-big {
     font-size: 17px;
     color: #a94442;

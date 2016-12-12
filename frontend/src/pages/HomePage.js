@@ -29,6 +29,9 @@ export class HomePage extends Component {
                 filter: {
                     where: {
                         is_hosting: true
+                    },
+                    fields: {
+                      id: true
                     }
                 }
             }
@@ -47,6 +50,9 @@ export class HomePage extends Component {
                         city: {like: `%${this.state.searchedTown}%`},
                         is_hosting: true
                     },
+                    fields: {
+                      id: true
+                    }
                 },
             }
         }).then(response => {
