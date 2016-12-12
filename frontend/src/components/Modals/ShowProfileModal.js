@@ -28,7 +28,7 @@ export default class ShowProfileModal extends Component {
                 <Modal.Body>
                     <div>
                         <img
-                            src="http://images.megaupload.cz/mystery-man.png"
+                            src={ "/avatars/" + buddy.id + ".jpg" }
                             alt="..." className="profil_img rounded"/>
                         <br/><br/>
                         <b>Sex: </b>

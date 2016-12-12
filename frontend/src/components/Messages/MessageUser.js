@@ -27,7 +27,7 @@ export default class MessageUser extends Component {
         return (
 			<li className={"left clearfix" + (!!selectedConversationUser && selectedConversationUser.id === user.id ? ' selected-conversation-user' : '')} onClick={this.setSelectedConversationUser}>
 				  <span className="chat-img float-left">
-			 <img src="https://i.imgur.com/UePbdph.jpg" alt="User Avatar" className="img-circle" />
+			 <img src={ "/avatars/" + user.id + ".jpg" } alt="User Avatar" className="img-circle" />
 				  </span>
 				<div className="chat-body clearfix">
 					<div className="header_sec">

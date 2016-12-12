@@ -68,7 +68,7 @@ export default class User extends Component {
             <a href="#" onClick={this.onClick} className="profil_vypis">
                 <div className="card-block" id="buddy-row">
                     <div className="col-md-1 col-xs-3 no-margin no-padding">
-                        <img src="http://images.megaupload.cz/mystery-man.png"
+                        <img src={ "/avatars/" + this.state.buddy.id + ".jpg" }
                              alt={this.state.buddy.name + " " + this.state.buddy.surname}
                              className="profil_img rounded"/>
                     </div>

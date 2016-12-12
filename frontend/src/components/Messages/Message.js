@@ -10,7 +10,7 @@ export default class Message extends Component {
         return (
             <li className="left clearfix">
 				<span className={"chat-img1 " + (message.isIncoming ? 'float-left' : 'float-right')}>
-					   <img src="https://i.imgur.com/UePbdph.jpg" alt="User Avatar" className="img-circle"/>
+					   <img src={ "/avatars/" + message.fromUser + ".jpg" } alt="User Avatar" className="img-circle"/>
 				 </span>
                 <div className={"chat-body1 clearfix" + (message.isIncoming ? '' : ' my-message')}>
                     <p><b

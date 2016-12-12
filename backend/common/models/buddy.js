@@ -21,7 +21,7 @@ module.exports = function (Buddy) {
     });
 
     /*
-     * send verification email after registration
+     * send verification email after registration and copy default avatar
      */
     Buddy.afterRemote('create', function (context, currentBuddy, next) {
         console.log('> Usermain.afterRemote triggered');
@@ -52,6 +52,10 @@ module.exports = function (Buddy) {
             console.log('> verification email sent:', response);
 
         });
+
+        /** Copy avatar */
+        var fs = require('fs');
+        fs.createReadStream('../frontend/public/avatars/default.jpg').pipe(fs.createWriteStream("../frontend/public/avatars/" + currentBuddy.id + ".jpg"));
     });
 
     Buddy.on('resetPasswordRequest', function (info) {

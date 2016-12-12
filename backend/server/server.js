@@ -31,6 +31,65 @@ app.get('/hello', function (req, res) {
     res.send(JSON.stringify(data));
 });
 
+var fs = require('fs');
+app.get('/get-avatar', function (req, res) {
+    console.log("in get-avatar");
+  var userId = req.query.userId;
+  var avatarUrl;
+
+  fs.access('../frontend/public/avatars/' + userId + '.jpg', (err) => {
+    if (!err) {
+      avatarUrl = "http://localhost:3000/avatars/" + userId + ".jpg";
+    } else {
+        avatarUrl = "http://images.megaupload.cz/mystery-man.png";
+    }
+
+    const data = {
+      userId: userId,
+      avatarUrl: avatarUrl
+    };
+    console.log(userId, avatarUrl);
+    res.header({'Content-Type': 'application/json'});
+    res.send(JSON.stringify(data));
+  });
+});
+
+/**
+ * Avatar upload
+ */
+var express = require('express');
+var expressApp = express();
+
+expressApp.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, "_" + file.originalname);
+  }
+});
+var upload = multer({ storage: storage });
+
+expressApp.post('/upload-avatar',  upload.single('avatarUpload'), function (req, res) {
+  var userId = req.body.userId;
+  fs.rename('uploads/' + "_" + req.file.originalname, '../frontend/public/avatars/' + userId + '.jpg', function(err) {
+    if ( err ) console.log('ERROR: ' + err);
+  });
+  console.log('Upload avatar picture for user with id ' + userId + ' done');
+  res.status(204).end()
+});
+
+expressApp.listen(3003, function () {
+  console.log('Express app (for image upload) listening on port 3003!')
+});
+
+
 
 app.start = function () {
     // start the web server
