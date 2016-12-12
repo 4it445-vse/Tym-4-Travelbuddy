@@ -69,7 +69,7 @@ export class RequestsPage extends Component {
         if (!searchString) {
             return {};
         }
-        return {filter: {where: {city: {like: `%${searchString}%`,},},},}
+        return {filter: {fields: {id:true},where: {city: {like: `%${searchString}%`}}}}
     }
 
     fetchRequests(searchString) {
