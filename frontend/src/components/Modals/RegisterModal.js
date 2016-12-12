@@ -123,7 +123,7 @@ export default class RegisterModal extends Component {
                     console.log('registration success');
                     currentUser.setAlert({
                         "type": "success",
-                        "message": "Registrace proběhla úspěšně. Před přihlášením prosím navštivte svůj email a ověřte ho kliknutím na zaslaný odkaz."
+                        "message": "Registration has been successfull. Please verify your e-mail, before first login, by clicking on the link we have send you on provided e-mail."
                     })
                     this.closeModal();
                 });
@@ -202,7 +202,7 @@ export default class RegisterModal extends Component {
 
     render() {
         const {showProp, switchFn} = this.props;
-        const title = "Registrace";
+        const title = "Sign Up";
         return (
             <Modal show={showProp} onHide={this.closeModal}>
                 <Modal.Header closeButton>
@@ -214,7 +214,7 @@ export default class RegisterModal extends Component {
                             {
                                 this.state.showValidation
                                 && this.state.isFieldValid.name === false
-                                    ? <span className="validation-error">Zadejte prosím jméno</span>
+                                    ? <span className="validation-error">Enter your name please.</span>
                                     : ""
                             }
                             <input
@@ -230,14 +230,14 @@ export default class RegisterModal extends Component {
                                     )
                                 }
                                 id="name"
-                                placeholder="Jméno"
+                                placeholder="Name"
                             />
                         </FormGroup>
                         <FormGroup>
                             {
                                 this.state.showValidation
                                 && this.state.isFieldValid.surname === false
-                                    ? <span className="validation-error">Zadejte prosím příjmení</span>
+                                    ? <span className="validation-error">Enter your surname please.</span>
                                     : ""
                             }
                             <input
@@ -253,20 +253,20 @@ export default class RegisterModal extends Component {
                                     )
                                 }
                                 id="surname"
-                                placeholder="Příjmení"
+                                placeholder="Surname"
                             />
                         </FormGroup>
                         <FormGroup>
                             {
                                 this.state.showValidation
                                 && this.state.isFieldValid.email === false
-                                    ? <span className="validation-error">Zadejte prosím email ve správném formátu</span>
+                                    ? <span className="validation-error">Enter e-mail in a correct format: melon@collie.com</span>
                                     : ""
                             }
                             {
                                 this.state.showValidation
                                 && this.state.isFieldValid.email === 'emailAlreadyExists'
-                                    ? <span className="validation-error">Uživatel s tímto emailem je již u nás registrován</span>
+                                    ? <span className="validation-error">User with this e-mail already exists.</span>
                                     : ""
                             }
                             <input
@@ -282,14 +282,14 @@ export default class RegisterModal extends Component {
                                     )
                                 }
                                 id="email"
-                                placeholder="Email"
+                                placeholder="E-mail"
                             />
                         </FormGroup>
                         <FormGroup>
                             {
                                 this.state.showValidation
                                 && this.state.isFieldValid.city === false
-                                    ? <span className="validation-error">Zadejte prosím město</span>
+                                    ? <span className="validation-error">City is a mandatory field.</span>
                                     : ""
                             }
                             <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.registrationValidation.city } display={true}>
@@ -308,7 +308,7 @@ export default class RegisterModal extends Component {
                                     )
                                 }
                                 id="city"
-                                placeholder="Město"
+                                placeholder="City"
                                 value = { this.state.registrationValidation.city }
                             />
                             </GooglePlacesSuggest>
@@ -317,7 +317,7 @@ export default class RegisterModal extends Component {
                             {
                                 this.state.showValidation
                                 && this.state.isFieldValid.pass === false
-                                    ? <span className="validation-error">Zadejte prosím heslo o minimální délce 8, obsahující alespoň 1 velké i malé písmeno a číslici</span>
+                                    ? <span className="validation-error">The password has to be at least 8 characters long and has to contain capital letter, non-capital letter and number.</span>
                                     : ""
                             }
                             <input
@@ -333,14 +333,14 @@ export default class RegisterModal extends Component {
                                     )
                                 }
                                 id="pass"
-                                placeholder="Heslo"
+                                placeholder="Password"
                             />
                         </FormGroup>
                         <FormGroup>
                             {
                                 this.state.showValidation
                                 && this.state.isFieldValid.pass_repeated === false
-                                    ? <span className="validation-error">Zadaná hesla nesouhlasí</span>
+                                    ? <span className="validation-error">Entered passwords has to be same.</span>
                                     : ""
                             }
                             <input
@@ -356,23 +356,23 @@ export default class RegisterModal extends Component {
                                     )
                                 }
                                 id="pass_repeated"
-                                placeholder="Heslo znovu"
+                                placeholder="Repeat Password"
                             />
                         </FormGroup>
                         <FormCheck>
                             {
                                 this.state.showValidation
                                 && this.state.isFieldValid.agreed_with_conditions === false
-                                    ? <p className="validation-error no-margin-bottom">Musíte souhlasit s podmínkami služby</p>
+                                    ? <p className="validation-error no-margin-bottom">You have to accept the terms.</p>
                                     : ""
                             }
                             <label className="form-check-label float-left">
                                 <input onClick={this.validate} id="agreed_with_conditions" type="checkbox"
                                        className="form-check-input"/>
-                                Souhlasím s podmínkami
+                                I accept the terms.
                             </label>
                             <button onClick={this.handleSubmitRegistration} type="button"
-                                    className="btn btn-primary fullsize v-o-25">Registrovat
+                                    className="btn btn-primary fullsize v-o-25">Sign Up
                             </button>
                         </FormCheck>
                     </form>
@@ -380,10 +380,10 @@ export default class RegisterModal extends Component {
                 <Modal.Footer>
                     <FormCheck>
 					  <span className="float-left">
-						  Již máš účet?
+						  Do you already have an account?
 					  </span>
                         <button type="button" data-dismiss="modal" className="btn btn-primary float-right"
-                                data-toggle="modal" data-target="#regmodal" onClick={switchFn}>Přihlášení
+                                data-toggle="modal" data-target="#regmodal" onClick={switchFn}>Sign In
                         </button>
                     </FormCheck>
                 </Modal.Footer>

@@ -31,24 +31,22 @@ export default class FindUser extends Component {
             <div>
                 {
                     budies.length === 0 ?
-                        <div className="row">
-
-                        </div> :
+                       ( <div className="row"></div> ) :
 
 
                         <div className="row">
                             <div className="card v-o-25">
                                 <div className="card-block">
-                                    <h4 className="card-title">Bylo
-                                        nalezeno {budies.length} {budies.length === 1 ? "uživatel" : "uživatelů"}</h4>
+                                    <h4 className="card-title">TravelBuddy found {budies.length} {budies.length === 1 ? "user" : "users"} for you.</h4>
                                 </div>
                                 {
                                     this.renderBuddies()
                                 }
+                              
                             </div>
                         </div>
                 }
-                </div>
+            </div>
         );
     }
 }

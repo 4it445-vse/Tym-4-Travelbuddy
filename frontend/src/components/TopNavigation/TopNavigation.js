@@ -155,15 +155,16 @@ export default class TopNavigation extends Component {
 
                 {
                     this.state.showContactBuddyModal ?
-                <ContactBuddyModal showProp={this.state.showContactBuddyModal} hideFn={this.closeContactBuddy}
-                                   buddyTo={this.state.selectedBuddy}/>
+                        <ContactBuddyModal showProp={this.state.showContactBuddyModal} hideFn={this.closeContactBuddy}
+                                           buddyTo={this.state.selectedBuddy}/>
                         : ""
                 }
 
                 {
                     this.state.showProfileModal ?
                         <ShowProfileModal showProp={this.state.showProfileModal} hideFn={this.closeProfileModal}
-                                          buddy={this.state.selectedBuddy} showContactButton={this.state.showContactButton}/>
+                                          buddy={this.state.selectedBuddy}
+                                          showContactButton={this.state.showContactButton}/>
                         : ""
                 }
 
@@ -184,18 +185,19 @@ export default class TopNavigation extends Component {
                         <Modal show={true} onHide={this.closeQuestion}>
                             <Modal.Header closeButton>
                             </Modal.Header>
-                            <Modal.Body>
-                                {question.text}
-                                <div>
-                                    <button className="btn btn-defaul SearchButton text-white btn-margin-right-30"
-                                            type="button"
-                                            onClick={this.removeUser}>ANO
-                                    </button>
-
-                                    <button className="btn btn-defaul SearchButton text-white" type="button"
-                                            onClick={this.closeQuestion}>NE
-                                    </button>
-
+                            <Modal.Body className="text-xs-center">
+                                <p>{question.text}</p>
+                                <div className="row">
+                                    <div className="col-xs-6 text-xs-right">
+                                        <button className="btn btn-defaul SearchButton text-white" type="button"
+                                                onClick={this.removeUser}>Yes
+                                        </button>
+                                    </div>
+                                    <div className="col-xs-6 text-xs-left">
+                                        <button className="btn btn-defaul SearchButton text-white" type="button"
+                                                onClick={this.closeQuestion}>No
+                                        </button>
+                                    </div>
                                 </div>
                             </Modal.Body>
                         </Modal> : ""
@@ -205,8 +207,8 @@ export default class TopNavigation extends Component {
                         <EditProfileModal showProp={this.state.showEditModal} hideFn={this.closeEdit}/>
                         <NewRequestModal showProp={this.state.showNewRequestModal} hideFn={this.closeNewRequest}/>
                         { this.state.showEditRequestModal ?
-                        <EditRequestModal showProp={this.state.showEditRequestModal} hideFn={this.closeEditRequests}
-                                          switchFn={this.openNewRequest}/>
+                            <EditRequestModal showProp={this.state.showEditRequestModal} hideFn={this.closeEditRequests}
+                                              switchFn={this.openNewRequest}/>
                             : ""}
                     </div>
                     : ""}

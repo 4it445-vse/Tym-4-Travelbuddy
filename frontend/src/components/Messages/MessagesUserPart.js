@@ -149,7 +149,7 @@ export default class MessagePage extends Component {
         return (
             <div className="row">
                 <div className="dropdown-toggle1">
-                    Všechny konverzace: <span className="caret float-right"></span>
+                    All conversations: <span className="caret float-right"></span>
                 </div>
                 <MessageSearch refreshUsersList={this.restrictUsers}/>
                 <div className="member_list"

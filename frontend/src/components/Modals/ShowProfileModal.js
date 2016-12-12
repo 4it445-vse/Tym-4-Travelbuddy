@@ -27,22 +27,21 @@ export default class ShowProfileModal extends Component {
                 </Modal.Header>
                 <Modal.Body>
                     <div>
-                        <label htmlFor="exampleInputFile">Profilový obrázek:</label><br/>
                         <img
                             src="http://images.megaupload.cz/mystery-man.png"
                             alt="..." className="profil_img rounded"/>
                         <br/><br/>
-                        <b>Pohlaví: </b>
+                        <b>Sex: </b>
                         {buddy.sex === 'male' ? "muž" : "žena"}
                         <br/>
-                        <b>Město: </b>{buddy.city}
+                        <b>City: </b>{buddy.city}
                         <br/>
-                        <b>Hostuji: </b>
+                        <b>Am I hosting: </b>
                         {buddy.is_hosting ? "ano" : "ne"}
                         <br/>
-                        <b>Email: </b>{buddy.email}
+                        <b>E-mail: </b>{buddy.email}
                         <br/>
-                        <label htmlFor="exampleInputFile"><b>O mně:</b></label>
+                        <label htmlFor="exampleInputFile"><b>About me: </b></label>
                         <textarea type="text" className="form-control"
                                   id="about_me"
                                   defaultValue={buddy.about_me} disabled/>
@@ -53,7 +52,7 @@ export default class ShowProfileModal extends Component {
                         showContactButton ?
                             <div className="form-check">
                                 <button onClick={this.openContactBuddy} type="button"
-                                        className="btn btn-primary fullsize">Kontaktovat
+                                        className="btn btn-primary fullsize">Message
                                 </button>
                             </div>
                             : ""

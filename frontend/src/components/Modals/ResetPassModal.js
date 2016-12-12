@@ -25,18 +25,17 @@ export default class ResetPassModal extends Component {
     handleSubmitResetPass(event) {
         var email = document.getElementById("email-l").value;
         if (email) {
-            console.log("about to ask for request-pass-reset");
             axios.post('messages/request-pass-reset', {
                 email: email
             }).then(response => {
                 if (response.data.status === "OK") {
                     currentUser.setAlert({
                         "type": "success",
-                        "message": "Email k obnovení hesla úspěšně zaslána na Váš email. Prosím navštivte ho."
+                        "message": "Instructions how to reset your password has been sent to you email."
                     })
                     this.props.hideFn();
                 } else {
-                    this.setState({showErrorMessage: "Uživatel s daným emailem nebyl nalezen!"});
+                    this.setState({showErrorMessage: "There is no user with this e-mail."});
                 }
             });
         }
@@ -47,7 +46,7 @@ export default class ResetPassModal extends Component {
         return (
             <Modal show={showProp} onHide={this.closeModal}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Resetuj heslo přes email</Modal.Title>
+                    <Modal.Title>I forgot my password</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form>
@@ -58,10 +57,10 @@ export default class ResetPassModal extends Component {
                                     : ""
                             }
                             <input type="email" name="email" className="form-control" id="email-l"
-                                   placeholder="Váš email"/>
+                                   placeholder="Your e-mail"/>
                         </FormGroup>
                         <button onClick={this.handleSubmitResetPass} type="button"
-                                className="btn btn-primary fullsize">Resetuj heslo
+                                className="btn btn-primary fullsize">Reset password
                         </button>
                     </form>
                 </Modal.Body>

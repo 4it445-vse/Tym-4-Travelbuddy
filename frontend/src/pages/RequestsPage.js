@@ -113,13 +113,13 @@ export class RequestsPage extends Component {
                     <div className="input-group v-o-5">
                         <input id="search-town" type="search"
                                className="form-control SearchBar SearchHeight SearchBorder"
-                               placeholder="Zadej cílové město" onChange={this.handleSearchChange}
+                               placeholder="Enter destination..." onChange={this.handleSearchChange}
                                autoComplete="off"
                                value={this.state.search}/>
                         <span className="input-group-btn">
               <button className="btn btn-defaul SearchButton SearchHeight text-white" type="button"
                       onClick={this.handleSearchChange}>
-                  <i className="fa fa-search SearchIcon" aria-hidden="true"></i> Hledej
+                  <i className="fa fa-search SearchIcon" aria-hidden="true"></i> Search
               </button>
             </span>
                     </div>
