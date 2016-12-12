@@ -19,7 +19,7 @@ export class RequestsList extends Component {
     render() {
         return (
         <div className="row">
-            <div className="requests v-o-5">
+            <div className="requests m-t-10">
                 {this.renderRequests()}
             </div>
         </div>

@@ -93,6 +93,7 @@ export class RequestsPage extends Component {
         const alert = currentUser.getAlert();
         return (
             <div>
+              <h1 className="v-o-4">Requests</h1>
                 {
                     (!!alert) ?
                         <Modal show={true} onHide={this.closeAlert}>
@@ -110,7 +111,7 @@ export class RequestsPage extends Component {
                                   contactBuddy={this.openContactBuddy}/>
                 <div className="row">
                 <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.search } display={true}>
-                    <div className="input-group v-o-5">
+                    <div className="input-group">
                         <input id="search-town" type="search"
                                className="form-control SearchBar SearchHeight SearchBorder"
                                placeholder="Enter destination..." onChange={this.handleSearchChange}

@@ -209,179 +209,114 @@ export default class RegisterModal extends Component {
                     <Modal.Title>{title}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <form>
-                        <FormGroup>
-                            {
-                                this.state.showValidation
-                                && this.state.isFieldValid.name === false
-                                    ? <span className="validation-error">Enter your name please.</span>
-                                    : ""
-                            }
-                            <input
-                                onBlur={this.validate}
-                                type="text"
-                                className={
-                                    "form-control"
-                                    + (
-                                        this.state.showValidation
-                                        && this.state.isFieldValid.name === false
-                                            ? ' alert-danger'
-                                            : ''
-                                    )
-                                }
-                                id="name"
-                                placeholder="Name"
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            {
-                                this.state.showValidation
-                                && this.state.isFieldValid.surname === false
-                                    ? <span className="validation-error">Enter your surname please.</span>
-                                    : ""
-                            }
-                            <input
-                                onBlur={this.validate}
-                                type="text"
-                                className={
-                                    "form-control"
-                                    + (
-                                        this.state.showValidation
-                                        && this.state.isFieldValid.surname === false
-                                            ? ' alert-danger'
-                                            : ''
-                                    )
-                                }
-                                id="surname"
-                                placeholder="Surname"
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            {
-                                this.state.showValidation
-                                && this.state.isFieldValid.email === false
-                                    ? <span className="validation-error">Enter e-mail in a correct format: melon@collie.com</span>
-                                    : ""
-                            }
-                            {
-                                this.state.showValidation
-                                && this.state.isFieldValid.email === 'emailAlreadyExists'
-                                    ? <span className="validation-error">User with this e-mail already exists.</span>
-                                    : ""
-                            }
-                            <input
-                                onBlur={this.validate}
-                                type="email"
-                                className={
-                                    "form-control"
-                                    + (
-                                        this.state.showValidation
-                                        && this.state.isFieldValid.email === false
-                                            ? ' alert-danger'
-                                            : ''
-                                    )
-                                }
-                                id="email"
-                                placeholder="E-mail"
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            {
-                                this.state.showValidation
-                                && this.state.isFieldValid.city === false
-                                    ? <span className="validation-error">City is a mandatory field.</span>
-                                    : ""
-                            }
-                            <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.registrationValidation.city } display={true}>
-                            <input
-                                onBlur={this.validate}
-                                onChange={this.handleSearchChange}
-                                type="text"
-                                autoComplete="off"
-                                className={
-                                    "form-control"
-                                    + (
-                                        this.state.showValidation
-                                        && this.state.isFieldValid.city === false
-                                            ? ' alert-danger'
-                                            : ''
-                                    )
-                                }
-                                id="city"
-                                placeholder="City"
-                                value = { this.state.registrationValidation.city }
-                            />
-                            </GooglePlacesSuggest>
-                        </FormGroup>
-                        <FormGroup>
-                            {
-                                this.state.showValidation
-                                && this.state.isFieldValid.pass === false
-                                    ? <span className="validation-error">The password has to be at least 8 characters long and has to contain capital letter, non-capital letter and number.</span>
-                                    : ""
-                            }
-                            <input
-                                onBlur={this.validate}
-                                type="password"
-                                className={
-                                    "form-control"
-                                    + (
-                                        this.state.showValidation
-                                        && this.state.isFieldValid.pass === false
-                                            ? ' alert-danger'
-                                            : ''
-                                    )
-                                }
-                                id="pass"
-                                placeholder="Password"
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            {
-                                this.state.showValidation
-                                && this.state.isFieldValid.pass_repeated === false
-                                    ? <span className="validation-error">Entered passwords has to be same.</span>
-                                    : ""
-                            }
-                            <input
-                                onBlur={this.validate}
-                                type="password"
-                                className={
-                                    "form-control"
-                                    + (
-                                        this.state.showValidation
-                                        && this.state.isFieldValid.pass_repeated === false
-                                            ? ' alert-danger'
-                                            : ''
-                                    )
-                                }
-                                id="pass_repeated"
-                                placeholder="Repeat Password"
-                            />
-                        </FormGroup>
-                        <FormCheck>
-                            {
-                                this.state.showValidation
-                                && this.state.isFieldValid.agreed_with_conditions === false
-                                    ? <p className="validation-error no-margin-bottom">You have to accept the terms.</p>
-                                    : ""
-                            }
-                            <label className="form-check-label float-left">
-                                <input onClick={this.validate} id="agreed_with_conditions" type="checkbox"
-                                       className="form-check-input"/>
-                                I accept the terms.
-                            </label>
-                            <button onClick={this.handleSubmitRegistration} type="button"
-                                    className="btn btn-primary fullsize v-o-25">Sign Up
-                            </button>
-                        </FormCheck>
-                    </form>
+                  <form>
+                    <div className="row m-b-10">
+                      <div className="col-xs-3 col-sm-2">
+                        <label htmlFor="name" className="col-form-label">Name: </label>
+                      </div>
+                      <div className="col-xs-9 col-sm-10">
+                        <input onBlur={this.validate} type="text" id="name" placeholder="Your Name"
+                               className={ "form-control" + ( this.state.showValidation && this.state.isFieldValid.name === false ? ' alert-danger' : '') }/>
+                        {
+                          this.state.showValidation && this.state.isFieldValid.name === false ?
+                          <span className="validation-error">Enter your name please.</span> : ""
+                        }
+                      </div>
+                    </div>
+                    <div className="row m-b-10">
+                      <div className="col-xs-3 col-sm-2">
+                        <label htmlFor="surname" className="col-form-label">Surname: </label>
+                      </div>
+                      <div className="col-xs-9 col-sm-10">
+                        <input onBlur={this.validate} type="text" id="surname" placeholder="Your Surname"
+                               className={ "form-control" + ( this.state.showValidation && this.state.isFieldValid.surname === false ? ' alert-danger' : '') }/>
+                        {
+                          this.state.showValidation && this.state.isFieldValid.surname === false ?
+                          <span className="validation-error">Enter your surname please.</span>: ""
+                        }
+                      </div>
+                    </div>
+                    <div className="row m-b-10">
+                      <div className="col-xs-3 col-sm-2">
+                        <label htmlFor="email" className="col-form-label">E-mail: </label>
+                      </div>
+                      <div className="col-xs-9 col-sm-10">
+                        <input onBlur={this.validate} type="email" id="email" placeholder="Your E-mail"
+                               className={ "form-control" + ( this.state.showValidation && this.state.isFieldValid.email === false ? ' alert-danger' : '') }/>
+                        {
+                          this.state.showValidation && this.state.isFieldValid.email === false ?
+                          <span className="validation-error">Enter e-mail in a correct format (melon@collie.com).</span> : ""
+                        }
+                        {
+                           this.state.showValidation && this.state.isFieldValid.email === 'emailAlreadyExists' ?
+                           <span className="validation-error">User with this e-mail already exists.</span> : ""
+                        }
+                      </div>
+                    </div>
+                    <div className="row m-b-10">
+                      <div className="col-xs-3 col-sm-2">
+                        <label htmlFor="city" className="col-form-label">City: </label>
+                      </div>
+                      <div className="col-xs-9 col-sm-10">
+                        <GooglePlacesSuggest className="" onSelectSuggest={ this.handleSelectSuggest } search={ this.state.registrationValidation.city } display={true}>
+                          <input onBlur={this.validate} onChange={this.handleSearchChange} type="text" autoComplete="off" id="city" placeholder="Your City"
+                                 className={ "form-control no-margin " + ( this.state.showValidation && this.state.isFieldValid.city === false ? ' alert-danger' : '' ) }
+                                 value = { this.state.registrationValidation.city } />
+                        </GooglePlacesSuggest>
+                        {
+                          this.state.showValidation && this.state.isFieldValid.city === false ?
+                          <span className="validation-error">City is a mandatory field.</span> : ""
+                        }
+                      </div>
+                    </div>
+                    <hr/>
+                    <div className="row m-b-10">
+                      <div className="col-xs-5 col-sm-3">
+                        <label htmlFor="pass" className="col-form-label">Password: </label>
+                      </div>
+                      <div className="col-xs-7 col-sm-9">
+                        <input onBlur={this.validate} type="password" id="pass" placeholder="Your Password"
+                             className={ "form-control" + ( this.state.showValidation && this.state.isFieldValid.pass === false ? ' alert-danger' : '') }/>
+                        {
+                          this.state.showValidation && this.state.isFieldValid.pass === false ?
+                          <span className="validation-error">The password has to be at least 8 characters long and has to contain capital letter, non-capital letter and number.</span> : ""
+                        }
+                      </div>
+                    </div>
+                    <div className="row m-b-10">
+                      <div className="col-xs-5 col-sm-3">
+                        <label htmlFor="pass_repeated" className="col-form-label">Password again: </label>
+                      </div>
+                      <div className="col-xs-7 col-sm-9">
+                        <input onBlur={this.validate} type="password" id="pass_repeated" placeholder="Repeat your Password"
+                             className={ "form-control" + ( this.state.showValidation && this.state.isFieldValid.pass_repeated === false ? ' alert-danger' : '') }/>
+                        {
+                          this.state.showValidation && this.state.isFieldValid.pass_repeated === false ?
+                          <span className="validation-error">Entered passwords have to be identical.</span> : ""
+                        }
+                      </div>
+                    </div>
+                    <div className="row m-b-10">
+                      <div className="col-xs-6 col-sm-3">
+                        <label htmlFor="pass_repeated" className="col-form-label">I accept the terms.</label>
+                      </div>
+                      <div className="col-xs-6 col-sm-9">
+                        <input onClick={this.validate} id="agreed_with_conditions" type="checkbox" className="big_checkbox"/>
+                        {
+                            this.state.showValidation && this.state.isFieldValid.agreed_with_conditions === false ?
+                            <span className="validation-error"> You have to accept the terms.</span> : ""
+                        }
+                      </div>
+                    </div>
+                    <hr/>
+                    <button onClick={this.handleSubmitRegistration} type="button" className="btn btn-primary fullsize">Sign Up</button>
+                  </form>
                 </Modal.Body>
                 <Modal.Footer>
                     <FormCheck>
-					  <span className="float-left">
-						  Do you already have an account?
-					  </span>
+          					  <span className="float-left">
+          						  Do you already have an account?
+          					  </span>
                         <button type="button" data-dismiss="modal" className="btn btn-primary float-right"
                                 data-toggle="modal" data-target="#regmodal" onClick={switchFn}>Sign In
                         </button>

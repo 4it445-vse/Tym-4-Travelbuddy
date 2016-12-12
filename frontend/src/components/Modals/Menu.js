@@ -87,11 +87,11 @@ export default class Menu extends Component {
                         </NavItem>
 						<hr className="xs-visible sm-visible hidden-md-up hidden-lg-up"/>
 <NavItem className="margin-right-30">
-<Link href="/" className="nav-link">All Buddies</Link>
+<Link href="/" className="nav-link">Buddies</Link>
                                 </NavItem>
                                 <hr className="xs-visible sm-visible hidden-md-up hidden-lg-up"/>
                                 <NavItem className="margin-right-30">
-                                    <Link href="/requests" className="nav-link">All Requests</Link>
+                                    <Link href="/requests" className="nav-link">Requests</Link>
                                 </NavItem>
                                 <hr className="xs-visible sm-visible hidden-md-up hidden-lg-up"/>
                                 <NavItem className="margin-right-30">
@@ -100,8 +100,7 @@ export default class Menu extends Component {
                                            href="#" id="supportedContentDropdown"
                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                                            onClick={this.setCollapsedMyTravelling}
-                                           >Moje
-                                            cestování</a>
+                                           >My traveling</a>
                                         <div className="dropdown-menu">
                                             <a className="dropdown-item" onClick={openNewRequest}>Create New Request</a>
                                             <a className="dropdown-item" onClick={openEditRequests}>Edit My Requests</a>
@@ -124,7 +123,7 @@ export default class Menu extends Component {
                                 <NavItem className="margin-right-30">
                                     <Link href="#" className="nav-link" onClick={openRegister}>Sign Up</Link>
                                 </NavItem>
-                                <NavItem>
+                                <NavItem className="margin-right-30">
                                     <Link href="#" className="nav-link" onClick={openLogin}>Sign In</Link>
                                 </NavItem>
                             </div>

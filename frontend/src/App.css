@@ -7,6 +7,9 @@ body {
     overflow-x: hidden !important;
 }
 
+h1{
+  margin-bottom: 15px;
+}
 
 /** Posuvník stránek výsledků**/
 .PaginateButton {
@@ -89,14 +92,40 @@ body {
 .m-r-30 {
     margin-right: 30px;
 }
+.m-r-10 {
+    margin-right: 10px;
+}
+.m-t-05 {
+    margin-top: 5px;
+}
+.m-t-10 {
+    margin-top: 10px;
+}
+.m-b-10 {
+    margin-bottom: 10px;
+}
+.p-t-7 {
+    padding-top: 7px;
+}
 
 .m-r-15 {
     margin-right: 15px;
 }
 
 .profil_img {
+    margin-top: 5px;
     width: 50px;
     height: 50px;
+    margin-bottom: 5px;
+    -moz-transition: all 0.4s;
+    -webkit-transition: all 0.4s;
+    transition: all 0.4s;
+}
+.card-block:hover .profil_img, .card-block.hover .profil_img{
+    margin-top: 0px;
+    width: 60px;
+    height: 60px;
+    margin-bottom: 0px;
 }
 
 .profil_o-30 {

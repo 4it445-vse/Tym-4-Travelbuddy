@@ -50,18 +50,23 @@ export default class ResetPassModal extends Component {
                 </Modal.Header>
                 <Modal.Body>
                     <form>
-                        <FormGroup>
-                            {
-                                !!this.state.showErrorMessage
-                                    ? <span className="validation-error-big">{this.state.showErrorMessage}</span>
-                                    : ""
-                            }
-                            <input type="email" name="email" className="form-control" id="email-l"
-                                   placeholder="Your e-mail"/>
-                        </FormGroup>
-                        <button onClick={this.handleSubmitResetPass} type="button"
-                                className="btn btn-primary fullsize">Reset password
-                        </button>
+                      <div className="row m-b-10">
+                        <div className="col-xs-3 col-sm-2">
+                          <label htmlFor="email-l" className="col-form-label">E-mail: </label>
+                        </div>
+                        <div className="col-xs-9 col-sm-10">
+                          <input type="email" name="email" id="email-l" placeholder="Your e-mail"
+                                 className={ "form-control" + ( !!this.state.showErrorMessage ? ' alert-danger' : '') }/>
+                          {
+                            !!this.state.showErrorMessage?
+                            <span className="validation-error">{this.state.showErrorMessage}</span> : ""
+                          }
+                        </div>
+                      </div>
+                      <hr/>
+                      <button onClick={this.handleSubmitResetPass} type="button"
+                              className="btn btn-primary fullsize">Reset password
+                      </button>
                     </form>
                 </Modal.Body>
             </Modal>
