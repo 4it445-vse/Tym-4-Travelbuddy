@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import axios from "../../api";
+import api from "../../api"
 
 export class RequestListItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      buddy_id: props.request.buddy_id,
-      buddy: {}
+      req_id: props.requestId,
+      buddy: {},
+      request:{},
+      render: false
     };
 
     this.fetchBuddy = this.fetchBuddy.bind(this);
@@ -20,28 +23,32 @@ export class RequestListItem extends Component {
   }
 
   showRequestDetails(){
-    this.props.openShowRequestShowModal(this.state.buddy, this.props.request);
+    this.props.openShowRequestShowModal(this.state.buddy, this.state.request);
   }
 
   componentDidMount() {
-    this.fetchBuddy(this.state.buddy_id);
+    this.fetchBuddy();
   }
 
-  fetchBuddy(buddy_id) {
-    axios.get('buddies/' + buddy_id)
+  fetchBuddy(){
+    axios.get('requests/' + this.state.req_id, {params: {filter :{ include: "buddy"}}})
       .then((response) => {
         this.setState({
-          buddy: response.data
+          buddy: response.data.buddy,
+          request: response.data,
+          render: true
         });
-        this.setState({  });
       });
   }
 
   render() {
-    const { request, openContactBuddy } = this.props;
-    const { city, from, to } = request;
+    const { openContactBuddy } = this.props;
+    const { city, from, to } = this.state.request;
+    const { name, email } = this.state.buddy
+    const loader = require('../../images/lazyload.gif');
     return (
       <div className="col-lg-4 col-md-6 col-xs-12">
+        { this.state.render ? (
         <div className="request">
           <h2>{city}</h2>
           <hr/>
@@ -87,7 +94,11 @@ export class RequestListItem extends Component {
               <button className="btn btn-defaul SearchButton text-white" type="button" onClick={this.openContactBuddy}>Message</button>
             </div>
           </div>
-        </div>
+        </div> ) :
+        (
+                  <div className="request lazyloadReq"><img src={loader}/></div>
+        )
+      }
       </div>
     );
   }
