@@ -33,7 +33,7 @@
     "public": false
   },
   "Email": {
-  "dataSource": "mailserver"
+    "dataSource": "mailserver"
   },
   "Buddy": {
     "dataSource": "mysqlds",

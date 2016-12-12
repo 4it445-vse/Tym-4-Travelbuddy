@@ -57,15 +57,7 @@ INSERT INTO `Buddy` (`id`, `email`, `password`, `sex`, `name`, `surname`, `city`
 (47, 'o@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'Eliška', 'Radlicka', 'Ostrava', NULL, 0, 1),
 (48, 'p@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'Eliška', 'Krejcová', 'Praha', NULL, 0, 1),
 (49, 'q@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'David', 'Marek', 'Praha', NULL, 0, 1),
-(50, 'r@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'David', 'Ctiborský', 'Brno', NULL, 0, 1),
-(51, 's@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'male', 'Martin', 'Pacovský', 'Olomouc', NULL, 1, 1),
-(52, 't@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'male', 'Martin', 'Seborský', 'Liberec', NULL, 1, 1),
-(53, 'u@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'male', 'Martin', 'Kouba', 'Liberec', NULL, 1, 1),
-(54, 'v@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'female', 'Monika', 'Kebová', 'Praha', NULL, 1, 1),
-(55, 'w@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'male', 'Martin', 'Strnad', 'Praha', NULL, 1, 1),
-(56, 'x@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'Evžen', 'Radkovský', 'Ostrava', NULL, 0, 1),
-(57, 'y@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'Monika', 'Radlicka', 'Ostrava', NULL, 0, 1),
-(58, 'z@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'Monika', 'Krejcová', 'Praha', NULL, 0, 1);
+(50, 'r@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'David', 'Ctiborský', 'Brno', NULL, 0, 1);
 
 INSERT INTO `Message` (`id`, `text`, `displayed`, `date_time`, `buddy_id_from`, `buddy_id_to`) VALUES
 (1, 'Hi, this is sample message.', 0, '2016-11-24 12:39:48', 1, 2);
@@ -89,9 +81,3 @@ INSERT INTO `Message` (`text`, `displayed`, `date_time`, `buddy_id_from`, `buddy
 ('Hi, this is sample message. FROM', 1, '2016-11-24 17:39:48', 31, 4),
 ('Hi, this is sample message. FROM', 1, '2016-11-24 21:39:48', 31, 4),
 ('Hi, this is sample message. FROM', 1, '2016-11-24 16:39:48', 31, 4);
-
---logged user 31 j.draslar@gmail.com Aa123456
---1 .. 06:39:48 .. 2
---2 .. 05:39:48 .. 1
---3 .. 09:39:48 .. 0
---4 .. 21:39:48 .. 0

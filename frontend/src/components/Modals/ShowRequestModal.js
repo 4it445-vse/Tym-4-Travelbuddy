@@ -1,4 +1,5 @@
 ﻿import React, {Component} from "react";
+import moment from 'moment';
 import AbstractModal from "./AbstractModal";
 
 export default class ShowRequestModal extends Component {
@@ -10,7 +11,6 @@ export default class ShowRequestModal extends Component {
     }
 
     constactBuddy(){
-        console.log(this.props.requestShowModalContent.buddy);
         this.props.contactBuddy(this.props.requestShowModalContent.buddy);
     }
 
@@ -30,9 +30,9 @@ export default class ShowRequestModal extends Component {
                     <br/>
                     <b>Surname: </b>{buddy.city}
                     <br/>
-                    <b>From: </b>{request.from}
+                    <b>From: </b>{moment(request.from).format('DD.MM.YYYY')}
                     <br/>
-                    <b>To: </b>{request.to}
+                    <b>To: </b>{moment(request.to).format('DD.MM.YYYY')}
                     <br/>
                     <b>Sex: </b>
                     {buddy.sex === 'male' ? "muž" : "žena"}

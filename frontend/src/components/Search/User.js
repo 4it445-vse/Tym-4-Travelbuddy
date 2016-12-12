@@ -1,16 +1,42 @@
 import React, {Component} from "react";
 import currentUser from "../../actions/CurrentUser";
 import FontAwesome from "react-fontawesome";
+import api from "../../api"
 
 export default class User extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            buddy: props.buddy
-        };
+            buddy: {
+              about_me: null,
+              name: null,
+              surname: null,
+              sex: null,
+              city: null
+            },
+            render: false
+        }
+
+        const url = 'buddies/' + this.props.buddyId;
+        api.get(url).then(response => {
+            this.state.buddy = response.data
+
+        });
+
+
         this.openProfile = this.openProfile.bind(this);
         this.openContactBuddy = this.openContactBuddy.bind(this);
         this.onClick = this.onClick.bind(this);
+    }
+
+    componentDidMount(){
+      const url = 'buddies/' + this.props.buddyId;
+      api.get(url).then(response => {
+          this.setState({
+            buddy:response.data,
+            render:true
+          });
+      });
     }
 
     onClick(e) {
@@ -34,7 +60,11 @@ export default class User extends Component {
     }
 
     render() {
-        return (
+
+        const {render} = this.state;
+        const loader = require('../../images/lazyload.gif');
+
+        if(render) return (
             <a href="#" onClick={this.onClick} className="profil_vypis">
                 <div className="card-block" id="buddy-row">
                     <div className="col-md-1 col-xs-3 no-margin no-padding">
@@ -42,7 +72,7 @@ export default class User extends Component {
                              alt={this.state.buddy.name + " " + this.state.buddy.surname}
                              className="profil_img rounded"/>
                     </div>
-                    <div className="col-md-3 col-xs-5">
+                    <div className="col-md-3 col-xs-5 m-t-05">
                         <div className="row">
                             <p className="no-margin ellipsis">{this.state.buddy.name + " " + this.state.buddy.surname}</p>
                         </div>
@@ -50,7 +80,7 @@ export default class User extends Component {
                             <span className="no-margin ellipsis">{this.state.buddy.city}</span>
                         </div>
                     </div>
-                    <div className="col-md-1 col-xs-2">
+                    <div className="col-md-1 col-xs-2 m-t-05">
                         {
                             this.state.buddy.sex === 'male' ?
                                 <FontAwesome className="sexIcon" name="male" size="2x"
@@ -59,10 +89,10 @@ export default class User extends Component {
                                              style={{color: 'red'}}></FontAwesome>
                         }
                     </div>
-                    <div className="col-md-6 hidden-sm-down">
+                    <div className="col-md-6 hidden-sm-down m-t-05">
                         <p className="no-margin ellipsis2">{this.state.buddy.about_me}</p>
                     </div>
-                    <div className="col-md-1 col-xs-2">
+                    <div className="col-md-1 col-xs-2 m-t-05">
                         <a href="#" onClick={this.onClick} className="profil_vypis" name="envelope">
                             <FontAwesome className="sexIcon" name="envelope" size="2x" id="envelope"
                                          style={{color: '#0275d8'}}></FontAwesome>
@@ -70,6 +100,7 @@ export default class User extends Component {
                     </div>
                 </div>
             </a>
-        );
+        )
+        else return(<div className="card-block text-xs-center" id="buddy-row"><img src={loader}/></div>)
     }
 }
