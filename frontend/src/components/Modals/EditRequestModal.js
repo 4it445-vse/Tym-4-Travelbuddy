@@ -175,8 +175,10 @@ export default class RequestModal extends Component {
         const title = "Edit My Requests";
 
         const dateFormat = "YYYY-MM-DD";
+
         var fromFormated = moment(this.state.fields.from).format(dateFormat);
         var toFormated = moment(this.state.fields.to).format(dateFormat);
+        console.log("### in render: ", this.state.fields.from, fromFormated);
 
         if (this.state.requests.length === 0) {
             return (
@@ -220,14 +222,14 @@ export default class RequestModal extends Component {
                         <label htmlFor="from" className="col-xs-2 col-form-label text-xs-right">From: </label>
                         <div className="col-xs-4">
                             <input className={ "form-control" + ( errors.from ? ' alert-danger' : '' ) }
-                                   defaultValue={fromFormated} onChange={this.onChange} type="date" name="from"
+                                   value={fromFormated} onChange={this.onChange} type="date" name="from"
                                    placeholder="YYYY-MM-DD"/>
                             { !!errors.from ? <span className="validation-error">{errors.from}</span> : ""}
                         </div>
                         <label htmlFor="to" className="col-xs-2 col-form-label text-xs-right">To: </label>
                         <div className="col-xs-4">
                             <input className={ "form-control" + ( errors.to ? ' alert-danger' : '' ) }
-                                   defaultValue={toFormated} onChange={this.onChange} type="date" name="to"
+                                   value={toFormated} onChange={this.onChange} type="date" name="to"
                                    placeholder="YYYY-MM-DD"/>
                             { !!errors.to ? <span className="validation-error">{errors.to}</span> : ""}
                         </div>
