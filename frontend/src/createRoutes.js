@@ -13,7 +13,7 @@ export function createRoutes() {
         <Route path="/" component={AppPage}>
             <IndexRoute component={HomePage}/>
             <Route path="/messages" component={MessagesPage}/>
-            <Route path="/google" component={GooglePlaces}/>
+            <Route path="/UploadExample" component={UploadExample}/>
             <Route path="/requests" component={RequestsPage}/>
             <Route path="/verified" component={VerifiedPage}/>
             <Route path="/reset-password" component={ResetPassword}/>

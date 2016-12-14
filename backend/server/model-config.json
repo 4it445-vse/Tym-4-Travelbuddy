@@ -46,5 +46,9 @@
   "Message": {
     "dataSource": "mysqlds",
     "public": true
+  },
+  "Container": {
+    "dataSource": "avatars",
+    "public": true
   }
 }

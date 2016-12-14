@@ -10,6 +10,8 @@ const {
 
 module.exports = function (Buddy) {
 
+    var app = require('../../server/server');
+
     var excludedProperties = [
         'realm',
         'username'
@@ -25,6 +27,12 @@ module.exports = function (Buddy) {
      */
     Buddy.afterRemote('create', function (context, currentBuddy, next) {
         console.log('> Usermain.afterRemote triggered');
+
+
+        // create File container
+        app.models.Container.createContainer({name : "container_" + currentBuddy.id})
+        //----------------------
+
 
         var options = {
             type: 'email',
@@ -53,9 +61,6 @@ module.exports = function (Buddy) {
 
         });
 
-        /** Copy avatar */
-        var fs = require('fs');
-        fs.createReadStream('../frontend/public/avatars/default.jpg').pipe(fs.createWriteStream("../frontend/public/avatars/" + currentBuddy.id + ".jpg"));
     });
 
     Buddy.on('resetPasswordRequest', function (info) {
