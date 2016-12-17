@@ -124,7 +124,7 @@ export default class RegisterModal extends Component {
                     currentUser.setAlert({
                         "type": "success",
                         "message": "Registration has been successfull. Please verify your e-mail, before first login, by clicking on the link we have send you on provided e-mail."
-                    })
+                    });
                     this.closeModal();
                 });
             }

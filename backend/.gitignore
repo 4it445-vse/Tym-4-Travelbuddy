@@ -22,3 +22,5 @@ npm-debug.log
 /tmp/*
 !/tmp/.gitkeep
 /.env
+/storage/avatars/*
+!/storage/avatars/.gitkeep

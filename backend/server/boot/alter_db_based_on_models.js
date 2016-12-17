@@ -41,6 +41,7 @@ module.exports = function (app) {
       cb(null, "OK");
     });
   };
+
   Message.remoteMethod(
       'resetPassRequest', {
         http: {

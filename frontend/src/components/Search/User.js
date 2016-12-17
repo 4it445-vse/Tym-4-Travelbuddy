@@ -1,42 +1,38 @@
 import React, {Component} from "react";
 import currentUser from "../../actions/CurrentUser";
 import FontAwesome from "react-fontawesome";
-import api from "../../api"
+import axios from "../../api"
 
 export default class User extends Component {
     constructor(props) {
         super(props);
         this.state = {
             buddy: {
-              about_me: null,
-              name: null,
-              surname: null,
-              sex: null,
-              city: null
+                about_me: null,
+                name: null,
+                surname: null,
+                sex: null,
+                city: null
             },
-            render: false
+            render: false,
+            avatarSrc: "http://images.megaupload.cz/mystery-man.png"
         }
-
-        const url = 'buddies/' + this.props.buddyId;
-        api.get(url).then(response => {
-            this.state.buddy = response.data
-
-        });
-
 
         this.openProfile = this.openProfile.bind(this);
         this.openContactBuddy = this.openContactBuddy.bind(this);
         this.onClick = this.onClick.bind(this);
     }
 
-    componentDidMount(){
-      const url = 'buddies/' + this.props.buddyId;
-      api.get(url).then(response => {
-          this.setState({
-            buddy:response.data,
-            render:true
-          });
-      });
+    componentDidMount() {
+        axios.get('buddies/' + this.props.buddyId).then(response => {
+            const buddy = response.data;
+            const profilePhotoName = currentUser.composeProfilePhotoName(buddy);
+            this.setState({
+                buddy: buddy,
+                render: true,
+                avatarSrc: profilePhotoName
+            });
+        });
     }
 
     onClick(e) {
@@ -64,11 +60,11 @@ export default class User extends Component {
         const {render} = this.state;
         const loader = require('../../images/lazyload.gif');
 
-        if(render) return (
+        if (render) return (
             <a href="#" onClick={this.onClick} className="profil_vypis">
                 <div className="card-block" id="buddy-row">
                     <div className="col-md-1 col-xs-3 no-margin no-padding">
-                        <img src={ "/avatars/" + this.state.buddy.id + ".jpg" }
+                        <img src={ this.state.avatarSrc }
                              alt={this.state.buddy.name + " " + this.state.buddy.surname}
                              className="profil_img rounded"/>
                     </div>
@@ -101,6 +97,6 @@ export default class User extends Component {
                 </div>
             </a>
         )
-        else return(<div className="card-block text-xs-center" id="buddy-row"><img src={loader}/></div>)
+        else return (<div className="card-block text-xs-center" id="buddy-row"><img src={loader}/></div>)
     }
 }

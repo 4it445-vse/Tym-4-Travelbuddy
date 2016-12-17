@@ -128,6 +128,7 @@ export default class MessagePage extends Component {
                         }).then(response => {
                             let obj = messages.get(key);
                             obj.fullname = response.data[0].name + " " + response.data[0].surname;
+                            obj.profile_photo_name = response.data[0].profile_photo_name;
                             this.state.usersWithMessages.push(obj);
 
                             this.state.usersWithMessages.sort(function (a, b) {
