@@ -88,6 +88,30 @@ function setCurrentUser(user, rememberUser) {
     }
 }
 
+function updateCurrentUser(user) {
+    currentUser = user;
+    var sessUser = JSON.parse(sessionStorage.getItem('user'));
+    if (sessUser) {
+        sessionStorage.setItem('user', JSON.stringify(user));
+    }else{
+        let lsUser = JSON.parse(localStorage.getItem('user'));
+        if (lsUser) {
+            localStorage.setItem('user', JSON.stringify(user));
+        }
+    }
+}
+
+function composeProfilePhotoName(buddy){
+    console.log("in composeProfilePhotoName: ", buddy);
+    const profilePhotoName = buddy.profile_photo_name;
+    if (profilePhotoName) {
+        const containerName = 'container_' + buddy.id;
+        return  '/api/containers/' + containerName + '/download/' + profilePhotoName;
+    }else{
+        return 'http://images.megaupload.cz/mystery-man.png';
+    }
+}
+
 export default {
     getCurrentUser,
     setCurrentUser,
@@ -102,5 +126,7 @@ export default {
     setOpenProfilefn,
     openProfile,
     openContactBuddy,
-    setOpenContactBuddy
+    setOpenContactBuddy,
+    updateCurrentUser,
+    composeProfilePhotoName
 }

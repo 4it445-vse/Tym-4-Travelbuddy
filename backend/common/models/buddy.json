@@ -31,6 +31,9 @@
     "about_me": {
       "type": "string"
     },
+    "profile_photo_name": {
+      "type": "string"
+    },
     "is_hosting": {
       "type": "boolean"
     }

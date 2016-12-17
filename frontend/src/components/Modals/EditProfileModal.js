@@ -11,16 +11,62 @@ export default class EditProfileModal extends Component {
         super(props);
 
         this.state = {
-          city: undefined,
-            avatarSrc: "http://images.megaupload.cz/mystery-man.png"
+            city: undefined,
+            avatarSrc: undefined
         }
 
         this.handleSubmitEdit = this.handleSubmitEdit.bind(this);
-                this.handleSearchChange = this.handleSearchChange.bind(this);
+        this.handleSearchChange = this.handleSearchChange.bind(this);
+        this.onChange = this.onChange.bind(this);
+        this.onClick = this.onClick.bind(this);
+        this.loadPhoto = this.loadPhoto.bind(this);
     }
 
-    componentDidMount(){
-      this.state.city = currentUser.getCurrentUser().city;
+    componentDidMount() {
+        this.state.city = currentUser.getCurrentUser().city;
+        this.loadPhoto();
+    }
+
+    loadPhoto() {
+        const currentUserLocal = currentUser.getCurrentUser();
+        console.log(currentUserLocal);
+        const profilePhotoName = currentUser.composeProfilePhotoName(currentUserLocal);
+        if (profilePhotoName) {
+            this.setState({
+                avatarSrc: profilePhotoName
+            });
+        }
+    }
+
+    onChange(e) {
+        const fileInput = e.target.files[0];
+        var filesize = (fileInput.size / 1024 / 1024).toFixed(2);
+        console.log(filesize < 1)
+        console.log(fileInput.name);
+    }
+
+    onClick() {
+        var data = new FormData();
+        console.log('in here');
+        var photo = this.refs.File.files[0];
+        console.log('file ', photo);
+        const name = photo.name;
+        const currentUserLocal = currentUser.getCurrentUser();
+        data.append("file", photo);
+        console.log(photo);
+        const containerName = 'container_' + currentUserLocal.id;
+        axios.post('containers/' + containerName + '/upload', data).then(data => {
+            let constructedBuddy = {
+                "profile_photo_name": name
+            };
+            axios.post('buddies/update?where[id]=' + currentUserLocal.id, {"profile_photo_name": name})
+                .then(response => {
+                    console.log("name of photo stored");
+                    currentUserLocal.profile_photo_name = name;
+                    currentUser.updateCurrentUser(currentUserLocal);
+                    this.loadPhoto();
+                });
+        });
     }
 
     handleSubmitEdit() {
@@ -55,7 +101,7 @@ export default class EditProfileModal extends Component {
                 if (!!avatarUpload.files[0]) {
                     console.log('reuqest na upload');
                     var data = new FormData();
-                    data.append('userId',currentUserLocal.id);
+                    data.append('userId', currentUserLocal.id);
                     data.append('avatarUpload', avatarUpload.files[0]);
                     axios.post('http://localhost:3003/upload-avatar', data)
                         .then(function (res) {
@@ -69,11 +115,11 @@ export default class EditProfileModal extends Component {
     }
 
     handleSearchChange = (e) => {
-      this.setState({ city: e.target.value })
+        this.setState({city: e.target.value})
     }
 
     handleSelectSuggest = (suggestName, coordinate) => {
-      this.setState({ city: suggestName })
+        this.setState({city: suggestName})
     }
 
     render() {
@@ -103,9 +149,10 @@ export default class EditProfileModal extends Component {
                     <div className="form-group no-margin-bottom row">
                         <label className="col-xs-12 col-form-label">City: </label>
                         <div className="col-xs-12">
-                                              <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.city } display={true}>
-                      <input type="text" placeholder="City is the single most important information, when you want to host." autoComplete="off" onChange = { this.handleSearchChange} className="form-control" id="city" aria-describedby="CityHelp" value={this.state.city}/>
-                      </GooglePlacesSuggest>
+                            <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.city } display={true}>
+                                <input type="text" placeholder="City is the single most important information, when you want to host." autoComplete="off" onChange={ this.handleSearchChange}
+                                       className="form-control" id="city" aria-describedby="CityHelp" value={this.state.city}/>
+                            </GooglePlacesSuggest>
                         </div>
                     </div>
                     <div className="form-group no-margin-bottom row">
@@ -113,7 +160,7 @@ export default class EditProfileModal extends Component {
                         <div className="col-xs-12">
                             <textarea type="text" className="form-control" id="about_me" aria-describedby="AboutHelp"
                                       defaultValue={loggedUser.about_me} placeholder="Tell something about you to pontetial buddies."/>
-                            </div>
+                        </div>
                     </div>
                     <hr/>
                     <div className="form-group no-margin-bottom row">
@@ -128,10 +175,21 @@ export default class EditProfileModal extends Component {
                     <hr/>
                     <div className="form-group no-margin row">
                         <div className="col-xs-6">
-                            <img src={ "/avatars/" + loggedUser.id + ".jpg" } alt="..." className="editProfile_Avatar rounded"/>
+                            <img src={ this.state.avatarSrc } alt="..." className="editProfile_Avatar rounded"/>
                         </div>
                         <div className="col-xs-6 text-xs-left">
-                            <input type="file" name="avatarUpload" id="avatarUpload" accept=".jpg" />
+                            <input
+                                type="file"
+                                placeholder="Vybrat soubor"
+                                accept="image/*"
+                                ref="File"
+                                onChange={this.onChange}
+                            />
+                            <input
+                                type="button"
+                                value="Nahrát"
+                                onClick={this.onClick}
+                            />
                         </div>
                     </div>
                 </form>

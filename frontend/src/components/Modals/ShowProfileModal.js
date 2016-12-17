@@ -20,6 +20,7 @@ export default class ShowProfileModal extends Component {
 
     render() {
         const {showProp, hideFn, buddy, showContactButton} = this.props;
+        const profilePhotoName = currentUser.composeProfilePhotoName(buddy);
         return (
             <Modal show={showProp} onHide={hideFn}>
                 <Modal.Header closeButton>
@@ -28,7 +29,7 @@ export default class ShowProfileModal extends Component {
                 <Modal.Body>
                     <div>
                         <img
-                            src={ "/avatars/" + buddy.id + ".jpg" }
+                            src={ profilePhotoName }
                             alt="..." className="profil_img rounded"/>
                         <br/><br/>
                         <b>Sex: </b>

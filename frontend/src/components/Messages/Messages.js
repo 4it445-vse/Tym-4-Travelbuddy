@@ -71,21 +71,32 @@ export default class Messages extends Component {
             }).then(response => {
                 let buddyMessages = response.data;
                 if (buddyMessages && buddyMessages[0]) {
-                    //console.log("Buddy with id: "+buddyMessages[0].buddy_id_to+" has "+buddyMessages.size+" messages in Messages.");
+                    const localCurrentUser = currentUser.getCurrentUser();
+                    let profilePhotoName;
+                    let profilePhotoNameCU;
                     buddyMessages.map(message => {
-                            if (message.buddy_id_to === currentUser.getCurrentUser().id) {
+                            if (message.buddy_id_to === localCurrentUser.id) {
+                                if (!profilePhotoName) {
+                                    profilePhotoName = currentUser.composeProfilePhotoName(selectedConversationUser);
+                                }
                                 this.state.messages.push({
                                     "text": message.text,
                                     "time": message.date_time,
                                     "isIncoming": true,
-                                    "fromUser": message.buddy_id_from
+                                    "fromUser": message.buddy_id_from,
+                                    "avatarSrc": profilePhotoName
                                 });
                             } else {
+                                if (!profilePhotoNameCU) {
+                                    profilePhotoNameCU = currentUser.composeProfilePhotoName(localCurrentUser);
+                                }
+                                console.log(profilePhotoNameCU);
                                 this.state.messages.push({
                                     "text": message.text,
                                     "time": message.date_time,
                                     "isIncoming": false,
-                                    "fromUser": message.buddy_id_from
+                                    "fromUser": message.buddy_id_from,
+                                    "avatarSrc": profilePhotoNameCU
                                 });
                             }
                         }
@@ -124,7 +135,7 @@ export default class Messages extends Component {
     }
 
     openProfile() {
-        axios.get('buddies/'+this.state.selectedConversationUser.id).then(response => {
+        axios.get('buddies/' + this.state.selectedConversationUser.id).then(response => {
             console.log(response.data);
             currentUser.openProfile(response.data);
         });
