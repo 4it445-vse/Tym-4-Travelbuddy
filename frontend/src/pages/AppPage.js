@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import {PageFooter} from "../components/PageFooter/PageFooter";
 import TopNavigation from "../components/TopNavigation/TopNavigation";
 
 export class AppPage extends Component {
