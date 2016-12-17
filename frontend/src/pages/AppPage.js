@@ -11,7 +11,6 @@ export class AppPage extends Component {
                 <div className="container">
                     {children}
                 </div>
-                <PageFooter/>
             </div>
         );
     }
