@@ -29,7 +29,6 @@ export default class EditProfileModal extends Component {
 
     loadPhoto() {
         const currentUserLocal = currentUser.getCurrentUser();
-        console.log(currentUserLocal);
         const profilePhotoName = currentUser.composeProfilePhotoName(currentUserLocal);
         if (profilePhotoName) {
             this.setState({
@@ -47,13 +46,10 @@ export default class EditProfileModal extends Component {
 
     onClick() {
         var data = new FormData();
-        console.log('in here');
         var photo = this.refs.File.files[0];
-        console.log('file ', photo);
         const name = photo.name;
         const currentUserLocal = currentUser.getCurrentUser();
         data.append("file", photo);
-        console.log(photo);
         const containerName = 'container_' + currentUserLocal.id;
         axios.post('containers/' + containerName + '/upload', data).then(data => {
             let constructedBuddy = {

@@ -90,7 +90,6 @@ export default class Messages extends Component {
                                 if (!profilePhotoNameCU) {
                                     profilePhotoNameCU = currentUser.composeProfilePhotoName(localCurrentUser);
                                 }
-                                console.log(profilePhotoNameCU);
                                 this.state.messages.push({
                                     "text": message.text,
                                     "time": message.date_time,
@@ -136,7 +135,6 @@ export default class Messages extends Component {
 
     openProfile() {
         axios.get('buddies/' + this.state.selectedConversationUser.id).then(response => {
-            console.log(response.data);
             currentUser.openProfile(response.data);
         });
     }
