@@ -9,7 +9,7 @@ import ShowProfileModal from "../Modals/ShowProfileModal";
 import NewRequestModal from "../Modals/NewRequestModal";
 import EditRequestModal from "../Modals/EditRequestModal";
 import ContactBuddyModal from "../Modals/ContactBuddyModal";
-import Menu from "../Modals/Menu";
+import Menu from "./Menu";
 import {Alert} from 'react-bootstrap';
 
 export default class TopNavigation extends Component {
