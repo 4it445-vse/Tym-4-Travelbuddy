@@ -832,4 +832,23 @@ h1{
    padding: 15px 10px 16px 10px;
 }
 
+.modal-open nav{
+    position: relative !important;
+}
+.modal-open .container{
+    margin-top: -55px !important;
+}
+@media (max-width: 991px) {
+    .modal-open nav{
+        position: fixed !important;
+    }
+    .modal-open .container{
+        margin-top: 0px !important;
+    }
+}
+
+.modal-open .modal {
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+}
 
