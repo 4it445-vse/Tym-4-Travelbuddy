@@ -30,8 +30,8 @@ module.exports = function (Buddy) {
 
 
         // create File container
-        app.models.Container.createContainer({name : "container_" + currentBuddy.id})
-        //----------------------
+      app.models.Container.createContainer({name : "container_" + currentBuddy.id},(err,obj) => {if(err) console.log(err)});
+      //----------------------
 
 
         var options = {
