@@ -55,7 +55,6 @@ export default class ResetPassModal extends Component {
     onChange(e) {
         let name = e.target.name;
         let value = e.target.value;
-        console.log("### in onChange in: ", value);
         let errors = this.state.errors;
         let fields = this.state.fields;
 

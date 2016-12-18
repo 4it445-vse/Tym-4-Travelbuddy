@@ -20,12 +20,10 @@ export default class Menu extends Component {
     }
 
     setCollapsedMyTravelling() {
-        console.log("### is called", this.state.collapsedMyTravelling);
         this.setState({collapsedMyTravelling: (this.state.collapsedMyTravelling === false)});
     }
 
     logOut() {
-        console.log("logout success");
         currentUser.setCurrentUser(undefined)
         this.setState(this.state);
     }

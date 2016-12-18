@@ -11,7 +11,6 @@ function checkNotEmpty(value, errorMessage) {
 }
 
 function validateDates(dateFrom, dateTo, errors, name) {
-    console.log("### in validateDates: ", dateFrom, dateTo);
     errors['from'] = undefined;
     errors['to'] = undefined;
     const faultyDateFormat = "Unfortunately, date is in wrong format.";
@@ -29,7 +28,6 @@ function validateDates(dateFrom, dateTo, errors, name) {
     } else {
         errors['to'] = "When shall your travel end?";
     }
-    console.log("### date validation: ", new Date(dateFrom).getTime() - new Date(dateTo).getTime());
     if ((new Date(dateFrom).getTime() - new Date(dateTo).getTime()) > 0) {
         errors[name] = "End date of your travel is ahead of start date!";
     }
@@ -61,7 +59,6 @@ function validatePass(pass, pass_repeated, errors, name){
 }
 
 function checkEmailValidity(value) {
-    console.log("in checkEmailVaidity: ", value);
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
         return undefined;
     }else{
@@ -70,8 +67,6 @@ function checkEmailValidity(value) {
 }
 
 function validate(name, value, otherValue) {
-    console.log("### in validation: ", name, value);
-
     let errorMessage = undefined;
     let emptyTextMessage = "Tell something about you to pontetial buddies!";
 

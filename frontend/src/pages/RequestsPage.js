@@ -89,7 +89,6 @@ export class RequestsPage extends Component {
 
     render() {
         const {requests} = this.state;
-        console.log(this.state.requestShowModalContent);
         const alert = currentUser.getAlert();
         return (
             <div>

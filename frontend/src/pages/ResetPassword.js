@@ -41,7 +41,6 @@ export class ResetPassword extends Component {
         var pass = this.state.fields.pass;
         var at = this.props.location.query.access_token;
         var email = this.props.location.query.email;
-        console.log(pass);
         axios.post('messages/reset-password', {
             body: {
                 accessToken: at,
@@ -61,7 +60,6 @@ export class ResetPassword extends Component {
     onChange(e) {
         let name = e.target.name;
         let value = e.target.value;
-        console.log("### in onChange in: ", value);
         let errors = this.state.errors;
         let fields = this.state.fields;
 

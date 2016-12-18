@@ -51,9 +51,7 @@ export default class MessagePage extends Component {
                     }
                 }
             }).then(response => {
-                console.log("####count: ", response.data.count);
                 if(response.data.count > this.checkpoint) {
-                    console.log("### new message came", this.refreshUsers);
                     this.refreshUsers();
                 }
             });
@@ -66,10 +64,7 @@ export default class MessagePage extends Component {
 
     setSelectedConversationUser(value, fn) {
         if (this.findUserMessages) {
-            console.log("called")
             this.findUserMessages(value);
-        } else {
-            console.log("not called");
         }
         this.setState({
             selectedConversationUser: value,

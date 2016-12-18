@@ -44,7 +44,6 @@ export default class NewRequestModal extends Component {
 
         let errors = this.state.errors;
         let fields = this.state.fields;
-        console.log("in onChange: ", this.state.fields);
         if (name === 'from') {
             errors = validation.validateDates(value, this.state.fields.to, errors, name);
         } else if (name === 'to') {
@@ -52,7 +51,6 @@ export default class NewRequestModal extends Component {
         } else {
             errors[name] = validation.validate(name, value);
         }
-        console.log("in onChange save: ", name, value);
         fields[name] = value;
 
         this.setState({
@@ -87,7 +85,6 @@ export default class NewRequestModal extends Component {
             return;
         }
 
-        console.log("### Will try to store request");
         var request = {
             "city": city,
             "from": from,
@@ -116,7 +113,6 @@ export default class NewRequestModal extends Component {
     render() {
         const {showProp, hideFn} = this.props;
         const {errors} = this.state;
-        console.log(errors);
         const title = "Chci jet na novou cestu!";
 
         return (

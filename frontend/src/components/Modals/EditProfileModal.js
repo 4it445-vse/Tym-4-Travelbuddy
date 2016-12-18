@@ -59,8 +59,6 @@ export default class EditProfileModal extends Component {
     onChange(e) {
         const fileInput = e.target.files[0];
         var filesize = (fileInput.size / 1024 / 1024).toFixed(2);
-        console.log(filesize < 1)
-        console.log(fileInput.name);
     }
 
     onClick() {
@@ -76,7 +74,6 @@ export default class EditProfileModal extends Component {
             };
             axios.post('buddies/update?where[id]=' + currentUserLocal.id, {"profile_photo_name": name})
                 .then(response => {
-                    console.log("name of photo stored");
                     currentUserLocal.profile_photo_name = name;
                     currentUser.updateCurrentUser(currentUserLocal);
                     this.loadPhoto();
@@ -88,7 +85,6 @@ export default class EditProfileModal extends Component {
         let name = e.target.name;
         let value = e.target.value;
         var is_hosting = document.getElementById("is_hosting").checked;
-        console.log("### in onChange in editrequest: ", value);
         let errors = this.state.errors;
         let fields = this.state.fields;
 

@@ -48,7 +48,6 @@ export default class LoginModal extends Component {
                 }
             }).then(response => {
                 if (response.data[0].emailVerified) {
-                    console.log("login success");
                     currentUser.setCurrentUser(response.data[0], rememberUser);
                     this.closeModal();
                 } else {

@@ -108,7 +108,6 @@ export default class RegisterModal extends Component {
                     "is_hosting": false
 
                 }).then(response => {
-                    console.log('registration success');
                     currentUser.setAlert({
                         "type": "success",
                         "message": "Registration has been successfull. Please verify your e-mail, before first login, by clicking on the link we have send you on provided e-mail."
@@ -122,7 +121,6 @@ export default class RegisterModal extends Component {
     onChange(e) {
         let name = e.target.name;
         let value = e.target.value;
-        console.log("### in onChange in: ", value);
         let errors = this.state.errors;
         let fields = this.state.fields;
 
