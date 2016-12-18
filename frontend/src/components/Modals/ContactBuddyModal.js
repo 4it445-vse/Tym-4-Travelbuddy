@@ -44,7 +44,6 @@ export default class ContactBuddyModal extends Component {
             });
             return;
         }
-        console.log("about to send message: ", this.props.buddyTo);
         const loggedUser = currentUser.getCurrentUser();
         let text = this.state.text.replace(/\r?\n/g, '</br>');
         axios.post('messages', {
@@ -65,7 +64,6 @@ export default class ContactBuddyModal extends Component {
 
     render() {
         const {showProp, buddyTo} = this.props;
-        console.log("in render: ", buddyTo);
         const title = "Kontaktuj buddyho - " + buddyTo.name + " " + buddyTo.surname;
         return (
             <AbstractModal title={title} showProp={showProp} hideFn={this.closeModal}

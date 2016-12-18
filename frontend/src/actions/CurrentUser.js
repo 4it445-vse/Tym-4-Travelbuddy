@@ -65,10 +65,8 @@ function setOpenContactBuddy(fn){
 
 function getCurrentUser() {
     if (!currentUser) {
-        console.log("tried to load from remembered user");
         currentUser = JSON.parse(sessionStorage.getItem('user'));
         if (!currentUser) {
-            console.log("tried to load from normal user");
             currentUser = JSON.parse(localStorage.getItem('user'));
         }
     }
@@ -102,7 +100,6 @@ function updateCurrentUser(user) {
 }
 
 function composeProfilePhotoName(buddy){
-    console.log("in composeProfilePhotoName: ", buddy);
     const profilePhotoName = buddy.profile_photo_name;
     if (profilePhotoName) {
         const containerName = 'container_' + buddy.id;

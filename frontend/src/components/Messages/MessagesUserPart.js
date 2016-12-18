@@ -31,7 +31,6 @@ export default class MessagePage extends Component {
     restrictUsers(value) {
         let usersWithMessagesChosen = [];
         if (value) {
-            console.log("In restrictUsers");
             this.state.usersWithMessages.map(message => {
                 console.log(message.fullname, value, message.fullname.includes(value));
                 if (message.fullname.includes(value)) {

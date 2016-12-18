@@ -38,10 +38,8 @@ export default class Messages extends Component {
             'buddy_id_from': currentUser.getCurrentUser().id,
             'buddy_id_to': this.state.selectedConversationUser.id
         };
-        console.log("in sendMessage, obj: ", obj);
 
         axios.post('messages', obj).then(response => {
-            console.log('### Message successfully sent. from ' + currentUser.getCurrentUser().id + ' to ' + this.props.selectedConversationUser.id);
             this.props.incrementCheckPoint();
             this.findMessages(this.state.selectedConversationUser);
         });
@@ -49,7 +47,6 @@ export default class Messages extends Component {
 
     findMessages(selectedConversationUser) {
         this.state.messages = [];
-        console.log("in findMessages");
         if (selectedConversationUser && selectedConversationUser.lastMessageTime) {
             axios.get('messages', {
                 params: {
@@ -112,7 +109,6 @@ export default class Messages extends Component {
                         selectedConversationUser: selectedConversationUser
                     });
                 }
-                console.log("Messages: ", this.state.messages);
             });
             let updateObject = {
                 where: {
@@ -120,9 +116,7 @@ export default class Messages extends Component {
                     buddy_id_to: currentUser.getCurrentUser().id
                 }
             };
-            console.log("Where udate object: ", updateObject);
             axios.post('/messages/messages-displayed', updateObject).then(response => {
-                console.log('message set as read ' + response.data);
                 this.props.updateSelectedUserInUserViewFn();
             });
         } else {

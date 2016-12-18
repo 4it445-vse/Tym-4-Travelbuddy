@@ -50,7 +50,6 @@ export default class RequestModal extends Component {
     removeRequest() {
         var id = this.state.selectedRequest
         axios.delete('Requests/' + id).then(response => {
-            console.log("ok");
             currentUser.setAlert({"type": "success", "message": "Request has been successfully deleted."});
             this.props.hideFn();
         });
@@ -59,7 +58,6 @@ export default class RequestModal extends Component {
     onChange(e) {
         let name = e.target.name;
         let value = e.target.value;
-        console.log("### in onChange in editrequest: ", value);
         let errors = this.state.errors;
         let fields = this.state.fields;
 
@@ -151,7 +149,6 @@ export default class RequestModal extends Component {
     }
 
     handleSelectChange(requestFormated) {
-        console.log("in handleSelectChange");
         axios.get('Requests/' + requestFormated.value)
             .then(response => {
                 this.setState({fields: response.data, displaySuggest: false});
@@ -178,7 +175,6 @@ export default class RequestModal extends Component {
 
         var fromFormated = moment(this.state.fields.from).format(dateFormat);
         var toFormated = moment(this.state.fields.to).format(dateFormat);
-        console.log("### in render: ", this.state.fields.from, fromFormated);
 
         if (this.state.requests.length === 0) {
             return (
@@ -243,7 +239,7 @@ export default class RequestModal extends Component {
                                 value={this.state.fields.text} onBlur={this.onChange} onChange={this.onChange}
                                 type="text"
                                 name="text" rows="3"
-                                placeholder="Explain your buddies the reason, why they should choose you, over other people!"></textarea>
+                                placeholder="Explain your buddies the reason, why they should choose you, over other people!"/>
                             { !!errors.text ? <span
                                 className="validation-error">{errors.text}</span> : ""}
                         </div>

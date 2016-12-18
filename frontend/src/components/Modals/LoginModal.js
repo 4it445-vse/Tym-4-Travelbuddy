@@ -11,16 +11,22 @@ export default class LoginModal extends Component {
         super(props);
 
         this.state = {
-            showErrorMessage: undefined
+            errors: {}
         }
 
         this.handleSubmitLogIn = this.handleSubmitLogIn.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        this.switchModal = this.switchModal.bind(this);
     }
 
     closeModal() {
-        this.state.showErrorMessage = undefined;
+        this.state.errors = {};
         this.props.hideFn();
+    }
+
+    switchModal() {
+        this.state.errors = {};
+        this.props.switchFn();
     }
 
     handleSubmitLogIn(event) {
@@ -42,20 +48,24 @@ export default class LoginModal extends Component {
                 }
             }).then(response => {
                 if (response.data[0].emailVerified) {
-                    console.log("login success");
                     currentUser.setCurrentUser(response.data[0], rememberUser);
                     this.closeModal();
                 } else {
-                    this.setState({showErrorMessage: "Please verify your e-mail, before first login, by clicking on the link we have send you on provided e-mail."});
+                    let errors = this.state.errors;
+                    errors.notLogged = "Please verify your e-mail, before first login, by clicking on the link we have send you on provided e-mail.";
+                    this.setState({errors: errors});
                 }
             })
         }).catch(error => {
-            this.setState({showErrorMessage: "Wrong e-mail or password!"});
+            let errors = this.state.errors;
+            errors.notLogged = "Wrong e-mail or password!";
+            this.setState({errors: errors});
         });;
     }
 
     render() {
-        const {showProp, switchFn, restorePassFn} = this.props;
+        const {showProp, restorePassFn} = this.props;
+        const {errors} = this.state;
         return (
             <Modal show={showProp} onHide={this.closeModal}>
                 <Modal.Header closeButton>
@@ -69,7 +79,7 @@ export default class LoginModal extends Component {
                         </div>
                         <div className="col-xs-9 col-sm-10">
                           <input type="email" name="email" id="email-l" placeholder="Your E-mail"
-                                 className={ "form-control" + ( !!this.state.showErrorMessage ? ' alert-danger' : '') }/>
+                                 className={ "form-control" + ( !!errors.notLogged ? ' alert-danger' : '') }/>
                         </div>
                       </div>
                       <div className="row m-b-10">
@@ -78,10 +88,10 @@ export default class LoginModal extends Component {
                         </div>
                         <div className="col-xs-9 col-sm-10">
                           <input type="password" name="password" id="pass-l" placeholder="Your Password"
-                                 className={ "form-control" + ( !!this.state.showErrorMessage ? ' alert-danger' : '') }/>
+                                 className={ "form-control" + ( !!errors.notLogged ? ' alert-danger' : '') }/>
                           {
-                            !!this.state.showErrorMessage?
-                            <span className="validation-error">{this.state.showErrorMessage}</span> : ""
+                            !!errors.notLogged?
+                            <span className="validation-error">{errors.notLogged}</span> : ""
                           }
                         </div>
                       </div>
@@ -107,7 +117,7 @@ export default class LoginModal extends Component {
 							  You don't have account yet?
 						  </span>
                         <button type="button" data-dismiss="modal" className="btn btn-primary float-right"
-                                data-toggle="modal" data-target="#regmodal" onClick={switchFn}>Sign Up
+                                data-toggle="modal" data-target="#regmodal" onClick={this.switchModal}>Sign Up
                         </button>
                     </FormCheck>
                 </Modal.Footer>

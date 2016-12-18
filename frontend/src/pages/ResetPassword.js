@@ -3,43 +3,44 @@ import currentUser from "../actions/CurrentUser";
 import {browserHistory} from "react-router";
 import FormGroup from "../components/Modals/FormGroup";
 import axios from "../api";
+import validation from "../Validation/Validation";
 
 export class ResetPassword extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            registrationValidation: {
-                pass: undefined,
-                pass_repeated: undefined
-            },
-            isFieldValid: {
-                pass: undefined,
-                pass_repeated: undefined
-            },
-            showValidation: false
+            errors: {},
+            fields: {}
         };
         this.handleSubmitPassReset = this.handleSubmitPassReset.bind(this);
-        this.validate = this.validate.bind(this);
+        this.onChange = this.onChange.bind(this);
     }
 
     handleSubmitPassReset(event) {
-        let validated = true;
-        console.log("state validace: ", this.state.registrationValidation);
-        for (var prop in this.state.registrationValidation) {
-            if (!this.state.isFieldValid[prop]) {
-                validated = false;
-                break;
+        const fieldsArray = ["pass", "pass_repeated"];
+        for (var name of fieldsArray) {
+            let obj = {
+                target: {
+                    value: this.state.fields[name],
+                    checked: this.state.fields[name],
+                    name: name
+                }
+            };
+            this.onChange(obj);
+        }
+        let fieldsAreValid = true;
+        for (var name of fieldsArray) {
+            if (this.state.errors[name] !== undefined) {
+                fieldsAreValid = false;
             }
         }
-        if (!validated) {
-            this.setState({showValidation: true});
+        if (fieldsAreValid === false) {
             return;
         }
-        var pass = this.state.registrationValidation.pass;
+        var pass = this.state.fields.pass;
         var at = this.props.location.query.access_token;
         var email = this.props.location.query.email;
-        console.log(pass);
         axios.post('messages/reset-password', {
             body: {
                 accessToken: at,
@@ -56,41 +57,28 @@ export class ResetPassword extends Component {
         });
     }
 
-    validate(event) {
-        console.log(event);
-        var value = event.target.value;
-        var name = event.target.id;
-        var isFieldValid = this.state.isFieldValid;
-        var localState = this.state;
-        console.log(isFieldValid);
-        switch (name) {
-            case "pass":
-                var passw = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
-                if (value.match(passw)) {
-                    localState.registrationValidation.pass = value;
-                    localState.isFieldValid.pass = true;
-                    localState.showValidation = false;
-                } else {
-                    localState.isFieldValid.pass = false;
-                    localState.showValidation = true;
-                }
-                break;
-            case "pass_repeated":
-                if (this.state.registrationValidation.pass && value === this.state.registrationValidation.pass) {
-                    localState.registrationValidation.pass_repeated = value;
-                    localState.isFieldValid.pass_repeated = true;
-                    localState.showValidation = false;
-                } else {
-                    localState.isFieldValid.pass_repeated = false;
-                    localState.showValidation = true;
-                }
-                break;
-            default:
+    onChange(e) {
+        let name = e.target.name;
+        let value = e.target.value;
+        let errors = this.state.errors;
+        let fields = this.state.fields;
+
+        if (name === 'pass') {
+            errors = validation.validatePass(value, this.state.fields.pass_repeated, errors, name);
+        } else if (name === 'pass_repeated') {
+            errors = validation.validatePass(this.state.fields.pass, value, errors, name);
         }
-        this.setState(localState);
+
+        fields[name] = value;
+
+        this.setState({
+            errors: errors,
+            fields: fields
+        });
     }
 
     render() {
+        const {errors} = this.state;
         return (
             <div>
                 <div className="row">
@@ -99,48 +87,40 @@ export class ResetPassword extends Component {
                             <form>
                                 <FormGroup>
                                     {
-                                        this.state.showValidation
-                                        && this.state.isFieldValid.pass === false
-                                            ? <span
-                                            className="validation-error">The password has to be at least 8 characters long and has to contain capital letter, non-capital letter and number.</span>
+                                        !!errors.pass ?
+                                            <span className="validation-error">{errors.pass}</span>
                                             : ""
                                     }
                                     <input
-                                        onBlur={this.validate}
+                                        onBlur={this.onChange}
                                         type="password"
                                         className={
                                             "form-control"
                                             + (
-                                                this.state.showValidation
-                                                && this.state.isFieldValid.pass === false
-                                                    ? ' alert-danger'
-                                                    : ' no-validation-error-1st'
+                                                !!errors.pass ? ' alert-danger' : ' no-validation-error-1st'
                                             )
                                         }
-                                        id="pass"
+                                        name="pass"
                                         placeholder="Password"
                                     />
                                 </FormGroup>
                                 <FormGroup>
                                     {
-                                        this.state.showValidation
-                                        && this.state.isFieldValid.pass_repeated === false
-                                            ? <span className="validation-error">Inserted passwords don't match.</span>
+                                        !!errors.pass_repeated
+                                            ? <span className="validation-error">{errors.pass_repeated}</span>
                                             : ""
                                     }
                                     <input
-                                        onBlur={this.validate}
+                                        onBlur={this.onChange}
                                         type="password"
                                         className={
                                             "form-control"
                                             + (
-                                                this.state.showValidation
-                                                && this.state.isFieldValid.pass_repeated === false
-                                                    ? ' alert-danger'
+                                                !!errors.pass_repeated ? ' alert-danger'
                                                     : ' no-validation-error-rest'
                                             )
                                         }
-                                        id="pass_repeated"
+                                        name="pass_repeated"
                                         placeholder="Repeat your password"
                                     />
                                 </FormGroup>

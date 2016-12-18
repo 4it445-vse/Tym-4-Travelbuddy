@@ -4,8 +4,7 @@ import MessageUser from "./MessageUser";
 export default class MessageUsers extends Component {
     render() {
 		const { users, setSelectedConversationUser, selectedConversationUser } = this.props;
-		console.log("MessageUsers users: ", users);
-        return (
+		return (
 			<ul className="list-unstyled">
 			{
 				users.map( (user, idx) =>

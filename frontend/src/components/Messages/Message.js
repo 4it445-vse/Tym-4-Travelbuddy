@@ -7,7 +7,6 @@ export default class Message extends Component {
         var messageDate = new Date(message.time);
         var today = new Date();
         var isTodayMessage = messageDate.getDate() == today.getDate() && messageDate.getMonth() == today.getMonth() && messageDate.getFullYear() == today.getFullYear();
-        console.log("###", new Date(), message);
         return (
             <li className="left clearfix">
 				<span className={"chat-img1 " + (message.isIncoming ? 'float-left' : 'float-right')}>
