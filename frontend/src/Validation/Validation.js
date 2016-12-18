@@ -40,12 +40,18 @@ function validate(name, value, otherValue) {
     console.log("### in validation: ", name, value);
 
     let errorMessage = undefined;
+    let emptyTextMessage = "Tell something about you to pontetial buddies!";
     switch (name) {
         case "city":
             errorMessage = checkNotEmpty(value, "City is a mandatory field, so buddies could find you.");
             break;
         case "text":
-            errorMessage = checkNotEmpty(value, "Tell something about you to pontetial buddies!");
+            errorMessage = checkNotEmpty(value, emptyTextMessage);
+            break;
+        case "about_me":
+            if(otherValue === true){
+                errorMessage = checkNotEmpty(value, emptyTextMessage);
+            }
             break;
     }
     return errorMessage;

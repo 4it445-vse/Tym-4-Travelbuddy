@@ -3,7 +3,8 @@ import currentUser from "../../actions/CurrentUser";
 import AbstractModal from "./AbstractModal";
 import FormGroup from "./FormGroup";
 import axios from "../../api";
-import GooglePlacesSuggest from "../Autosuggest/SuggestCity"
+import GooglePlacesSuggest from "../Autosuggest/SuggestCity";
+import validation from "../../Validation/Validation";
 
 export default class EditProfileModal extends Component {
 
@@ -11,7 +12,8 @@ export default class EditProfileModal extends Component {
         super(props);
 
         this.state = {
-            city: undefined,
+            errors: {},
+            fields: {},
             avatarSrc: undefined
         }
 
@@ -20,11 +22,28 @@ export default class EditProfileModal extends Component {
         this.onChange = this.onChange.bind(this);
         this.onClick = this.onClick.bind(this);
         this.loadPhoto = this.loadPhoto.bind(this);
+        this.hideModal = this.hideModal.bind(this);
     }
 
     componentDidMount() {
-        this.state.city = currentUser.getCurrentUser().city;
+        const currentUserLocal = currentUser.getCurrentUser();
+        this.state.fields.city = currentUserLocal.city;
+        this.state.fields.about_me = currentUserLocal.about_me;
         this.loadPhoto();
+    }
+
+    hideModal() {
+        var fields = {};
+        const currentUserLocal = currentUser.getCurrentUser();
+        fields.city = currentUserLocal.city;
+        fields.about_me = currentUserLocal.about_me;
+
+        this.state = {
+            errors: {},
+            fields: fields,
+            avatarSrc: this.state.avatarSrc
+        };
+        this.props.hideFn();
     }
 
     loadPhoto() {
@@ -65,49 +84,71 @@ export default class EditProfileModal extends Component {
         });
     }
 
+    onChange(e) {
+        let name = e.target.name;
+        let value = e.target.value;
+        var is_hosting = document.getElementById("is_hosting").checked;
+        console.log("### in onChange in editrequest: ", value);
+        let errors = this.state.errors;
+        let fields = this.state.fields;
+
+        errors[name] = validation.validate(name, value, is_hosting);
+        fields[name] = value;
+
+        this.setState({
+            errors: errors,
+            fields: fields
+        });
+    }
+
     handleSubmitEdit() {
-        var city = document.getElementById("city").value;
-        var about_me = document.getElementById("about_me").value;
+        const {city, about_me} = this.state.fields;
         var is_hosting = document.getElementById("is_hosting").checked;
         var sex;
-        var avatarUpload = document.getElementById("avatarUpload");
         if (currentUser.getCurrentUser().sex === 'na') {
             let e = document.getElementById("sex");
             sex = e.options[e.selectedIndex].value;
         } else {
             sex = currentUser.getCurrentUser().sex;
         }
-        if (city) {
-            let currentUserLocal = currentUser.getCurrentUser();
-            let constructedBuddy = {
-                "sex": sex,
-                "city": city,
-                "is_hosting": is_hosting,
-                "about_me": about_me
-            };
-            let _this = this;
-            axios.post('buddies/update?where[id]=' + currentUserLocal.id, constructedBuddy).then(response => {
-                currentUserLocal.sex = constructedBuddy.sex;
-                currentUserLocal.city = constructedBuddy.city;
-                currentUserLocal.is_hosting = constructedBuddy.is_hosting;
-                currentUserLocal.about_me = constructedBuddy.about_me;
 
-                currentUser.setCurrentUser(currentUserLocal);
-            }).then(response => {
-                if (!!avatarUpload.files[0]) {
-                    console.log('reuqest na upload');
-                    var data = new FormData();
-                    data.append('userId', currentUserLocal.id);
-                    data.append('avatarUpload', avatarUpload.files[0]);
-                    axios.post('http://localhost:3003/upload-avatar', data)
-                        .then(function (res) {
-                            console.log('edit success');
-                            _this.props.hideFn();
-                            location.reload();
-                        });
+        for (var name of ["city", "about_me"]) {
+            let obj = {
+                target: {
+                    value: this.state.fields[name],
+                    name: name
                 }
-            });
+            };
+            this.onChange(obj);
         }
+        let fieldsAreValid = true;
+        for (var name of ["city", "about_me"]) {
+            if (this.state.errors[name] !== undefined) {
+                fieldsAreValid = false;
+            }
+        }
+        if (fieldsAreValid === false) {
+            return;
+        }
+
+        let currentUserLocal = currentUser.getCurrentUser();
+        let constructedBuddy = {
+            "sex": sex,
+            "city": city,
+            "is_hosting": is_hosting,
+            "about_me": about_me
+        };
+        let _this = this;
+        axios.post('buddies/update?where[id]=' + currentUserLocal.id, constructedBuddy).then(response => {
+            currentUserLocal.sex = constructedBuddy.sex;
+            currentUserLocal.city = constructedBuddy.city;
+            currentUserLocal.is_hosting = constructedBuddy.is_hosting;
+            currentUserLocal.about_me = constructedBuddy.about_me;
+
+            currentUser.setCurrentUser(currentUserLocal);
+        }).then(response => {
+            console.log('edit success');
+        });
     }
 
     handleSearchChange = (e) => {
@@ -115,15 +156,18 @@ export default class EditProfileModal extends Component {
     }
 
     handleSelectSuggest = (suggestName, coordinate) => {
-        this.setState({city: suggestName})
+        var fields = this.state.fields;
+        fields.city = suggestName;
+        this.setState({fields: fields});
     }
 
     render() {
-        const {showProp, hideFn} = this.props;
+        const {showProp} = this.props;
+        const {errors} = this.state;
         const loggedUser = currentUser.getCurrentUser();
         const title = "Edit Profile: " + loggedUser.name + " " + loggedUser.surname;
         return (
-            <AbstractModal title={title} showProp={showProp} hideFn={hideFn}
+            <AbstractModal title={title} showProp={showProp} hideFn={this.hideModal}
                            submitFn={this.handleSubmitEdit} submitText={"Save"}>
                 <form>
                     <div className="form-group no-margin-bottom row">
@@ -145,17 +189,31 @@ export default class EditProfileModal extends Component {
                     <div className="form-group no-margin-bottom row">
                         <label className="col-xs-12 col-form-label">City: </label>
                         <div className="col-xs-12">
-                            <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.city } display={true}>
-                                <input type="text" placeholder="City is the single most important information, when you want to host." autoComplete="off" onChange={ this.handleSearchChange}
-                                       className="form-control" id="city" aria-describedby="CityHelp" value={this.state.city}/>
+                            <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.fields.city } display={true}>
+                                <input
+                                    className={ "form-control" + ( !!errors.city ? ' alert-danger' : '' ) }
+                                    value={this.state.fields.city} onBlur={this.onChange} onChange={this.onChange}
+                                    type="text"
+                                    name="city" placeholder="City is the single most important information, when you want to host."
+                                    autoComplete="off"
+                                    aria-describedby="CityHelp"/>
+                                { !!errors.city ?
+                                    <span className="validation-error">{errors.city}</span> : ""}
                             </GooglePlacesSuggest>
                         </div>
                     </div>
                     <div className="form-group no-margin-bottom row">
                         <label className="col-xs-12 col-form-label">Description: </label>
                         <div className="col-xs-12">
-                            <textarea type="text" className="form-control" id="about_me" aria-describedby="AboutHelp"
-                                      defaultValue={loggedUser.about_me} placeholder="Tell something about you to pontetial buddies."/>
+                            <textarea
+                                className={ "form-control" + ( !!errors.about_me ? ' alert-danger' : '' ) }
+                                value={this.state.fields.about_me} onBlur={this.onChange} onChange={this.onChange}
+                                type="text"
+                                name="about_me" rows="3"
+                                placeholder="Tell something about you to pontetial buddies."
+                                aria-describedby="AboutHelp"/>
+                            { !!errors.about_me ? <span
+                                className="validation-error">{errors.about_me}</span> : ""}
                         </div>
                     </div>
                     <hr/>

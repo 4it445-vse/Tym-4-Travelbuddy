@@ -243,7 +243,7 @@ export default class RequestModal extends Component {
                                 value={this.state.fields.text} onBlur={this.onChange} onChange={this.onChange}
                                 type="text"
                                 name="text" rows="3"
-                                placeholder="Explain your buddies the reason, why they should choose you, over other people!"></textarea>
+                                placeholder="Explain your buddies the reason, why they should choose you, over other people!"/>
                             { !!errors.text ? <span
                                 className="validation-error">{errors.text}</span> : ""}
                         </div>
