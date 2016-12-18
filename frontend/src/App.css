@@ -2,8 +2,6 @@ body {
     background-image: url(http://www.travelingjobsnow.com/assets/img/slider1.jpg);
     background-color: #7DE1E1;
     background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
     overflow-x: hidden !important;
 }
 
@@ -615,10 +613,7 @@ h1{
     line-height: 3;
 }
 
-.modal-open {
-    overflow: inherit !important;
-    padding-right: 0 !important;
-}
+
 
 
 @media (max-width: 575px) {
@@ -836,3 +831,5 @@ h1{
    background: #f1f1f1 !important;
    padding: 15px 10px 16px 10px;
 }
+
+
