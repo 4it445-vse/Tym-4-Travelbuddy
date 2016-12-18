@@ -4,7 +4,8 @@ import FormGroup from "./FormGroup";
 import FormCheck from "./FormCheck";
 import axios from "../../api";
 import currentUser from "../../actions/CurrentUser";
-import GooglePlacesSuggest from "../Autosuggest/SuggestCity"
+import GooglePlacesSuggest from "../Autosuggest/SuggestCity";
+import validation from "../../Validation/Validation";
 
 export default class RegisterModal extends Component {
 
@@ -13,58 +14,36 @@ export default class RegisterModal extends Component {
 
         this.state = {
             buddies: [],
-            registrationValidation: {
-                /*
-                 name: 'Josef',
-                 surname: 'Draslar',
-                 email: 'j.draslar@gmail.com',
-                 city: 'Praha',
-                 pass: 'Aa123456',
-                 pass_repeated: 'Aa123456',
-                 agreed_with_conditions: true
-                 */
-                name: undefined,
-                surname: undefined,
-                email: undefined,
-                city: undefined,
-                pass: undefined,
-                pass_repeated: undefined,
-                agreed_with_conditions: undefined
-            },
-            isFieldValid: {
-                name: undefined,
-                surname: undefined,
-                email: undefined,
-                city: undefined,
-                pass: undefined,
-                pass_repeated: undefined,
-                agreed_with_conditions: undefined
-            },
-            showValidation: false,
+            errors: {},
+            fields: {}
         };
 
         this.handleSubmitRegistration = this.handleSubmitRegistration.bind(this);
-        this.validate = this.validate.bind(this);
+        this.onChange = this.onChange.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        this.switchModal = this.switchModal.bind(this);
     }
 
     closeModal() {
-        for (var prop in this.state.registrationValidation) {
-            this.state.registrationValidation[prop] = undefined;
-            this.state.isFieldValid[prop] = undefined;
-        }
-        this.state.showValidation = false;
+        this.state.errors = {};
+        this.state.fields = {};
         this.props.hideFn();
     }
 
+    switchModal() {
+        this.state.errors = {};
+        this.state.fields = {};
+        this.props.switchFn();
+    }
+
     handleSearchChange = (e) => {
-      var fields = this.state.registrationValidation;
+      var fields = this.state.fields;
       fields.city = e.target.value;
       this.setState({ registrationValidation: fields })
     }
 
     handleSelectSuggest = (suggestName, coordinate) => {
-      var fields = this.state.registrationValidation;
+      var fields = this.state.fields;
       fields.city = suggestName;
       this.setState({ registrationValidation: fields })
     }
@@ -79,22 +58,31 @@ export default class RegisterModal extends Component {
     }
 
     handleSubmitRegistration(event) {
-        let validated = true;
-        for (var prop in this.state.registrationValidation) {
-            if (!this.state.registrationValidation[prop]) {
-                validated = false;
-		this.state.isFieldValid[prop] = false;
+        const fieldsArray = ["name", "surname", "city", "email", "pass", "pass_repeated", "agreed_with_conditions"];
+        for (var name of fieldsArray) {
+            let obj = {
+                target: {
+                    value: this.state.fields[name],
+                    name: name
+                }
+            };
+            this.onChange(obj);
+        }
+        let fieldsAreValid = true;
+        for (var name of fieldsArray) {
+            if (this.state.errors[name] !== undefined) {
+                fieldsAreValid = false;
             }
         }
-        if (!validated) {
-            this.setState({showValidation: true});
+        if (fieldsAreValid === false) {
             return;
         }
-        var name = this.state.registrationValidation.name;
-        var surname = this.state.registrationValidation.surname;
-        var email = this.state.registrationValidation.email;
-        var city = this.state.registrationValidation.city;
-        var pass = this.state.registrationValidation.pass;
+
+        var name = this.state.fields.name;
+        var surname = this.state.fields.surname;
+        var email = this.state.fields.email;
+        var city = this.state.fields.city;
+        var pass = this.state.fields.pass;
 
         axios.get('buddies', {
             params: {
@@ -106,9 +94,9 @@ export default class RegisterModal extends Component {
             }
         }).then(response => {
             if (response.data && response.data[0] && response.data[0].email === email) {
-                var isFieldValid = this.state.isFieldValid;
-                isFieldValid["email"] = "emailAlreadyExists";
-                this.setState({isFieldValid: isFieldValid});
+                let errors = this.state.errors;
+                errors.email = "User with this e-mail already exists.";
+                this.setState({errors: errors});
             } else {
                 axios.post('buddies', {
                     "email": email,
@@ -129,79 +117,38 @@ export default class RegisterModal extends Component {
                 });
             }
         });
-
-
     }
 
-    validate(event) {
-        var value = event.target.value;
-        var name = event.target.id;
-        var isFieldValid = this.state.isFieldValid;
-        var showValidation = this.state.showValidation;
-        switch (name) {
-            case "name":
-            case "surname":
-            case "city":
-                if (value) {
-                    this.state.registrationValidation[name] = value;
-                    isFieldValid[name] = true;
-                } else {
-                    this.state.registrationValidation[name] = undefined;
-                    isFieldValid[name] = false;
-                    showValidation = true;
-                }
-                break;
-            case "email":
-                if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
-                    this.state.registrationValidation[name] = value;
-                    isFieldValid[name] = isFieldValid[name] == 'emailAlreadyExists' ? 'emailAlreadyExists' : true;
-                } else {
-                    this.state.registrationValidation[name] = undefined;
-                    isFieldValid[name] = false;
-                    showValidation = true;
-                }
-                break;
-            case "pass":
-                var passw = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
-                if (value.match(passw)) {
-                    this.state.registrationValidation[name] = value;
-                    isFieldValid[name] = true;
-                } else {
-                    this.state.registrationValidation[name] = undefined;
-                    isFieldValid[name] = false;
-                    showValidation = true;
-                }
-                break;
-            case "pass_repeated":
-                if (this.state.registrationValidation.pass) {
-                    if (value === this.state.registrationValidation.pass) {
-                        this.state.registrationValidation[name] = value;
-                        isFieldValid[name] = true;
-                    } else {
-                        this.state.registrationValidation[name] = undefined;
-                        isFieldValid[name] = false;
-                        showValidation = true;
-                    }
-                }
-                break;
-            case "agreed_with_conditions":
-                value = event.target.checked;
-                if (value) {
-                    this.state.registrationValidation[name] = true;
-                    isFieldValid[name] = true;
-                } else {
-                    this.state.registrationValidation[name] = false;
-                    isFieldValid[name] = false;
-                    showValidation = true;
-                }
-                break;
-            default:
+    onChange(e) {
+        let name = e.target.name;
+        let value = e.target.value;
+        console.log("### in onChange in: ", value);
+        let errors = this.state.errors;
+        let fields = this.state.fields;
+
+        if(name === "agreed_with_conditions") {
+            value = e.target.checked;
         }
-        this.setState({isFieldValid: isFieldValid, showValidation: showValidation});
+
+        if (name === 'pass') {
+            errors = validation.validatePass(value, this.state.fields.pass_repeated, errors, name);
+        } else if (name === 'pass_repeated') {
+            errors = validation.validatePass(this.state.fields.pass, value, errors, name);
+        } else {
+            errors[name] = validation.validate(name, value);
+        }
+
+        fields[name] = value;
+
+        this.setState({
+            errors: errors,
+            fields: fields
+        });
     }
 
     render() {
-        const {showProp, switchFn} = this.props;
+        const {showProp} = this.props;
+        const {errors} = this.state;
         const title = "Sign Up";
         return (
             <Modal show={showProp} onHide={this.closeModal}>
@@ -215,11 +162,11 @@ export default class RegisterModal extends Component {
                         <label htmlFor="name" className="col-form-label">Name: </label>
                       </div>
                       <div className="col-xs-9 col-sm-10">
-                        <input onBlur={this.validate} type="text" id="name" placeholder="Your Name"
-                               className={ "form-control" + ( this.state.showValidation && this.state.isFieldValid.name === false ? ' alert-danger' : '') }/>
+                        <input onBlur={this.onChange} type="text" name="name" placeholder="Your Name"
+                               className={ "form-control" + ( !!errors.name ? ' alert-danger' : '') }/>
                         {
-                          this.state.showValidation && this.state.isFieldValid.name === false ?
-                          <span className="validation-error">Enter your name please.</span> : ""
+                            !!errors.name ?
+                          <span className="validation-error">{errors.name}</span> : ""
                         }
                       </div>
                     </div>
@@ -228,11 +175,11 @@ export default class RegisterModal extends Component {
                         <label htmlFor="surname" className="col-form-label">Surname: </label>
                       </div>
                       <div className="col-xs-9 col-sm-10">
-                        <input onBlur={this.validate} type="text" id="surname" placeholder="Your Surname"
-                               className={ "form-control" + ( this.state.showValidation && this.state.isFieldValid.surname === false ? ' alert-danger' : '') }/>
+                        <input onBlur={this.onChange} type="text" name="surname" placeholder="Your Surname"
+                               className={ "form-control" + ( !!errors.surname ? ' alert-danger' : '') }/>
                         {
-                          this.state.showValidation && this.state.isFieldValid.surname === false ?
-                          <span className="validation-error">Enter your surname please.</span>: ""
+                            !!errors.surname ?
+                          <span className="validation-error">{errors.surname}</span>: ""
                         }
                       </div>
                     </div>
@@ -241,15 +188,11 @@ export default class RegisterModal extends Component {
                         <label htmlFor="email" className="col-form-label">E-mail: </label>
                       </div>
                       <div className="col-xs-9 col-sm-10">
-                        <input onBlur={this.validate} type="email" id="email" placeholder="Your E-mail"
-                               className={ "form-control" + ( this.state.showValidation && this.state.isFieldValid.email === false ? ' alert-danger' : '') }/>
+                        <input onBlur={this.onChange} type="email" name="email" placeholder="Your E-mail"
+                               className={ "form-control" + ( !!errors.email ? ' alert-danger' : '') }/>
                         {
-                          this.state.showValidation && this.state.isFieldValid.email === false ?
-                          <span className="validation-error">Enter e-mail in a correct format (melon@collie.com).</span> : ""
-                        }
-                        {
-                           this.state.showValidation && this.state.isFieldValid.email === 'emailAlreadyExists' ?
-                           <span className="validation-error">User with this e-mail already exists.</span> : ""
+                            !!errors.email ?
+                          <span className="validation-error">{errors.email}</span> : ""
                         }
                       </div>
                     </div>
@@ -258,14 +201,14 @@ export default class RegisterModal extends Component {
                         <label htmlFor="city" className="col-form-label">City: </label>
                       </div>
                       <div className="col-xs-9 col-sm-10">
-                        <GooglePlacesSuggest className="" onSelectSuggest={ this.handleSelectSuggest } search={ this.state.registrationValidation.city } display={true}>
-                          <input onBlur={this.validate} onChange={this.handleSearchChange} type="text" autoComplete="off" id="city" placeholder="Your City"
-                                 className={ "form-control no-margin " + ( this.state.showValidation && this.state.isFieldValid.city === false ? ' alert-danger' : '' ) }
-                                 value = { this.state.registrationValidation.city } />
+                        <GooglePlacesSuggest className="" onSelectSuggest={ this.handleSelectSuggest } search={ this.state.fields.city } display={true}>
+                          <input onBlur={this.onChange} onChange={this.handleSearchChange} type="text" autoComplete="off" name="city" placeholder="Your City"
+                                 className={ "form-control no-margin " + ( !!errors.city ? ' alert-danger' : '' ) }
+                                 value = { this.state.fields.city } />
                         </GooglePlacesSuggest>
                         {
-                          this.state.showValidation && this.state.isFieldValid.city === false ?
-                          <span className="validation-error">City is a mandatory field.</span> : ""
+                            !!errors.city ?
+                          <span className="validation-error">{errors.city}</span> : ""
                         }
                       </div>
                     </div>
@@ -275,11 +218,11 @@ export default class RegisterModal extends Component {
                         <label htmlFor="pass" className="col-form-label">Password: </label>
                       </div>
                       <div className="col-xs-7 col-sm-9">
-                        <input onBlur={this.validate} type="password" id="pass" placeholder="Your Password"
-                             className={ "form-control" + ( this.state.showValidation && this.state.isFieldValid.pass === false ? ' alert-danger' : '') }/>
+                        <input onBlur={this.onChange} type="password" name="pass" placeholder="Your Password"
+                             className={ "form-control" + ( !!errors.pass ? ' alert-danger' : '') }/>
                         {
-                          this.state.showValidation && this.state.isFieldValid.pass === false ?
-                          <span className="validation-error">The password has to be at least 8 characters long and has to contain capital letter, non-capital letter and number.</span> : ""
+                            !!errors.pass ?
+                          <span className="validation-error">{errors.pass}</span> : ""
                         }
                       </div>
                     </div>
@@ -288,11 +231,11 @@ export default class RegisterModal extends Component {
                         <label htmlFor="pass_repeated" className="col-form-label">Password again: </label>
                       </div>
                       <div className="col-xs-7 col-sm-9">
-                        <input onBlur={this.validate} type="password" id="pass_repeated" placeholder="Repeat your Password"
-                             className={ "form-control" + ( this.state.showValidation && this.state.isFieldValid.pass_repeated === false ? ' alert-danger' : '') }/>
+                        <input onBlur={this.onChange} type="password" name="pass_repeated" placeholder="Repeat your Password"
+                             className={ "form-control" + ( !!errors.pass_repeated ? ' alert-danger' : '') }/>
                         {
-                          this.state.showValidation && this.state.isFieldValid.pass_repeated === false ?
-                          <span className="validation-error">Entered passwords have to be identical.</span> : ""
+                            !!errors.pass_repeated ?
+                          <span className="validation-error">{errors.pass_repeated}</span> : ""
                         }
                       </div>
                     </div>
@@ -301,10 +244,10 @@ export default class RegisterModal extends Component {
                         <label htmlFor="pass_repeated" className="col-form-label">I accept the terms.</label>
                       </div>
                       <div className="col-xs-6 col-sm-9">
-                        <input onClick={this.validate} id="agreed_with_conditions" type="checkbox" className="big_checkbox"/>
+                        <input onChange={this.onChange} name="agreed_with_conditions" type="checkbox" className="big_checkbox"/>
                         {
-                            this.state.showValidation && this.state.isFieldValid.agreed_with_conditions === false ?
-                            <span className="validation-error"> You have to accept the terms.</span> : ""
+                            !!errors.agreed_with_conditions ?
+                            <span className="validation-error">{errors.agreed_with_conditions}</span> : ""
                         }
                       </div>
                     </div>
@@ -318,7 +261,7 @@ export default class RegisterModal extends Component {
           						  Do you already have an account?
           					  </span>
                         <button type="button" data-dismiss="modal" className="btn btn-primary float-right"
-                                data-toggle="modal" data-target="#regmodal" onClick={switchFn}>Sign In
+                                data-toggle="modal" data-target="#regmodal" onClick={this.switchModal}>Sign In
                         </button>
                     </FormCheck>
                 </Modal.Footer>

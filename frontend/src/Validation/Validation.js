@@ -36,11 +36,45 @@ function validateDates(dateFrom, dateTo, errors, name) {
     return errors;
 }
 
+function validatePass(pass, pass_repeated, errors, name){
+    switch(name){
+        case "pass":
+            var passw = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+            if (pass && pass.match(passw)) {
+                errors.pass = undefined;
+            } else{
+                errors.pass = "The password has to be at least 8 characters long and has to contain capital letter, non-capital letter and number.";
+            }
+            break;
+        case "pass_repeated":
+            if (errors.pass === undefined) {
+                if (pass_repeated === pass) {
+                    errors.pass_repeated = undefined;
+                } else {
+                    errors.pass_repeated = "Entered passwords have to be identical.";
+                }
+            }
+            break;
+    }
+    return errors;
+
+}
+
+function checkEmailValidity(value) {
+    console.log("in checkEmailVaidity: ", value);
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
+        return undefined;
+    }else{
+        return "Enter e-mail in a correct format (melon@collie.com).";
+    }
+}
+
 function validate(name, value, otherValue) {
     console.log("### in validation: ", name, value);
 
     let errorMessage = undefined;
     let emptyTextMessage = "Tell something about you to pontetial buddies!";
+
     switch (name) {
         case "city":
             errorMessage = checkNotEmpty(value, "City is a mandatory field, so buddies could find you.");
@@ -49,9 +83,23 @@ function validate(name, value, otherValue) {
             errorMessage = checkNotEmpty(value, emptyTextMessage);
             break;
         case "about_me":
-            if(otherValue === true){
+            if (otherValue === true) {
                 errorMessage = checkNotEmpty(value, emptyTextMessage);
             }
+            break;
+        case "agreed_with_conditions":
+            if (value !== true) {
+                errorMessage = "You have to accept the terms.";
+            }
+            break;
+        case "email":
+            errorMessage = checkEmailValidity(value);
+            break;
+        case "name":
+            errorMessage = checkNotEmpty(value, "Enter your name please.");
+            break;
+        case "surname":
+            errorMessage = checkNotEmpty(value, "Enter your surname please.");
             break;
     }
     return errorMessage;
@@ -59,5 +107,6 @@ function validate(name, value, otherValue) {
 
 export default{
     validate,
-    validateDates
+    validateDates,
+    validatePass
 }

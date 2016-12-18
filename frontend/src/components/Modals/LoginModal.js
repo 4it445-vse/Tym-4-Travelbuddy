@@ -16,11 +16,17 @@ export default class LoginModal extends Component {
 
         this.handleSubmitLogIn = this.handleSubmitLogIn.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        this.switchModal = this.switchModal.bind(this);
     }
 
     closeModal() {
         this.state.errors = {};
         this.props.hideFn();
+    }
+
+    switchModal() {
+        this.state.errors = {};
+        this.props.switchFn();
     }
 
     handleSubmitLogIn(event) {
@@ -59,7 +65,7 @@ export default class LoginModal extends Component {
     }
 
     render() {
-        const {showProp, switchFn, restorePassFn} = this.props;
+        const {showProp, restorePassFn} = this.props;
         const {errors} = this.state;
         return (
             <Modal show={showProp} onHide={this.closeModal}>
@@ -112,7 +118,7 @@ export default class LoginModal extends Component {
 							  You don't have account yet?
 						  </span>
                         <button type="button" data-dismiss="modal" className="btn btn-primary float-right"
-                                data-toggle="modal" data-target="#regmodal" onClick={switchFn}>Sign Up
+                                data-toggle="modal" data-target="#regmodal" onClick={this.switchModal}>Sign Up
                         </button>
                     </FormCheck>
                 </Modal.Footer>
