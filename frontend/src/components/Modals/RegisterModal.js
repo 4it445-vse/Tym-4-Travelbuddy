@@ -1,6 +1,5 @@
 ﻿import React, {Component} from "react";
 import {Modal} from "react-bootstrap";
-import FormGroup from "./FormGroup";
 import FormCheck from "./FormCheck";
 import axios from "../../api";
 import currentUser from "../../actions/CurrentUser";
@@ -63,6 +62,7 @@ export default class RegisterModal extends Component {
             let obj = {
                 target: {
                     value: this.state.fields[name],
+                    checked: this.state.fields[name],
                     name: name
                 }
             };
