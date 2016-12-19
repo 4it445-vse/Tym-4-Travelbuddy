@@ -142,8 +142,7 @@ export default class EditProfileModal extends Component {
             currentUserLocal.about_me = constructedBuddy.about_me;
 
             currentUser.setCurrentUser(currentUserLocal);
-        }).then(response => {
-            console.log('edit success');
+            this.hideModal();
         });
     }
 
