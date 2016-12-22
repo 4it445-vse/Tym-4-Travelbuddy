@@ -5,8 +5,10 @@ import axios from "../../api";
 import currentUser from "../../actions/CurrentUser";
 import GooglePlacesSuggest from "../Autosuggest/SuggestCity";
 import validation from "../../Validation/Validation";
+import { connect } from "react-redux";
+import { createUser } from "../../actions/user";
 
-export default class RegisterModal extends Component {
+class RegisterModal extends Component {
 
     constructor(props) {
         super(props);
@@ -57,6 +59,7 @@ export default class RegisterModal extends Component {
     }
 
     handleSubmitRegistration(event) {
+        this.props.createUser(this.state.fields);
         const fieldsArray = ["name", "surname", "city", "email", "pass", "pass_repeated", "agreed_with_conditions"];
         for (var name of fieldsArray) {
             let obj = {
@@ -98,22 +101,14 @@ export default class RegisterModal extends Component {
                 errors.email = "User with this e-mail already exists.";
                 this.setState({errors: errors});
             } else {
-                axios.post('buddies', {
-                    "email": email,
-                    "password": pass,
-                    "sex": "na",
-                    "name": name,
-                    "surname": surname,
-                    "city": city,
-                    "is_hosting": false
+                this.props.createUser(this.state.fields);
 
-                }).then(response => {
-                    currentUser.setAlert({
-                        "type": "success",
-                        "message": "Registration has been successfull. Please verify your e-mail, before first login, by clicking on the link we have send you on provided e-mail."
-                    });
-                    this.closeModal();
-                });
+                    // currentUser.setAlert({
+                    //     "type": "success",
+                    //     "message": "Registration has been successfull. Please verify your e-mail, before first login, by clicking on the link we have send you on provided e-mail."
+                    // });
+                    // this.closeModal();
+
             }
         });
     }
@@ -268,3 +263,10 @@ export default class RegisterModal extends Component {
         );
     }
 }
+
+export default connect(
+    null,
+    {
+        createUser
+    }
+)(RegisterModal);

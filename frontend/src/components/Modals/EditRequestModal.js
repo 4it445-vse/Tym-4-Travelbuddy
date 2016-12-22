@@ -6,8 +6,8 @@ import moment from 'moment';
 import currentUser from "../../actions/CurrentUser";
 import GooglePlacesSuggest from "../Autosuggest/SuggestCity";
 import validation from "../../Validation/Validation";
-
-export default class RequestModal extends Component {
+import { connect } from "react-redux";
+class RequestModal extends Component {
 
     constructor(props) {
         super(props);
@@ -79,7 +79,7 @@ export default class RequestModal extends Component {
 
     findBuddysRequests(suggest) {
         axios.get('Requests', {
-            params: {filter: {where: {buddy_id: currentUser.getCurrentUser().id}}}
+            params: {filter: {where: {buddy_id: this.props.user.id}}}
         })
             .then(response => {
                 //Remapping response beacuase of Select component
@@ -107,7 +107,7 @@ export default class RequestModal extends Component {
         var from = this.state.fields.from;
         var to = this.state.fields.to;
         var text = this.state.fields.text;
-        var buddy_id = currentUser.getCurrentUser().id;
+        var buddy_id = this.props.user.id;
 
         for (var name of ["city", "from", "to", "text"]) {
             let obj = {
@@ -257,3 +257,8 @@ export default class RequestModal extends Component {
         );
     }
 }
+export default connect(
+    (state) => ({
+        user: state.user
+    })
+)(RequestModal)

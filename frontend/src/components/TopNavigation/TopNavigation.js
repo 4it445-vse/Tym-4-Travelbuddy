@@ -11,8 +11,9 @@ import EditRequestModal from "../Modals/EditRequestModal";
 import ContactBuddyModal from "../Modals/ContactBuddyModal";
 import Menu from "./Menu";
 import {Alert} from 'react-bootstrap';
+import { connect } from "react-redux"
 
-export default class TopNavigation extends Component {
+class TopNavigation extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -138,7 +139,7 @@ export default class TopNavigation extends Component {
     }
 
     render() {
-        const loggedUser = currentUser.getCurrentUser();
+        const loggedUser = this.props.user;
         const userLogged = !!loggedUser;
         const alert = currentUser.getAlert();
         const question = currentUser.getQuestion();
@@ -218,3 +219,8 @@ export default class TopNavigation extends Component {
         );
     }
 }
+export default connect(
+    (state) => ({
+        user: state.user
+    })
+);

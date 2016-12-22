@@ -5,8 +5,9 @@ import moment from "moment";
 import axios from "../../api";
 import GooglePlacesSuggest from "../Autosuggest/SuggestCity";
 import validation from "../../Validation/Validation";
+import { connect } from "react-redux";
 
-export default class NewRequestModal extends Component {
+class NewRequestModal extends Component {
 
     constructor(props) {
         super(props);
@@ -64,7 +65,7 @@ export default class NewRequestModal extends Component {
         var from = this.state.fields.from;
         var to = this.state.fields.to;
         var text = this.state.fields.text;
-        var buddy_id = currentUser.getCurrentUser().id;
+        var buddy_id = this.props.user.id;
 
         for (var name of ["city", "from", "to", "text"]) {
             let obj = {
@@ -174,3 +175,8 @@ export default class NewRequestModal extends Component {
         );
     }
 }
+export default connect(
+    (state) => ({
+        user: state.user
+    })
+)(NewRequestModal)

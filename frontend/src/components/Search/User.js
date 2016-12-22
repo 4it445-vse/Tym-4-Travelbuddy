@@ -1,9 +1,10 @@
 import React, {Component} from "react";
 import currentUser from "../../actions/CurrentUser";
 import FontAwesome from "react-fontawesome";
-import axios from "../../api"
+import axios from "../../api";
+import { connect } from "react-redux";
 
-export default class User extends Component {
+class User extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -36,7 +37,7 @@ export default class User extends Component {
     }
 
     onClick(e) {
-        if (currentUser.getCurrentUser()) {
+        if (this.props.user) {
             if (e.target.id === 'envelope') {
                 this.openContactBuddy();
             } else {
@@ -100,3 +101,8 @@ export default class User extends Component {
         else return (<div className="card-block text-xs-center" id="buddy-row"><img src={loader}/></div>)
     }
 }
+export default connect(
+    (state) => ({
+        user : state.user
+    })
+)(User);

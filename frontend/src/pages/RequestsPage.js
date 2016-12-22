@@ -6,9 +6,10 @@ import currentUser from "../actions/CurrentUser";
 import {Modal} from "react-bootstrap";
 import ShowRequestModal from "../components/Modals/ShowRequestModal";
 import {Alert} from 'react-bootstrap';
-import GooglePlacesSuggest from "../components/Autosuggest/SuggestCity"
+import GooglePlacesSuggest from "../components/Autosuggest/SuggestCity";
+import { connect } from "react-redux";
 
-export class RequestsPage extends Component {
+class RequestsPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -88,6 +89,7 @@ export class RequestsPage extends Component {
     }
 
     render() {
+        console.log(this.props.user);
         const {requests} = this.state;
         const alert = currentUser.getAlert();
         return (
@@ -136,3 +138,9 @@ export class RequestsPage extends Component {
         );
     }
 }
+
+export default connect(
+    (state) => ({
+        user : state.user
+    })
+)(RequestsPage)

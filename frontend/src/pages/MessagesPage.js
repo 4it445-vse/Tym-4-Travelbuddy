@@ -1,11 +1,11 @@
 import React, {Component} from "react";
 import MessagesUserPart from "../components/Messages/MessagesUserPart";
 import Messages from "../components/Messages/Messages";
-import currentUser from "../actions/CurrentUser";
+import { connect } from "react-redux";
 import axios from "../api";
 
 
-export default class MessagePage extends Component {
+class MessagePage extends Component {
 
     constructor(props) {
         super(props);
@@ -46,7 +46,7 @@ export default class MessagePage extends Component {
                 params: {
                     filter: {
                         where: {
-                            buddy_id_to: currentUser.getCurrentUser().id
+                            buddy_id_to: this.props.user.id
                         }
                     }
                 }
@@ -102,3 +102,9 @@ export default class MessagePage extends Component {
 
 
 }
+
+export default connect(
+    (state) => ({
+        user:state.user
+    })
+);

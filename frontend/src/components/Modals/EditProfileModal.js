@@ -5,8 +5,9 @@ import FormGroup from "./FormGroup";
 import axios from "../../api";
 import GooglePlacesSuggest from "../Autosuggest/SuggestCity";
 import validation from "../../Validation/Validation";
-
-export default class EditProfileModal extends Component {
+import { connect } from "react-redux";
+import { logInUser } from "../../actions/user";
+class EditProfileModal extends Component {
 
     constructor(props) {
         super(props);
@@ -26,7 +27,7 @@ export default class EditProfileModal extends Component {
     }
 
     componentDidMount() {
-        const currentUserLocal = currentUser.getCurrentUser();
+        const currentUserLocal = this.props.user;
         this.state.fields.city = currentUserLocal.city;
         this.state.fields.about_me = currentUserLocal.about_me;
         this.loadPhoto();
@@ -34,7 +35,7 @@ export default class EditProfileModal extends Component {
 
     hideModal() {
         var fields = {};
-        const currentUserLocal = currentUser.getCurrentUser();
+        const currentUserLocal = this.props.user;
         fields.city = currentUserLocal.city;
         fields.about_me = currentUserLocal.about_me;
 
@@ -47,7 +48,7 @@ export default class EditProfileModal extends Component {
     }
 
     loadPhoto() {
-        const currentUserLocal = currentUser.getCurrentUser();
+        const currentUserLocal = this.props.user;
         const profilePhotoName = currentUser.composeProfilePhotoName(currentUserLocal);
         if (profilePhotoName) {
             this.setState({
@@ -65,7 +66,7 @@ export default class EditProfileModal extends Component {
         var data = new FormData();
         var photo = this.refs.File.files[0];
         const name = photo.name;
-        const currentUserLocal = currentUser.getCurrentUser();
+        const currentUserLocal = this.props.user;
         data.append("file", photo);
         const containerName = 'container_' + currentUserLocal.id;
         axios.post('containers/' + containerName + '/upload', data).then(data => {
@@ -101,11 +102,11 @@ export default class EditProfileModal extends Component {
         const {city, about_me} = this.state.fields;
         var is_hosting = document.getElementById("is_hosting").checked;
         var sex;
-        if (currentUser.getCurrentUser().sex === 'na') {
+        if (this.props.user.sex === 'na') {
             let e = document.getElementById("sex");
             sex = e.options[e.selectedIndex].value;
         } else {
-            sex = currentUser.getCurrentUser().sex;
+            sex = this.props.user.sex;
         }
 
         for (var name of ["city", "about_me"]) {
@@ -127,7 +128,7 @@ export default class EditProfileModal extends Component {
             return;
         }
 
-        let currentUserLocal = currentUser.getCurrentUser();
+        let currentUserLocal = this.props.user;
         let constructedBuddy = {
             "sex": sex,
             "city": city,
@@ -141,7 +142,8 @@ export default class EditProfileModal extends Component {
             currentUserLocal.is_hosting = constructedBuddy.is_hosting;
             currentUserLocal.about_me = constructedBuddy.about_me;
 
-            currentUser.setCurrentUser(currentUserLocal);
+            this.props.logInUser(currentUserLocal);
+
             this.hideModal();
         });
     }
@@ -159,7 +161,7 @@ export default class EditProfileModal extends Component {
     render() {
         const {showProp} = this.props;
         const {errors} = this.state;
-        const loggedUser = currentUser.getCurrentUser();
+        const loggedUser = this.props.user;
         const title = "Edit Profile: " + loggedUser.name + " " + loggedUser.surname;
         return (
             <AbstractModal title={title} showProp={showProp} hideFn={this.hideModal}
@@ -244,5 +246,15 @@ export default class EditProfileModal extends Component {
                 </form>
             </AbstractModal>
         );
+
+
     }
 }
+export default connect(
+    (state) => ({
+        user : state.user
+    }),
+    {
+        logInUser
+    }
+)(EditProfileModal);

@@ -1,10 +1,10 @@
 import React, {Component} from "react";
 import currentUser from "../../actions/CurrentUser";
 import AbstractModal from "./AbstractModal";
-import FormGroup from "./FormGroup";
+import { connect } from "react-redux";
 import axios from "../../api";
 
-export default class ContactBuddyModal extends Component {
+class ContactBuddyModal extends Component {
 
     constructor(props) {
         super(props);
@@ -44,7 +44,7 @@ export default class ContactBuddyModal extends Component {
             });
             return;
         }
-        const loggedUser = currentUser.getCurrentUser();
+        const loggedUser = this.props.user;
         let text = this.state.text.replace(/\r?\n/g, '</br>');
         axios.post('messages', {
             "text": text,
@@ -88,3 +88,8 @@ export default class ContactBuddyModal extends Component {
         );
     }
 }
+export default connect(
+    (state) => ({
+        user: state.user
+    })
+)(ContactBuddyModal)

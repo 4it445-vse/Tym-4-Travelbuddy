@@ -4,8 +4,9 @@ import FormGroup from "./FormGroup";
 import FormCheck from "./FormCheck";
 import currentUser from "../../actions/CurrentUser";
 import axios from "../../api";
-
-export default class LoginModal extends Component {
+import { connect } from "react-redux";
+import { logInUser } from "../../actions/user";
+class LoginModal extends Component {
 
     constructor(props) {
         super(props);
@@ -18,6 +19,8 @@ export default class LoginModal extends Component {
         this.closeModal = this.closeModal.bind(this);
         this.switchModal = this.switchModal.bind(this);
     }
+
+
 
     closeModal() {
         this.state.errors = {};
@@ -48,7 +51,7 @@ export default class LoginModal extends Component {
                 }
             }).then(response => {
                 if (response.data[0].emailVerified) {
-                    currentUser.setCurrentUser(response.data[0], rememberUser);
+                    this.props.logInUser(response.data[0]);
                     this.closeModal();
                 } else {
                     let errors = this.state.errors;
@@ -126,3 +129,10 @@ export default class LoginModal extends Component {
         );
     }
 }
+
+export default connect(
+    null,
+    {
+        logInUser
+    }
+)(LoginModal);
