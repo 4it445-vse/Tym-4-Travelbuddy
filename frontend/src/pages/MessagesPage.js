@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import axios from "../api";
 
 
-class MessagePage extends Component {
+class MessagesPage extends Component {
 
     constructor(props) {
         super(props);
@@ -107,4 +107,4 @@ export default connect(
     (state) => ({
         user:state.user
     })
-);
+)(MessagesPage);
