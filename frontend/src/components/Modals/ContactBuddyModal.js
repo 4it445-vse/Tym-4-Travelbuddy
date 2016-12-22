@@ -1,8 +1,8 @@
 import React, {Component} from "react";
-import currentUser from "../../actions/CurrentUser";
 import AbstractModal from "./AbstractModal";
 import { connect } from "react-redux";
 import axios from "../../api";
+import { openAlert } from "../../actions/modals";
 
 class ContactBuddyModal extends Component {
 
@@ -54,11 +54,10 @@ class ContactBuddyModal extends Component {
             "buddy_id_to": this.props.buddyTo.id
 
         }).then(response => {
-            currentUser.setAlert({
+            this.props.openAlert({
                 "type": "success",
                 "message": "Zpráva úspěšně odeslána."
             })
-            this.closeModal();
         });
     }
 
@@ -91,5 +90,8 @@ class ContactBuddyModal extends Component {
 export default connect(
     (state) => ({
         user: state.user
-    })
+    }),
+    {
+        openAlert
+    }
 )(ContactBuddyModal)

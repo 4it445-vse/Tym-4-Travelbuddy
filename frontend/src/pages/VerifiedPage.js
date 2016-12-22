@@ -1,19 +1,25 @@
 import React, { Component } from 'react';
-import currentUser from "../actions/CurrentUser";
-import { browserHistory } from 'react-router'
+import { browserHistory } from 'react-router';
+import { connect } from "react-redux";
+import { openAlert } from "../actions/modals";
 
-export class VerifiedPage extends Component {
+class VerifiedPage extends Component {
 
     constructor(props){
         super(props);
-        currentUser.setAlert({"type":"success", "message":"Thank you! You can login now."});
+        this.props.openAlert({"type":"success", "message":"Thank you! You can login now."});
         browserHistory.push("/");
+
     }
 
   render() {
-    return (
-      <div>
-      </div>
-    );
+    return ("");
   }
 }
+
+export default connect(
+    null,
+    {
+        openAlert
+    }
+)(VerifiedPage);

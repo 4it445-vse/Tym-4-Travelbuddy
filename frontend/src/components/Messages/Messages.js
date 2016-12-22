@@ -5,6 +5,7 @@ import currentUser from "../../actions/CurrentUser";
 import axios from "../../api";
 import ReactDOM from 'react-dom';
 import { connect } from "react-redux";
+import { openProfile } from "../../actions/modals";
 
 class Messages extends Component {
 
@@ -130,7 +131,7 @@ class Messages extends Component {
 
     openProfile() {
         axios.get('buddies/' + this.state.selectedConversationUser.id).then(response => {
-            currentUser.openProfile(response.data);
+            this.props.openProfile({buddy: response.data, flag:true});
         });
     }
 
@@ -163,5 +164,8 @@ class Messages extends Component {
 export default connect(
     (state) => ({
         user: state.user
-    })
+    }),
+    {
+        openProfile
+    }
 )(Messages)

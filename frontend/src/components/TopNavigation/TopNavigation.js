@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import currentUser from "../../actions/CurrentUser";
 import {Modal} from "react-bootstrap";
 import LoginModal from "../Modals/LoginModal";
 import RegisterModal from "../Modals/RegisterModal";
@@ -11,216 +10,112 @@ import EditRequestModal from "../Modals/EditRequestModal";
 import ContactBuddyModal from "../Modals/ContactBuddyModal";
 import Menu from "./Menu";
 import {Alert} from 'react-bootstrap';
-import { connect } from "react-redux"
+import {connect} from "react-redux";
+import {closeModal, openEditRequest, openLogin, openRegistration, openCreateRequest, openEditProfile, openResetPassword} from "../../actions/modals";
 
 class TopNavigation extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            showLoginModal: false,
-            showRegisterModal: false,
-            showEditModal: false,
-            showNewRequestModal: false,
-            showRestorePass: false,
-            showEditRequestModal: false,
-            showProfileModal: false,
-            showContactBuddyModal: false,
-            selectedBuddy: undefined,
-            showContactButton: undefined
-        };
-
-        this.closeLogin = this.closeLogin.bind(this);
-        this.openLogin = this.openLogin.bind(this);
-        this.closeRegister = this.closeRegister.bind(this);
-        this.openRegister = this.openRegister.bind(this);
-        this.openEdit = this.openEdit.bind(this);
-        this.closeEdit = this.closeEdit.bind(this);
-        this.openNewRequest = this.openNewRequest.bind(this);
-        this.closeNewRequest = this.closeNewRequest.bind(this);
-        this.openEditRequests = this.openEditRequests.bind(this);
-        this.closeAlert = this.closeAlert.bind(this);
-        this.openRestorePass = this.openRestorePass.bind(this);
-        this.closeRestorePass = this.closeRestorePass.bind(this);
-        this.closeEditRequests = this.closeEditRequests.bind(this);
-        this.closeQuestion = this.closeQuestion.bind(this);
-        this.removeUser = this.removeUser.bind(this);
-        this.openProfileModal = this.openProfileModal.bind(this);
-        this.closeProfileModal = this.closeProfileModal.bind(this);
-        this.openContactBuddy = this.openContactBuddy.bind(this);
-        this.closeContactBuddy = this.closeContactBuddy.bind(this);
-    }
-
-    componentDidMount() {
-        currentUser.setOpenLogInFn(this.openLogin);
-        currentUser.setOpenProfilefn(this.openProfileModal);
-        currentUser.setOpenContactBuddy(this.openContactBuddy);
-    }
-
-    openContactBuddy(selectedBuddy) {
-        this.setState({showContactBuddyModal: true, selectedBuddy: selectedBuddy});
-    }
-
-    closeContactBuddy() {
-        this.setState({showContactBuddyModal: false});
-    }
-
-    openRestorePass() {
-        this.setState({showRestorePass: true, showLoginModal: false});
-    }
-
-    closeRestorePass() {
-        this.setState({showRestorePass: false});
-    }
-
-    closeAlert() {
-        currentUser.setAlert(null);
-        this.setState(this.state);
-    }
-
-    closeQuestion() {
-        currentUser.setQuestion(null);
-        this.setState(this.state);
-    }
-
-    openLogin() {
-        this.setState({showRegisterModal: false, showLoginModal: true});
-    }
-
-    closeLogin() {
-        this.setState({showLoginModal: false});
-    }
-
-    openProfileModal(selectedBuddy, showContactButton) {
-        this.setState({selectedBuddy: selectedBuddy, showContactButton: showContactButton, showProfileModal: true});
-    }
-
-    closeProfileModal() {
-        this.setState({showProfileModal: false});
-    }
-
-    openRegister() {
-        this.setState({showRegisterModal: true, showLoginModal: false});
-    }
-
-    closeRegister() {
-        this.setState({showRegisterModal: false});
-    }
-
-    openEdit() {
-        this.closeRegister();
-        this.setState({showEditModal: true});
-    }
-
-    closeEdit() {
-        this.setState({showEditModal: false});
-    }
-
-    openNewRequest() {
-        this.closeEditRequests();
-        this.setState({showNewRequestModal: true});
-    }
-
-    closeNewRequest() {
-        this.setState({showNewRequestModal: false});
-    }
-
-    openEditRequests() {
-        this.setState({showEditRequestModal: true});
-    }
-
-    closeEditRequests() {
-        this.setState({showEditRequestModal: false});
-    }
-
-    removeUser() {
-        const question = currentUser.getQuestion();
-        question.cb();
-        this.closeQuestion();
-    }
-
     render() {
-        const loggedUser = this.props.user;
-        const userLogged = !!loggedUser;
-        const alert = currentUser.getAlert();
-        const question = currentUser.getQuestion();
         return (
             <div>
-                <Menu openEdit={this.openEdit} openRegister={this.openRegister} openLogin={this.openLogin}
-                      openNewRequest={this.openNewRequest} openEditRequests={this.openEditRequests}/>
-
-                <LoginModal restorePassFn={this.openRestorePass} showProp={this.state.showLoginModal}
-                            hideFn={this.closeLogin} switchFn={this.openRegister}/>
-
-                <RegisterModal showProp={this.state.showRegisterModal} hideFn={this.closeRegister}
-                               switchFn={this.openLogin}/>
+                <Menu openEdit={this.props.openEditProfile} openRegister={this.props.openRegistration} openLogin={this.props.openLogin}
+                      openNewRequest={this.props.openCreateRequest} openEditRequests={this.props.openEditRequest}/>
 
                 {
-                    this.state.showContactBuddyModal ?
-                        <ContactBuddyModal showProp={this.state.showContactBuddyModal} hideFn={this.closeContactBuddy}
-                                           buddyTo={this.state.selectedBuddy}/>
+                    this.props.modals.modal === 'openLogin' ?
+                        <LoginModal restorePassFn={this.props.openResetPassword} showProp={true}
+                                    hideFn={this.props.closeModal} switchFn={this.props.openRegistration}/>
                         : ""
                 }
-
                 {
-                    this.state.showProfileModal ?
-                        <ShowProfileModal showProp={this.state.showProfileModal} hideFn={this.closeProfileModal}
-                                          buddy={this.state.selectedBuddy}
-                                          showContactButton={this.state.showContactButton}/>
+                    this.props.modals.modal === 'openRegistration' ?
+                        <RegisterModal showProp={true} hideFn={this.props.closeModal}
+                                       switchFn={this.props.openLogin}/>
                         : ""
                 }
-
                 {
-                    (!!alert) ?
-                        <Modal show={true} onHide={this.closeAlert}>
+                    this.props.modals.modal === 'openContactBuddy' ?
+                        <ContactBuddyModal showProp={true} hideFn={this.props.closeModal}
+                                           buddyTo={this.props.modals.data.buddy}/>
+                        : ""
+                }
+                {
+                    this.props.modals.modal === 'openProfile' ?
+                        <ShowProfileModal showProp={true} hideFn={this.props.closeModal}
+                                          buddy={this.props.modals.data.buddy}
+                                          showContactButton={this.props.modals.data.flag}/>
+                        : ""
+                }
+                {
+                    this.props.modals.modal === 'alert' ?
+                        <Modal show={true} onHide={this.props.closeModal}>
                             <Modal.Header closeButton>
                             </Modal.Header>
                             <Modal.Body>
-                                <Alert bsStyle={alert.type}>
-                                    {alert.message}
+                                <Alert bsStyle={this.props.modals.data.type}>
+                                    {this.props.modals.data.message}
                                 </Alert>
                             </Modal.Body>
                         </Modal> : ""
                 }
                 {
-                    (!!question) ?
-                        <Modal show={true} onHide={this.closeQuestion}>
+                    this.props.modals.modal === 'question' ?
+                        <Modal show={true} onHide={this.props.closeModal}>
                             <Modal.Header closeButton>
                             </Modal.Header>
                             <Modal.Body className="text-xs-center">
-                                <p>{question.text}</p>
+                                <p>{this.props.modals.data.text}</p>
                                 <div className="row">
                                     <div className="col-xs-6 text-xs-right">
                                         <button className="btn btn-defaul SearchButton text-white" type="button"
-                                                onClick={this.removeUser}>Yes
+                                                onClick={this.props.modals.data.cb}>Yes
                                         </button>
                                     </div>
                                     <div className="col-xs-6 text-xs-left">
                                         <button className="btn btn-defaul SearchButton text-white" type="button"
-                                                onClick={this.closeQuestion}>No
+                                                onClick={this.props.closeModal}>No
                                         </button>
                                     </div>
                                 </div>
                             </Modal.Body>
                         </Modal> : ""
                 }
-                { userLogged ?
-                    <div>
-                        <EditProfileModal showProp={this.state.showEditModal} hideFn={this.closeEdit}/>
-                        <NewRequestModal showProp={this.state.showNewRequestModal} hideFn={this.closeNewRequest}/>
-                        { this.state.showEditRequestModal ?
-                            <EditRequestModal showProp={this.state.showEditRequestModal} hideFn={this.closeEditRequests}
-                                              switchFn={this.openNewRequest}/>
-                            : ""}
-                    </div>
-                    : ""}
-
-                <ResetPassModal showProp={this.state.showRestorePass} hideFn={this.closeRestorePass}/>
+                {
+                    this.props.modals.modal === 'openEditProfile' ?
+                        <EditProfileModal showProp={true} hideFn={this.props.closeModal}/>
+                        : ""
+                }
+                {
+                    this.props.modals.modal === 'openCreateRequest' ?
+                        <NewRequestModal showProp={true} hideFn={this.props.closeModal}/>
+                        : ""
+                }
+                {
+                    this.props.modals.modal === 'openEditRequest' ?
+                        <EditRequestModal showProp={true} hideFn={this.props.closeModal}
+                                          switchFn={this.props.openCreateRequest}/>
+                        : ""
+                }
+                {
+                    this.props.modals.modal === 'openResetPassword' ?
+                        <ResetPassModal showProp={true} hideFn={this.props.closeModal}/>
+                        : ""
+                }
             </div>
         );
     }
 }
 export default connect(
     (state) => ({
-        user: state.user
-    })
-);
+        user: state.user,
+        modals: state.modals
+    }),
+    {
+        closeModal,
+        openLogin,
+        openRegistration,
+        openCreateRequest,
+        openEditProfile,
+        openResetPassword,
+        openEditRequest
+    }
+)(TopNavigation);

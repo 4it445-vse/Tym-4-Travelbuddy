@@ -75,9 +75,9 @@ class EditProfileModal extends Component {
             };
             axios.post('buddies/update?where[id]=' + currentUserLocal.id, {"profile_photo_name": name})
                 .then(response => {
-                    currentUserLocal.profile_photo_name = name;
-                    currentUser.updateCurrentUser(currentUserLocal);
-                    this.loadPhoto();
+                    this.setState({
+                        avatarSrc: name
+                    });
                 });
         });
     }
@@ -137,13 +137,6 @@ class EditProfileModal extends Component {
         };
         let _this = this;
         axios.post('buddies/update?where[id]=' + currentUserLocal.id, constructedBuddy).then(response => {
-            currentUserLocal.sex = constructedBuddy.sex;
-            currentUserLocal.city = constructedBuddy.city;
-            currentUserLocal.is_hosting = constructedBuddy.is_hosting;
-            currentUserLocal.about_me = constructedBuddy.about_me;
-
-            this.props.logInUser(currentUserLocal);
-
             this.hideModal();
         });
     }

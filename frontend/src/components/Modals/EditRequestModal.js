@@ -3,10 +3,10 @@ import AbstractModal from "./AbstractModal";
 import Select from "react-select";
 import axios from "../../api";
 import moment from 'moment';
-import currentUser from "../../actions/CurrentUser";
 import GooglePlacesSuggest from "../Autosuggest/SuggestCity";
 import validation from "../../Validation/Validation";
 import { connect } from "react-redux";
+import { openAlert, openQuestion } from "../../actions/modals";
 class RequestModal extends Component {
 
     constructor(props) {
@@ -40,18 +40,16 @@ class RequestModal extends Component {
     }
 
     prepareRemoveRequest() {
-        currentUser.setQuestion({
+        this.props.openQuestion({
             text: "Are you sure, you want to delete this request?",
             cb: this.removeRequest
         });
-        this.props.hideFn();
     }
 
     removeRequest() {
         var id = this.state.selectedRequest
         axios.delete('Requests/' + id).then(response => {
-            currentUser.setAlert({"type": "success", "message": "Request has been successfully deleted."});
-            this.props.hideFn();
+            this.props.openAlert({"type": "success", "message": "Request has been successfully deleted."});
         });
     }
 
@@ -136,8 +134,7 @@ class RequestModal extends Component {
             "buddy_id": buddy_id
         }
         axios.patch('Requests/' + id, updatedRequest).then(response => {
-            currentUser.setAlert({"type": "success", "message": "Request has been successfully updated."});
-            this.hideModal();
+            this.props.openAlert({"type": "success", "message": "Request has been successfully updated."});
         })
             .then(() => {
                 this.findBuddysRequests(true);
@@ -260,5 +257,9 @@ class RequestModal extends Component {
 export default connect(
     (state) => ({
         user: state.user
-    })
+    }),
+    {
+        openAlert,
+        openQuestion
+    }
 )(RequestModal)

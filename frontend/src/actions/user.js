@@ -1,37 +1,11 @@
-import axios from "../api";
-
-
-const CREATE_USER = 'CREATE_USER';
-export const createUser = (data) => {
-    console.log(data);
-
-    return (dispatch) => {
-        return axios.post('buddies', {
-            "email": data.email,
-            "password": data.pass,
-            "sex": "na",
-            "name": data.name,
-            "surname": data.surname,
-            "city": data.city,
-            "is_hosting": false
-
-        }).then(response => {
-            console.log(response);
-            dispatch(createUserSuccess(response.data[0]))
-        });
-    }
-}
-
-export const createUserSuccess = (payload) => ({
-    type: 'CREATE_USER_SUCCESS',
-    payload
-})
-
-
 const LOGIN_USER = 'LOGIN_USER';
-export const logInUser = (data) => {
-    console.log(data);
-
+export const logInUser = (data, rememberUser) => {
+    console.log("login user: ", data);
+    if(rememberUser === true){
+        localStorage.setItem('user', JSON.stringify(data));
+    }else{
+        sessionStorage.setItem('user', JSON.stringify(data));
+    }
     return (dispatch) => {
         return dispatch(logInUserSuccess(data));
     }
@@ -46,6 +20,9 @@ export const logInUserSuccess = (payload) => ({
 const LOGOUT_USER = 'LOGOUT_USER';
 export const logOutUser = () => {
     return (dispatch) => {
+        console.log("Attemp to log out");
+        sessionStorage.removeItem('user');
+        localStorage.removeItem('user');
         return dispatch(logOutUserSuccess());
     }
 }

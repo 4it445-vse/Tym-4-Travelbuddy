@@ -3,6 +3,9 @@ import currentUser from "../../actions/CurrentUser";
 import FontAwesome from "react-fontawesome";
 import axios from "../../api";
 import { connect } from "react-redux";
+import { openLogin } from "../../actions/modals";
+import { openProfile } from "../../actions/modals";
+import { openContactBuddy } from "../../actions/modals";
 
 class User extends Component {
     constructor(props) {
@@ -44,16 +47,16 @@ class User extends Component {
                 this.openProfile();
             }
         } else {
-            currentUser.openLogIn();
+            this.props.openLogin();
         }
     }
 
     openProfile() {
-        currentUser.openProfile(this.state.buddy, true);
+        this.props.openProfile({buddy: this.state.buddy, flag:true});
     }
 
     openContactBuddy() {
-        currentUser.openContactBuddy(this.state.buddy);
+        this.props.openContactBuddy({buddy: this.state.buddy});
     }
 
     render() {
@@ -104,5 +107,10 @@ class User extends Component {
 export default connect(
     (state) => ({
         user : state.user
-    })
+    }),
+    {
+        openLogin,
+        openProfile,
+        openContactBuddy
+    }
 )(User);

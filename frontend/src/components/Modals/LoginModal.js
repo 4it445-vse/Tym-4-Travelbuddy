@@ -51,7 +51,7 @@ class LoginModal extends Component {
                 }
             }).then(response => {
                 if (response.data[0].emailVerified) {
-                    this.props.logInUser(response.data[0]);
+                    this.props.logInUser(response.data[0], rememberUser);
                     this.closeModal();
                 } else {
                     let errors = this.state.errors;
