@@ -1,10 +1,10 @@
 import React, {Component} from "react";
 import {Link} from "react-router";
 import {Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem} from "reactstrap";
-import currentUser from "../../actions/CurrentUser";
 import axios from "../../api"
-
-export default class Menu extends Component {
+import { connect } from "react-redux";
+import { logOutUser } from "../../actions/user";
+class Menu extends Component {
 
     constructor(props) {
         super(props);
@@ -24,7 +24,7 @@ export default class Menu extends Component {
     }
 
     logOut() {
-        currentUser.setCurrentUser(undefined)
+        this.props.logOutUser();
         this.setState(this.state);
     }
 
@@ -39,7 +39,7 @@ export default class Menu extends Component {
 		params: {
 			filter: {
 				where: {
-					"buddy_id_to": currentUser.getCurrentUser().id
+					"buddy_id_to": this.props.user.id
 				}
 			}
 		}
@@ -60,7 +60,7 @@ export default class Menu extends Component {
 
     render() {
         const {openEdit, openRegister, openLogin, openNewRequest, openEditRequests} = this.props;
-        const loggedUser = currentUser.getCurrentUser();
+        const loggedUser = this.props.user;
         const userLogged = !!loggedUser;
 		if(userLogged){
 			this.countIncomingUnreadMessages();
@@ -132,3 +132,12 @@ export default class Menu extends Component {
         );
     }
 }
+
+export default connect(
+    (state) => ({
+        user: state.user
+    }),
+    {
+        logOutUser
+    }
+)(Menu);

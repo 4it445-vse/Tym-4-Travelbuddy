@@ -2,13 +2,12 @@ import React, {Component} from "react";
 import {RequestsList} from "../components/Requests/RequestsList.js";
 import lodash from "lodash";
 import axios from "../api";
-import currentUser from "../actions/CurrentUser";
-import {Modal} from "react-bootstrap";
 import ShowRequestModal from "../components/Modals/ShowRequestModal";
-import {Alert} from 'react-bootstrap';
-import GooglePlacesSuggest from "../components/Autosuggest/SuggestCity"
+import GooglePlacesSuggest from "../components/Autosuggest/SuggestCity";
+import { connect } from "react-redux";
+import { openAlert, openContactBuddy } from "../actions/modals";
 
-export class RequestsPage extends Component {
+class RequestsPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -31,7 +30,7 @@ export class RequestsPage extends Component {
     }
 
     closeAlert() {
-        currentUser.setAlert(null);
+        this.props.openAlert(null);
         this.setState(this.state);
     }
 
@@ -46,7 +45,7 @@ export class RequestsPage extends Component {
             this.setState({
                 showRequestShowModal: false
             });
-            currentUser.openContactBuddy(buddyTo);
+            this.props.openContactBuddy({buddy: buddyTo});
         }
     }
 
@@ -88,23 +87,11 @@ export class RequestsPage extends Component {
     }
 
     render() {
+        console.log(this.props.user);
         const {requests} = this.state;
-        const alert = currentUser.getAlert();
         return (
             <div>
               <h1 className="v-o-4">Requests</h1>
-                {
-                    (!!alert) ?
-                        <Modal show={true} onHide={this.closeAlert}>
-                            <Modal.Header closeButton>
-                            </Modal.Header>
-                            <Modal.Body>
-                                <Alert bsStyle={alert.type}>
-                                    {alert.message}
-                                </Alert>
-                            </Modal.Body>
-                        </Modal> : ""
-                }
                 <ShowRequestModal showProp={this.state.showRequestShowModal} hideFn={this.closeShowRequestShowModal}
                                   requestShowModalContent={this.state.requestShowModalContent}
                                   contactBuddy={this.openContactBuddy}/>
@@ -136,3 +123,13 @@ export class RequestsPage extends Component {
         );
     }
 }
+
+export default connect(
+    (state) => ({
+        user : state.user
+    }),
+    {
+        openAlert,
+        openContactBuddy
+    }
+)(RequestsPage)

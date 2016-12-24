@@ -1,9 +1,13 @@
 import React, {Component} from "react";
 import currentUser from "../../actions/CurrentUser";
 import FontAwesome from "react-fontawesome";
-import axios from "../../api"
+import axios from "../../api";
+import { connect } from "react-redux";
+import { openLogin } from "../../actions/modals";
+import { openProfile } from "../../actions/modals";
+import { openContactBuddy } from "../../actions/modals";
 
-export default class User extends Component {
+class User extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -36,23 +40,23 @@ export default class User extends Component {
     }
 
     onClick(e) {
-        if (currentUser.getCurrentUser()) {
+        if (this.props.user) {
             if (e.target.id === 'envelope') {
                 this.openContactBuddy();
             } else {
                 this.openProfile();
             }
         } else {
-            currentUser.openLogIn();
+            this.props.openLogin();
         }
     }
 
     openProfile() {
-        currentUser.openProfile(this.state.buddy, true);
+        this.props.openProfile({buddy: this.state.buddy, flag:true});
     }
 
     openContactBuddy() {
-        currentUser.openContactBuddy(this.state.buddy);
+        this.props.openContactBuddy({buddy: this.state.buddy});
     }
 
     render() {
@@ -100,3 +104,13 @@ export default class User extends Component {
         else return (<div className="card-block text-xs-center" id="buddy-row"><img src={loader}/></div>)
     }
 }
+export default connect(
+    (state) => ({
+        user : state.user
+    }),
+    {
+        openLogin,
+        openProfile,
+        openContactBuddy
+    }
+)(User);

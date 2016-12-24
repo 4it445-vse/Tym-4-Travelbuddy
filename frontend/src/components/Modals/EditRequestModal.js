@@ -3,11 +3,11 @@ import AbstractModal from "./AbstractModal";
 import Select from "react-select";
 import axios from "../../api";
 import moment from 'moment';
-import currentUser from "../../actions/CurrentUser";
 import GooglePlacesSuggest from "../Autosuggest/SuggestCity";
 import validation from "../../Validation/Validation";
-
-export default class RequestModal extends Component {
+import { connect } from "react-redux";
+import { openAlert, openQuestion } from "../../actions/modals";
+class RequestModal extends Component {
 
     constructor(props) {
         super(props);
@@ -40,18 +40,16 @@ export default class RequestModal extends Component {
     }
 
     prepareRemoveRequest() {
-        currentUser.setQuestion({
+        this.props.openQuestion({
             text: "Are you sure, you want to delete this request?",
             cb: this.removeRequest
         });
-        this.props.hideFn();
     }
 
     removeRequest() {
         var id = this.state.selectedRequest
         axios.delete('Requests/' + id).then(response => {
-            currentUser.setAlert({"type": "success", "message": "Request has been successfully deleted."});
-            this.props.hideFn();
+            this.props.openAlert({"type": "success", "message": "Request has been successfully deleted."});
         });
     }
 
@@ -79,7 +77,7 @@ export default class RequestModal extends Component {
 
     findBuddysRequests(suggest) {
         axios.get('Requests', {
-            params: {filter: {where: {buddy_id: currentUser.getCurrentUser().id}}}
+            params: {filter: {where: {buddy_id: this.props.user.id}}}
         })
             .then(response => {
                 //Remapping response beacuase of Select component
@@ -107,7 +105,7 @@ export default class RequestModal extends Component {
         var from = this.state.fields.from;
         var to = this.state.fields.to;
         var text = this.state.fields.text;
-        var buddy_id = currentUser.getCurrentUser().id;
+        var buddy_id = this.props.user.id;
 
         for (var name of ["city", "from", "to", "text"]) {
             let obj = {
@@ -136,8 +134,7 @@ export default class RequestModal extends Component {
             "buddy_id": buddy_id
         }
         axios.patch('Requests/' + id, updatedRequest).then(response => {
-            currentUser.setAlert({"type": "success", "message": "Request has been successfully updated."});
-            this.hideModal();
+            this.props.openAlert({"type": "success", "message": "Request has been successfully updated."});
         })
             .then(() => {
                 this.findBuddysRequests(true);
@@ -257,3 +254,12 @@ export default class RequestModal extends Component {
         );
     }
 }
+export default connect(
+    (state) => ({
+        user: state.user
+    }),
+    {
+        openAlert,
+        openQuestion
+    }
+)(RequestModal)

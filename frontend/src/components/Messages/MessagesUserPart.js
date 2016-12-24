@@ -1,11 +1,11 @@
 import React, {Component} from "react";
 import MessageUsers from "./MessageUsers";
 import MessageSearch from "./MessageSearch";
-import currentUser from "../../actions/CurrentUser";
+import { connect } from "react-redux";
 import axios from "../../api";
 
 
-export default class MessagePage extends Component {
+class MessagesUserPart extends Component {
 
     constructor(props) {
         super(props);
@@ -47,7 +47,7 @@ export default class MessagePage extends Component {
 
     findUsers() {
         this.state.usersWithMessages = [];
-        let currentU = currentUser.getCurrentUser();
+        let currentU = this.props.user;
         axios.get('messages/count', {
             params: {
                 filter: {
@@ -164,3 +164,8 @@ export default class MessagePage extends Component {
 
 
 }
+export default connect(
+    (state) => ({
+        user: state
+    })
+)(MessagesUserPart)

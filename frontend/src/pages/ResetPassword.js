@@ -1,9 +1,10 @@
 import React, {Component} from "react";
-import currentUser from "../actions/CurrentUser";
 import {browserHistory} from "react-router";
 import FormGroup from "../components/Modals/FormGroup";
 import axios from "../api";
 import validation from "../Validation/Validation";
+import { connect } from "react-redux";
+import { openAlert } from "../actions/modals";
 
 export class ResetPassword extends Component {
 
@@ -49,7 +50,7 @@ export class ResetPassword extends Component {
             }
         }).then(response => {
             if (response.data.status === "OK") {
-                currentUser.setAlert({"type": "success", "message": "Password has been successfully changed, you can login now."});
+                this.props.openAlert({"type": "success", "message": "Password has been successfully changed, you can login now."});
                 browserHistory.push("/");
             } else {
                 console.error(response);
@@ -137,3 +138,10 @@ export class ResetPassword extends Component {
         );
     }
 }
+
+export default connect(
+    null,
+    {
+        openAlert
+    }
+)(ResetPassword);

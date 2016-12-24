@@ -1,12 +1,13 @@
 import React, {Component} from "react";
-import currentUser from "../../actions/CurrentUser";
 import AbstractModal from "./AbstractModal";
 import moment from "moment";
 import axios from "../../api";
 import GooglePlacesSuggest from "../Autosuggest/SuggestCity";
 import validation from "../../Validation/Validation";
+import { connect } from "react-redux";
+import { openAlert } from "../../actions/modals";
 
-export default class NewRequestModal extends Component {
+class NewRequestModal extends Component {
 
     constructor(props) {
         super(props);
@@ -64,7 +65,7 @@ export default class NewRequestModal extends Component {
         var from = this.state.fields.from;
         var to = this.state.fields.to;
         var text = this.state.fields.text;
-        var buddy_id = currentUser.getCurrentUser().id;
+        var buddy_id = this.props.user.id;
 
         for (var name of ["city", "from", "to", "text"]) {
             let obj = {
@@ -93,7 +94,7 @@ export default class NewRequestModal extends Component {
             "buddy_id": buddy_id
         }
         axios.put('Requests', request).then(response => {
-            currentUser.setAlert({"type": "success", "message": "Poptávka úspěšně uložena."});
+            this.props.openAlert({"type": "success", "message": "Poptávka úspěšně uložena."});
             this.hideModal();
         });
     }
@@ -174,3 +175,11 @@ export default class NewRequestModal extends Component {
         );
     }
 }
+export default connect(
+    (state) => ({
+        user: state.user
+    }),
+    {
+        openAlert
+    }
+)(NewRequestModal)

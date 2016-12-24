@@ -1,10 +1,11 @@
 import React, {Component} from "react";
 import {Modal} from "react-bootstrap";
-import currentUser from "../../actions/CurrentUser";
 import axios from "../../api";
 import validation from "../../Validation/Validation";
+import { connect } from "react-redux";
+import { openAlert } from "../../actions/modals";
 
-export default class ResetPassModal extends Component {
+class ResetPassModal extends Component {
 
     constructor(props) {
         super(props);
@@ -41,7 +42,7 @@ export default class ResetPassModal extends Component {
             email: email
         }).then(response => {
             if (response.data.status === "OK") {
-                currentUser.setAlert({
+                this.props.openAlert({
                     "type": "success",
                     "message": "Instructions how to reset your password has been sent to you email."
                 })
@@ -103,3 +104,10 @@ export default class ResetPassModal extends Component {
         );
     }
 }
+
+export default connect(
+    null,
+    {
+        openAlert
+    }
+)(ResetPassModal);

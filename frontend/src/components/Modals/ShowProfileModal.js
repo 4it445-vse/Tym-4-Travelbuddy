@@ -1,8 +1,10 @@
 import React, {Component} from "react";
 import {Modal} from "react-bootstrap";
 import currentUser from "../../actions/CurrentUser";
+import { connect } from "react-redux";
+import { openContactBuddy } from "../../actions/modals";
 
-export default class ShowProfileModal extends Component {
+class ShowProfileModal extends Component {
 
     constructor(props) {
         super(props);
@@ -14,8 +16,7 @@ export default class ShowProfileModal extends Component {
         this.setState({
             showRequestShowModal: false
         });
-        this.props.hideFn();
-        currentUser.openContactBuddy(this.props.buddy);
+        this.props.openContactBuddy({buddy: this.props.buddy});
     }
 
     render() {
@@ -63,3 +64,10 @@ export default class ShowProfileModal extends Component {
         );
     }
 }
+
+export default connect(
+    null,
+    {
+        openContactBuddy
+    }
+)(ShowProfileModal);

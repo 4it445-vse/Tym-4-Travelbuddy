@@ -4,8 +4,10 @@ import MessageSend from "./MessageSend";
 import currentUser from "../../actions/CurrentUser";
 import axios from "../../api";
 import ReactDOM from 'react-dom';
+import { connect } from "react-redux";
+import { openProfile } from "../../actions/modals";
 
-export default class Messages extends Component {
+class Messages extends Component {
 
     constructor(props) {
         super(props);
@@ -35,7 +37,7 @@ export default class Messages extends Component {
             'text': message,
             'displayed': false,
             'date_time': new Date(),
-            'buddy_id_from': currentUser.getCurrentUser().id,
+            'buddy_id_from': this.props.user.id,
             'buddy_id_to': this.state.selectedConversationUser.id
         };
 
@@ -54,11 +56,11 @@ export default class Messages extends Component {
                         where: {
                             or: [
                                 {
-                                    "buddy_id_to": currentUser.getCurrentUser().id,
+                                    "buddy_id_to": this.props.user.id,
                                     "buddy_id_from": selectedConversationUser.id
                                 },
                                 {
-                                    "buddy_id_from": currentUser.getCurrentUser().id,
+                                    "buddy_id_from": this.props.user.id,
                                     "buddy_id_to": selectedConversationUser.id
                                 }
                             ]
@@ -68,7 +70,7 @@ export default class Messages extends Component {
             }).then(response => {
                 let buddyMessages = response.data;
                 if (buddyMessages && buddyMessages[0]) {
-                    const localCurrentUser = currentUser.getCurrentUser();
+                    const localCurrentUser = this.props.user;
                     let profilePhotoName;
                     let profilePhotoNameCU;
                     buddyMessages.map(message => {
@@ -113,7 +115,7 @@ export default class Messages extends Component {
             let updateObject = {
                 where: {
                     buddy_id_from: selectedConversationUser.id,
-                    buddy_id_to: currentUser.getCurrentUser().id
+                    buddy_id_to: this.props.user.id
                 }
             };
             axios.post('/messages/messages-displayed', updateObject).then(response => {
@@ -129,7 +131,7 @@ export default class Messages extends Component {
 
     openProfile() {
         axios.get('buddies/' + this.state.selectedConversationUser.id).then(response => {
-            currentUser.openProfile(response.data);
+            this.props.openProfile({buddy: response.data, flag:true});
         });
     }
 
@@ -159,3 +161,11 @@ export default class Messages extends Component {
 
 
 }
+export default connect(
+    (state) => ({
+        user: state.user
+    }),
+    {
+        openProfile
+    }
+)(Messages)

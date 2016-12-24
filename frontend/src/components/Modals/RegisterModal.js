@@ -2,11 +2,12 @@
 import {Modal} from "react-bootstrap";
 import FormCheck from "./FormCheck";
 import axios from "../../api";
-import currentUser from "../../actions/CurrentUser";
 import GooglePlacesSuggest from "../Autosuggest/SuggestCity";
 import validation from "../../Validation/Validation";
+import { connect } from "react-redux";
+import { openAlert } from "../../actions/modals";
 
-export default class RegisterModal extends Component {
+class RegisterModal extends Component {
 
     constructor(props) {
         super(props);
@@ -108,11 +109,10 @@ export default class RegisterModal extends Component {
                     "is_hosting": false
 
                 }).then(response => {
-                    currentUser.setAlert({
+                    this.props.openAlert({
                         "type": "success",
                         "message": "Registration has been successfull. Please verify your e-mail, before first login, by clicking on the link we have send you on provided e-mail."
                     });
-                    this.closeModal();
                 });
             }
         });
@@ -268,3 +268,11 @@ export default class RegisterModal extends Component {
         );
     }
 }
+
+
+export default connect(
+    null,
+    {
+        openAlert
+    }
+)(RegisterModal);

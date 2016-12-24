@@ -3,7 +3,7 @@ import FindUser from "../components/Search/FindUser";
 import SearchForm from "../components/Search/SearchForm";
 import FontAwesome from "react-fontawesome";
 import axios from "../api";
-import currentUser from "../actions/CurrentUser";
+import { connect } from "react-redux";
 
 export class HomePage extends Component {
     constructor(props) {
@@ -78,7 +78,7 @@ export class HomePage extends Component {
             <div>
               <h1 className="v-o-4">Buddies</h1>
                 {
-                    !!currentUser.getCurrentUser() ?
+                    !!this.props.user ?
                         <div>
                             <SearchForm setSearchedTown={this.state.setSearchedTown}/>
                         </div>
@@ -145,3 +145,8 @@ export class HomePage extends Component {
         );
     }
 }
+export default connect(
+    (state) => ({
+        user: state.user
+    })
+)(HomePage);

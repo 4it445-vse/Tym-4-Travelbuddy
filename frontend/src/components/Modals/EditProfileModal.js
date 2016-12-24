@@ -5,8 +5,9 @@ import FormGroup from "./FormGroup";
 import axios from "../../api";
 import GooglePlacesSuggest from "../Autosuggest/SuggestCity";
 import validation from "../../Validation/Validation";
-
-export default class EditProfileModal extends Component {
+import { connect } from "react-redux";
+import { logInUser } from "../../actions/user";
+class EditProfileModal extends Component {
 
     constructor(props) {
         super(props);
@@ -21,20 +22,35 @@ export default class EditProfileModal extends Component {
         this.handleSearchChange = this.handleSearchChange.bind(this);
         this.onChange = this.onChange.bind(this);
         this.onClick = this.onClick.bind(this);
-        this.loadPhoto = this.loadPhoto.bind(this);
+        this.onChangeImg = this.onChangeImg.bind(this);
         this.hideModal = this.hideModal.bind(this);
+        this.loadUserData = this.loadUserData.bind(this);
     }
 
     componentDidMount() {
-        const currentUserLocal = currentUser.getCurrentUser();
-        this.state.fields.city = currentUserLocal.city;
-        this.state.fields.about_me = currentUserLocal.about_me;
-        this.loadPhoto();
+        this.loadUserData();
+    }
+
+    loadUserData() {
+        axios.get('buddies/'+this.props.user.id).then(response =>{
+            let fields = this.state.fields;
+            let currentUserLocal = response.data;
+            fields.city = currentUserLocal.city;
+            fields.about_me = currentUserLocal.about_me;
+            fields.is_hosting = currentUserLocal.is_hosting;
+            const profilePhotoName = currentUser.composeProfilePhotoName(currentUserLocal);
+            if (profilePhotoName) {
+                this.setState({
+                    fields: fields,
+                    avatarSrc: profilePhotoName
+                });
+            }
+        });
     }
 
     hideModal() {
         var fields = {};
-        const currentUserLocal = currentUser.getCurrentUser();
+        const currentUserLocal = this.props.user;
         fields.city = currentUserLocal.city;
         fields.about_me = currentUserLocal.about_me;
 
@@ -46,17 +62,7 @@ export default class EditProfileModal extends Component {
         this.props.hideFn();
     }
 
-    loadPhoto() {
-        const currentUserLocal = currentUser.getCurrentUser();
-        const profilePhotoName = currentUser.composeProfilePhotoName(currentUserLocal);
-        if (profilePhotoName) {
-            this.setState({
-                avatarSrc: profilePhotoName
-            });
-        }
-    }
-
-    onChange(e) {
+    onChangeImg(e) {
         const fileInput = e.target.files[0];
         var filesize = (fileInput.size / 1024 / 1024).toFixed(2);
     }
@@ -65,7 +71,7 @@ export default class EditProfileModal extends Component {
         var data = new FormData();
         var photo = this.refs.File.files[0];
         const name = photo.name;
-        const currentUserLocal = currentUser.getCurrentUser();
+        const currentUserLocal = this.props.user;
         data.append("file", photo);
         const containerName = 'container_' + currentUserLocal.id;
         axios.post('containers/' + containerName + '/upload', data).then(data => {
@@ -74,9 +80,9 @@ export default class EditProfileModal extends Component {
             };
             axios.post('buddies/update?where[id]=' + currentUserLocal.id, {"profile_photo_name": name})
                 .then(response => {
-                    currentUserLocal.profile_photo_name = name;
-                    currentUser.updateCurrentUser(currentUserLocal);
-                    this.loadPhoto();
+                    this.setState({
+                        avatarSrc: name
+                    });
                 });
         });
     }
@@ -87,9 +93,9 @@ export default class EditProfileModal extends Component {
         var is_hosting = document.getElementById("is_hosting").checked;
         let errors = this.state.errors;
         let fields = this.state.fields;
-
         errors[name] = validation.validate(name, value, is_hosting);
         fields[name] = value;
+        console.log(name, value, fields);
 
         this.setState({
             errors: errors,
@@ -101,11 +107,11 @@ export default class EditProfileModal extends Component {
         const {city, about_me} = this.state.fields;
         var is_hosting = document.getElementById("is_hosting").checked;
         var sex;
-        if (currentUser.getCurrentUser().sex === 'na') {
+        if (this.props.user.sex === 'na') {
             let e = document.getElementById("sex");
             sex = e.options[e.selectedIndex].value;
         } else {
-            sex = currentUser.getCurrentUser().sex;
+            sex = this.props.user.sex;
         }
 
         for (var name of ["city", "about_me"]) {
@@ -127,7 +133,7 @@ export default class EditProfileModal extends Component {
             return;
         }
 
-        let currentUserLocal = currentUser.getCurrentUser();
+        let currentUserLocal = this.props.user;
         let constructedBuddy = {
             "sex": sex,
             "city": city,
@@ -136,12 +142,6 @@ export default class EditProfileModal extends Component {
         };
         let _this = this;
         axios.post('buddies/update?where[id]=' + currentUserLocal.id, constructedBuddy).then(response => {
-            currentUserLocal.sex = constructedBuddy.sex;
-            currentUserLocal.city = constructedBuddy.city;
-            currentUserLocal.is_hosting = constructedBuddy.is_hosting;
-            currentUserLocal.about_me = constructedBuddy.about_me;
-
-            currentUser.setCurrentUser(currentUserLocal);
             this.hideModal();
         });
     }
@@ -159,7 +159,7 @@ export default class EditProfileModal extends Component {
     render() {
         const {showProp} = this.props;
         const {errors} = this.state;
-        const loggedUser = currentUser.getCurrentUser();
+        const loggedUser = this.props.user;
         const title = "Edit Profile: " + loggedUser.name + " " + loggedUser.surname;
         return (
             <AbstractModal title={title} showProp={showProp} hideFn={this.hideModal}
@@ -184,7 +184,7 @@ export default class EditProfileModal extends Component {
                     <div className="form-group no-margin-bottom row">
                         <label className="col-xs-12 col-form-label">City: </label>
                         <div className="col-xs-12">
-                            <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.fields.city } display={true}>
+                            <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.fields.city } display={false}>
                                 <input
                                     className={ "form-control" + ( !!errors.city ? ' alert-danger' : '' ) }
                                     value={this.state.fields.city} onBlur={this.onChange} onChange={this.onChange}
@@ -202,7 +202,7 @@ export default class EditProfileModal extends Component {
                         <div className="col-xs-12">
                             <textarea
                                 className={ "form-control" + ( !!errors.about_me ? ' alert-danger' : '' ) }
-                                value={this.state.fields.about_me} onBlur={this.onChange} onChange={this.onChange}
+                                value={this.state.fields.about_me} onChange={this.onChange}
                                 type="text"
                                 name="about_me" rows="3"
                                 placeholder="Tell something about you to pontetial buddies."
@@ -232,7 +232,7 @@ export default class EditProfileModal extends Component {
                                 placeholder="Vybrat soubor"
                                 accept="image/*"
                                 ref="File"
-                                onChange={this.onChange}
+                                onChange={this.onChangeImg}
                             />
                             <input
                                 type="button"
@@ -244,5 +244,15 @@ export default class EditProfileModal extends Component {
                 </form>
             </AbstractModal>
         );
+
+
     }
 }
+export default connect(
+    (state) => ({
+        user : state.user
+    }),
+    {
+        logInUser
+    }
+)(EditProfileModal);
