@@ -22,15 +22,30 @@ class EditProfileModal extends Component {
         this.handleSearchChange = this.handleSearchChange.bind(this);
         this.onChange = this.onChange.bind(this);
         this.onClick = this.onClick.bind(this);
-        this.loadPhoto = this.loadPhoto.bind(this);
+        this.onChangeImg = this.onChangeImg.bind(this);
         this.hideModal = this.hideModal.bind(this);
+        this.loadUserData = this.loadUserData.bind(this);
     }
 
     componentDidMount() {
-        const currentUserLocal = this.props.user;
-        this.state.fields.city = currentUserLocal.city;
-        this.state.fields.about_me = currentUserLocal.about_me;
-        this.loadPhoto();
+        this.loadUserData();
+    }
+
+    loadUserData() {
+        axios.get('buddies/'+this.props.user.id).then(response =>{
+            let fields = this.state.fields;
+            let currentUserLocal = response.data;
+            fields.city = currentUserLocal.city;
+            fields.about_me = currentUserLocal.about_me;
+            fields.is_hosting = currentUserLocal.is_hosting;
+            const profilePhotoName = currentUser.composeProfilePhotoName(currentUserLocal);
+            if (profilePhotoName) {
+                this.setState({
+                    fields: fields,
+                    avatarSrc: profilePhotoName
+                });
+            }
+        });
     }
 
     hideModal() {
@@ -47,17 +62,7 @@ class EditProfileModal extends Component {
         this.props.hideFn();
     }
 
-    loadPhoto() {
-        const currentUserLocal = this.props.user;
-        const profilePhotoName = currentUser.composeProfilePhotoName(currentUserLocal);
-        if (profilePhotoName) {
-            this.setState({
-                avatarSrc: profilePhotoName
-            });
-        }
-    }
-
-    onChange(e) {
+    onChangeImg(e) {
         const fileInput = e.target.files[0];
         var filesize = (fileInput.size / 1024 / 1024).toFixed(2);
     }
@@ -88,9 +93,9 @@ class EditProfileModal extends Component {
         var is_hosting = document.getElementById("is_hosting").checked;
         let errors = this.state.errors;
         let fields = this.state.fields;
-
         errors[name] = validation.validate(name, value, is_hosting);
         fields[name] = value;
+        console.log(name, value, fields);
 
         this.setState({
             errors: errors,
@@ -179,7 +184,7 @@ class EditProfileModal extends Component {
                     <div className="form-group no-margin-bottom row">
                         <label className="col-xs-12 col-form-label">City: </label>
                         <div className="col-xs-12">
-                            <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.fields.city } display={true}>
+                            <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.fields.city } display={false}>
                                 <input
                                     className={ "form-control" + ( !!errors.city ? ' alert-danger' : '' ) }
                                     value={this.state.fields.city} onBlur={this.onChange} onChange={this.onChange}
@@ -197,7 +202,7 @@ class EditProfileModal extends Component {
                         <div className="col-xs-12">
                             <textarea
                                 className={ "form-control" + ( !!errors.about_me ? ' alert-danger' : '' ) }
-                                value={this.state.fields.about_me} onBlur={this.onChange} onChange={this.onChange}
+                                value={this.state.fields.about_me} onChange={this.onChange}
                                 type="text"
                                 name="about_me" rows="3"
                                 placeholder="Tell something about you to pontetial buddies."
@@ -227,7 +232,7 @@ class EditProfileModal extends Component {
                                 placeholder="Vybrat soubor"
                                 accept="image/*"
                                 ref="File"
-                                onChange={this.onChange}
+                                onChange={this.onChangeImg}
                             />
                             <input
                                 type="button"

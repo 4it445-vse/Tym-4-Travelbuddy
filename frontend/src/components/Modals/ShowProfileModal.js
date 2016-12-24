@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {Modal} from "react-bootstrap";
 import currentUser from "../../actions/CurrentUser";
 import { connect } from "react-redux";
-import { openContactBuddy } from "../../actions/user";
+import { openContactBuddy } from "../../actions/modals";
 
 class ShowProfileModal extends Component {
 
