@@ -15,12 +15,15 @@ class EditProfileModal extends Component {
         this.state = {
             errors: {},
             fields: {},
-            avatarSrc: undefined
+            avatarSrc: undefined,
+            displayCitySuggest: false
         }
 
         this.handleSubmitEdit = this.handleSubmitEdit.bind(this);
         this.handleSearchChange = this.handleSearchChange.bind(this);
         this.onChange = this.onChange.bind(this);
+        this.validate = this.validate.bind(this);
+        this.onBlur = this.onBlur.bind(this);
         this.onClick = this.onClick.bind(this);
         this.onChangeImg = this.onChangeImg.bind(this);
         this.hideModal = this.hideModal.bind(this);
@@ -57,7 +60,8 @@ class EditProfileModal extends Component {
         this.state = {
             errors: {},
             fields: fields,
-            avatarSrc: this.state.avatarSrc
+            avatarSrc: this.state.avatarSrc,
+            displayCitySuggest: false
         };
         this.props.hideFn();
     }
@@ -88,18 +92,35 @@ class EditProfileModal extends Component {
     }
 
     onChange(e) {
-        let name = e.target.name;
-        let value = e.target.value;
+        const {name, value} = e.target;
+
+        if(name === 'city' && value){
+            this.validate(name, value, true);
+        }else{
+            this.validate(name, value, true);
+        }
+    }
+
+    onBlur(e) {
+        const {name, value} = e.target;
+
+        this.validate(name, value);
+    }
+
+    validate(name, value, displayCitySug) {
         var is_hosting = document.getElementById("is_hosting").checked;
-        let errors = this.state.errors;
-        let fields = this.state.fields;
+        let { errors, fields, displayCitySuggest } = this.state;
         errors[name] = validation.validate(name, value, is_hosting);
         fields[name] = value;
-        console.log(name, value, fields);
+
+        if(displayCitySug){
+            displayCitySuggest = true;
+        }
 
         this.setState({
             errors: errors,
-            fields: fields
+            fields: fields,
+            displayCitySuggest: displayCitySuggest
         });
     }
 
@@ -184,10 +205,10 @@ class EditProfileModal extends Component {
                     <div className="form-group no-margin-bottom row">
                         <label className="col-xs-12 col-form-label">City: </label>
                         <div className="col-xs-12">
-                            <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.fields.city } display={false}>
+                            <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.fields.city } display={this.state.displayCitySuggest}>
                                 <input
                                     className={ "form-control" + ( !!errors.city ? ' alert-danger' : '' ) }
-                                    value={this.state.fields.city} onBlur={this.onChange} onChange={this.onChange}
+                                    value={this.state.fields.city} onBlur={this.onBlur} onChange={this.onChange}
                                     type="text"
                                     name="city" placeholder="City is the single most important information, when you want to host."
                                     autoComplete="off"
