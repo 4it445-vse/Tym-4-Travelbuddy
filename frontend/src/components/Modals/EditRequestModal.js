@@ -16,13 +16,15 @@ class RequestModal extends Component {
             requests: [],
             fields: {},
             selectedRequest: null,
-            displaySuggest: true
+            displayCitySuggest: true
         };
 
         this.handleSubmitEdit = this.handleSubmitEdit.bind(this);
         this.findBuddysRequests = this.findBuddysRequests.bind(this);
         this.handleSelectChange = this.handleSelectChange.bind(this);
         this.onChange = this.onChange.bind(this);
+        this.onBlur = this.onBlur.bind(this);
+        this.validate = this.validate.bind(this);
         this.prepareRemoveRequest = this.prepareRemoveRequest.bind(this);
         this.removeRequest = this.removeRequest.bind(this);
         this.hideModal = this.hideModal.bind(this);
@@ -34,7 +36,7 @@ class RequestModal extends Component {
             requests: [],
             fields: {},
             selectedRequest: null,
-            displaySuggest: true
+            displayCitySuggest: true
         };
         this.props.hideFn();
     }
@@ -54,10 +56,23 @@ class RequestModal extends Component {
     }
 
     onChange(e) {
-        let name = e.target.name;
-        let value = e.target.value;
-        let errors = this.state.errors;
-        let fields = this.state.fields;
+        const {name, value} = e.target;
+
+        if(name === 'city' && value){
+            this.validate(name, value, true);
+        }else{
+            this.validate(name, value, true);
+        }
+    }
+
+    onBlur(e) {
+        const {name, value} = e.target;
+
+        this.validate(name, value);
+    }
+
+    validate(name, value, displayCitySug) {
+        let { errors, fields, displayCitySuggest } = this.state;
 
         if (name === 'from') {
             errors = validation.validateDates(value, this.state.fields.to, errors, name);
@@ -69,9 +84,14 @@ class RequestModal extends Component {
 
         fields[name] = value;
 
+        if(displayCitySug){
+            displayCitySuggest = true;
+        }
+
         this.setState({
             errors: errors,
-            fields: fields
+            fields: fields,
+            displayCitySuggest: displayCitySuggest
         });
     }
 
@@ -93,7 +113,7 @@ class RequestModal extends Component {
                         to: requestsFormated[0].to,
                         text: requestsFormated[0].text
                     },
-                    displaySuggest: suggest
+                    displayCitySuggest: suggest
                 });
                 this.handleSelectChange(this.state.selectedRequest);
             })
@@ -148,7 +168,7 @@ class RequestModal extends Component {
     handleSelectChange(requestFormated) {
         axios.get('Requests/' + requestFormated.value)
             .then(response => {
-                this.setState({fields: response.data, displaySuggest: false});
+                this.setState({fields: response.data, displayCitySuggest: false});
             });
         this.setState({selectedRequest: requestFormated.value});
     }
@@ -158,7 +178,7 @@ class RequestModal extends Component {
     }
 
     handleSelectSuggest = (suggestName, coordinate) => {
-        var fields = this.state.request;
+        var fields = this.state.fields;
         fields.city = suggestName;
         this.setState({fields: fields});
     }
@@ -199,10 +219,10 @@ class RequestModal extends Component {
                         <label htmlFor="city" className="col-xs-3 col-sm-2 col-form-label text-xs-right">City: </label>
                         <div className="col-xs-9 col-sm-10 text-xs-left">
                             <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest }
-                                                 search={ this.state.fields.city } display={this.state.displaySuggest}>
+                                                 search={ this.state.fields.city } display={this.state.displayCitySuggest}>
                                 <input
                                     className={ "form-control" + ( !!errors.city ? ' alert-danger' : '' ) }
-                                    value={this.state.fields.city} onBlur={this.onChange} onChange={this.onChange}
+                                    value={this.state.fields.city} onBlur={this.onBlur} onChange={this.onChange}
                                     type="text"
                                     name="city" placeholder="City, where you are going to travel."
                                     autoComplete="off"/>
