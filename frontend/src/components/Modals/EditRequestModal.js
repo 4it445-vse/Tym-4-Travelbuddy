@@ -236,14 +236,14 @@ class RequestModal extends Component {
                         <div className="col-xs-4">
                             <input className={ "form-control" + ( errors.from ? ' alert-danger' : '' ) }
                                    value={fromFormated} onChange={this.onChange} type="date" name="from"
-                                   placeholder="YYYY-MM-DD"/>
+                                   placeholder="MM/DD/YYYY"/>
                             { !!errors.from ? <span className="validation-error">{errors.from}</span> : ""}
                         </div>
                         <label htmlFor="to" className="col-xs-2 col-form-label text-xs-right">To: </label>
                         <div className="col-xs-4">
                             <input className={ "form-control" + ( errors.to ? ' alert-danger' : '' ) }
                                    value={toFormated} onChange={this.onChange} type="date" name="to"
-                                   placeholder="YYYY-MM-DD"/>
+                                   placeholder="MM/DD/YYYY)"/>
                             { !!errors.to ? <span className="validation-error">{errors.to}</span> : ""}
                         </div>
                     </div>

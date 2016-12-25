@@ -74,7 +74,7 @@ export class RequestListItem extends Component {
               From:
             </div>
             <div className="col-xs-9 text-xs-left ellipsis">
-              {moment(from).format('DD.MM.YYYY')}
+              {moment(from).format('MM/DD/YYYY')}
             </div>
           </div>
           <div className="row">
@@ -82,7 +82,7 @@ export class RequestListItem extends Component {
               To:
             </div>
             <div className="col-xs-9 text-xs-left ellipsis">
-              {moment(to).format('DD.MM.YYYY')}
+              {moment(to).format('MM/DD/YYYY')}
             </div>
           </div>
           <hr/>

@@ -147,7 +147,7 @@ class NewRequestModal extends Component {
                             <input className={ "form-control" + ( errors.from ? ' alert-danger' : '' ) }
                                    onChange={this.onChange}
                                    defaultValue={moment(new Date()).add(1, 'day').format('YYYY-MM-DD')} type="date"
-                                   name="from" placeholder="YYYY-MM-DD"/>
+                                   name="from" placeholder="MM/DD/YYYY"/>
                             { errors.from ? <span className="validation-error">{errors.from}</span> : ""}
                         </div>
                         <label htmlFor="to" className="col-xs-2 col-form-label text-xs-right">To: </label>
@@ -155,7 +155,7 @@ class NewRequestModal extends Component {
                             <input className={ "form-control" + ( errors.to ? ' alert-danger' : '' ) }
                                    onChange={this.onChange}
                                    defaultValue={moment(new Date()).add(5, 'day').format('YYYY-MM-DD')} type="date"
-                                   name="to" placeholder="YYYY-MM-DD"/>
+                                   name="to" placeholder="MM/DD/YYYY"/>
                             { errors.to ? <span className="validation-error">{errors.to}</span> : ""}
                         </div>
                     </div>
