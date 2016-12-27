@@ -23,29 +23,71 @@ export default class ShowRequestModal extends Component {
         return (
             <AbstractModal title={title} showProp={showProp} hideFn={hideFn}
                            submitFn={this.constactBuddy} submitText={"Message"}>
-                <div>
-                    <img
-                        src={ profilePhotoName }
-                        alt="..." className="profil_img rounded"/>
-                    <br/><br/>
-                    <b>Name: </b>{buddy.name + " " + buddy.surname}
-                    <br/>
-                    <b>Surname: </b>{buddy.city}
-                    <br/>
-                    <b>From: </b>{moment(request.from).format('MM/DD/YYYY')}
-                    <br/>
-                    <b>To: </b>{moment(request.to).format('MM/DD/YYYY')}
-                    <br/>
-                    <b>Sex: </b>
-                    {buddy.sex === 'male' ? "muž" : "žena"}
-                    <br/>
-                    <b>E-mail: </b>{buddy.email}
-                    <br/>
-                    <label><b>Description:</b></label>
-                    <textarea type="text" className="form-control"
-                              id="text"
-                              defaultValue={request.text} disabled/>
+              <div className="row">
+                <div className="row hidden-sm-up text-xs-center">
+                  <img src={ profilePhotoName } alt={ buddy.name + " " + buddy.surname } className="profil_img rounded"/>
                 </div>
+                <hr className="hidden-sm-up"></hr>
+                <div className="col-xs-12 col-sm-6">
+                  <div className="row text-xs-left">
+                    <div className="col-xs-3 no-padding-right">
+                      <b>Name: </b>
+                    </div>
+                    <div className="col-xs-9">
+                      {buddy.name + " " + buddy.surname}
+                    </div>
+                  </div>
+                  <div className="row text-xs-left">
+                    <div className="col-xs-3 no-padding-right">
+                      <b>City: </b>
+                    </div>
+                    <div className="col-xs-9">
+                      {buddy.city}
+                    </div>
+                  </div>
+                  <div className="row text-xs-left">
+                    <div className="col-xs-3 no-padding-right">
+                      <b>From: </b>
+                    </div>
+                    <div className="col-xs-9">
+                      {moment(request.from).format('MM/DD/YYYY')}
+                    </div>
+                  </div>
+                  <div className="row text-xs-left">
+                    <div className="col-xs-3 no-padding-right">
+                      <b>To: </b>
+                    </div>
+                    <div className="col-xs-9">
+                      {moment(request.to).format('MM/DD/YYYY')}
+                    </div>
+                  </div>
+                  <div className="row text-xs-left">
+                    <div className="col-xs-3 no-padding-right">
+                      <b>Sex: </b>
+                    </div>
+                    <div className="col-xs-9">
+                      {buddy.sex === 'male' ? "muž" : "žena"}
+                    </div>
+                  </div>
+                  <div className="row text-xs-left">
+                    <div className="col-xs-3 no-padding-right">
+                      <b>E-mail: </b>
+                    </div>
+                    <div className="col-xs-9 ellipsis">
+                      {buddy.email}
+                    </div>
+                  </div>
+                </div>
+                <div className="col-sm-6 hidden-xs-down text-sm-center">
+                  <img src={ profilePhotoName } alt={ buddy.name + " " + buddy.surname } className="profil_img rounded"/>
+                </div>
+              </div>
+              <div className="row">
+                <hr className="col-xs-12"></hr>
+                <div className="col-xs-12">
+                  <p className="no-margin-bottom">{request.text}</p>
+                </div>
+              </div>
             </AbstractModal>
         );
     }
