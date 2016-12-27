@@ -56,14 +56,14 @@ class ContactBuddyModal extends Component {
         }).then(response => {
             this.props.openAlert({
                 "type": "success",
-                "message": "Zpráva úspěšně odeslána."
+                "message": "Message has been successfuly send."
             })
         });
     }
 
     render() {
         const {showProp, buddyTo} = this.props;
-        const title = "Kontaktuj buddyho - " + buddyTo.name + " " + buddyTo.surname;
+        const title = "Contact Buddy - " + buddyTo.name + " " + buddyTo.surname;
         return (
             <AbstractModal title={title} showProp={showProp} hideFn={this.closeModal}
                            submitFn={this.handleSubmitContactBuddy} submitText={"Odešli"}>
@@ -71,15 +71,13 @@ class ContactBuddyModal extends Component {
                     <div className="form-group no-margin-bottom-bottom row">
                         <label className="col-xs-12 col-form-label">Text: </label>
                         <div className="col-xs-12">
+                            <textarea type="text" className="form-control" id="about_me" aria-describedby="AboutHelp"
+                                      placeholder='Write the message text.' onChange={this.validate}/>
                             {
                                 this.state.showValidation
                                     ? <span className="validation-error">You have to enter some message text!</span>
                                     : ""
                             }
-                            <textarea type="text" className="form-control" id="about_me" aria-describedby="AboutHelp"
-                                      onChange={this.validate}/>
-                            <small id="emailHelp" className="form-text text-muted text-xs-center">Write the message text.
-                            </small>
                         </div>
                     </div>
                 </form>

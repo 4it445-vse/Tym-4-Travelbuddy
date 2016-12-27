@@ -94,7 +94,7 @@ class NewRequestModal extends Component {
             "buddy_id": buddy_id
         }
         axios.put('Requests', request).then(response => {
-            this.props.openAlert({"type": "success", "message": "Poptávka úspěšně uložena."});
+            this.props.openAlert({"type": "success", "message": "Request has been successfuly saved."});
             this.hideModal();
         });
     }
@@ -114,14 +114,16 @@ class NewRequestModal extends Component {
     render() {
         const {showProp, hideFn} = this.props;
         const {errors} = this.state;
-        const title = "Chci jet na novou cestu!";
+        const title = "I want to go on a new trip!";
 
         return (
             <AbstractModal title={title} showProp={showProp} hideFn={this.hideModal}
                            submitFn={this.handleSubmitRequest} submitText={"Save Request"}>
                 <form>
                     <div className="form-group row text-xs-center">
-                        <span>Pokud jedeš na novou cestu a nenašel si nikoho, kdo by hostoval ve tvém městě, napiš pro potencionální hostitele poptávku a vysvětli jim, proč by si měli vybrat právě tebe. Někdo se určitě najde a přijme tě za svého Buddyho!</span>
+                      <div className="col-xs-12">
+                        <span>If you are going on a new trip and you have not find any buddies in the destination town, write a request to all buddies a nd explain them reasons why they should host YOU!</span>
+                      </div>
                     </div>
                     <hr/>
                     <div className="form-group row text-xs-center">
