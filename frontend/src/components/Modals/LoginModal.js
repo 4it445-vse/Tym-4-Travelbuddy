@@ -119,8 +119,8 @@ class LoginModal extends Component {
 						  <span className="float-left">
 							  You don't have account yet?
 						  </span>
-                        <a className="btn btn-primary float-right white"
-                                data-toggle="modal" data-target="#regmodal" onClick={this.switchModal}>Sign Up</a>
+                        <a href="#" className="float-right"
+                           data-toggle="modal" data-target="#regmodal" onClick={this.switchModal}>Sign Up</a>
                     </FormCheck>
                 </Modal.Footer>
             </Modal>
