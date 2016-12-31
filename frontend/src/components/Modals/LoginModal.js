@@ -111,7 +111,7 @@ class LoginModal extends Component {
                         </div>
                       </div>
                       <hr/>
-                      <button onClick={this.handleSubmitLogIn} type="button" className="btn btn-primary fullsize">Sign In</button>
+                      <a onClick={this.handleSubmitLogIn}  className="btn btn-primary fullsize white">Sign In</a>
                     </form>
                 </Modal.Body>
                 <Modal.Footer>
@@ -119,9 +119,8 @@ class LoginModal extends Component {
 						  <span className="float-left">
 							  You don't have account yet?
 						  </span>
-                        <button type="button" data-dismiss="modal" className="btn btn-primary float-right"
-                                data-toggle="modal" data-target="#regmodal" onClick={this.switchModal}>Sign Up
-                        </button>
+                        <a href="#" className="modal-tlacitko"
+                           data-toggle="modal" data-target="#regmodal" onClick={this.switchModal}>Sign Up</a>
                     </FormCheck>
                 </Modal.Footer>
             </Modal>

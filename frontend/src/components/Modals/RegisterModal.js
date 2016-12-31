@@ -250,7 +250,7 @@ class RegisterModal extends Component {
                       </div>
                     </div>
                     <hr/>
-                    <button onClick={this.handleSubmitRegistration} type="button" className="btn btn-primary fullsize">Sign Up</button>
+                    <a onClick={this.handleSubmitRegistration}  className="btn btn-primary fullsize white">Sign Up</a>
                   </form>
                 </Modal.Body>
                 <Modal.Footer>
@@ -258,9 +258,9 @@ class RegisterModal extends Component {
           					  <span className="float-left">
           						  Do you already have an account?
           					  </span>
-                        <button type="button" data-dismiss="modal" className="btn btn-primary float-right"
+                        <a href="#" className="modal-tlacitko" data-dismiss="modal"
                                 data-toggle="modal" data-target="#regmodal" onClick={this.switchModal}>Sign In
-                        </button>
+                        </a>
                     </FormCheck>
                 </Modal.Footer>
             </Modal>

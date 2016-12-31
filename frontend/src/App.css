@@ -854,3 +854,10 @@ h1{
     overflow-x: hidden !important;
     overflow-y: auto !important;
 }
+.white {
+   color: white !important;
+}
+.modal-tlacitko {
+float: left;
+margin-left: 20px;
+}
