@@ -66,7 +66,7 @@ export default class ShowRequestModal extends Component {
                       <b>Sex: </b>
                     </div>
                     <div className="col-xs-9">
-                      {buddy.sex === 'male' ? "men" : "woman"}
+                      {buddy.sex === 'male' ? "man" : "woman"}
                     </div>
                   </div>
                   <div className="row text-xs-left">
