@@ -857,3 +857,7 @@ h1{
 .white {
    color: white !important;
 }
+.modal-tlacitko {
+float: left;
+margin-left: 20px;
+}

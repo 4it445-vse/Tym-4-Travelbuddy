@@ -119,7 +119,7 @@ class LoginModal extends Component {
 						  <span className="float-left">
 							  You don't have account yet?
 						  </span>
-                        <a href="#" className="float-right"
+                        <a href="#" className="modal-tlacitko"
                            data-toggle="modal" data-target="#regmodal" onClick={this.switchModal}>Sign Up</a>
                     </FormCheck>
                 </Modal.Footer>

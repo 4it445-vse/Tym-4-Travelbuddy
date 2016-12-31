@@ -258,7 +258,7 @@ class RegisterModal extends Component {
           					  <span className="float-left">
           						  Do you already have an account?
           					  </span>
-                        <a href="#" className="float-right" data-dismiss="modal"
+                        <a href="#" className="modal-tlacitko" data-dismiss="modal"
                                 data-toggle="modal" data-target="#regmodal" onClick={this.switchModal}>Sign In
                         </a>
                     </FormCheck>
