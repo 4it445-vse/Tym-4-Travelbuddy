@@ -258,9 +258,9 @@ class RegisterModal extends Component {
           					  <span className="float-left">
           						  Do you already have an account?
           					  </span>
-                        <button type="button" data-dismiss="modal" className="btn btn-primary float-right"
+                        <link type="button" data-dismiss="modal" className="btn btn-primary float-right"
                                 data-toggle="modal" data-target="#regmodal" onClick={this.switchModal}>Sign In
-                        </button>
+                        </link>
                     </FormCheck>
                 </Modal.Footer>
             </Modal>
