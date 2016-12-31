@@ -33,7 +33,7 @@ class MessagesUserPart extends Component {
         if (value) {
             this.state.usersWithMessages.map(message => {
                 console.log(message.fullname, value, message.fullname.includes(value));
-                if (message.fullname.includes(value)) {
+                if (message.fullname.toUpperCase().includes(value.toUpperCase())) {
                     usersWithMessagesChosen.push(message);
                 }
             });
