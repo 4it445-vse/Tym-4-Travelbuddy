@@ -94,7 +94,7 @@ class ResetPassModal extends Component {
                             </div>
                         </div>
                         <hr/>
-                        <a onClick={this.handleSubmitResetPass} type="button"
+                        <a onClick={this.handleSubmitResetPass}
                                 className="btn btn-primary fullsize white">Reset password
                         </a>
                     </form>
