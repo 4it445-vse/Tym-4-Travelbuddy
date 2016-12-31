@@ -175,6 +175,9 @@ h1{
 .no-margin-bottom {
     margin-bottom: 0;
 }
+.no-padding-right {
+    padding-right: 0;
+}
 
 .no-margin {
     margin: 0 !important;
@@ -851,4 +854,3 @@ h1{
     overflow-x: hidden !important;
     overflow-y: auto !important;
 }
-
