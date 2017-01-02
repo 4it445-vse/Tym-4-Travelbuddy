@@ -3,12 +3,14 @@ import MessagesUserPart from "../components/Messages/MessagesUserPart";
 import Messages from "../components/Messages/Messages";
 import { connect } from "react-redux";
 import axios from "../api";
+import authentication from "../Validation/Authentication";
 
 
 class MessagesPage extends Component {
 
     constructor(props) {
         super(props);
+        this.setLogOutObserver();
         this.state = {
             selectedConversationUser: undefined,
             updateSelectedUserInUserViewFn: undefined
@@ -72,6 +74,10 @@ class MessagesPage extends Component {
         });
     }
 
+    setLogOutObserver() {
+        setInterval(()=>{ authentication.checkLogIn(this.props.user);}, 500);
+    }
+
     render() {
         return (
             <div className="row">
@@ -99,8 +105,6 @@ class MessagesPage extends Component {
             </div>
         );
     }
-
-
 }
 
 export default connect(
