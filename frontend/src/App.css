@@ -1,8 +1,9 @@
 body {
-    background-image: url(http://www.travelingjobsnow.com/assets/img/slider1.jpg);
-    background-color: #7DE1E1;
-    background-repeat: no-repeat;
-    overflow-x: hidden !important;
+  background: url(http://usersthink.com/wp-content/uploads/65-usersthink-stock-image.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 h1{
