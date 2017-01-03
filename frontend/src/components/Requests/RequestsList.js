@@ -19,12 +19,12 @@ export class RequestsList extends Component {
 
     render() {
         var requestsCount = this.props.requests.length;
-        var city = this.props.city;
+        var { city } = this.props;
         var numberOfResultsDiv = '';
         if(city) {
             numberOfResultsDiv = requestsCount > 0
-                ?  <h3 className="foundBuddies col-xs-12">We have found {requestsCount} { requestsCount === 1 ? <span>request</span> : <span>requests</span> } for city named <span className="city">{city}</span></h3>
-                : <h1 className="noRequestsFound">Sorry. No requests found for this city for city named <span className="city">{city}</span></h1>
+                ?  <h3 className="foundBuddies col-xs-12">We have found {requestsCount} { requestsCount === 1 ? <span>request</span> : <span>requests</span> } for <span className="city">{city}</span></h3>
+                : <h1 className="noRequestsFound">Sorry. No requests found for <span className="city">{city}</span></h1>
         }
 
         return (
