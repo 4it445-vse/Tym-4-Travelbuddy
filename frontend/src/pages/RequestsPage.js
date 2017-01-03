@@ -59,8 +59,8 @@ class RequestsPage extends Component {
         });
     }
 
-    handleSearchChange(event) {
-        const searchString = event.target.value;
+    handleSearchChange() {
+        const searchString = document.getElementById('search-town').value;
         this.fetchRequestsDebounced(searchString);
     }
 
@@ -84,7 +84,11 @@ class RequestsPage extends Component {
 
     handleSelectSuggest = (suggestName, coordinate) => {
       this.fetchRequestsDebounced(suggestName);
-    }
+    };
+
+    updateSearchString = () => {
+        this.setState({search: document.getElementById('search-town').value});
+    };
 
     render() {
         console.log(this.props.user);
@@ -100,7 +104,7 @@ class RequestsPage extends Component {
                     <div className="input-group">
                         <input id="search-town" type="search"
                                className="form-control SearchBar SearchHeight SearchBorder"
-                               placeholder="Enter destination..." onChange={this.handleSearchChange}
+                               placeholder="Enter destination..." onChange={this.updateSearchString}
                                autoComplete="off"
                                value={this.state.search}/>
                         <span className="input-group-btn">

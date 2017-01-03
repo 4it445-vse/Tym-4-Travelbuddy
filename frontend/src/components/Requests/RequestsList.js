@@ -13,6 +13,9 @@ export class RequestsList extends Component {
       render.push(<LazyLoad placeholder={placeholder} key={requests[i].id} height="50px" ><RequestListItem requestId={requests[i].id}
                        openShowRequestShowModal={openShowRequestShowModal} openContactBuddy={openContactBuddy}/></LazyLoad>)
     }
+    if (render.length == 0) {
+        render.push(<h1 className="noRequestsFound">Sorry. No requests found for this city</h1>);
+    }
     return render
     }
 
