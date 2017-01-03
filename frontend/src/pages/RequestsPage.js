@@ -6,10 +6,12 @@ import ShowRequestModal from "../components/Modals/ShowRequestModal";
 import GooglePlacesSuggest from "../components/Autosuggest/SuggestCity";
 import { connect } from "react-redux";
 import { openAlert, openContactBuddy } from "../actions/modals";
+import authentication from "../Validation/Authentication";
 
 class RequestsPage extends Component {
     constructor(props) {
         super(props);
+        this.setLogOutObserver();
         this.state = {
             search: "",
             requests: null,
@@ -80,6 +82,11 @@ class RequestsPage extends Component {
 
     componentDidMount() {
         this.fetchRequests();
+    }
+
+    setLogOutObserver() {
+        authentication.checkLogIn(this.props.user);
+        setInterval(()=>{ authentication.checkLogIn(this.props.user);}, 500);
     }
 
     handleSelectSuggest = (suggestName, coordinate) => {
