@@ -33,6 +33,7 @@ class LoginModal extends Component {
     }
 
     handleSubmitLogIn(event) {
+        event.preventDefault();
         var email = document.getElementById("email-l").value;
         var pass = document.getElementById("pass-l").value;
         var rememberUser = document.getElementById("remember_me").checked;
@@ -75,7 +76,7 @@ class LoginModal extends Component {
                     <Modal.Title>Sign In</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <form>
+                    <form onSubmit={this.handleSubmitLogIn}>
                       <div className="row m-b-10">
                         <div className="col-xs-3 col-sm-2">
                           <label htmlFor="email-l" className="col-form-label">E-mail: </label>
@@ -111,7 +112,7 @@ class LoginModal extends Component {
                         </div>
                       </div>
                       <hr/>
-                      <a onClick={this.handleSubmitLogIn}  className="btn btn-primary fullsize white">Sign In</a>
+                      <button type="submit" className="btn btn-primary fullsize white">Sign In</button>
                     </form>
                 </Modal.Body>
                 <Modal.Footer>
