@@ -61,7 +61,7 @@ class RequestModal extends Component {
         if(name === 'city' && value){
             this.validate(name, value, true);
         }else{
-            this.validate(name, value, true);
+            this.validate(name, value);
         }
     }
 
