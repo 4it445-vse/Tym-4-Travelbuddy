@@ -863,10 +863,19 @@ float: left;
 margin-left: 20px;
 }
 
-.noRequestsFound {
+.noRequestsFound, .foundBuddies {
     margin-top: 15vh;
     margin-bottom: 15vh;
     text-shadow: 1px 1px rgba(0,0,0,.4);
     color: #fff;
     text-align: center;
+}
+
+.foundBuddies {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.noRequestsFound span.city, .foundBuddies span.city {
+    font-weight: 800;
 }

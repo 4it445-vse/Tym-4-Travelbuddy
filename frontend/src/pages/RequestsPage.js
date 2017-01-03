@@ -18,7 +18,8 @@ class RequestsPage extends Component {
             requestShowModalContent: {
                 buddy: {},
                 request: {}
-            }
+            },
+            searchedCity: null,
         };
 
         this.fetchRequestsDebounced = lodash.debounce(this.fetchRequests, 50);
@@ -59,11 +60,6 @@ class RequestsPage extends Component {
         });
     }
 
-    handleSearchChange() {
-        const searchString = document.getElementById('search-town').value;
-        this.fetchRequestsDebounced(searchString);
-    }
-
     paramsForSerchString(searchString) {
         if (!searchString) {
             return {};
@@ -74,12 +70,17 @@ class RequestsPage extends Component {
     fetchRequests(searchString) {
         axios.get('Requests', {params: this.paramsForSerchString(searchString)})
             .then((response) => {
-                this.setState({requests: response.data, search: searchString});
+                this.setState({requests: response.data, search: searchString, searchedCity: searchString});
             });
     }
 
     componentDidMount() {
         this.fetchRequests();
+    }
+
+    handleSearchChange() {
+        const searchString = document.getElementById('search-town').value;
+        this.fetchRequestsDebounced(searchString);
     }
 
     handleSelectSuggest = (suggestName, coordinate) => {
@@ -121,7 +122,7 @@ class RequestsPage extends Component {
                     <div className="row">
                          </div> :
                     <RequestsList requests={requests} openShowRequestShowModal={this.openShowRequestShowModal}
-                                  openContactBuddy={this.openContactBuddy}/>
+                                  openContactBuddy={this.openContactBuddy} city={this.state.searchedCity}/>
                 }
             </div>
         );
