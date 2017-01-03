@@ -74,7 +74,6 @@ class HomePage extends Component {
     }
 
     render() {
-        console.log("in home page render: ", this.props.user);
         return (
             <div>
                 {
