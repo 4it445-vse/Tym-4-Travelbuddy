@@ -21,6 +21,17 @@ export default class SearchForm extends Component {
       else this.props.setSearchedTown(e.target.value);
     }
 
+    handleSearchButtonClick = () => {
+      let value = document.getElementById('search-town').value;
+      this.setState({ search: value });
+      if(!value) this.props.setSearchedTown(null);
+      else this.props.setSearchedTown(value);
+    }
+
+    updateSearchString = (e) => {
+      this.setState({ search: e.target.value })
+    }
+
     handleSelectSuggest = (suggestName, coordinate) => {
       this.setState({ search: suggestName });
       this.props.setSearchedTown(suggestName);
@@ -34,11 +45,11 @@ export default class SearchForm extends Component {
 
 
                     <input id="search-town" type="text" className="form-control SearchBar SearchHeight SearchBorder"
-                           placeholder="Enter destination..." onChange={this.handleSearchChange} value={this.state.search}/>
+                           placeholder="Enter destination..." onChange={this.updateSearchString} value={this.state.search}/>
 
                     <span className="input-group-btn">
                   <button className="btn btn-defaul SearchButton SearchHeight text-white" type="button"
-                          onClick={this.props.setSearchedTown}>
+                          onClick={this.handleSearchButtonClick}>
                       <i className="fa fa-search SearchIcon" aria-hidden="true"></i> Search
                   </button>
               </span>
