@@ -25,7 +25,6 @@ class Menu extends Component {
 
     logOut() {
         this.props.logOutUser();
-        this.setState(this.state);
     }
 
     toggleNavbar() {

@@ -1,4 +1,5 @@
 import {combineReducers} from "redux";
+import { browserHistory } from "react-router";
 
 const initialState = (() => {
     let currentUser = JSON.parse(sessionStorage.getItem('user'));
@@ -18,6 +19,7 @@ const user = (state = initialState, action) => {
             }
         case 'LOGOUT_USER_SUCCESS':
             console.log('LOGOUT_USER_SUCCESS ', initialState);
+            browserHistory.push("/");
             return null;
         default:
             return state;

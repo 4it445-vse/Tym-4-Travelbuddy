@@ -8,12 +8,20 @@ import VerifiedPage from './pages/VerifiedPage.js';
 import ResetPassword from './pages/ResetPassword.js';
 import TermsAndCondtionsPage from './pages/TermsAndCondtitionsPage.js';
 
-export function createRoutes() {
+export function createRoutes(store) {
+
+    const requireAuth = (nextState, replace) => {
+        const { user } = store.getState();
+        if ( !user ) {
+            replace('/');
+        }
+    };
+
     return (
         <Route path="/" component={AppPage}>
             <IndexRoute component={HomePage}/>
-            <Route path="/messages" component={MessagesPage}/>
-            <Route path="/requests" component={RequestsPage}/>
+            <Route path="/messages" component={MessagesPage} onEnter={requireAuth}/>
+            <Route path="/requests" component={RequestsPage} onEnter={requireAuth}/>
             <Route path="/verified" component={VerifiedPage}/>
             <Route path="/reset-password" component={ResetPassword}/>
             <Route path="/terms-and-conditions" component={TermsAndCondtionsPage}/>
