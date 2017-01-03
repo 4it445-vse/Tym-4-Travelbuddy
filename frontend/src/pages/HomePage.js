@@ -5,7 +5,7 @@ import FontAwesome from "react-fontawesome";
 import axios from "../api";
 import { connect } from "react-redux";
 
-export class HomePage extends Component {
+class HomePage extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -74,14 +74,12 @@ export class HomePage extends Component {
     }
 
     render() {
+        console.log("in home page render: ", this.props.user);
         return (
             <div>
-              <h1 className="v-o-4">Buddies</h1>
                 {
                     !!this.props.user ?
-                        <div>
-                            <SearchForm setSearchedTown={this.state.setSearchedTown}/>
-                        </div>
+                        <h1 className="v-o-4">Buddies</h1>
                         :
                         <div>
                           <div className="row text-xs-center v-o-4">
@@ -136,9 +134,10 @@ export class HomePage extends Component {
                                   live
                                   by meeting new friends and buddies in your destination. </b></p>
                           </div>
-                          <SearchForm setSearchedTown={this.state.setSearchedTown}/>
                         </div>
                 }
+                <SearchForm setSearchedTown={this.state.setSearchedTown}/>
+
 
                 <FindUser budies={this.state.budies} searchedTown={this.state.searchedTown}/>
             </div>
