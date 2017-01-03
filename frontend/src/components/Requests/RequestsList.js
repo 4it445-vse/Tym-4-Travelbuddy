@@ -13,17 +13,31 @@ export class RequestsList extends Component {
       render.push(<LazyLoad placeholder={placeholder} key={requests[i].id} height="50px" ><RequestListItem requestId={requests[i].id}
                        openShowRequestShowModal={openShowRequestShowModal} openContactBuddy={openContactBuddy}/></LazyLoad>)
     }
+
     return render
     }
 
     render() {
+        var requestsCount = this.props.requests.length;
+        var { city } = this.props;
+        var numberOfResultsDiv = '';
+        if(city) {
+            numberOfResultsDiv = requestsCount > 0
+                ?  <h3 className="foundBuddies col-xs-12">We have found {requestsCount} { requestsCount === 1 ? <span>request</span> : <span>requests</span> } for <span className="city">{city}</span></h3>
+                : <h1 className="noRequestsFound">Sorry. No requests found for <span className="city">{city}</span></h1>
+        }
+
         return (
-        <div className="row">
-            <div className="requests m-t-10">
-                {this.renderRequests()}
+            <div>
+                <div className="row">
+                    { numberOfResultsDiv }
+                </div>
+                <div className="row">
+                    <div className="requests m-t-10">
+                        {this.renderRequests()}
+                    </div>
+                </div>
             </div>
-        </div>
-    )
-        ;
+        );
     }
 }

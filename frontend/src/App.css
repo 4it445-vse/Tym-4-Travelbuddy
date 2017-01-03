@@ -208,6 +208,8 @@ h1{
   padding-left: 10px;
   padding-right: 10px;
   font-size: 20px;
+  text-shadow: 1px 1px rgba(0,0,0,.4);
+  color: #fff;
 }
 .card {
   border: 1px solid #0275d8 ;
@@ -865,4 +867,21 @@ h1{
 .modal-tlacitko {
 float: left;
 margin-left: 20px;
+}
+
+.noRequestsFound, .foundBuddies {
+    margin-top: 15vh;
+    margin-bottom: 15vh;
+    text-shadow: 1px 1px rgba(0,0,0,.4);
+    color: #fff;
+    text-align: center;
+}
+
+.foundBuddies {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.noRequestsFound span.city, .foundBuddies span.city {
+    font-weight: 800;
 }

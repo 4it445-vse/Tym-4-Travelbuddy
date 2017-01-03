@@ -31,7 +31,7 @@ export default class FindUser extends Component {
             <div>
                 {
                     budies.length === 0 ?
-                       ( <div className="row"></div> ) :
+                       (<h1 className="noRequestsFound">Sorry. No buddies found for this city</h1>) :
 
 
                         <div className="row">

@@ -18,7 +18,8 @@ class RequestsPage extends Component {
             requestShowModalContent: {
                 buddy: {},
                 request: {}
-            }
+            },
+            searchedCity: null,
         };
 
         this.fetchRequestsDebounced = lodash.debounce(this.fetchRequests, 50);
@@ -59,11 +60,6 @@ class RequestsPage extends Component {
         });
     }
 
-    handleSearchChange(event) {
-        const searchString = event.target.value;
-        this.fetchRequestsDebounced(searchString);
-    }
-
     paramsForSerchString(searchString) {
         if (!searchString) {
             return {};
@@ -74,7 +70,7 @@ class RequestsPage extends Component {
     fetchRequests(searchString) {
         axios.get('Requests', {params: this.paramsForSerchString(searchString)})
             .then((response) => {
-                this.setState({requests: response.data, search: searchString});
+                this.setState({requests: response.data, search: searchString, searchedCity: searchString});
             });
     }
 
@@ -82,9 +78,18 @@ class RequestsPage extends Component {
         this.fetchRequests();
     }
 
+    handleSearchChange() {
+        const searchString = document.getElementById('search-town').value;
+        this.fetchRequestsDebounced(searchString);
+    }
+
     handleSelectSuggest = (suggestName, coordinate) => {
       this.fetchRequestsDebounced(suggestName);
-    }
+    };
+
+    updateSearchString = () => {
+        this.setState({search: document.getElementById('search-town').value});
+    };
 
     render() {
         console.log(this.props.user);
@@ -100,7 +105,7 @@ class RequestsPage extends Component {
                     <div className="input-group">
                         <input id="search-town" type="search"
                                className="form-control SearchBar SearchHeight SearchBorder"
-                               placeholder="Enter destination..." onChange={this.handleSearchChange}
+                               placeholder="Enter destination..." onChange={this.updateSearchString}
                                autoComplete="off"
                                value={this.state.search}/>
                         <span className="input-group-btn">
@@ -117,7 +122,7 @@ class RequestsPage extends Component {
                     <div className="row">
                          </div> :
                     <RequestsList requests={requests} openShowRequestShowModal={this.openShowRequestShowModal}
-                                  openContactBuddy={this.openContactBuddy}/>
+                                  openContactBuddy={this.openContactBuddy} city={this.state.searchedCity}/>
                 }
             </div>
         );
