@@ -48,20 +48,14 @@ class TopNavigation extends Component {
                 {
                     this.props.modals.modal === 'alert' ?
                         <Modal show={true} onHide={this.props.closeModal}>
-                            <Modal.Header closeButton>
-                            </Modal.Header>
-                            <Modal.Body>
-                                <Alert bsStyle={this.props.modals.data.type}>
+                                <Alert id="alert" bsStyle={this.props.modals.data.type} closeLabel="x" onDismiss={this.props.closeModal}>
                                     {this.props.modals.data.message}
                                 </Alert>
-                            </Modal.Body>
                         </Modal> : ""
                 }
                 {
                     this.props.modals.modal === 'question' ?
                         <Modal show={true} onHide={this.props.closeModal}>
-                            <Modal.Header closeButton>
-                            </Modal.Header>
                             <Modal.Body className="text-xs-center">
                                 <p>{this.props.modals.data.text}</p>
                                 <div className="row">
@@ -72,7 +66,7 @@ class TopNavigation extends Component {
                                     </div>
                                     <div className="col-xs-6 text-xs-left">
                                         <button className="btn btn-defaul SearchButton text-white" type="button"
-                                                onClick={this.props.closeModal}>No
+                                                onClick={this.props.openEditRequest}>No
                                         </button>
                                     </div>
                                 </div>
