@@ -239,7 +239,7 @@ class RegisterModal extends Component {
                     </div>
                     <div className="row m-b-10">
                       <div className="col-xs-6 col-sm-3">
-                        <label htmlFor="pass_repeated" className="col-form-label">I accept the terms.</label>
+                        <label htmlFor="pass_repeated" className="col-form-label">I accept the <a href="/terms-and-conditions" target="_blank">terms</a>.</label>
                       </div>
                       <div className="col-xs-6 col-sm-9">
                         <input onChange={this.onChange} name="agreed_with_conditions" type="checkbox" className="big_checkbox"/>

@@ -6,6 +6,7 @@ import MessagesPage from "./pages/MessagesPage.js";
 import RequestsPage from "./pages/RequestsPage.js";
 import VerifiedPage from './pages/VerifiedPage.js';
 import ResetPassword from './pages/ResetPassword.js';
+import TermsAndCondtionsPage from './pages/TermsAndCondtitionsPage.js';
 
 export function createRoutes() {
     return (
@@ -15,6 +16,7 @@ export function createRoutes() {
             <Route path="/requests" component={RequestsPage}/>
             <Route path="/verified" component={VerifiedPage}/>
             <Route path="/reset-password" component={ResetPassword}/>
+            <Route path="/terms-and-conditions" component={TermsAndCondtionsPage}/>
         </Route>
     );
 }
