@@ -66,7 +66,7 @@ class ContactBuddyModal extends Component {
         const title = "Contact Buddy - " + buddyTo.name + " " + buddyTo.surname;
         return (
             <AbstractModal title={title} showProp={showProp} hideFn={this.closeModal}
-                           submitFn={this.handleSubmitContactBuddy} submitText={"Odešli"}>
+                           submitFn={this.handleSubmitContactBuddy} submitText={"Send"}>
                 <form>
                     <div className="form-group no-margin-bottom-bottom row">
                         <label className="col-xs-12 col-form-label">Text: </label>
