@@ -1,7 +1,7 @@
 import axios, {CancelToken} from "axios";
 
 const api = axios.create({
-    baseURL: 'api/',//TODO use .env property
+    baseURL: 'api/',
 });
 
 export function getCancelTokenSource() {

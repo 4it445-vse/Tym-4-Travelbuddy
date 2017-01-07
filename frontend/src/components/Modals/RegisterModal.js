@@ -4,8 +4,8 @@ import FormCheck from "./FormCheck";
 import axios from "../../api";
 import GooglePlacesSuggest from "../Autosuggest/SuggestCity";
 import validation from "../../Validation/Validation";
-import { connect } from "react-redux";
-import { openAlert } from "../../actions/modals";
+import {connect} from "react-redux";
+import {openAlert} from "../../actions/modals";
 
 class RegisterModal extends Component {
 
@@ -37,15 +37,16 @@ class RegisterModal extends Component {
     }
 
     handleSearchChange = (e) => {
-      var fields = this.state.fields;
-      fields.city = e.target.value;
-      this.setState({ registrationValidation: fields })
+        var fields = this.state.fields;
+        fields.city = e.target.value;
+        this.setState({fields: fields})
     }
 
-    handleSelectSuggest = (suggestName, coordinate) => {
-      var fields = this.state.fields;
-      fields.city = suggestName;
-      this.setState({ registrationValidation: fields })
+    handleSelectSuggest = (suggestName, coordinate, placeId) => {
+        var fields = this.state.fields;
+        fields.city = suggestName;
+        fields.placeId = placeId;
+        this.setState({fields: fields});
     }
 
     componentDidMount() {
@@ -79,11 +80,7 @@ class RegisterModal extends Component {
             return;
         }
 
-        var name = this.state.fields.name;
-        var surname = this.state.fields.surname;
-        var email = this.state.fields.email;
-        var city = this.state.fields.city;
-        var pass = this.state.fields.pass;
+        var { name, surname, email, city, pass, placeId } = this.state.fields;
 
         axios.get('buddies', {
             params: {
@@ -106,7 +103,8 @@ class RegisterModal extends Component {
                     "name": name,
                     "surname": surname,
                     "city": city,
-                    "is_hosting": false
+                    "is_hosting": false,
+                    "place_id": placeId
 
                 }).then(response => {
                     this.props.openAlert({
@@ -124,7 +122,7 @@ class RegisterModal extends Component {
         let errors = this.state.errors;
         let fields = this.state.fields;
 
-        if(name === "agreed_with_conditions") {
+        if (name === "agreed_with_conditions") {
             value = e.target.checked;
         }
 
@@ -154,104 +152,104 @@ class RegisterModal extends Component {
                     <Modal.Title>{title}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                  <form>
-                    <div className="row m-b-10">
-                      <div className="col-xs-3 col-sm-2">
-                        <label htmlFor="name" className="col-form-label">Name: </label>
-                      </div>
-                      <div className="col-xs-9 col-sm-10">
-                        <input onBlur={this.onChange} type="text" name="name" placeholder="Your Name"
-                               className={ "form-control" + ( !!errors.name ? ' alert-danger' : '') }/>
-                        {
-                            !!errors.name ?
-                          <span className="validation-error">{errors.name}</span> : ""
-                        }
-                      </div>
-                    </div>
-                    <div className="row m-b-10">
-                      <div className="col-xs-3 col-sm-2">
-                        <label htmlFor="surname" className="col-form-label">Surname: </label>
-                      </div>
-                      <div className="col-xs-9 col-sm-10">
-                        <input onBlur={this.onChange} type="text" name="surname" placeholder="Your Surname"
-                               className={ "form-control" + ( !!errors.surname ? ' alert-danger' : '') }/>
-                        {
-                            !!errors.surname ?
+                    <form>
+                        <div className="row m-b-10">
+                            <div className="col-xs-3 col-sm-2">
+                                <label htmlFor="name" className="col-form-label">Name: </label>
+                            </div>
+                            <div className="col-xs-9 col-sm-10">
+                                <input onBlur={this.onChange} type="text" name="name" placeholder="Your Name"
+                                       className={ "form-control" + ( !!errors.name ? ' alert-danger' : '') }/>
+                                {
+                                    !!errors.name ?
+                                        <span className="validation-error">{errors.name}</span> : ""
+                                }
+                            </div>
+                        </div>
+                        <div className="row m-b-10">
+                            <div className="col-xs-3 col-sm-2">
+                                <label htmlFor="surname" className="col-form-label">Surname: </label>
+                            </div>
+                            <div className="col-xs-9 col-sm-10">
+                                <input onBlur={this.onChange} type="text" name="surname" placeholder="Your Surname"
+                                       className={ "form-control" + ( !!errors.surname ? ' alert-danger' : '') }/>
+                                {
+                                    !!errors.surname ?
                           <span className="validation-error">{errors.surname}</span>: ""
-                        }
-                      </div>
-                    </div>
-                    <div className="row m-b-10">
-                      <div className="col-xs-3 col-sm-2">
-                        <label htmlFor="email" className="col-form-label">E-mail: </label>
-                      </div>
-                      <div className="col-xs-9 col-sm-10">
-                        <input onBlur={this.onChange} type="email" name="email" placeholder="Your E-mail"
-                               className={ "form-control" + ( !!errors.email ? ' alert-danger' : '') }/>
-                        {
-                            !!errors.email ?
-                          <span className="validation-error">{errors.email}</span> : ""
-                        }
-                      </div>
-                    </div>
-                    <div className="row m-b-10">
-                      <div className="col-xs-3 col-sm-2">
-                        <label htmlFor="city" className="col-form-label">City: </label>
-                      </div>
-                      <div className="col-xs-9 col-sm-10">
-                        <GooglePlacesSuggest className="" onSelectSuggest={ this.handleSelectSuggest } search={ this.state.fields.city } display={true}>
-                          <input onBlur={this.onChange} onChange={this.handleSearchChange} type="text" autoComplete="off" name="city" placeholder="Your City"
-                                 className={ "form-control no-margin " + ( !!errors.city ? ' alert-danger' : '' ) }
-                                 value = { this.state.fields.city } />
-                        </GooglePlacesSuggest>
-                        {
-                            !!errors.city ?
-                          <span className="validation-error">{errors.city}</span> : ""
-                        }
-                      </div>
-                    </div>
-                    <hr/>
-                    <div className="row m-b-10">
-                      <div className="col-xs-5 col-sm-3">
-                        <label htmlFor="pass" className="col-form-label">Password: </label>
-                      </div>
-                      <div className="col-xs-7 col-sm-9">
-                        <input onBlur={this.onChange} type="password" name="pass" placeholder="Your Password"
-                             className={ "form-control" + ( !!errors.pass ? ' alert-danger' : '') }/>
-                        {
-                            !!errors.pass ?
-                          <span className="validation-error">{errors.pass}</span> : ""
-                        }
-                      </div>
-                    </div>
-                    <div className="row m-b-10">
-                      <div className="col-xs-5 col-sm-3">
-                        <label htmlFor="pass_repeated" className="col-form-label">Password again: </label>
-                      </div>
-                      <div className="col-xs-7 col-sm-9">
-                        <input onBlur={this.onChange} type="password" name="pass_repeated" placeholder="Repeat your Password"
-                             className={ "form-control" + ( !!errors.pass_repeated ? ' alert-danger' : '') }/>
-                        {
-                            !!errors.pass_repeated ?
-                          <span className="validation-error">{errors.pass_repeated}</span> : ""
-                        }
-                      </div>
-                    </div>
-                    <div className="row m-b-10">
-                      <div className="col-xs-6 col-sm-3">
-                        <label htmlFor="pass_repeated" className="col-form-label">I accept the <a href="/terms-and-conditions" target="_blank">terms</a>.</label>
-                      </div>
-                      <div className="col-xs-6 col-sm-9">
-                        <input onChange={this.onChange} name="agreed_with_conditions" type="checkbox" className="big_checkbox"/>
-                        {
-                            !!errors.agreed_with_conditions ?
-                            <span className="validation-error">{errors.agreed_with_conditions}</span> : ""
-                        }
-                      </div>
-                    </div>
-                    <hr/>
-                    <a onClick={this.handleSubmitRegistration}  className="btn btn-primary fullsize white">Sign Up</a>
-                  </form>
+                                }
+                            </div>
+                        </div>
+                        <div className="row m-b-10">
+                            <div className="col-xs-3 col-sm-2">
+                                <label htmlFor="email" className="col-form-label">E-mail: </label>
+                            </div>
+                            <div className="col-xs-9 col-sm-10">
+                                <input onBlur={this.onChange} type="email" name="email" placeholder="Your E-mail"
+                                       className={ "form-control" + ( !!errors.email ? ' alert-danger' : '') }/>
+                                {
+                                    !!errors.email ?
+                                        <span className="validation-error">{errors.email}</span> : ""
+                                }
+                            </div>
+                        </div>
+                        <div className="row m-b-10">
+                            <div className="col-xs-3 col-sm-2">
+                                <label htmlFor="city" className="col-form-label">City: </label>
+                            </div>
+                            <div className="col-xs-9 col-sm-10">
+                                <GooglePlacesSuggest className="" onSelectSuggest={ this.handleSelectSuggest } search={ this.state.fields.city } display={true}>
+                                    <input onBlur={this.onChange} onChange={this.handleSearchChange} type="text" autoComplete="off" name="city" placeholder="Your City"
+                                           className={ "form-control no-margin " + ( !!errors.city ? ' alert-danger' : '' ) }
+                                           value={ this.state.fields.city }/>
+                                </GooglePlacesSuggest>
+                                {
+                                    !!errors.city ?
+                                        <span className="validation-error">{errors.city}</span> : ""
+                                }
+                            </div>
+                        </div>
+                        <hr/>
+                        <div className="row m-b-10">
+                            <div className="col-xs-5 col-sm-3">
+                                <label htmlFor="pass" className="col-form-label">Password: </label>
+                            </div>
+                            <div className="col-xs-7 col-sm-9">
+                                <input onBlur={this.onChange} type="password" name="pass" placeholder="Your Password"
+                                       className={ "form-control" + ( !!errors.pass ? ' alert-danger' : '') }/>
+                                {
+                                    !!errors.pass ?
+                                        <span className="validation-error">{errors.pass}</span> : ""
+                                }
+                            </div>
+                        </div>
+                        <div className="row m-b-10">
+                            <div className="col-xs-5 col-sm-3">
+                                <label htmlFor="pass_repeated" className="col-form-label">Password again: </label>
+                            </div>
+                            <div className="col-xs-7 col-sm-9">
+                                <input onBlur={this.onChange} type="password" name="pass_repeated" placeholder="Repeat your Password"
+                                       className={ "form-control" + ( !!errors.pass_repeated ? ' alert-danger' : '') }/>
+                                {
+                                    !!errors.pass_repeated ?
+                                        <span className="validation-error">{errors.pass_repeated}</span> : ""
+                                }
+                            </div>
+                        </div>
+                        <div className="row m-b-10">
+                            <div className="col-xs-6 col-sm-3">
+                                <label htmlFor="pass_repeated" className="col-form-label">I accept the <a href="/terms-and-conditions" target="_blank">terms</a>.</label>
+                            </div>
+                            <div className="col-xs-6 col-sm-9">
+                                <input onChange={this.onChange} name="agreed_with_conditions" type="checkbox" className="big_checkbox"/>
+                                {
+                                    !!errors.agreed_with_conditions ?
+                                        <span className="validation-error">{errors.agreed_with_conditions}</span> : ""
+                                }
+                            </div>
+                        </div>
+                        <hr/>
+                        <a onClick={this.handleSubmitRegistration} className="btn btn-primary fullsize white">Sign Up</a>
+                    </form>
                 </Modal.Body>
                 <Modal.Footer>
                     <FormCheck>
@@ -259,7 +257,7 @@ class RegisterModal extends Component {
           						  Do you already have an account?
           					  </span>
                         <a href="#" className="modal-tlacitko" data-dismiss="modal"
-                                data-toggle="modal" data-target="#regmodal" onClick={this.switchModal}>Sign In
+                           data-toggle="modal" data-target="#regmodal" onClick={this.switchModal}>Sign In
                         </a>
                     </FormCheck>
                 </Modal.Footer>
