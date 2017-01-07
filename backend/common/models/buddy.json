@@ -36,6 +36,9 @@
     },
     "is_hosting": {
       "type": "boolean"
+    },
+    "place_id": {
+      "type": "string"
     }
   },
   "validations": [],
