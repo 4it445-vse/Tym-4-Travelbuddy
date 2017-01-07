@@ -16,6 +16,7 @@ class Menu extends Component {
         this.toggleNavbar = this.toggleNavbar.bind(this);
         this.logOut = this.logOut.bind(this);
         this.countIncomingUnreadMessages = this.countIncomingUnreadMessages.bind(this);
+        this.countMeetUpAndRatingAllerts = this.countMeetUpAndRatingAllerts.bind(this);
         this.setCollapsedMyTravelling = this.setCollapsedMyTravelling.bind(this);
     }
 
@@ -30,6 +31,49 @@ class Menu extends Component {
     toggleNavbar() {
         this.setState({
             collapsed: !this.state.collapsed
+        });
+    }
+
+    countMeetUpAndRatingAllerts() {
+        axios.get('meetup', {
+            params: {
+                filter: {
+                    where: {
+                        "buddy_id_to": this.props.user.id,
+                        "verified": null
+                    }
+                }
+            }
+        }).then(response => {
+            let meetUpAlerts = response.data;
+            let meetAndRatingsAlertsNum = 0;
+            meetUpAlerts.map(message => {
+                if(message.displayed === false){
+                    meetAndRatingsAlertsNum++;
+                }
+            });
+            axios.get('buddyRating', {
+                params: {
+                    filter: {
+                        where: {
+                            "buddy_id_from": this.props.user.id,
+                            "rating": null
+                        }
+                    }
+                }
+            }).then(response => {
+                let ratingAlerts = response.data;
+                ratingAlerts.map(message => {
+                    if(message.displayed === false){
+                        meetAndRatingsAlertsNum++;
+                    }
+                });
+                if(this.state.meetAndRatingsAlertsNum !== meetAndRatingsAlertsNum){
+                    this.setState({
+                        meetAndRatingsAlertsNum: meetAndRatingsAlertsNum
+                    });
+                }
+            });
         });
     }
 
@@ -50,10 +94,11 @@ class Menu extends Component {
 					incomingUnreadMessagesNum++;
 				}
 			});
-
-			this.setState({
-				incomingUnreadMessagesNum: incomingUnreadMessagesNum
-			});
+            if(this.state.incomingUnreadMessagesNum !== incomingUnreadMessagesNum){
+                this.setState({
+                    incomingUnreadMessagesNum: incomingUnreadMessagesNum
+                });
+            }
 		});
 	}
 
@@ -61,8 +106,9 @@ class Menu extends Component {
         const {openEdit, openRegister, openLogin, openNewRequest, openEditRequests} = this.props;
         const loggedUser = this.props.user;
         const userLogged = !!loggedUser;
-		if(userLogged){
+		if(userLogged){//TODO move to some other callback method, do one counting resful method on backend even for done
 			this.countIncomingUnreadMessages();
+			this.countMeetUpAndRatingAllerts();
 		}
 
         return (
@@ -78,13 +124,18 @@ class Menu extends Component {
                         {userLogged ?
                             <div>
                                 <NavItem className="margin-right-30">
-                                <Link href="/messages" className="nav-link" role="tab" data-toggle="tab">Messages {this.state.incomingUnreadMessagesNum > 0 ?<span className="label label-success"> {this.state.incomingUnreadMessagesNum}</span>
-								 : ""}
-							</Link>
-                        </NavItem>
-						<hr className="xs-visible sm-visible hidden-md-up hidden-lg-up"/>
-<NavItem className="margin-right-30">
-<Link href="/" className="nav-link">Buddies</Link>
+                                    <Link href="/meetups-and-ratings" className="nav-link" role="tab" data-toggle="tab">Meet Ups {this.state.meetAndRatingsAlertsNum > 0 ?<span className="label label-success"> {this.state.meetAndRatingsAlertsNum}</span>
+                                        : ""}
+                                    </Link>
+                                </NavItem>
+                                <NavItem className="margin-right-30">
+                                    <Link href="/messages" className="nav-link" role="tab" data-toggle="tab">Messages {this.state.incomingUnreadMessagesNum > 0 ?<span className="label label-success"> {this.state.incomingUnreadMessagesNum}</span>
+								    : ""}
+							        </Link>
+                                </NavItem>
+						        <hr className="xs-visible sm-visible hidden-md-up hidden-lg-up"/>
+                                <NavItem className="margin-right-30">
+                                    <Link href="/" className="nav-link">Buddies</Link>
                                 </NavItem>
                                 <hr className="xs-visible sm-visible hidden-md-up hidden-lg-up"/>
                                 <NavItem className="margin-right-30">

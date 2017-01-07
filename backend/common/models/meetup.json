@@ -1,0 +1,32 @@
+{
+  "name": "Meetup",
+  "plural": "Meetups",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "verified": {
+      "type": "boolean"
+    },
+    "done": {
+      "type": "boolean"
+    },
+    "date_time": {
+      "type": "date"
+    },
+    "buddy_id_from": {
+      "type": "number",
+      "required": true
+    },
+    "buddy_id_to": {
+      "type": "number",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}
