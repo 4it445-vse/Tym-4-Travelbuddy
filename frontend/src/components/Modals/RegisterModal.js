@@ -42,7 +42,7 @@ class RegisterModal extends Component {
         this.setState({fields: fields})
     }
 
-    handleSelectSuggest = (suggestName, coordinate, placeId) => { //TODO aren't this coorinate what I need to store to db?, contains latitude, longitude, title
+    handleSelectSuggest = (suggestName, coordinate, placeId) => {
         var fields = this.state.fields;
         fields.city = suggestName;
         fields.placeId = placeId;

@@ -4,14 +4,12 @@ import classNames from 'classnames'
 
 export default class GooglePlacesSuggest extends Component {
 
-    //TODO what is this
     static propTypes = {
         onSelectSuggest: PropTypes.func,
         search: PropTypes.string,
         suggestRadius: PropTypes.number,
     }
 
-    //TODO what is this
     static defaultProps = {
         onSelectSuggest: () => {
         },
@@ -53,7 +51,7 @@ export default class GooglePlacesSuggest extends Component {
             this.setState({suggests: []});
             return
         }
-        //TODO search should contain at least city and state placeId
+
         autocompleteService.getPlacePredictions({
             input: search,
             location: new googleMaps.LatLng(0, 0),
@@ -66,7 +64,6 @@ export default class GooglePlacesSuggest extends Component {
             }
 
             const suggests = googleSuggests.map((suggest, key) => {
-                //TODO check what suggest containsX
                 const [ label, ...items ] = suggest.terms;
                 const address = items.map((item) => item.value).join(', ');
                 const firstMatchedString = suggest.matched_substrings.shift();
@@ -91,10 +88,8 @@ export default class GooglePlacesSuggest extends Component {
         const {googleMaps} = this.state;
         const geocoder = new googleMaps.Geocoder();
 
-        //TODO advance this to longitude & latitude, or at least city + state
         geocoder.geocode({address: suggestLabel}, (results, status) => {
             if (status === googleMaps.GeocoderStatus.OK) {
-                //TODO check location whether it contains state, if so than pass it to coordinates, place_id
                 const location = results[0].geometry.location;
                 const coordinate = {
                     latitude: location.lat(),
