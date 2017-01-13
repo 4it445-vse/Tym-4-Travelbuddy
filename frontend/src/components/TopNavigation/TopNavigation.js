@@ -6,6 +6,7 @@ import ResetPassModal from "../Modals/ResetPassModal";
 import EditProfileModal from "../Modals/EditProfileModal";
 import ShowProfileModal from "../Modals/ShowProfileModal";
 import NewRequestModal from "../Modals/NewRequestModal";
+import ShowMeetUpModal from "../Modals/ShowMeetUpModal";
 import EditRequestModal from "../Modals/EditRequestModal";
 import ContactBuddyModal from "../Modals/ContactBuddyModal";
 import Menu from "./Menu";
@@ -41,6 +42,13 @@ class TopNavigation extends Component {
                 {
                     this.props.modals.modal === 'openProfile' ?
                         <ShowProfileModal showProp={true} hideFn={this.props.closeModal}
+                                          buddy={this.props.modals.data.buddy}
+                                          showContactButton={this.props.modals.data.flag}/>
+                        : ""
+                }
+                {
+                    this.props.modals.modal === 'openShowMeetUp' ?
+                        <ShowMeetUpModal showProp={true} hideFn={this.props.closeModal}
                                           buddy={this.props.modals.data.buddy}
                                           showContactButton={this.props.modals.data.flag}/>
                         : ""

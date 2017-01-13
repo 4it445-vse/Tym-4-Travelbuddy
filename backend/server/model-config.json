@@ -47,6 +47,14 @@
     "dataSource": "mysqlds",
     "public": true
   },
+  "Meetup": {
+    "dataSource": "mysqlds",
+    "public": true
+  },
+  "BuddyRating": {
+    "dataSource": "mysqlds",
+    "public": true
+  },
   "Container": {
     "dataSource": "avatars",
     "public": true

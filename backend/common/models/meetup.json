@@ -26,7 +26,13 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "rating": {
+      "type": "hasOne",
+      "model": "BuddyRating",
+      "foreignKey": "meetup_id"
+    }
+  },
   "acls": [],
   "methods": {}
 }

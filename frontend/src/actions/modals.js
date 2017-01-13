@@ -34,6 +34,18 @@ export const openProfileSuccess = (payload) => ({
     payload
 })
 
+const OPEN_MEET_UP = 'OPEN_PROFILE';
+export const openMeetUp = (data) => {
+    return (dispatch) => {
+        return dispatch(openMeetUpSuccess({modal: 'openShowMeetUp', data: data}));
+    }
+}
+
+export const openMeetUpSuccess = (payload) => ({
+    type: 'OPEN_PROFILE_SUCCESS',
+    payload
+})
+
 const OPEN_CONTACT_BUDDY = 'OPEN_CONTACT_BUDDY';
 export const openContactBuddy = (data) => {
     return (dispatch) => {

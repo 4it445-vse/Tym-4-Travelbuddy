@@ -12,7 +12,7 @@
       "required": true
     },
     "rating": {
-      "type": "value"
+      "type": "number"
     },
     "date_time": {
       "type": "date"
@@ -22,6 +22,10 @@
       "required": true
     },
     "buddy_id_to": {
+      "type": "number",
+      "required": true
+    },
+    "meetup_id": {
       "type": "number",
       "required": true
     }

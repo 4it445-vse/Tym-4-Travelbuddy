@@ -105,4 +105,18 @@ module.exports = function (app) {
       return;
     }
   });
+
+  app.dataSources.mysqlds.autoupdate('Meetup', function (err) {
+    const {Meetup} = app.models;
+    if (!Meetup) {
+      return;
+    }
+  });
+
+  app.dataSources.mysqlds.autoupdate('BuddyRating', function (err) {
+    const {BuddyRating} = app.models;
+    if (!BuddyRating) {
+      return;
+    }
+  });
 };

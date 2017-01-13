@@ -57,6 +57,26 @@
       "type": "hasMany",
       "model": "Message",
       "foreignKey": "buddy_id_to"
+    },
+    "received_rating": {
+      "type": "hasMany",
+      "model": "BuddyRating",
+      "foreignKey": "buddy_id_from"
+    },
+    "done_rating": {
+      "type": "hasMany",
+      "model": "BuddyRating",
+      "foreignKey": "buddy_id_to"
+    },
+    "received_meetup": {
+      "type": "hasMany",
+      "model": "Meetup",
+      "foreignKey": "buddy_id_from"
+    },
+    "created_meetup": {
+      "type": "hasMany",
+      "model": "Meetup",
+      "foreignKey": "buddy_id_to"
     }
   },
   "acls": [
