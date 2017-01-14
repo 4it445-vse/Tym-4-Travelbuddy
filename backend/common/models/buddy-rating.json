@@ -1,6 +1,6 @@
 {
-  "name": "Message",
-  "plural": "Messages",
+  "name": "BuddyRating",
+  "plural": "BuddyRatings",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
@@ -11,8 +11,8 @@
       "type": "string",
       "required": true
     },
-    "displayed": {
-      "type": "boolean",
+    "rating": {
+      "type": "number",
       "required": true
     },
     "date_time": {
@@ -24,6 +24,10 @@
       "required": true
     },
     "buddy_id_to": {
+      "type": "number",
+      "required": true
+    },
+    "meetup_id": {
       "type": "number",
       "required": true
     }

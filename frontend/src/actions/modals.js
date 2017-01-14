@@ -34,6 +34,18 @@ export const openProfileSuccess = (payload) => ({
     payload
 })
 
+const OPEN_MEET_UP = 'OPEN_PROFILE';
+export const openMeetUp = (data) => {
+    return (dispatch) => {
+        return dispatch(openMeetUpSuccess({modal: 'openShowMeetUp', data: data}));
+    }
+}
+
+export const openMeetUpSuccess = (payload) => ({
+    type: 'OPEN_PROFILE_SUCCESS',
+    payload
+})
+
 const OPEN_CONTACT_BUDDY = 'OPEN_CONTACT_BUDDY';
 export const openContactBuddy = (data) => {
     return (dispatch) => {
@@ -43,6 +55,18 @@ export const openContactBuddy = (data) => {
 
 export const openContactBuddySuccess = (payload) => ({
     type: 'OPEN_CONTACT_BUDDY_SUCCESS',
+    payload
+})
+
+const OPEN_NEW_MEET_UP = 'OPEN_NEW_MEET_UP';
+export const openNewMeetUp = (data) => {
+    return (dispatch) => {
+        return dispatch(openNewMeetUpSuccess({modal: 'openNewMeetUp', data: data}));
+    }
+}
+
+export const openNewMeetUpSuccess = (payload) => ({
+    type: 'OPEN_NEW_MEET_UP_SUCCESS',
     payload
 })
 

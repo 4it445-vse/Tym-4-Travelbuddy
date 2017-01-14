@@ -6,8 +6,10 @@ import ResetPassModal from "../Modals/ResetPassModal";
 import EditProfileModal from "../Modals/EditProfileModal";
 import ShowProfileModal from "../Modals/ShowProfileModal";
 import NewRequestModal from "../Modals/NewRequestModal";
+import ShowMeetUpModal from "../Modals/ShowMeetUpModal";
 import EditRequestModal from "../Modals/EditRequestModal";
 import ContactBuddyModal from "../Modals/ContactBuddyModal";
+import NewMeetUpModal from "../Modals/NewMeetUpModal";
 import Menu from "./Menu";
 import {Alert} from 'react-bootstrap';
 import {connect} from "react-redux";
@@ -39,10 +41,26 @@ class TopNavigation extends Component {
                         : ""
                 }
                 {
+                    this.props.modals.modal === 'openNewMeetUp' ?
+                        <NewMeetUpModal showProp={true} hideFn={this.props.closeModal}
+                                           buddyTo={this.props.modals.data.buddy}/>
+                        : ""
+                }
+                {
                     this.props.modals.modal === 'openProfile' ?
                         <ShowProfileModal showProp={true} hideFn={this.props.closeModal}
                                           buddy={this.props.modals.data.buddy}
                                           showContactButton={this.props.modals.data.flag}/>
+                        : ""
+                }
+                {
+                    this.props.modals.modal === 'openShowMeetUp' ?
+                        <ShowMeetUpModal showProp={true} hideFn={this.props.closeModal}
+                                          buddy={this.props.modals.data.buddy}
+                                         meetUp={this.props.modals.data.meetUp}
+                                         isBuddyView={this.props.modals.data.isBuddyView}
+                                          showContactButton={this.props.modals.data.flag}
+                        currentUserId={this.props.user.id}/>
                         : ""
                 }
                 {

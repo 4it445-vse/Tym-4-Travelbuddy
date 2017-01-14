@@ -1,23 +1,20 @@
 {
-  "name": "Message",
-  "plural": "Messages",
+  "name": "Meetup",
+  "plural": "Meetups",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
   "properties": {
-    "text": {
-      "type": "string",
-      "required": true
+    "verified": {
+      "type": "boolean"
     },
-    "displayed": {
-      "type": "boolean",
-      "required": true
+    "done": {
+      "type": "boolean"
     },
     "date_time": {
-      "type": "date",
-      "required": true
+      "type": "date"
     },
     "buddy_id_from": {
       "type": "number",
@@ -29,7 +26,13 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "ratings": {
+      "type": "hasMany",
+      "model": "BuddyRating",
+      "foreignKey": "meetup_id"
+    }
+  },
   "acls": [],
   "methods": {}
 }
