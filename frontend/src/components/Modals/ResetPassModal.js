@@ -44,7 +44,6 @@ class ResetPassModal extends Component {
         axios.post('messages/request-pass-reset', {
             email: email
         }).then(response => {
-            console.log("here", response.data, response.data.status);
             if (response.data.status === "OK") {
                 this.props.openAlert({
                     "type": "success",
