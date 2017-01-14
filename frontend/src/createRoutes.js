@@ -8,6 +8,7 @@ import RequestsPage from "./pages/RequestsPage.js";
 import VerifiedPage from './pages/VerifiedPage.js';
 import ResetPassword from './pages/ResetPassword.js';
 import TermsAndCondtionsPage from './pages/TermsAndCondtitionsPage.js';
+import PageNotFound from './pages/PageNotFound.js';
 
 export function createRoutes(store) {
 
@@ -27,6 +28,7 @@ export function createRoutes(store) {
             <Route path="/verified" component={VerifiedPage}/>
             <Route path="/reset-password" component={ResetPassword}/>
             <Route path="/terms-and-conditions" component={TermsAndCondtionsPage}/>
+            <Route path='*' component={PageNotFound} />
         </Route>
     );
 }
