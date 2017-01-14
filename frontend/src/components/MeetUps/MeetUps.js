@@ -20,9 +20,9 @@ export default class MeetUps extends Component {
       console.log(meetUps);
       for(var i = 0; i < meetUps.length; i++) {
           if(this.props.isBuddyView === true){
-              render.push(<LazyLoad placeholder={placeholder} key={meetUps[i].id} height="50px" ><MeetUp  buddyId={meetUps[i].buddy_id_to} meetUp={meetUps[i]}/></LazyLoad>)
+              render.push(<LazyLoad placeholder={placeholder} key={meetUps[i].id} height="50px" ><MeetUp  buddyId={meetUps[i].buddy_id_from} meetUp={meetUps[i]} isBuddyView={this.props.isBuddyView}/></LazyLoad>)
           }else{
-              render.push(<LazyLoad placeholder={placeholder} key={meetUps[i].id} height="50px" ><MeetUp  buddyId={meetUps[i].buddy_id_from} meetUp={meetUps[i]}/></LazyLoad>)
+              render.push(<LazyLoad placeholder={placeholder} key={meetUps[i].id} height="50px" ><MeetUp  buddyId={meetUps[i].buddy_id_to} meetUp={meetUps[i]} isBuddyView={this.props.isBuddyView}/></LazyLoad>)
           }
       }
       return render;

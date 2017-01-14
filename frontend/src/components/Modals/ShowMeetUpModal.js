@@ -1,123 +1,238 @@
 import React, {Component} from "react";
 import {Modal} from "react-bootstrap";
-import currentUser from "../../actions/CurrentUser";
-import { connect } from "react-redux";
-import { openContactBuddy } from "../../actions/modals";
+import moment from 'moment';
+import axios from "../../api";
+import ReactStars from 'react-stars';
 
-class ShowMeetUpModal extends Component {
+export default class ShowMeetUpModal extends Component {
 
     constructor(props) {
         super(props);
-
-        this.openContactBuddy = this.openContactBuddy.bind(this);
+        this.state = {
+            errors: {},
+            incomingRating: undefined,
+            incomingRatingExist: undefined,
+            outcomingRating: undefined,
+            outcomingRatingExist: undefined
+        };
+        this.rating;
+        this.ratingText;
     }
 
-    openContactBuddy() {
-        this.setState({
-            showRequestShowModal: false
+    hideModal = () => {
+        this.state = {
+            errors: {},
+            incomingRating: undefined,
+            incomingRatingExist: undefined,
+            outcomingRating: undefined,
+            outcomingRatingExist: undefined
+        }
+        this.props.hideFn();
+    }
+
+    componentDidMount() {
+        console.log("componentWillReceiveProps");
+        axios.get('BuddyRatings', {
+            params: {
+                filter: {
+                    where: {
+                        meetup_id: this.props.meetUp.id
+                    }
+                }
+            }
+        }).then(response => {
+            console.log(response.data);
+            const otherBuddyId = this.props.buddy.id;
+            const ratings = response.data;
+            let outcomingRating = undefined;
+            let incomingRating = undefined;
+            let incomingRatingExist = false;
+            let outcomingRatingExist = false;
+            if (ratings[0]) {
+                if (ratings[0].buddy_id_from === otherBuddyId) {
+                    incomingRating = ratings[0];
+                    incomingRatingExist = true;
+                } else {
+                    outcomingRating = ratings[0];
+                    outcomingRatingExist = true;
+                }
+            }
+            if (ratings[1]) {
+                if (ratings[1].buddy_id_from === otherBuddyId) {
+                    incomingRating = ratings[1];
+                    incomingRatingExist = true;
+                } else {
+                    outcomingRating = ratings[1];
+                    outcomingRatingExist = true;
+                }
+            }
+            this.setState({
+                outcomingRating,
+                incomingRatingExist,
+                incomingRating,
+                outcomingRatingExist
+            });
         });
-        this.props.openContactBuddy({buddy: this.props.buddy});
+    }
+
+    ratingChanged = (newRating) => {
+        this.rating = newRating;
+    }
+
+    onChange = (e) => {
+        this.ratingText = e.target.value;
+    }
+
+    saveRating = () => {
+        if (!this.rating) {
+            let errors = this.state.errors;
+            errors.noRating = "Choose the rating please!";
+            this.setState({errors: errors});
+            return;
+        }
+        const rating = {
+            text: this.ratingText.replace(/\r?\n/g, '</br>'),
+            rating: this.rating,
+            date_time: new Date(),
+            buddy_id_from: this.props.currentUserId,
+            buddy_id_to: this.props.buddy.id,
+            meetup_id: this.props.meetUp.id
+        };
+        axios.put('BuddyRatings', rating).then(response => {
+            this.setState({
+                outcomingRating: rating,
+                outcomingRatingExist: true
+            });
+        });
+    }
+
+    acceptMeetUp = () => {
+        axios.post('Meetups/update?where[id]=' + this.props.meetUp.id, {verified: true}).then(response => {
+            this.props.meetUp.verified = true;
+            this.hideModal();
+        });
+    }
+
+    setMeetUpAsDone = () => {
+        axios.post('Meetups/update?where[id]=' + this.props.meetUp.id, {done: true}).then(response => {
+            this.props.meetUp.done = true;
+            this.hideModal();
+        });
     }
 
     render() {
-        const {showProp, hideFn, buddy, showContactButton} = this.props;
-        const profilePhotoName = currentUser.composeProfilePhotoName(buddy);
+        const {showProp, buddy} = this.props;
+        const dateFormat = "MM/DD/YYYY";
+        const {outcomingRating, incomingRating} = this.state;
         return (
-            <Modal show={showProp} onHide={hideFn}>
+            <Modal show={showProp} onHide={this.hideModal}>
                 <Modal.Header closeButton>
-                    <Modal.Title>{buddy.name + " " + buddy.surname}</Modal.Title>
+                    <Modal.Title>{"Meet up with " + buddy.name + " " + buddy.surname}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                  <div className="row">
-                    <div className="row hidden-sm-up text-xs-center">
-                      <img src={ profilePhotoName } alt={ buddy.name + " " + buddy.surname } className="profil_img rounded"/>
-                    </div>
-                    <hr className="hidden-sm-up"></hr>
-                    <div className="col-xs-12 col-sm-6">
-                      <div className="row text-xs-left">
-                        <div className="col-xs-3 no-padding-right">
-                          <b>Name: </b>
-                        </div>
-                        <div className="col-xs-9">
-                          {buddy.name + " " + buddy.surname}
-                        </div>
-                      </div>
-                      <div className="row text-xs-left">
-                        <div className="col-xs-3 no-padding-right">
-                          <b>City: </b>
-                        </div>
-                        <div className="col-xs-9">
-                          {buddy.city}
-                        </div>
-                      </div>
-                      <div className="row text-xs-left">
-                        <div className="col-xs-3 no-padding-right">
-                          <b>Hosting: </b>
-                        </div>
-                        <div className="col-xs-9">
-                          {buddy.is_hosting ? "Yes" : "No"}
-                        </div>
-                      </div>
-                      <div className="row text-xs-left">
-                        <div className="col-xs-3 no-padding-right">
-                          <b>E-mail: </b>
-                        </div>
-                        <div className="col-xs-9 ellipsis">
-                          {buddy.email}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-sm-6 hidden-xs-down text-sm-center">
-                      <img src={ profilePhotoName } alt={ buddy.name + " " + buddy.surname } className="profil_img rounded"/>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <hr className="col-xs-12"></hr>
-                    <div className="col-xs-12">
-                      <p className="no-margin-bottom">{buddy.about_me}</p>
-                    </div>
-                  </div>
-
-                  {/* <div>
-                        <img
-                            src={ profilePhotoName }
-                            alt="..." className="profil_img rounded"/>
-                        <br/><br/>
-                        <b>Sex: </b>
-                        {buddy.sex === 'male' ? "muž" : "žena"}
-                        <br/>
-                        <b>City: </b>{buddy.city}
-                        <br/>
-                        <b>Am I hosting: </b>
-                        {buddy.is_hosting ? "ano" : "ne"}
-                        <br/>
-                        <b>E-mail: </b>{buddy.email}
-                        <br/>
-                        <label htmlFor="exampleInputFile"><b>About me: </b></label>
-                        <textarea type="text" className="form-control"
-                                  id="about_me"
-                                  defaultValue={buddy.about_me} disabled/>
-                    </div> */}
-                </Modal.Body>
-                <Modal.Footer>
-                    {
-                        showContactButton ?
-                            <div className="form-check">
-                                <button onClick={this.openContactBuddy} type="button"
-                                        className="btn btn-primary fullsize">Message
-                                </button>
+                    <div className="row">
+                        <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div className="row text-xs-left">
+                                <div className="col-xs-4 no-padding-right">
+                                    <b>With whom? </b>
+                                </div>
+                                <div className="col-xs-8">
+                                    {buddy.name + " " + buddy.surname}
+                                </div>
                             </div>
-                            : ""
-                    }
-                </Modal.Footer>
+                            <div className="row text-xs-left">
+                                <div className="col-xs-3 no-padding-right">
+                                    <b>When? </b>
+                                </div>
+                                <div className="col-xs-9">
+                                    { moment(this.props.meetUp.date_time).format(dateFormat) }
+                                </div>
+                            </div>
+                        </div>
+                        {
+                            this.props.isBuddyView === true && this.props.meetUp.verified === false ?
+                                <button onClick={this.acceptMeetUp} type="button"
+                                        className="btn btn-primary fullsize">Accept!
+                                </button>
+                                : ""
+                        }
+                        {
+                            this.props.meetUp.done === false && this.props.meetUp.verified === true &&
+                            (new Date(this.props.meetUp.date_time).getTime() - new Date().getTime()) <= 0
+                                ?
+                                <button onClick={this.setMeetUpAsDone} type="button"
+                                        className="btn btn-primary fullsize">Set as done!
+                                </button>
+                                : ""
+                        }
+                        {
+                            this.props.meetUp.verified === true && this.props.meetUp.done === true ?
+                                incomingRating === undefined && this.state.incomingRatingExist === undefined ? "" :
+                                    incomingRating === undefined && this.state.incomingRatingExist === false ?
+                                        ""
+                                        :
+                                        <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <div className="row text-xs-left">
+                                                <div className="col-xs-4 no-padding-right">
+                                                    <b>{"Rating from " + buddy.name + ": "}</b>
+                                                </div>
+                                            </div>
+                                            <div className="row text-xs-left">
+                                                <div className="col-xs-9 ellipsis">
+                                                    <ReactStars count={5} value={incomingRating.rating} half={true} edit={false} onChange={this.ratingChanged} size={24} color2={'#ffd700'}/>
+                                                </div>
+                                            </div>
+                                            <div className="row text-xs-left">
+                                                <div className="col-xs-9 ellipsis" dangerouslySetInnerHTML={{__html: incomingRating.text}}>
+                                                </div>
+                                            </div>
+                                        </div>
+                                : ""
+                        }
+
+                        {
+                            this.props.meetUp.verified === true && this.props.meetUp.done ?
+                                outcomingRating === undefined && this.state.outcomingRatingExist === undefined ? "" :
+                                    outcomingRating === undefined && this.state.outcomingRatingExist === false ?
+                                        <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <div className="row text-xs-left">
+                                                <div className="col-xs-4 no-padding-right">
+                                                    <b>{"Your rating: "}</b>
+                                                </div>
+                                            </div>
+                                            {
+                                                !!this.state.errors.noRating ?
+                                                    <span className="validation-error">{this.state.errors.noRating}</span> : ""
+                                            }
+                                            <ReactStars count={5} half={true} onChange={this.ratingChanged} size={24} color2={'#ffd700'}/>
+                                            <textarea className="form-control"
+                                                      onChange={this.onChange} type="text" name="text" rows="3" placeholder={"Give " + buddy.name + " a rating!"}/>
+                                            <button onClick={this.saveRating} type="button"
+                                                    className="btn btn-primary fullsize">Save rating
+                                            </button>
+                                        </div>
+                                        :
+                                        <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <div className="row text-xs-left">
+                                                <div className="col-xs-4 no-padding-right">
+                                                    <b>{"Your rating: "}</b>
+                                                </div>
+                                            </div>
+                                            <div className="row text-xs-left">
+                                                <div className="col-xs-9 ellipsis">
+                                                    <ReactStars count={5} value={outcomingRating.rating} half={true} edit={false} onChange={this.ratingChanged} size={24} color2={'#ffd700'}/>
+                                                </div>
+                                            </div>
+                                            <div className="row text-xs-left">
+                                                <div className="col-xs-9 ellipsis" dangerouslySetInnerHTML={{__html: outcomingRating.text}}>
+                                                </div>
+                                            </div>
+                                        </div>
+                                : ""
+                        }
+                    </div>
+                </Modal.Body>
             </Modal>
         );
     }
 }
-
-export default connect(
-    null,
-    {
-        openContactBuddy
-    }
-)(ShowMeetUpModal);

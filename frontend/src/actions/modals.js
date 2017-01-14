@@ -58,6 +58,18 @@ export const openContactBuddySuccess = (payload) => ({
     payload
 })
 
+const OPEN_NEW_MEET_UP = 'OPEN_NEW_MEET_UP';
+export const openNewMeetUp = (data) => {
+    return (dispatch) => {
+        return dispatch(openNewMeetUpSuccess({modal: 'openNewMeetUp', data: data}));
+    }
+}
+
+export const openNewMeetUpSuccess = (payload) => ({
+    type: 'OPEN_NEW_MEET_UP_SUCCESS',
+    payload
+})
+
 const OPEN_ALERT = 'OPEN_ALERT';
 export const openAlert = (data) => {
     return (dispatch) => {

@@ -22,12 +22,13 @@ class MeetUpsAndRatings extends Component {
         let where = {};
         let isBuddyView;
         if(index === 0){
-            where['buddy_id_from'] = this.props.user.id;
+            where['buddy_id_to'] = this.props.user.id;
             isBuddyView = true;
         }else{
-            where['buddy_id_to'] = this.props.user.id;
+            where['buddy_id_from'] = this.props.user.id;
             isBuddyView = false;
         }
+        console.log("before call");
         axios.get('Meetups', {
             params: {
                 filter: {
@@ -35,10 +36,13 @@ class MeetUpsAndRatings extends Component {
                 }
             }
         }).then(response => {
+            console.log("response: ", response);
             this.setState({
                 meetUps: response.data,
                 isBuddyView: isBuddyView
             });
+        }, error => {
+            console.log("error: ", error);
         });
     }
 

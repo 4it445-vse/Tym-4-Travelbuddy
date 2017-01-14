@@ -20,7 +20,8 @@ class MeetUp extends Component {
                 city: null
             },
             render: false,
-            avatarSrc: "http://images.megaupload.cz/mystery-man.png"
+            avatarSrc: "http://images.megaupload.cz/mystery-man.png",
+            highlight: false
         }
 
         this.openMeetUp = this.openMeetUp.bind(this);
@@ -38,6 +39,31 @@ class MeetUp extends Component {
                 avatarSrc: profilePhotoName
             });
         });
+        axios.get('BuddyRatings', {
+            params: {
+                filter: {
+                    where: {
+                        meetup_id: this.props.meetUp.id,
+                        buddy_id_from: this.props.user.id
+                    }
+                }
+            }
+        }).then(response => {
+            let highlight = false;
+            if(response.data.length === 0){
+                highlight = true;
+            }else if(this.props.meetUp.done === false && this.props.meetUp.verified === true &&
+                (new Date(this.props.meetUp.date_time).getTime() - new Date().getTime()) <= 0){
+                console.log("second");
+                highlight = true;
+            }else if(this.props.isBuddyView === true && this.props.meetUp.verified === false){
+                console.log("third");
+                highlight = true;
+            }
+            this.setState({
+                highlight
+            });
+        });
     }
 
     onClick(e) {
@@ -53,7 +79,7 @@ class MeetUp extends Component {
     }
 
     openMeetUp() {
-        this.props.openMeetUp({meetUp: this.props.meetUp});
+        this.props.openMeetUp({buddy: this.state.buddy, meetUp: this.props.meetUp, isBuddyView:  this.props.isBuddyView});
     }
 
     openContactBuddy() {
@@ -64,7 +90,7 @@ class MeetUp extends Component {
 
         const {render} = this.state;
         const loader = require('../../images/lazyload.gif');
-        const dateFormat = "YYYY-MM-DD";
+        const dateFormat = "MM/DD/YYYY";
 
         if (render) return (
             <a href="#" onClick={this.onClick} className="profil_vypis">
@@ -76,7 +102,7 @@ class MeetUp extends Component {
                     </div>
                     <div className="col-md-3 col-xs-5 m-t-05">
                         <div className="row">
-                            <p className="no-margin ellipsis">{this.state.buddy.name + " " + this.state.buddy.surname}</p>
+                            <p className={"no-margin ellipsis" + (this.state.highlight?" highlight-text":"")}>{this.state.buddy.name + " " + this.state.buddy.surname}</p>
                         </div>
                         <div className="row">
                             <span className="no-margin ellipsis">{this.state.buddy.city}</span>

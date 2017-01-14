@@ -2,8 +2,8 @@ import React, {Component} from "react";
 import {Link} from "react-router";
 import {Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem} from "reactstrap";
 import axios from "../../api"
-import { connect } from "react-redux";
-import { logOutUser } from "../../actions/user";
+import {connect} from "react-redux";
+import {logOutUser} from "../../actions/user";
 class Menu extends Component {
 
     constructor(props) {
@@ -16,7 +16,6 @@ class Menu extends Component {
         this.toggleNavbar = this.toggleNavbar.bind(this);
         this.logOut = this.logOut.bind(this);
         this.countIncomingUnreadMessages = this.countIncomingUnreadMessages.bind(this);
-        this.countMeetUpAndRatingAllerts = this.countMeetUpAndRatingAllerts.bind(this);
         this.setCollapsedMyTravelling = this.setCollapsedMyTravelling.bind(this);
     }
 
@@ -34,82 +33,92 @@ class Menu extends Component {
         });
     }
 
-    countMeetUpAndRatingAllerts() {
-        axios.get('meetup', {
+    countMeetUpAndRatingAllerts = () => {
+        console.log("in countMeetUpAndRatingAllerts");
+        axios.get('Meetups', {
             params: {
                 filter: {
                     where: {
-                        "buddy_id_to": this.props.user.id,
-                        "verified": null
+                        or: [
+                            {"buddy_id_to": this.props.user.id},
+                            {"buddy_id_from": this.props.user.id}
+                        ]
                     }
                 }
             }
         }).then(response => {
-            let meetUpAlerts = response.data;
+            let meetUps = response.data;
+            console.log("first ajax result: ", meetUps);
             let meetAndRatingsAlertsNum = 0;
-            meetUpAlerts.map(message => {
-                if(message.displayed === false){
-                    meetAndRatingsAlertsNum++;
-                }
-            });
-            axios.get('buddyRating', {
-                params: {
-                    filter: {
-                        where: {
-                            "buddy_id_from": this.props.user.id,
-                            "rating": null
+            let meetUpsCurrentIndex = -1;
+            meetUps.map(meetUp => {
+                axios.get('BuddyRatings', {
+                    params: {
+                        filter: {
+                            where: {
+                                meetup_id: meetUp.id,
+                                buddy_id_from: this.props.user.id
+                            }
                         }
                     }
-                }
-            }).then(response => {
-                let ratingAlerts = response.data;
-                ratingAlerts.map(message => {
-                    if(message.displayed === false){
+                }).then(response => {
+                    meetUpsCurrentIndex++;
+                    if (response.data.length === 0) {
+                        meetAndRatingsAlertsNum++;
+                    } else if (meetUp.buddy_id_to === this.props.user.id && meetUp.verified === false) {
+                        meetAndRatingsAlertsNum++;
+                    } else if (meetUp.verified === true && meetUp.done === false &&
+                        (new Date(meetUp.date_time).getTime() - new Date().getTime()) <= 0) {
                         meetAndRatingsAlertsNum++;
                     }
+                    console.log(meetAndRatingsAlertsNum, meetUpsCurrentIndex, meetUps.length - 1);
+                    if(meetUpsCurrentIndex === meetUps.length - 1){
+                        console.log("here");
+                        if (this.state.meetAndRatingsAlertsNum !== meetAndRatingsAlertsNum) {
+                            this.setState({
+                                meetAndRatingsAlertsNum: meetAndRatingsAlertsNum
+                            });
+                        }
+                    }
                 });
-                if(this.state.meetAndRatingsAlertsNum !== meetAndRatingsAlertsNum){
-                    this.setState({
-                        meetAndRatingsAlertsNum: meetAndRatingsAlertsNum
-                    });
-                }
             });
+
         });
     }
 
-	countIncomingUnreadMessages() {
-		axios.get('messages', {
-		params: {
-			filter: {
-				where: {
-					"buddy_id_to": this.props.user.id
-				}
-			}
-		}
-		}).then(response => {
-			let buddyMessages = response.data;
-			let incomingUnreadMessagesNum = 0;
-			buddyMessages.map(message => {
-				if(message.displayed === false){
-					incomingUnreadMessagesNum++;
-				}
-			});
-            if(this.state.incomingUnreadMessagesNum !== incomingUnreadMessagesNum){
+    countIncomingUnreadMessages() {
+        axios.get('messages', {
+            params: {
+                filter: {
+                    where: {
+                        "buddy_id_to": this.props.user.id
+                    }
+                }
+            }
+        }).then(response => {
+            let buddyMessages = response.data;
+            let incomingUnreadMessagesNum = 0;
+            buddyMessages.map(message => {
+                if (message.displayed === false) {
+                    incomingUnreadMessagesNum++;
+                }
+            });
+            if (this.state.incomingUnreadMessagesNum !== incomingUnreadMessagesNum) {
                 this.setState({
                     incomingUnreadMessagesNum: incomingUnreadMessagesNum
                 });
             }
-		});
-	}
+        });
+    }
 
     render() {
         const {openEdit, openRegister, openLogin, openNewRequest, openEditRequests} = this.props;
         const loggedUser = this.props.user;
         const userLogged = !!loggedUser;
-		if(userLogged){//TODO move to some other callback method, do one counting resful method on backend even for done
-			this.countIncomingUnreadMessages();
-			this.countMeetUpAndRatingAllerts();
-		}
+        if (userLogged) {//TODO move to some other callback method, do one counting resful method on backend even for done
+            this.countIncomingUnreadMessages();
+            this.countMeetUpAndRatingAllerts();
+        }
 
         return (
             <Navbar className="navbar-fixed-top bg-primary row" dark>
@@ -124,16 +133,18 @@ class Menu extends Component {
                         {userLogged ?
                             <div>
                                 <NavItem className="margin-right-30">
-                                    <Link href="/meetups-and-ratings" className="nav-link" role="tab" data-toggle="tab">Meet Ups {this.state.meetAndRatingsAlertsNum > 0 ?<span className="label label-success"> {this.state.meetAndRatingsAlertsNum}</span>
+                                    <Link href="/meetups-and-ratings" className="nav-link" role="tab" data-toggle="tab">Meet Ups {this.state.meetAndRatingsAlertsNum > 0 ?
+                                        <span className="label label-success"> {this.state.meetAndRatingsAlertsNum}</span>
                                         : ""}
                                     </Link>
                                 </NavItem>
                                 <NavItem className="margin-right-30">
-                                    <Link href="/messages" className="nav-link" role="tab" data-toggle="tab">Messages {this.state.incomingUnreadMessagesNum > 0 ?<span className="label label-success"> {this.state.incomingUnreadMessagesNum}</span>
-								    : ""}
-							        </Link>
+                                    <Link href="/messages" className="nav-link" role="tab" data-toggle="tab">Messages {this.state.incomingUnreadMessagesNum > 0 ?
+                                        <span className="label label-success"> {this.state.incomingUnreadMessagesNum}</span>
+                                        : ""}
+                                    </Link>
                                 </NavItem>
-						        <hr className="xs-visible sm-visible hidden-md-up hidden-lg-up"/>
+                                <hr className="xs-visible sm-visible hidden-md-up hidden-lg-up"/>
                                 <NavItem className="margin-right-30">
                                     <Link href="/" className="nav-link">Buddies</Link>
                                 </NavItem>
@@ -148,7 +159,7 @@ class Menu extends Component {
                                            href="#" id="supportedContentDropdown"
                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                                            onClick={this.setCollapsedMyTravelling}
-                                           >My traveling</a>
+                                        >My traveling</a>
                                         <div className="dropdown-menu">
                                             <a className="dropdown-item" onClick={openNewRequest}>Create New Request</a>
                                             <a className="dropdown-item" onClick={openEditRequests}>Edit My Requests</a>

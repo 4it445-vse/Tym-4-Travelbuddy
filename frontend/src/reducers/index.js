@@ -42,6 +42,7 @@ const modals = (state = initialStateModals, action) => {
         case 'OPEN_RESET_PASSWORD_SUCCESS':
         case 'OPEN_EDIT_REQUEST_SUCCESS':
         case 'OPEN_PROFILE_SUCCESS':
+        case 'OPEN_NEW_MEET_UP_SUCCESS':
             return {
                 ...state,
                 ...action.payload
