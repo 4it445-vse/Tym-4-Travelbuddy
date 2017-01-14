@@ -44,6 +44,7 @@ class Messages extends Component {
         axios.post('messages', obj).then(response => {
             this.props.incrementCheckPoint();
             this.findMessages(this.state.selectedConversationUser);
+            this.props.refreshUsers();
         });
     }
 

@@ -90,7 +90,8 @@ class MessagesPage extends Component {
                                     <Messages setFindUserMessages={this.setFindUserMessages}
                                               selectedConversationUser={this.state.selectedConversationUser}
                                               updateSelectedUserInUserViewFn={this.state.updateSelectedUserInUserViewFn}
-                                              incrementCheckPoint={this.incrementCheckPoint}/>
+                                              incrementCheckPoint={this.incrementCheckPoint}
+                                            refreshUsers={this.refreshUsers}/>
                                 </div>
                             </div>
                         </div>
