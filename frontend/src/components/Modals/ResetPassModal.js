@@ -12,7 +12,8 @@ class ResetPassModal extends Component {
 
         this.state = {
             errors: {},
-            fields: {}
+            fields: {},
+            displayLoading: false
         }
 
         this.handleSubmitResetPass = this.handleSubmitResetPass.bind(this);
@@ -23,6 +24,7 @@ class ResetPassModal extends Component {
     closeModal() {
         this.state.errors = {};
         this.state.fields = {};
+        this.state.displayLoading = false;
         this.props.hideFn();
     }
 
@@ -38,6 +40,7 @@ class ResetPassModal extends Component {
         if (this.state.errors['email'] !== undefined) {
             return;
         }
+        this.setState({displayLoading: true});
         axios.post('messages/request-pass-reset', {
             email: email
         }).then(response => {
@@ -45,8 +48,7 @@ class ResetPassModal extends Component {
                 this.props.openAlert({
                     "type": "success",
                     "message": "Instructions how to reset your password has been sent to you email."
-                })
-                this.props.hideFn();
+                });
             } else {
                 this.setState({showErrorMessage: "There is no user with this e-mail."});
             }
@@ -72,6 +74,7 @@ class ResetPassModal extends Component {
     render() {
         const {showProp} = this.props;
         const {errors} = this.state;
+        const loader = require('../../images/lazyload.gif');
         return (
             <Modal show={showProp} onHide={this.closeModal}>
                 <Modal.Header closeButton>
@@ -94,6 +97,9 @@ class ResetPassModal extends Component {
                             </div>
                         </div>
                         <hr/>
+                        {
+                            this.state.displayLoading? <img src={loader}/> : ""
+                        }
                         <a onClick={this.handleSubmitResetPass}
                                 className="btn btn-primary fullsize white">Reset password
                         </a>
