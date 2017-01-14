@@ -38,6 +38,7 @@ class Menu extends Component {
         axios.get('Meetups', {
             params: {
                 filter: {
+                    include: 'ratings',
                     where: {
                         or: [
                             {"buddy_id_to": this.props.user.id},
@@ -48,41 +49,28 @@ class Menu extends Component {
             }
         }).then(response => {
             let meetUps = response.data;
-            console.log("first ajax result: ", meetUps);
             let meetAndRatingsAlertsNum = 0;
-            let meetUpsCurrentIndex = -1;
             meetUps.map(meetUp => {
-                axios.get('BuddyRatings', {
-                    params: {
-                        filter: {
-                            where: {
-                                meetup_id: meetUp.id,
-                                buddy_id_from: this.props.user.id
-                            }
-                        }
-                    }
-                }).then(response => {
-                    meetUpsCurrentIndex++;
-                    if (response.data.length === 0) {
-                        meetAndRatingsAlertsNum++;
-                    } else if (meetUp.buddy_id_to === this.props.user.id && meetUp.verified === false) {
-                        meetAndRatingsAlertsNum++;
-                    } else if (meetUp.verified === true && meetUp.done === false &&
-                        (new Date(meetUp.date_time).getTime() - new Date().getTime()) <= 0) {
-                        meetAndRatingsAlertsNum++;
-                    }
-                    console.log(meetAndRatingsAlertsNum, meetUpsCurrentIndex, meetUps.length - 1);
-                    if(meetUpsCurrentIndex === meetUps.length - 1){
-                        console.log("here");
-                        if (this.state.meetAndRatingsAlertsNum !== meetAndRatingsAlertsNum) {
-                            this.setState({
-                                meetAndRatingsAlertsNum: meetAndRatingsAlertsNum
-                            });
-                        }
+                let currentUserGaveRating = false;
+                meetUp.ratings.map(rating =>{
+                    if(rating.buddy_id_from === this.props.user.id){
+                        currentUserGaveRating = true;
                     }
                 });
+                if (meetUp.verified && meetUp.done && !currentUserGaveRating) {
+                    meetAndRatingsAlertsNum++;
+                } else if (meetUp.buddy_id_to === this.props.user.id && !meetUp.verified) {
+                    meetAndRatingsAlertsNum++;
+                } else if (meetUp.verified && !meetUp.done &&
+                    (new Date(meetUp.date_time).getTime() - new Date().getTime()) <= 0) {
+                    meetAndRatingsAlertsNum++;
+                }
             });
-
+            if (this.state.meetAndRatingsAlertsNum !== meetAndRatingsAlertsNum) {
+                this.setState({
+                    meetAndRatingsAlertsNum: meetAndRatingsAlertsNum
+                });
+            }
         });
     }
 

@@ -21,58 +21,9 @@ export default class ShowMeetUpModal extends Component {
 
     hideModal = () => {
         this.state = {
-            errors: {},
-            incomingRating: undefined,
-            incomingRatingExist: undefined,
-            outcomingRating: undefined,
-            outcomingRatingExist: undefined
+            errors: {}
         }
         this.props.hideFn();
-    }
-
-    componentDidMount() {
-        console.log("componentWillReceiveProps");
-        axios.get('BuddyRatings', {
-            params: {
-                filter: {
-                    where: {
-                        meetup_id: this.props.meetUp.id
-                    }
-                }
-            }
-        }).then(response => {
-            console.log(response.data);
-            const otherBuddyId = this.props.buddy.id;
-            const ratings = response.data;
-            let outcomingRating = undefined;
-            let incomingRating = undefined;
-            let incomingRatingExist = false;
-            let outcomingRatingExist = false;
-            if (ratings[0]) {
-                if (ratings[0].buddy_id_from === otherBuddyId) {
-                    incomingRating = ratings[0];
-                    incomingRatingExist = true;
-                } else {
-                    outcomingRating = ratings[0];
-                    outcomingRatingExist = true;
-                }
-            }
-            if (ratings[1]) {
-                if (ratings[1].buddy_id_from === otherBuddyId) {
-                    incomingRating = ratings[1];
-                    incomingRatingExist = true;
-                } else {
-                    outcomingRating = ratings[1];
-                    outcomingRatingExist = true;
-                }
-            }
-            this.setState({
-                outcomingRating,
-                incomingRatingExist,
-                incomingRating,
-                outcomingRatingExist
-            });
-        });
     }
 
     ratingChanged = (newRating) => {
@@ -123,7 +74,32 @@ export default class ShowMeetUpModal extends Component {
     render() {
         const {showProp, buddy} = this.props;
         const dateFormat = "MM/DD/YYYY";
-        const {outcomingRating, incomingRating} = this.state;
+
+        const otherBuddyId = this.props.buddy.id;
+        const {ratings} = this.props.meetUp;
+        let outcomingRating = undefined;
+        let incomingRating = undefined;
+        let incomingRatingExist = false;
+        let outcomingRatingExist = false;
+        if (ratings[0]) {
+            if (ratings[0].buddy_id_from === otherBuddyId) {
+                incomingRating = ratings[0];
+                incomingRatingExist = true;
+            } else {
+                outcomingRating = ratings[0];
+                outcomingRatingExist = true;
+            }
+        }
+        if (ratings[1]) {
+            if (ratings[1].buddy_id_from === otherBuddyId) {
+                incomingRating = ratings[1];
+                incomingRatingExist = true;
+            } else {
+                outcomingRating = ratings[1];
+                outcomingRatingExist = true;
+            }
+        }
+
         return (
             <Modal show={showProp} onHide={this.hideModal}>
                 <Modal.Header closeButton>
@@ -167,8 +143,8 @@ export default class ShowMeetUpModal extends Component {
                         }
                         {
                             this.props.meetUp.verified === true && this.props.meetUp.done === true ?
-                                incomingRating === undefined && this.state.incomingRatingExist === undefined ? "" :
-                                    incomingRating === undefined && this.state.incomingRatingExist === false ?
+                                incomingRating === undefined && incomingRatingExist === undefined ? "" :
+                                    incomingRating === undefined && incomingRatingExist === false ?
                                         ""
                                         :
                                         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -192,8 +168,8 @@ export default class ShowMeetUpModal extends Component {
 
                         {
                             this.props.meetUp.verified === true && this.props.meetUp.done ?
-                                outcomingRating === undefined && this.state.outcomingRatingExist === undefined ? "" :
-                                    outcomingRating === undefined && this.state.outcomingRatingExist === false ?
+                                outcomingRating === undefined && outcomingRatingExist === undefined ? "" :
+                                    outcomingRating === undefined && outcomingRatingExist === false ?
                                         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                             <div className="row text-xs-left">
                                                 <div className="col-xs-4 no-padding-right">

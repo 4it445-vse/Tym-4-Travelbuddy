@@ -2,10 +2,10 @@ import React, {Component} from "react";
 import currentUser from "../../actions/CurrentUser";
 import FontAwesome from "react-fontawesome";
 import axios from "../../api";
-import { connect } from "react-redux";
-import { openLogin } from "../../actions/modals";
-import { openMeetUp } from "../../actions/modals";
-import { openContactBuddy } from "../../actions/modals";
+import {connect} from "react-redux";
+import {openLogin} from "../../actions/modals";
+import {openMeetUp} from "../../actions/modals";
+import {openContactBuddy} from "../../actions/modals";
 import moment from 'moment';
 
 class MeetUp extends Component {
@@ -20,8 +20,7 @@ class MeetUp extends Component {
                 city: null
             },
             render: false,
-            avatarSrc: "http://images.megaupload.cz/mystery-man.png",
-            highlight: false
+            avatarSrc: "http://images.megaupload.cz/mystery-man.png"
         }
 
         this.openMeetUp = this.openMeetUp.bind(this);
@@ -39,31 +38,6 @@ class MeetUp extends Component {
                 avatarSrc: profilePhotoName
             });
         });
-        axios.get('BuddyRatings', {
-            params: {
-                filter: {
-                    where: {
-                        meetup_id: this.props.meetUp.id,
-                        buddy_id_from: this.props.user.id
-                    }
-                }
-            }
-        }).then(response => {
-            let highlight = false;
-            if(response.data.length === 0){
-                highlight = true;
-            }else if(this.props.meetUp.done === false && this.props.meetUp.verified === true &&
-                (new Date(this.props.meetUp.date_time).getTime() - new Date().getTime()) <= 0){
-                console.log("second");
-                highlight = true;
-            }else if(this.props.isBuddyView === true && this.props.meetUp.verified === false){
-                console.log("third");
-                highlight = true;
-            }
-            this.setState({
-                highlight
-            });
-        });
     }
 
     onClick(e) {
@@ -79,19 +53,39 @@ class MeetUp extends Component {
     }
 
     openMeetUp() {
-        this.props.openMeetUp({buddy: this.state.buddy, meetUp: this.props.meetUp, isBuddyView:  this.props.isBuddyView});
+        this.props.openMeetUp({buddy: this.state.buddy, meetUp: this.props.meetUp, isBuddyView: this.props.isBuddyView});
     }
 
     openContactBuddy() {
         this.props.openContactBuddy({buddy: this.state.buddy});
     }
 
-    render() {
+    isHighlighted = () => {
+        let currentUserGaveRating = false;
+        console.log("meetUp", this.props.meetUp);
+        this.props.meetUp.ratings.map(rating => {
+            if (rating.buddy_id_from === this.props.user.id) {
+                currentUserGaveRating = true;
+            }
+        });
+        if (this.props.meetUp.done && this.props.meetUp.verified && !currentUserGaveRating) {
+            return true;
+        }
+        if (!this.props.meetUp.done && this.props.meetUp.verified &&
+            (new Date(this.props.meetUp.date_time).getTime() - new Date().getTime()) <= 0) {
+            return true;
+        }
+        if (this.props.isBuddyView && !this.props.meetUp.verified) {
+            return true;
+        }
+        return false;
+    }
 
+    render() {
         const {render} = this.state;
         const loader = require('../../images/lazyload.gif');
         const dateFormat = "MM/DD/YYYY";
-
+        const highlight = this.isHighlighted();
         if (render) return (
             <a href="#" onClick={this.onClick} className="profil_vypis">
                 <div className="card-block" id="buddy-row">
@@ -102,7 +96,7 @@ class MeetUp extends Component {
                     </div>
                     <div className="col-md-3 col-xs-5 m-t-05">
                         <div className="row">
-                            <p className={"no-margin ellipsis" + (this.state.highlight?" highlight-text":"")}>{this.state.buddy.name + " " + this.state.buddy.surname}</p>
+                            <p className={"no-margin ellipsis" + (highlight ? " highlight-text" : "")}>{this.state.buddy.name + " " + this.state.buddy.surname}</p>
                         </div>
                         <div className="row">
                             <span className="no-margin ellipsis">{this.state.buddy.city}</span>
@@ -130,7 +124,7 @@ class MeetUp extends Component {
 }
 export default connect(
     (state) => ({
-        user : state.user
+        user: state.user
     }),
     {
         openLogin,

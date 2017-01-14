@@ -28,15 +28,14 @@ class MeetUpsAndRatings extends Component {
             where['buddy_id_from'] = this.props.user.id;
             isBuddyView = false;
         }
-        console.log("before call");
         axios.get('Meetups', {
             params: {
                 filter: {
+                    include: 'ratings',
                     where
                 }
             }
         }).then(response => {
-            console.log("response: ", response);
             this.setState({
                 meetUps: response.data,
                 isBuddyView: isBuddyView

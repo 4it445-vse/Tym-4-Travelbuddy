@@ -27,8 +27,8 @@
   },
   "validations": [],
   "relations": {
-    "rating": {
-      "type": "hasOne",
+    "ratings": {
+      "type": "hasMany",
       "model": "BuddyRating",
       "foreignKey": "meetup_id"
     }
