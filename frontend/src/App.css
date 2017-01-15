@@ -6,6 +6,11 @@ body {
   background-size: cover;
 }
 
+.modal-open .container-fluid{
+    padding-right: 0px !important;
+    padding-left: 0px !important;
+}
+
 h1{
   margin-bottom: 15px;
 }
@@ -22,13 +27,23 @@ h1{
 .highlight-text{
     font-weight: bold;
 }
+.odkaz{
+    font-weight: bold;
+    text-decoration: underline !important;
+color: #ff8d7a;
+}
+ .odkaz:hover{
+    font-weight: bold;
+    text-decoration: underline !important;
+    color: #ff3724;
+}
 
 .btn-margin-right-30 {
     margin-right: 30px;
 }
 
 .PaginateButton:hover {
-    background-color: #50a1ee;
+    background-color: #0275d8;
 }
 
 .PaginateRibbon {
@@ -62,6 +77,10 @@ h1{
 
 .SearchButton:hover {
     background-color: #50a1ee;
+}
+
+.logo {
+    width: 10%;
 }
 
 .SearchBorder {
@@ -202,7 +221,7 @@ h1{
     color: #a94442;
 }
 .iconContainer {
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(47, 47, 47, .7);
   border-radius: 8px 8px 8px 8px;
   padding: 10px 10px 10px 10px;
   border: 2px solid #0275d8 ;
@@ -626,8 +645,16 @@ h1{
     font-size: 12px;
     line-height: 3;
 }
-
-
+.pad-t-5 {
+   padding-top: 5px;
+   padding-bottom: 20px;
+}
+.pad-d-20 {
+    padding-bottom: 20px;
+}
+.colarose {
+    background: rgba(99, 99, 99, 0.82);
+}
 
 
 @media (max-width: 575px) {
@@ -813,6 +840,9 @@ h1{
     border-color: #0275d8;
 }
 
+
+
+
 @media (max-width: 991px) {
     .dropdown-menu {
         cursor: pointer;
@@ -847,14 +877,14 @@ h1{
 }
 
 .modal-open nav{
-    position: relative !important;
+    position: absolute !important;
 }
 .modal-open .container{
-    margin-top: -55px !important;
+    margin-top: 0px !important;
 }
 @media (max-width: 991px) {
     .modal-open nav{
-        position: fixed !important;
+        position: absolute !important;
     }
     .modal-open .container{
         margin-top: 0px !important;
@@ -893,3 +923,4 @@ margin-left: 20px;
 #alert {
     margin-bottom: 0px;
 }
+
