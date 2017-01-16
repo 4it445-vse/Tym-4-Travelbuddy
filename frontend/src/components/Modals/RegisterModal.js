@@ -55,7 +55,7 @@ class RegisterModal extends Component {
 
     handleSubmitRegistration = (event) => {
         const fieldsArray = ["name", "surname", "city", "email", "pass", "pass_repeated", "agreed_with_conditions"];
-        for (var name of fieldsArray) {
+        for (let name of fieldsArray) {
             let obj = {
                 target: {
                     value: this.state.fields[name],
@@ -66,7 +66,7 @@ class RegisterModal extends Component {
             this.onChange(obj);
         }
         let fieldsAreValid = true;
-        for (var name of fieldsArray) {
+        for (let name of fieldsArray) {
             if (this.state.errors[name] !== undefined) {
                 fieldsAreValid = false;
             }

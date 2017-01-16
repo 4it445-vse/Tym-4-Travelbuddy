@@ -4,6 +4,7 @@ import axios from "../../api";
 import validation from "../../Validation/Validation";
 import { connect } from "react-redux";
 import { openAlert } from "../../actions/modals";
+import Loading from '../Images/Loading';
 
 class ResetPassModal extends Component {
 
@@ -70,7 +71,6 @@ class ResetPassModal extends Component {
     render() {
         const {showProp} = this.props;
         const {errors} = this.state;
-        const loader = require('../../images/lazyload.gif');
         return (
             <Modal show={showProp} onHide={this.closeModal}>
                 <Modal.Header closeButton>
@@ -94,7 +94,7 @@ class ResetPassModal extends Component {
                         </div>
                         <hr/>
                         {
-                            this.state.displayLoading? <img src={loader}/> : ""
+                            this.state.displayLoading? <Loading/> : ""
                         }
                         <a onClick={this.handleSubmitResetPass}
                                 className="btn btn-primary fullsize white">Reset password

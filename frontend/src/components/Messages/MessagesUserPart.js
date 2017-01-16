@@ -70,9 +70,7 @@ class MessagesUserPart extends Component {
                 let buddyMessages = response.data;
                 let messages = new Map();
                 if (buddyMessages && buddyMessages[0]) {
-                    let unreadIncomingMessagesTotalNum = 0;
                     let currentUserId = currentU.id;
-                    let lastMessageTime = undefined;
                     buddyMessages.map(message => {
                         if (message.buddy_id_to === currentUserId) {
                             let cbm = messages.get(message.buddy_id_from);
@@ -90,8 +88,7 @@ class MessagesUserPart extends Component {
                                 }
                             }
                             if (message.displayed === false) {
-                                unreadIncomingMessagesTotalNum++;
-                                obj.unreadIncomingMessagesNum = obj.unreadIncomingMessagesNum + 1;
+                                obj.unreadIncomingMessagesNum++;
                             }
                             messages.set(message.buddy_id_from, obj);
                         } else {

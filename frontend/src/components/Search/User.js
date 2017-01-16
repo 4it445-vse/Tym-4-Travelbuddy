@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { openLogin } from "../../actions/modals";
 import { openProfile } from "../../actions/modals";
 import { openContactBuddy } from "../../actions/modals";
+import Loading from '../Images/Loading';
 
 class User extends Component {
     constructor(props) {
@@ -58,7 +59,6 @@ class User extends Component {
     render() {
 
         const {render} = this.state;
-        const loader = require('../../images/lazyload.gif');
 
         if (render) return (
             <a href="#" onClick={this.onClick} className="profil_vypis">
@@ -97,7 +97,7 @@ class User extends Component {
                 </div>
             </a>
         )
-        else return (<div className="card-block text-xs-center" id="buddy-row"><img src={loader}/></div>)
+        else return (<div className="card-block text-xs-center" id="buddy-row"><Loading/></div>)
     }
 }
 export default connect(

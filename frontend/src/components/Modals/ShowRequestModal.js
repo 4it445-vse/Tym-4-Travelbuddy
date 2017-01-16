@@ -13,7 +13,7 @@ export default class ShowRequestModal extends Component {
         const {showProp, hideFn, requestShowModalContent} = this.props;
         const {buddy, request} = requestShowModalContent;
         const profilePhotoName = currentUser.composeProfilePhotoName(buddy);
-        const title = buddy.name + " " + buddy.surname + " " + " looking for buddies in " + request.city;
+        const title = buddy.name + " " + buddy.surname + " looking for buddies in " + request.city;
         return (
             <AbstractModal title={title} showProp={showProp} hideFn={hideFn}
                            submitFn={this.constactBuddy} submitText={"Message"}>
@@ -44,7 +44,7 @@ export default class ShowRequestModal extends Component {
                       <b>From: </b>
                     </div>
                     <div className="col-xs-9">
-                      {moment(request.from).format('MM/DD/YYYY')}
+                      {moment(request.from).format(currentUser.dateFormat)}
                     </div>
                   </div>
                   <div className="row text-xs-left">
@@ -52,7 +52,7 @@ export default class ShowRequestModal extends Component {
                       <b>To: </b>
                     </div>
                     <div className="col-xs-9">
-                      {moment(request.to).format('MM/DD/YYYY')}
+                      {moment(request.to).format(currentUser.dateFormat)}
                     </div>
                   </div>
                   <div className="row text-xs-left">

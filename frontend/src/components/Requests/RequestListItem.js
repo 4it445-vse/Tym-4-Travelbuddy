@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import axios from "../../api";
+import Loading from '../Images/Loading';
+import currentUser from "../../actions/CurrentUser";
 
 export class RequestListItem extends Component {
   constructor(props) {
@@ -37,10 +39,7 @@ export class RequestListItem extends Component {
   }
 
   render() {
-    const { openContactBuddy } = this.props;
     const { city, from, to } = this.state.request;
-    const { name, email } = this.state.buddy
-    const loader = require('../../images/lazyload.gif');
     return (
       <div className="col-lg-4 col-md-6 col-xs-12">
         { this.state.render ? (
@@ -69,7 +68,7 @@ export class RequestListItem extends Component {
               From:
             </div>
             <div className="col-xs-9 text-xs-left ellipsis">
-              {moment(from).format('MM/DD/YYYY')}
+              {moment(from).format(currentUser.dateFormat)}
             </div>
           </div>
           <div className="row">
@@ -77,7 +76,7 @@ export class RequestListItem extends Component {
               To:
             </div>
             <div className="col-xs-9 text-xs-left ellipsis">
-              {moment(to).format('MM/DD/YYYY')}
+              {moment(to).format(currentUser.dateFormat)}
             </div>
           </div>
           <hr/>
@@ -91,7 +90,7 @@ export class RequestListItem extends Component {
           </div>
         </div> ) :
         (
-                  <div className="request lazyloadReq"><img src={loader}/></div>
+                  <div className="request lazyloadReq"><Loading/></div>
         )
       }
       </div>

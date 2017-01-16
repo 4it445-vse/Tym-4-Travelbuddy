@@ -18,7 +18,6 @@ const user = (state = initialState, action) => {
                 ...action.payload
             }
         case 'LOGOUT_USER_SUCCESS':
-            console.log('LOGOUT_USER_SUCCESS ', initialState);
             browserHistory.push("/");
             return null;
         default:
@@ -41,7 +40,6 @@ const modals = (state = initialStateModals, action) => {
         case 'OPEN_CREATE_REQUEST_SUCCESS':
         case 'OPEN_RESET_PASSWORD_SUCCESS':
         case 'OPEN_EDIT_REQUEST_SUCCESS':
-        case 'OPEN_PROFILE_SUCCESS':
         case 'OPEN_NEW_MEET_UP_SUCCESS':
             return {
                 ...state,

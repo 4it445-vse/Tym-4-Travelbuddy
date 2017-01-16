@@ -107,7 +107,7 @@ class Menu extends Component {
             <Navbar className="navbar-fixed-top bg-primary row" dark>
                 <div className="col-xs-9 col-md-3 text-xs-left">
 
-                    <NavbarBrand href="/"><img src="http://images.megaupload.cz/Bez_nazvu-5ey4Z7.png" width="15%"/> Travel Buddy</NavbarBrand>
+                    <NavbarBrand href="/"><img src="http://images.megaupload.cz/Bez_nazvu-5ey4Z7.png" alt="logo" width="15%"/> Travel Buddy</NavbarBrand>
                 </div>
                 <div className="col-xs-3 col-md-9 text-xs-right">
                     <NavbarToggler className="hidden-lg-up collapsed pointer" onClick={this.toggleNavbar}/>
