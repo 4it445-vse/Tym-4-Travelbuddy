@@ -16,12 +16,16 @@ class LoginModal extends Component {
     }
 
     closeModal = () => {
-        this.state.errors = {};
+        this.setState({
+            errors: []
+        });
         this.props.hideFn();
     }
 
     switchModal = () => {
-        this.state.errors = {};
+        this.setState({
+            errors: {},
+        });
         this.props.switchFn();
     }
 

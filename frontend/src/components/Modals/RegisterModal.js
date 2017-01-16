@@ -20,14 +20,18 @@ class RegisterModal extends Component {
     }
 
     closeModal = () => {
-        this.state.errors = {};
-        this.state.fields = {};
+        this.setState({
+            errors: {},
+            fields: {}
+        });
         this.props.hideFn();
     }
 
     switchModal = () => {
-        this.state.errors = {};
-        this.state.fields = {};
+        this.setState({
+            errors: {},
+            fields: {}
+        });
         this.props.switchFn();
     }
 
@@ -55,19 +59,19 @@ class RegisterModal extends Component {
 
     handleSubmitRegistration = (event) => {
         const fieldsArray = ["name", "surname", "city", "email", "pass", "pass_repeated", "agreed_with_conditions"];
-        for (var name of fieldsArray) {
+        for (var nameOfField of fieldsArray) {
             let obj = {
                 target: {
-                    value: this.state.fields[name],
-                    checked: this.state.fields[name],
-                    name: name
+                    value: this.state.fields[nameOfField],
+                    checked: this.state.fields[nameOfField],
+                    name: nameOfField
                 }
             };
             this.onChange(obj);
         }
         let fieldsAreValid = true;
-        for (var name of fieldsArray) {
-            if (this.state.errors[name] !== undefined) {
+        for (var field of fieldsArray) {
+            if (this.state.errors[field] !== undefined) {
                 fieldsAreValid = false;
             }
         }

@@ -57,8 +57,8 @@ class EditProfileModal extends Component {
     }
 
     onChangeImg = (e) => {
-        const fileInput = e.target.files[0];
-        var filesize = (fileInput.size / 1024 / 1024).toFixed(2);
+        // const fileInput = e.target.files[0];
+        // var filesize = (fileInput.size / 1024 / 1024).toFixed(2);
     }
 
     onClick = () => {
@@ -69,9 +69,6 @@ class EditProfileModal extends Component {
         data.append("file", photo);
         const containerName = 'container_' + currentUserLocal.id;
         axios.post('containers/' + containerName + '/upload', data).then(data => {
-            let constructedBuddy = {
-                "profile_photo_name": name
-            };
             axios.post('buddies/update?where[id]=' + currentUserLocal.id, {"profile_photo_name": name})
                 .then(response => {
                     this.setState({
@@ -135,8 +132,8 @@ class EditProfileModal extends Component {
             this.onChange(obj);
         }
         let fieldsAreValid = true;
-        for (var name of ["city", "about_me"]) {
-            if (this.state.errors[name] !== undefined) {
+        for (var field of ["city", "about_me"]) {
+            if (this.state.errors[field] !== undefined) {
                 fieldsAreValid = false;
             }
         }

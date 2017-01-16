@@ -53,6 +53,8 @@ function validatePass(pass, pass_repeated, errors, name){
                 }
             }
             break;
+        default:
+            break;
     }
     return errors;
 
@@ -95,6 +97,8 @@ function validate(name, value, otherValue) {
             break;
         case "surname":
             errorMessage = checkNotEmpty(value, "Enter your surname please.");
+            break;
+        default:
             break;
     }
     return errorMessage;

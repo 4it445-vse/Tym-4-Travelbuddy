@@ -17,8 +17,10 @@ class NewMeetUpModal extends Component {
     }
 
     closeModal = () => {
-        this.state.errors = {};
-        this.state.date = new Date();
+        this.setState({
+            errors: {},
+            date: new Date()
+        });
         this.props.hideFn();
     }
 

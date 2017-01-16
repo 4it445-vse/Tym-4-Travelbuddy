@@ -7,7 +7,7 @@ export class RequestsList extends Component {
     renderRequests(){
     const {requests, openShowRequestShowModal, openContactBuddy} = this.props;
     const loader = require('../../images/lazyload.gif');
-    const placeholder = (<div className="col-lg-4 col-md-6 col-xs-12"><div className="request lazyloadReq"><img src={loader}/></div></div>)
+    const placeholder = (<div className="col-lg-4 col-md-6 col-xs-12"><div className="request lazyloadReq"><img src={loader} alt="Loading data"/></div></div>)
     var render = []
     for(var i = 0; i < requests.length; i++) {
       render.push(<LazyLoad placeholder={placeholder} key={requests[i].id} height="50px" ><RequestListItem requestId={requests[i].id}

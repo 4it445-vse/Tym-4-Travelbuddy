@@ -129,6 +129,9 @@ export default class GooglePlacesSuggest extends Component {
             case 'Tab':
                 this.handleSelectSuggest(suggests[focusedSuggestIndex]);
                 break;
+
+            default:
+                break;
         }
     }
 

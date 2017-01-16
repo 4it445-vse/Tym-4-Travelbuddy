@@ -127,8 +127,8 @@ class RequestModal extends Component {
             this.onChange(obj);
         }
         let fieldsAreValid = true;
-        for (var name of ["city", "from", "to", "text"]) {
-            if (this.state.errors[name] !== undefined) {
+        for (var requestFields of ["city", "from", "to", "text"]) {
+            if (this.state.errors[requestFields] !== undefined) {
                 fieldsAreValid = false;
             }
         }

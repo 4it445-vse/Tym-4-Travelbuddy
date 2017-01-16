@@ -16,7 +16,7 @@ export default class FindUser extends Component {
     renderBuddies = () => {
       const {budies} = this.props
       const loader = require('../../images/lazyload.gif');
-      const placeholder = (<div className="card-block text-xs-center" id="buddy-row"><img src={loader}/></div>)
+      const placeholder = (<div className="card-block text-xs-center" id="buddy-row"><img src={loader} alt="Loading data"/></div>)
       var render = []
       for(var i = 0; i < budies.length; i++) {
         render.push(<LazyLoad placeholder={placeholder} key={budies[i].id} height="50px" ><User  buddyId={budies[i].id}/></LazyLoad>)
@@ -42,7 +42,7 @@ export default class FindUser extends Component {
                                 {
                                     this.renderBuddies()
                                 }
-                              
+
                             </div>
                         </div>
                 }

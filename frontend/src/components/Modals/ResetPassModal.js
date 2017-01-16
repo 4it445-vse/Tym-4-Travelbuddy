@@ -18,9 +18,11 @@ class ResetPassModal extends Component {
     }
 
     closeModal = () => {
-        this.state.errors = {};
-        this.state.fields = {};
-        this.state.displayLoading = false;
+        this.setState({
+            errors: {},
+            fields: {},
+            displayLoading: false
+        });
         this.props.hideFn();
     }
 
@@ -94,7 +96,7 @@ class ResetPassModal extends Component {
                         </div>
                         <hr/>
                         {
-                            this.state.displayLoading? <img src={loader}/> : ""
+                            this.state.displayLoading? <img src={loader} alt="Loading data"/> : ""
                         }
                         <a onClick={this.handleSubmitResetPass}
                                 className="btn btn-primary fullsize white">Reset password

@@ -73,8 +73,8 @@ class NewRequestModal extends Component {
             this.onChange(obj);
         }
         let fieldsAreValid = true;
-        for (var name of ["city", "from", "to", "text"]) {
-            if(this.state.errors[name] !== undefined){
+        for (var field of ["city", "from", "to", "text"]) {
+            if(this.state.errors[field] !== undefined){
                 fieldsAreValid = false;
             }
         }
@@ -108,7 +108,7 @@ class NewRequestModal extends Component {
     }
 
     render() {
-        const {showProp, hideFn} = this.props;
+        const {showProp} = this.props;
         const {errors} = this.state;
         const title = "I want to go on a new trip!";
 
