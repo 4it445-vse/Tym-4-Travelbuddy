@@ -18,19 +18,9 @@ class RequestModal extends Component {
             selectedRequest: null,
             displayCitySuggest: true
         };
-
-        this.handleSubmitEdit = this.handleSubmitEdit.bind(this);
-        this.findBuddysRequests = this.findBuddysRequests.bind(this);
-        this.handleSelectChange = this.handleSelectChange.bind(this);
-        this.onChange = this.onChange.bind(this);
-        this.onBlur = this.onBlur.bind(this);
-        this.validate = this.validate.bind(this);
-        this.prepareRemoveRequest = this.prepareRemoveRequest.bind(this);
-        this.removeRequest = this.removeRequest.bind(this);
-        this.hideModal = this.hideModal.bind(this);
     }
 
-    hideModal() {
+    hideModal = () => {
         this.state = {
             errors: {},
             requests: [],
@@ -41,21 +31,21 @@ class RequestModal extends Component {
         this.props.hideFn();
     }
 
-    prepareRemoveRequest() {
+    prepareRemoveRequest = () => {
         this.props.openQuestion({
             text: "Are you sure, you want to delete this request?",
             cb: this.removeRequest
         });
     }
 
-    removeRequest() {
+    removeRequest = () => {
         var id = this.state.selectedRequest
         axios.delete('Requests/' + id).then(response => {
             this.props.openAlert({"type": "success", "message": "Request has been successfully deleted."});
         });
     }
 
-    onChange(e) {
+    onChange = (e) => {
         const {name, value} = e.target;
 
         if(name === 'city' && value){
@@ -65,13 +55,13 @@ class RequestModal extends Component {
         }
     }
 
-    onBlur(e) {
+    onBlur = (e) => {
         const {name, value} = e.target;
 
         this.validate(name, value);
     }
 
-    validate(name, value, displayCitySug) {
+    validate = (name, value, displayCitySug) => {
         let { errors, fields, displayCitySuggest } = this.state;
 
         if (name === 'from') {
@@ -95,7 +85,7 @@ class RequestModal extends Component {
         });
     }
 
-    findBuddysRequests(suggest) {
+    findBuddysRequests = (suggest) => {
         axios.get('Requests', {
             params: {filter: {where: {buddy_id: this.props.user.id}}}
         })
@@ -119,7 +109,7 @@ class RequestModal extends Component {
             })
     }
 
-    handleSubmitEdit() {
+    handleSubmitEdit = () => {
         var id = this.state.fields.id;
         var city = this.state.fields.city;
         var from = this.state.fields.from;
@@ -165,7 +155,7 @@ class RequestModal extends Component {
             });
     }
 
-    handleSelectChange(requestFormated) {
+    handleSelectChange = (requestFormated) => {
         axios.get('Requests/' + requestFormated.value)
             .then(response => {
                 this.setState({fields: response.data, displayCitySuggest: false});

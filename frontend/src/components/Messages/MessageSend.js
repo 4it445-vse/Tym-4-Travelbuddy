@@ -8,16 +8,14 @@ export default class MessageSend extends Component {
         this.state = {
             messageText: ""
         }
-        this.submitSendMessage = this.submitSendMessage.bind(this);
-        this.setMessageText = this.setMessageText.bind(this);
     }
 
-    setMessageText(e) {
+    setMessageText = (e) => {
         var text = e.target.value;
         this.setState({messageText: text});
     }
 
-    submitSendMessage() {
+    submitSendMessage = () => {
         var text = this.state.messageText.replace(/\r?\n/g, '</br>');
         if (text) {
             this.setState({messageText: ""});

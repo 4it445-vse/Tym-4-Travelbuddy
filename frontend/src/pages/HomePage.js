@@ -13,17 +13,13 @@ class HomePage extends Component {
             setSearchedTown: this.setSearchedTown.bind(this),
             budies: []
         };
-
-        this.setSearchedTown = this.setSearchedTown.bind(this);
-        this.findRelevantBuddies = this.findRelevantBuddies.bind(this);
-        this.findAllBuddies = this.findAllBuddies.bind(this);
     }
 
     componentDidMount() {
         this.findAllBuddies();
     }
 
-    findAllBuddies() {
+    findAllBuddies = () => {
         axios.get('buddies', {
             params: {
                 filter: {
@@ -42,7 +38,7 @@ class HomePage extends Component {
         });
     }
 
-    findRelevantBuddies() {
+    findRelevantBuddies = () => {
         console.log("searchedTown: ", this.state.searchedTown);
         axios.get('buddies', {
             params: {
@@ -64,7 +60,7 @@ class HomePage extends Component {
         });
     }
 
-    setSearchedTown(value) {
+    setSearchedTown = (value) => {
         if (value) {
             this.setState({searchedTown: value}, () => {
                 this.findRelevantBuddies()

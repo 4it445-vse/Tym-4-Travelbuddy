@@ -13,9 +13,6 @@ class MessagesUserPart extends Component {
             usersWithMessages: [],
             usersWithMessagesChosen: []
         };
-        this.findUsers = this.findUsers.bind(this);
-        this.restrictUsers = this.restrictUsers.bind(this);
-        this.refreshUsers = this.refreshUsers.bind(this);
     }
 
     componentDidMount() {
@@ -23,12 +20,12 @@ class MessagesUserPart extends Component {
         this.refreshUsers();
     }
 
-    refreshUsers() {
+    refreshUsers = () => {
         this.findUsers();
         this.restrictUsers("");
     }
 
-    restrictUsers(value) {
+    restrictUsers = (value) => {
         let usersWithMessagesChosen = [];
         if (value) {
             this.state.usersWithMessages.map(message => {
@@ -45,7 +42,7 @@ class MessagesUserPart extends Component {
         });
     }
 
-    findUsers() {
+    findUsers = () => {
         this.state.usersWithMessages = [];
         let currentU = this.props.user;
         axios.get('messages/count', {

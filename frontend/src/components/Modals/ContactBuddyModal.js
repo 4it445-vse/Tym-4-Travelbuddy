@@ -13,17 +13,14 @@ class ContactBuddyModal extends Component {
             showValidation: false,
             text: ""
         }
-        this.handleSubmitContactBuddy = this.handleSubmitContactBuddy.bind(this);
-        this.validate = this.validate.bind(this);
-        this.closeModal = this.closeModal.bind(this);
     }
 
-    closeModal() {
+    closeModal = () => {
         this.state.showValidation = false;
         this.props.hideFn();
     }
 
-    validate(e) {
+    validate = (e) => {
         var value = e.target.value;
         if (value) {
             this.setState({
@@ -37,7 +34,7 @@ class ContactBuddyModal extends Component {
         }
     }
 
-    handleSubmitContactBuddy() {
+    handleSubmitContactBuddy = () => {
         if (!this.state.text) {
             this.setState({
                 showValidation: true

@@ -23,25 +23,15 @@ class RequestsPage extends Component {
         };
 
         this.fetchRequestsDebounced = lodash.debounce(this.fetchRequests, 50);
-        this.handleSearchChange = this.handleSearchChange.bind(this);
-        this.closeShowRequestShowModal = this.closeShowRequestShowModal.bind(this);
-        this.openShowRequestShowModal = this.openShowRequestShowModal.bind(this);
-        this.closeAlert = this.closeAlert.bind(this);
-        this.openContactBuddy = this.openContactBuddy.bind(this);
     }
 
-    closeAlert() {
-        this.props.openAlert(null);
-        this.setState(this.state);
-    }
-
-    closeShowRequestShowModal() {
+    closeShowRequestShowModal = () => {
         this.setState({
             showRequestShowModal: false
         });
     }
 
-    openContactBuddy(buddyTo) {
+    openContactBuddy = (buddyTo) => {
         if (buddyTo && buddyTo.name) {
             this.setState({
                 showRequestShowModal: false
@@ -50,7 +40,7 @@ class RequestsPage extends Component {
         }
     }
 
-    openShowRequestShowModal(buddy, request) {
+    openShowRequestShowModal = (buddy, request) => {
         this.setState({
             showRequestShowModal: true,
             requestShowModalContent: {
@@ -78,7 +68,7 @@ class RequestsPage extends Component {
         this.fetchRequests();
     }
 
-    handleSearchChange() {
+    handleSearchChange = () => {
         const searchString = document.getElementById('search-town').value;
         this.fetchRequestsDebounced(searchString);
     }

@@ -16,31 +16,25 @@ class MessagesPage extends Component {
         this.checkpoint = undefined;
         this.findUserMessages = undefined;
         this.refreshUsers = undefined;
-        this.setSelectedConversationUser = this.setSelectedConversationUser.bind(this);
-        this.setFindUserMessages = this.setFindUserMessages.bind(this);
-        this.setUpObserver = this.setUpObserver.bind(this);
-        this.incrementCheckPoint = this.incrementCheckPoint.bind(this);
-        this.setRefreshUsers = this.setRefreshUsers.bind(this);
-        this.setCheckPoint = this.setCheckPoint.bind(this);
     }
 
     componentDidMount() {
         setInterval(this.setUpObserver, 5000);
     }
 
-    setRefreshUsers(fn) {
+    setRefreshUsers = (fn) => {
         this.refreshUsers = fn;
     }
 
-    setCheckPoint(val) {
+    setCheckPoint = (val) => {
         this.checkpoint = val;
     }
 
-    incrementCheckPoint() {
+    incrementCheckPoint = () => {
         this.checkpoint++;
     }
 
-    setUpObserver() {
+    setUpObserver = () => {
         if(this.checkpoint){
             axios.get('messages/count', {
                 params: {
@@ -58,11 +52,11 @@ class MessagesPage extends Component {
         }
     }
 
-    setFindUserMessages(fn) {
+    setFindUserMessages = (fn) => {
         this.findUserMessages = fn;
     }
 
-    setSelectedConversationUser(value, fn) {
+    setSelectedConversationUser = (value, fn) => {
         if (this.findUserMessages) {
             this.findUserMessages(value);
         }

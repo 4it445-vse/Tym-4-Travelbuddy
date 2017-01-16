@@ -5,13 +5,7 @@ import currentUser from "../../actions/CurrentUser";
 
 export default class ShowRequestModal extends Component {
 
-    constructor(props){
-        super(props);
-
-        this.constactBuddy = this.constactBuddy.bind(this);
-    }
-
-    constactBuddy(){
+    constactBuddy = () => {
         this.props.contactBuddy(this.props.requestShowModalContent.buddy);
     }
 

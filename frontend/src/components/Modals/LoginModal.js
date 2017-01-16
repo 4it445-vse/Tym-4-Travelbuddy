@@ -13,23 +13,19 @@ class LoginModal extends Component {
         this.state = {
             errors: {}
         }
-
-        this.handleSubmitLogIn = this.handleSubmitLogIn.bind(this);
-        this.closeModal = this.closeModal.bind(this);
-        this.switchModal = this.switchModal.bind(this);
     }
 
-    closeModal() {
+    closeModal = () => {
         this.state.errors = {};
         this.props.hideFn();
     }
 
-    switchModal() {
+    switchModal = () => {
         this.state.errors = {};
         this.props.switchFn();
     }
 
-    handleSubmitLogIn(event) {
+    handleSubmitLogIn = (event) => {
         event.preventDefault();
         var email = document.getElementById("email-l").value;
         var pass = document.getElementById("pass-l").value;

@@ -12,22 +12,17 @@ class Menu extends Component {
             collapsed: true,
             collapsedMyTravelling: true
         };
-
-        this.toggleNavbar = this.toggleNavbar.bind(this);
-        this.logOut = this.logOut.bind(this);
-        this.countIncomingUnreadMessages = this.countIncomingUnreadMessages.bind(this);
-        this.setCollapsedMyTravelling = this.setCollapsedMyTravelling.bind(this);
     }
 
-    setCollapsedMyTravelling() {
+    setCollapsedMyTravelling = () => {
         this.setState({collapsedMyTravelling: (this.state.collapsedMyTravelling === false)});
     }
 
-    logOut() {
+    logOut = () => {
         this.props.logOutUser();
     }
 
-    toggleNavbar() {
+    toggleNavbar = () => {
         this.setState({
             collapsed: !this.state.collapsed
         });
@@ -74,7 +69,7 @@ class Menu extends Component {
         });
     }
 
-    countIncomingUnreadMessages() {
+    countIncomingUnreadMessages = () => {
         axios.get('messages', {
             params: {
                 filter: {

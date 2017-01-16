@@ -14,11 +14,10 @@ export class ResetPassword extends Component {
             errors: {},
             fields: {}
         };
-        this.handleSubmitPassReset = this.handleSubmitPassReset.bind(this);
         this.onChange = this.onChange.bind(this);
     }
 
-    handleSubmitPassReset(event) {
+    handleSubmitPassReset = (event) => {
         const fieldsArray = ["pass", "pass_repeated"];
         for (var name of fieldsArray) {
             let obj = {
@@ -58,7 +57,7 @@ export class ResetPassword extends Component {
         });
     }
 
-    onChange(e) {
+    onChange = (e) => {
         let name = e.target.name;
         let value = e.target.value;
         let errors = this.state.errors;

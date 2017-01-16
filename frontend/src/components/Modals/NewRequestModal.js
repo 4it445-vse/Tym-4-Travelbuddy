@@ -20,13 +20,9 @@ class NewRequestModal extends Component {
                 to: moment(new Date()).add(5, 'day').format('YYYY-MM-DD')
             }
         };
-
-        this.handleSubmitRequest = this.handleSubmitRequest.bind(this);
-        this.onChange = this.onChange.bind(this);
-        this.hideModal = this.hideModal.bind(this);
     }
 
-    hideModal() {
+    hideModal = () => {
         this.state = {
             errors: {},
             fields: {
@@ -39,7 +35,7 @@ class NewRequestModal extends Component {
         this.props.hideFn();
     }
 
-    onChange(e) {
+    onChange = (e) => {
         let name = e.target.name;
         let value = e.target.value;
 
@@ -60,7 +56,7 @@ class NewRequestModal extends Component {
         });
     }
 
-    handleSubmitRequest() {
+    handleSubmitRequest = () => {
         var city = this.state.fields.city;
         var from = this.state.fields.from;
         var to = this.state.fields.to;

@@ -23,9 +23,6 @@ class MeetUp extends Component {
             avatarSrc: "http://images.megaupload.cz/mystery-man.png"
         }
 
-        this.openMeetUp = this.openMeetUp.bind(this);
-        this.openContactBuddy = this.openContactBuddy.bind(this);
-        this.onClick = this.onClick.bind(this);
     }
 
     componentDidMount() {
@@ -40,7 +37,7 @@ class MeetUp extends Component {
         });
     }
 
-    onClick(e) {
+    onClick = (e) => {
         if (this.props.user) {
             if (e.target.id === 'envelope') {
                 this.openContactBuddy();
@@ -52,11 +49,11 @@ class MeetUp extends Component {
         }
     }
 
-    openMeetUp() {
+    openMeetUp = () => {
         this.props.openMeetUp({buddy: this.state.buddy, meetUp: this.props.meetUp, isBuddyView: this.props.isBuddyView});
     }
 
-    openContactBuddy() {
+    openContactBuddy = () => {
         this.props.openContactBuddy({buddy: this.state.buddy});
     }
 
