@@ -16,7 +16,9 @@ class ContactBuddyModal extends Component {
     }
 
     closeModal = () => {
-        this.state.showValidation = false;
+        this.setState({
+            showValidation: false,
+        });
         this.props.hideFn();
     }
 

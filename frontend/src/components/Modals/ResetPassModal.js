@@ -18,9 +18,11 @@ class ResetPassModal extends Component {
     }
 
     closeModal = () => {
-        this.state.errors = {};
-        this.state.fields = {};
-        this.state.displayLoading = false;
+        this.setState({
+            errors: {},
+            fields: {},
+            displayLoading: false
+        });
         this.props.hideFn();
     }
 

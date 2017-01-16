@@ -20,14 +20,18 @@ class RegisterModal extends Component {
     }
 
     closeModal = () => {
-        this.state.errors = {};
-        this.state.fields = {};
+        this.setState({
+            errors: {},
+            fields: {}
+        });
         this.props.hideFn();
     }
 
     switchModal = () => {
-        this.state.errors = {};
-        this.state.fields = {};
+        this.setState({
+            errors: {},
+            fields: {}
+        });
         this.props.switchFn();
     }
 

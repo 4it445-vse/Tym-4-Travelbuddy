@@ -46,7 +46,9 @@ class Messages extends Component {
     }
 
     findMessages = (selectedConversationUser) => {
-        this.state.messages = [];
+        this.setState({
+            messages: []
+        });
         if (selectedConversationUser && selectedConversationUser.lastMessageTime) {
             axios.get('messages', {
                 params: {

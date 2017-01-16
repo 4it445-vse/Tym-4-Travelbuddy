@@ -44,7 +44,9 @@ class MessagesUserPart extends Component {
     }
 
     findUsers = () => {
-        this.state.usersWithMessages = [];
+        this.setState({
+            usersWithMessages: []
+        })
         let currentU = this.props.user;
         axios.get('messages/count', {
             params: {
