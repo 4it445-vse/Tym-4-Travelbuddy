@@ -37,9 +37,7 @@ export class RequestListItem extends Component {
   }
 
   render() {
-    const { openContactBuddy } = this.props;
     const { city, from, to } = this.state.request;
-    const { name, email } = this.state.buddy
     const loader = require('../../images/lazyload.gif');
     return (
       <div className="col-lg-4 col-md-6 col-xs-12">
@@ -91,7 +89,7 @@ export class RequestListItem extends Component {
           </div>
         </div> ) :
         (
-                  <div className="request lazyloadReq"><img src={loader}/></div>
+                  <div className="request lazyloadReq"><img src={loader} alt="Loading data"/></div>
         )
       }
       </div>

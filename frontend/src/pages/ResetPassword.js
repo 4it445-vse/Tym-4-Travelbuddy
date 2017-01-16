@@ -30,8 +30,8 @@ export class ResetPassword extends Component {
             this.onChange(obj);
         }
         let fieldsAreValid = true;
-        for (var name of fieldsArray) {
-            if (this.state.errors[name] !== undefined) {
+        for (var fieldArray of fieldsArray) {
+            if (this.state.errors[fieldArray] !== undefined) {
                 fieldsAreValid = false;
             }
         }

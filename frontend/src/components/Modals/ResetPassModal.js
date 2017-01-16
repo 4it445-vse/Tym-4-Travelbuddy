@@ -94,7 +94,7 @@ class ResetPassModal extends Component {
                         </div>
                         <hr/>
                         {
-                            this.state.displayLoading? <img src={loader}/> : ""
+                            this.state.displayLoading? <img src={loader} alt="Loading data"/> : ""
                         }
                         <a onClick={this.handleSubmitResetPass}
                                 className="btn btn-primary fullsize white">Reset password

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { browserHistory } from 'react-router';
 import { connect } from "react-redux";
 import { openAlert } from "../actions/modals";

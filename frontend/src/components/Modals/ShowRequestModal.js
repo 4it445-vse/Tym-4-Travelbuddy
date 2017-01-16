@@ -13,7 +13,7 @@ export default class ShowRequestModal extends Component {
         const {showProp, hideFn, requestShowModalContent} = this.props;
         const {buddy, request} = requestShowModalContent;
         const profilePhotoName = currentUser.composeProfilePhotoName(buddy);
-        const title = buddy.name + " " + buddy.surname + " " + " looking for buddies in " + request.city;
+        const title = buddy.name + " " + buddy.surname + " looking for buddies in " + request.city;
         return (
             <AbstractModal title={title} showProp={showProp} hideFn={hideFn}
                            submitFn={this.constactBuddy} submitText={"Message"}>

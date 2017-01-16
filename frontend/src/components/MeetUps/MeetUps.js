@@ -15,7 +15,7 @@ export default class MeetUps extends Component {
     renderMeetUps(){
       const {meetUps} = this.props;
       const loader = require('../../images/lazyload.gif');
-      const placeholder = (<div className="card-block text-xs-center"><img src={loader}/></div>);
+      const placeholder = (<div className="card-block text-xs-center"><img src={loader} alt="Loading data"/></div>);
       var render = [];
       for(var i = 0; i < meetUps.length; i++) {
           if(this.props.isBuddyView === true){
@@ -45,7 +45,7 @@ export default class MeetUps extends Component {
                                 {
                                     this.renderMeetUps()
                                 }
-                              
+
                             </div>
                         </div>
                 }

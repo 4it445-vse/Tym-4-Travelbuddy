@@ -15,8 +15,8 @@ export default class ShowMeetUpModal extends Component {
             outcomingRating: undefined,
             outcomingRatingExist: undefined
         };
-        this.rating;
-        this.ratingText;
+        this.rating = null;
+        this.ratingText = null;
     }
 
     hideModal = () => {

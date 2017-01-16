@@ -64,6 +64,7 @@ class MeetUp extends Component {
             if (rating.buddy_id_from === this.props.user.id) {
                 currentUserGaveRating = true;
             }
+            return rating;
         });
         if (this.props.meetUp.done && this.props.meetUp.verified && !currentUserGaveRating) {
             return true;
@@ -116,7 +117,7 @@ class MeetUp extends Component {
                 </div>
             </a>
         )
-        else return (<div className="card-block text-xs-center" id="buddy-row"><img src={loader}/></div>)
+        else return (<div className="card-block text-xs-center" id="buddy-row"><img src={loader} alt="Loading data"/></div>)
     }
 }
 export default connect(

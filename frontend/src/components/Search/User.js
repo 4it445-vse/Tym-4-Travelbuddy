@@ -97,7 +97,7 @@ class User extends Component {
                 </div>
             </a>
         )
-        else return (<div className="card-block text-xs-center" id="buddy-row"><img src={loader}/></div>)
+        else return (<div className="card-block text-xs-center" id="buddy-row"><img src={loader} alt="Loading data"/></div>)
     }
 }
 export default connect(

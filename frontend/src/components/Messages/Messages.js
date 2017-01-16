@@ -95,6 +95,7 @@ class Messages extends Component {
                                     "avatarSrc": profilePhotoNameCU
                                 });
                             }
+                            return message;
                         }
                     );
                     this.state.messages.sort(function (a, b) {
