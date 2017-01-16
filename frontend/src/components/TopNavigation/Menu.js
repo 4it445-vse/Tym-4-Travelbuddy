@@ -4,7 +4,6 @@ import {Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem} from "reacts
 import axios from "../../api"
 import {connect} from "react-redux";
 import {logOutUser} from "../../actions/user";
-//import {Logo} from "../Images/Logo";
 class Menu extends Component {
 
     constructor(props) {
