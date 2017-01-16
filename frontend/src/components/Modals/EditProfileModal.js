@@ -57,7 +57,7 @@ class EditProfileModal extends Component {
     }
 
     onChangeImg = (e) => {
-        const fileInput = e.target.files[0];
+        //const fileInput = e.target.files[0];
         //var filesize = (fileInput.size / 1024 / 1024).toFixed(2);
     }
 

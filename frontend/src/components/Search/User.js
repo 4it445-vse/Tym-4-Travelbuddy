@@ -89,10 +89,10 @@ class User extends Component {
                         <p className="no-margin ellipsis2">{this.state.buddy.about_me}</p>
                     </div>
                     <div className="col-md-1 col-xs-2 m-t-05">
-                        <a href="#" onClick={this.onClick} className="profil_vypis" name="envelope">
-                            <FontAwesome className="sexIcon" name="envelope" size="2x" id="envelope"
+
+                            <FontAwesome onClick={this.onClick} className="sexIcon" name="envelope" size="2x" id="envelope"
                                          style={{color: '#0275d8'}}></FontAwesome>
-                        </a>
+
                     </div>
                 </div>
             </a>
