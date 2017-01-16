@@ -48,7 +48,12 @@ class MeetUpsAndRatings extends Component {
     render() {
         return (
             <div>
+        <div className="row pad-t-5 colarose">
+            <div className="container white">
                 <h1 className="v-o-4">Meet ups</h1>
+            </div>
+        </div>
+                <div className="container m-t-10">
                 <Tabs onSelect={this.handleSelect}>
                     <TabList>
                         <Tab>Buddy</Tab>
@@ -61,6 +66,7 @@ class MeetUpsAndRatings extends Component {
                         <MeetUps meetUps={this.state.meetUps} isBuddyView={this.state.isBuddyView}/>
                     </TabPanel>
                 </Tabs>
+            </div>
             </div>
         );
     }

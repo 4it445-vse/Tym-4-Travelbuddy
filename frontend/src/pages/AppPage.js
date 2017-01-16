@@ -8,7 +8,7 @@ export class AppPage extends Component {
         return (
             <div>
                 <TopNavigation/>
-                <div className="container">
+                <div className="container-fluid">
                     {children}
                 </div>
             </div>

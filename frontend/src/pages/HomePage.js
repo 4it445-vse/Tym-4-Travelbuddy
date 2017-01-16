@@ -80,12 +80,20 @@ class HomePage extends Component {
             <div>
                 {
                     !!this.props.user ?
-                        <h1 className="v-o-4">Buddies</h1>
+                        <div className="row pad-t-5 colarose">
+                            <div className="container white">
+                        <h1 className="v-o-4">Find your new travel buddies</h1>
+                        <div className="container">
+                        <SearchForm setSearchedTown={this.state.setSearchedTown}/>
+                        </div>
+                            </div>
+                        </div>
                         :
-                        <div>
+                            <div className="row pad-t-5 colarose">
+                            <div className="container">
                           <div className="row text-xs-center v-o-4">
                               <div className="col-xs-4">
-                                  <div className="iconContainer">
+                                  <div className="iconContainer white">
                                       <div className="row">
                                           <FontAwesome className="bigIcons" name="user"></FontAwesome>
                                       </div>
@@ -99,7 +107,7 @@ class HomePage extends Component {
                                   </div>
                               </div>
                               <div className="col-xs-4">
-                                  <div className="iconContainer">
+                                  <div className="iconContainer white">
                                       <div className="row">
                                           <FontAwesome className="bigIcons" name="user-plus"></FontAwesome>
                                       </div>
@@ -113,7 +121,7 @@ class HomePage extends Component {
                                   </div>
                               </div>
                               <div className="col-xs-4">
-                                  <div className="iconContainer">
+                                  <div className="iconContainer white">
                                       <div className="row">
                                           <FontAwesome className="bigIcons" name="users"></FontAwesome>
                                       </div>
@@ -135,13 +143,20 @@ class HomePage extends Component {
                                   live
                                   by meeting new friends and buddies in your destination. </b></p>
                           </div>
-                        </div>
+
+                            </div>
+                                <div className="container">
+                                    <SearchForm setSearchedTown={this.state.setSearchedTown}/>
+                                </div>
+                            </div>
+
+
                 }
-                <SearchForm setSearchedTown={this.state.setSearchedTown}/>
-
-
+                <div className="container">
                 <FindUser budies={this.state.budies} searchedTown={this.state.searchedTown}/>
             </div>
+            </div>
+
         );
     }
 }

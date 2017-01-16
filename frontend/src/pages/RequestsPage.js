@@ -95,12 +95,14 @@ class RequestsPage extends Component {
         console.log(this.props.user);
         const {requests} = this.state;
         return (
-            <div>
-              <h1 className="v-o-4">Requests</h1>
+          <div>
+        <div className="row pad-t-5 colarose">
+            <div className="container white">
+              <h1 className="v-o-4">Find yours Requests</h1>
                 <ShowRequestModal showProp={this.state.showRequestShowModal} hideFn={this.closeShowRequestShowModal}
                                   requestShowModalContent={this.state.requestShowModalContent}
                                   contactBuddy={this.openContactBuddy}/>
-                <div className="row">
+
                 <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.search } display={true}>
                     <div className="input-group">
                         <input id="search-town" type="search"
@@ -116,15 +118,16 @@ class RequestsPage extends Component {
             </span>
                     </div>
                 </GooglePlacesSuggest>
-                </div>
+
+            </div></div>
                 {requests === null ?
 
-                    <div className="row">
+                    <div className="container">
                          </div> :
-                    <RequestsList requests={requests} openShowRequestShowModal={this.openShowRequestShowModal}
-                                  openContactBuddy={this.openContactBuddy} city={this.state.searchedCity}/>
+                    <div className="container"><RequestsList requests={requests} openShowRequestShowModal={this.openShowRequestShowModal}
+                                  openContactBuddy={this.openContactBuddy} city={this.state.searchedCity}/></div>
                 }
-            </div>
+          </div>
         );
     }
 }
