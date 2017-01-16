@@ -13,7 +13,7 @@ export default class FindUser extends Component {
         };
     }
 
-    renderBuddies(){
+    renderBuddies = () => {
       const {budies} = this.props
       const loader = require('../../images/lazyload.gif');
       const placeholder = (<div className="card-block text-xs-center" id="buddy-row"><img src={loader}/></div>)

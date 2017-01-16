@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import axios from "../../api";
-import api from "../../api"
 
 export class RequestListItem extends Component {
   constructor(props) {
@@ -12,17 +11,13 @@ export class RequestListItem extends Component {
       request:{},
       render: false
     };
-
-    this.fetchBuddy = this.fetchBuddy.bind(this);
-    this.showRequestDetails = this.showRequestDetails.bind(this);
-    this.openContactBuddy = this.openContactBuddy.bind(this);
   }
 
-  openContactBuddy(){
+  openContactBuddy = () => {
     this.props.openContactBuddy(this.state.buddy);
   }
 
-  showRequestDetails(){
+  showRequestDetails = () => {
     this.props.openShowRequestShowModal(this.state.buddy, this.state.request);
   }
 
@@ -30,7 +25,7 @@ export class RequestListItem extends Component {
     this.fetchBuddy();
   }
 
-  fetchBuddy(){
+  fetchBuddy = () => {
     axios.get('requests/' + this.state.req_id, {params: {filter :{ include: "buddy"}}})
       .then((response) => {
         this.setState({

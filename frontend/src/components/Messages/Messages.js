@@ -15,9 +15,6 @@ class Messages extends Component {
             messages: [],
             selectedConversationUser: undefined
         };
-        this.findMessages = this.findMessages.bind(this);
-        this.sendMessage = this.sendMessage.bind(this);
-        this.openProfile = this.openProfile.bind(this);
     }
 
     componentDidMount() {
@@ -32,7 +29,7 @@ class Messages extends Component {
         }
     }
 
-    sendMessage(message) {
+    sendMessage = (message) => {
         var obj = {
             'text': message,
             'displayed': false,
@@ -48,7 +45,7 @@ class Messages extends Component {
         });
     }
 
-    findMessages(selectedConversationUser) {
+    findMessages = (selectedConversationUser) => {
         this.state.messages = [];
         if (selectedConversationUser && selectedConversationUser.lastMessageTime) {
             axios.get('messages', {
@@ -130,7 +127,7 @@ class Messages extends Component {
         }
     }
 
-    openProfile() {
+    openProfile = () => {
         axios.get('buddies/' + this.state.selectedConversationUser.id).then(response => {
             this.props.openProfile({buddy: response.data, flag:true});
         });

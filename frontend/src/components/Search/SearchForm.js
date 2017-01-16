@@ -10,9 +10,6 @@ export default class SearchForm extends Component {
         this.state = {
             search: undefined
         }
-
-        this.handleSearchChange = this.handleSearchChange.bind(this);
-        this.handleSelectSuggest = this.handleSelectSuggest.bind(this);
     }
 
     handleSearchChange = (e) => {

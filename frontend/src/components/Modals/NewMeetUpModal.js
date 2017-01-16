@@ -14,10 +14,9 @@ class NewMeetUpModal extends Component {
             errors: {},
             date: moment(new Date()).add(1, 'day').format('YYYY-MM-DD')
         }
-        this.closeModal = this.closeModal.bind(this);
     }
 
-    closeModal() {
+    closeModal = () => {
         this.state.errors = {};
         this.state.date = new Date();
         this.props.hideFn();

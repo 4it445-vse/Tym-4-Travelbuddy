@@ -6,7 +6,6 @@ export default class TermsAndCondtionsPage extends Component {
         super(props);
     }
 
-    // https://termsandcondiitionssample.com
     render() {
         return (
             <div className="row">

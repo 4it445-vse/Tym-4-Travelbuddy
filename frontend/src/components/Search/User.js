@@ -21,10 +21,6 @@ class User extends Component {
             render: false,
             avatarSrc: "http://images.megaupload.cz/mystery-man.png"
         }
-
-        this.openProfile = this.openProfile.bind(this);
-        this.openContactBuddy = this.openContactBuddy.bind(this);
-        this.onClick = this.onClick.bind(this);
     }
 
     componentDidMount() {
@@ -39,7 +35,7 @@ class User extends Component {
         });
     }
 
-    onClick(e) {
+    onClick = (e) => {
         if (this.props.user) {
             if (e.target.id === 'envelope') {
                 this.openContactBuddy();
@@ -51,11 +47,11 @@ class User extends Component {
         }
     }
 
-    openProfile() {
+    openProfile = () => {
         this.props.openProfile({buddy: this.state.buddy, flag:true});
     }
 
-    openContactBuddy() {
+    openContactBuddy = () => {
         this.props.openContactBuddy({buddy: this.state.buddy});
     }
 

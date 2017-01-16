@@ -6,13 +6,7 @@ import {openContactBuddy, openNewMeetUp} from "../../actions/modals";
 
 class ShowProfileModal extends Component {
 
-    constructor(props) {
-        super(props);
-
-        this.openContactBuddy = this.openContactBuddy.bind(this);
-    }
-
-    openContactBuddy() {
+    openContactBuddy = () => {
         this.setState({
             showRequestShowModal: false
         });

@@ -18,23 +18,13 @@ class EditProfileModal extends Component {
             avatarSrc: undefined,
             displayCitySuggest: false
         }
-
-        this.handleSubmitEdit = this.handleSubmitEdit.bind(this);
-        this.handleSearchChange = this.handleSearchChange.bind(this);
-        this.onChange = this.onChange.bind(this);
-        this.validate = this.validate.bind(this);
-        this.onBlur = this.onBlur.bind(this);
-        this.onClick = this.onClick.bind(this);
-        this.onChangeImg = this.onChangeImg.bind(this);
-        this.hideModal = this.hideModal.bind(this);
-        this.loadUserData = this.loadUserData.bind(this);
     }
 
     componentDidMount() {
         this.loadUserData();
     }
 
-    loadUserData() {
+    loadUserData = () => {
         axios.get('buddies/'+this.props.user.id).then(response =>{
             let fields = this.state.fields;
             let currentUserLocal = response.data;
@@ -51,7 +41,7 @@ class EditProfileModal extends Component {
         });
     }
 
-    hideModal() {
+    hideModal = () => {
         var fields = {};
         const currentUserLocal = this.props.user;
         fields.city = currentUserLocal.city;
@@ -66,12 +56,12 @@ class EditProfileModal extends Component {
         this.props.hideFn();
     }
 
-    onChangeImg(e) {
+    onChangeImg = (e) => {
         const fileInput = e.target.files[0];
         var filesize = (fileInput.size / 1024 / 1024).toFixed(2);
     }
 
-    onClick() {
+    onClick = () => {
         var data = new FormData();
         var photo = this.refs.File.files[0];
         const name = photo.name;
@@ -91,7 +81,7 @@ class EditProfileModal extends Component {
         });
     }
 
-    onChange(e) {
+    onChange = (e) => {
         const {name, value} = e.target;
 
         if(name === 'city' && value){
@@ -101,13 +91,13 @@ class EditProfileModal extends Component {
         }
     }
 
-    onBlur(e) {
+    onBlur = (e) => {
         const {name, value} = e.target;
 
         this.validate(name, value);
     }
 
-    validate(name, value, displayCitySug) {
+    validate = (name, value, displayCitySug) => {
         var is_hosting = document.getElementById("is_hosting").checked;
         let { errors, fields, displayCitySuggest } = this.state;
         errors[name] = validation.validate(name, value, is_hosting);
@@ -124,7 +114,7 @@ class EditProfileModal extends Component {
         });
     }
 
-    handleSubmitEdit() {
+    handleSubmitEdit = () => {
         const {city, about_me} = this.state.fields;
         var is_hosting = document.getElementById("is_hosting").checked;
         var sex;
