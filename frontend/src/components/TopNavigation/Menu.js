@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {Link} from "react-router";
-import {Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavDropdown, MenuItem, Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from "reactstrap";
+import {Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavDropdown, DropdownToggle, DropdownMenu, DropdownItem} from "reactstrap";
 import axios from "../../api"
 import {connect} from "react-redux";
 import {logOutUser} from "../../actions/user";
