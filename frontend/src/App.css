@@ -64,6 +64,16 @@ color: #ff8d7a;
         margin-right: 50px;
     }
 }
+.dropdown-toggle {
+  border: none;
+  margin: auto;
+  margin-top: 2px;
+}
+.dropdown-item:focus, .dropdown-item:hover {
+  color: #2b2d2f;
+  text-decoration: none;
+  background-color: transparent;
+}
 
 /** Vyhled�vac� li�ta**/
 .SearchIcon {
@@ -923,4 +933,3 @@ margin-left: 20px;
 #alert {
     margin-bottom: 0px;
 }
-
