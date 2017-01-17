@@ -26,8 +26,11 @@ function composeProfilePhotoName(buddy){
     }
 }
 
+const dateFormat = "MM/DD/YYYY";
+
 export default {
     setAuthToken,
     loadAuthToken,
-    composeProfilePhotoName
+    composeProfilePhotoName,
+    dateFormat
 }

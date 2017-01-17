@@ -19,7 +19,7 @@ export class ResetPassword extends Component {
 
     handleSubmitPassReset = (event) => {
         const fieldsArray = ["pass", "pass_repeated"];
-        for (var name of fieldsArray) {
+        for (let name of fieldsArray) {
             let obj = {
                 target: {
                     value: this.state.fields[name],
@@ -30,7 +30,7 @@ export class ResetPassword extends Component {
             this.onChange(obj);
         }
         let fieldsAreValid = true;
-        for (var name of fieldsArray) {
+        for (let name of fieldsArray) {
             if (this.state.errors[name] !== undefined) {
                 fieldsAreValid = false;
             }

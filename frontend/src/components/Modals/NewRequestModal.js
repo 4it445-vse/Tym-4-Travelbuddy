@@ -6,6 +6,7 @@ import GooglePlacesSuggest from "../Autosuggest/SuggestCity";
 import validation from "../../Validation/Validation";
 import { connect } from "react-redux";
 import { openAlert } from "../../actions/modals";
+import currentUser from "../../actions/CurrentUser";
 
 class NewRequestModal extends Component {
 
@@ -63,7 +64,7 @@ class NewRequestModal extends Component {
         var text = this.state.fields.text;
         var buddy_id = this.props.user.id;
 
-        for (var name of ["city", "from", "to", "text"]) {
+        for (let name of ["city", "from", "to", "text"]) {
             let obj = {
                 target: {
                     value: this.state.fields[name],
@@ -73,7 +74,7 @@ class NewRequestModal extends Component {
             this.onChange(obj);
         }
         let fieldsAreValid = true;
-        for (var name of ["city", "from", "to", "text"]) {
+        for (let name of ["city", "from", "to", "text"]) {
             if(this.state.errors[name] !== undefined){
                 fieldsAreValid = false;
             }
@@ -108,7 +109,7 @@ class NewRequestModal extends Component {
     }
 
     render() {
-        const {showProp, hideFn} = this.props;
+        const {showProp} = this.props;
         const {errors} = this.state;
         const title = "I want to go on a new trip!";
 
@@ -145,7 +146,7 @@ class NewRequestModal extends Component {
                             <input className={ "form-control" + ( errors.from ? ' alert-danger' : '' ) }
                                    onChange={this.onChange}
                                    defaultValue={moment(new Date()).add(1, 'day').format('YYYY-MM-DD')} type="date"
-                                   name="from" placeholder="MM/DD/YYYY"/>
+                                   name="from" placeholder={currentUser.dateFormat}/>
                             { errors.from ? <span className="validation-error">{errors.from}</span> : ""}
                         </div>
                         <label htmlFor="to" className="col-xs-2 col-form-label text-xs-right">To: </label>
@@ -153,7 +154,7 @@ class NewRequestModal extends Component {
                             <input className={ "form-control" + ( errors.to ? ' alert-danger' : '' ) }
                                    onChange={this.onChange}
                                    defaultValue={moment(new Date()).add(5, 'day').format('YYYY-MM-DD')} type="date"
-                                   name="to" placeholder="MM/DD/YYYY"/>
+                                   name="to" placeholder={currentUser.dateFormat}/>
                             { errors.to ? <span className="validation-error">{errors.to}</span> : ""}
                         </div>
                     </div>

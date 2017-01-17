@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import axios from "../../api";
 import { openAlert } from "../../actions/modals";
 import moment from "moment";
+import currentUser from "../../actions/CurrentUser";
 
 class NewMeetUpModal extends Component {
 
@@ -83,7 +84,7 @@ class NewMeetUpModal extends Component {
                                 <input className={ "form-control" + ( this.state.errors.date ? ' alert-danger' : '' ) }
                                        onChange={this.onChange}
                                        defaultValue={this.state.date} type="date"
-                                       name="from" placeholder="MM/DD/YYYY"/>
+                                       name="from" placeholder={currentUser.dateFormat}/>
                             {
                                 this.state.errors.date
                                     ? <span className="validation-error">{this.state.errors.date}</span>

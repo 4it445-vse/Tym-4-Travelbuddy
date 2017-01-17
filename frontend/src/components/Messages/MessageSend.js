@@ -1,5 +1,4 @@
-import React, {Component, Button} from "react";
-import Message from "./Message";
+import React, {Component} from "react";
 
 export default class MessageSend extends Component {
 

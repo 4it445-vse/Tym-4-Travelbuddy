@@ -6,6 +6,7 @@ import {connect} from "react-redux";
 import {openLogin} from "../../actions/modals";
 import {openMeetUp} from "../../actions/modals";
 import {openContactBuddy} from "../../actions/modals";
+import Loading from '../Images/Loading';
 import moment from 'moment';
 
 class MeetUp extends Component {
@@ -80,8 +81,6 @@ class MeetUp extends Component {
 
     render() {
         const {render} = this.state;
-        const loader = require('../../images/lazyload.gif');
-        const dateFormat = "MM/DD/YYYY";
         const highlight = this.isHighlighted();
         if (render) return (
             <a href="#" onClick={this.onClick} className="profil_vypis">
@@ -101,7 +100,7 @@ class MeetUp extends Component {
                     </div>
                     <div className="col-md-1 col-xs-2 m-t-05">
                         {
-                            moment(this.props.meetUp.date_time).format(dateFormat)
+                            moment(this.props.meetUp.date_time).format(currentUser.dateFormat)
                         }
                     </div>
                     <div className="col-md-6 hidden-sm-down m-t-05">
@@ -116,7 +115,7 @@ class MeetUp extends Component {
                 </div>
             </a>
         )
-        else return (<div className="card-block text-xs-center" id="buddy-row"><img src={loader}/></div>)
+        else return (<div className="card-block text-xs-center" id="buddy-row"><Loading/></div>)
     }
 }
 export default connect(

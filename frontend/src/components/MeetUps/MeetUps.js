@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import MeetUp from "./MeetUp";
 import LazyLoad from 'react-lazyload';
+import Loading from '../Images/Loading';
 
 export default class MeetUps extends Component {
 
@@ -14,8 +15,7 @@ export default class MeetUps extends Component {
 
     renderMeetUps(){
       const {meetUps} = this.props;
-      const loader = require('../../images/lazyload.gif');
-      const placeholder = (<div className="card-block text-xs-center"><img src={loader}/></div>);
+      const placeholder = (<div className="card-block text-xs-center"><Loading/></div>);
       var render = [];
       for(var i = 0; i < meetUps.length; i++) {
           if(this.props.isBuddyView === true){

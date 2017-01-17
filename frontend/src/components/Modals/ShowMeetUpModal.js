@@ -3,6 +3,7 @@ import {Modal} from "react-bootstrap";
 import moment from 'moment';
 import axios from "../../api";
 import ReactStars from 'react-stars';
+import currentUser from "../../actions/CurrentUser";
 
 export default class ShowMeetUpModal extends Component {
 
@@ -15,14 +16,14 @@ export default class ShowMeetUpModal extends Component {
             outcomingRating: undefined,
             outcomingRatingExist: undefined
         };
-        this.rating;
-        this.ratingText;
     }
 
     hideModal = () => {
         this.state = {
             errors: {}
-        }
+        };
+        this.rating = undefined;
+        this.ratingText = undefined;
         this.props.hideFn();
     }
 
@@ -73,7 +74,6 @@ export default class ShowMeetUpModal extends Component {
 
     render() {
         const {showProp, buddy} = this.props;
-        const dateFormat = "MM/DD/YYYY";
 
         const otherBuddyId = this.props.buddy.id;
         const {ratings} = this.props.meetUp;
@@ -121,7 +121,7 @@ export default class ShowMeetUpModal extends Component {
                                     <b>When? </b>
                                 </div>
                                 <div className="col-xs-9">
-                                    { moment(this.props.meetUp.date_time).format(dateFormat) }
+                                    { moment(this.props.meetUp.date_time).format(currentUser.dateFormat) }
                                 </div>
                             </div>
                         </div>
