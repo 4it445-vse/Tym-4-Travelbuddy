@@ -5,8 +5,10 @@ import FormGroup from "./FormGroup";
 import axios from "../../api";
 import GooglePlacesSuggest from "../Autosuggest/SuggestCity";
 import validation from "../../Validation/Validation";
-import { connect } from "react-redux";
-import { logInUser } from "../../actions/user";
+import {connect} from "react-redux";
+import {logInUser} from "../../actions/user";
+import AvatarCropper from "react-avatar-cropper";
+import FileUpload from "../Images/FileUpload";
 class EditProfileModal extends Component {
 
     constructor(props) {
@@ -16,7 +18,9 @@ class EditProfileModal extends Component {
             errors: {},
             fields: {},
             avatarSrc: undefined,
-            displayCitySuggest: false
+            displayCitySuggest: false,
+            cropperOpen: false,
+            img: null
         }
     }
 
@@ -25,7 +29,7 @@ class EditProfileModal extends Component {
     }
 
     loadUserData = () => {
-        axios.get('buddies/'+this.props.user.id).then(response =>{
+        axios.get('buddies/' + this.props.user.id).then(response => {
             let fields = this.state.fields;
             let currentUserLocal = response.data;
             fields.city = currentUserLocal.city;
@@ -56,16 +60,11 @@ class EditProfileModal extends Component {
         this.props.hideFn();
     }
 
-    onChangeImg = (e) => {
-        //const fileInput = e.target.files[0];
-        //var filesize = (fileInput.size / 1024 / 1024).toFixed(2);
-    }
-
-    onClick = () => {
-        var data = new FormData();
-        var photo = this.refs.File.files[0];
+    storePhoto = (photo) => {
         const name = photo.name;
+        console.log("name: ", name);
         const currentUserLocal = this.props.user;
+        var data = new FormData();
         data.append("file", photo);
         const containerName = 'container_' + currentUserLocal.id;
         axios.post('containers/' + containerName + '/upload', data).then(data => {
@@ -81,9 +80,9 @@ class EditProfileModal extends Component {
     onChange = (e) => {
         const {name, value} = e.target;
 
-        if(name === 'city' && value){
+        if (name === 'city' && value) {
             this.validate(name, value, true);
-        }else{
+        } else {
             this.validate(name, value);
         }
     }
@@ -96,11 +95,11 @@ class EditProfileModal extends Component {
 
     validate = (name, value, displayCitySug) => {
         var is_hosting = document.getElementById("is_hosting").checked;
-        let { errors, fields, displayCitySuggest } = this.state;
+        let {errors, fields, displayCitySuggest} = this.state;
         errors[name] = validation.validate(name, value, is_hosting);
         fields[name] = value;
 
-        if(displayCitySug){
+        if (displayCitySug) {
             displayCitySuggest = true;
         }
 
@@ -162,6 +161,29 @@ class EditProfileModal extends Component {
         var fields = this.state.fields;
         fields.city = suggestName;
         this.setState({fields: fields});
+    }
+
+    handleFileChange = (dataURI) => {
+        this.setState({
+            img: dataURI,
+            avatarSrc: this.state.avatarSrc,
+            cropperOpen: true
+        });
+    }
+
+    handleCrop = (dataURI) => {
+        this.storePhoto(dataURI);//ZDE JE DATAURL NIKOLI IMAGE..!
+        this.setState({
+            cropperOpen: false,
+            img: null,
+            avatarSrc: dataURI
+        });
+    }
+
+    handleRequestHide = () => {
+        this.setState({
+            cropperOpen: false
+        });
     }
 
     render() {
@@ -232,21 +254,20 @@ class EditProfileModal extends Component {
                     <hr/>
                     <div className="form-group no-margin row">
                         <div className="col-xs-6">
-                            <img src={ this.state.avatarSrc } alt="..." className="editProfile_Avatar rounded"/>
+                            <img src={this.state.avatarSrc}/>
+                            {this.state.cropperOpen &&
+                            <AvatarCropper
+                                onRequestHide={this.handleRequestHide}
+                                cropperOpen={this.state.cropperOpen}
+                                onCrop={this.handleCrop}
+                                image={this.state.img}
+                                width={300}
+                                height={300}
+                            />
+                            }
                         </div>
                         <div className="col-xs-6 text-xs-left">
-                            <input
-                                type="file"
-                                placeholder="Vybrat soubor"
-                                accept="image/*"
-                                ref="File"
-                                onChange={this.onChangeImg}
-                            />
-                            <input
-                                type="button"
-                                value="Nahrát"
-                                onClick={this.onClick}
-                            />
+                            <FileUpload handleFileChange={this.handleFileChange}/>
                         </div>
                     </div>
                 </form>
@@ -258,7 +279,7 @@ class EditProfileModal extends Component {
 }
 export default connect(
     (state) => ({
-        user : state.user
+        user: state.user
     }),
     {
         logInUser
