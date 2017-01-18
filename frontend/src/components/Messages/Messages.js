@@ -138,7 +138,6 @@ class Messages extends Component {
 
     render() {
         const {selectedConversationUser} = this.state;
-        console.log(this.state.messages);
         return (
             <div className="row">
                 <div className="new_message_head">

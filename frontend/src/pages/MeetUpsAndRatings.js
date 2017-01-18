@@ -18,7 +18,6 @@ class MeetUpsAndRatings extends Component {
     }
 
     handleSelect = (index) => {
-        console.log(index);
         let where = {};
         let isBuddyView;
         if(index === 0){
