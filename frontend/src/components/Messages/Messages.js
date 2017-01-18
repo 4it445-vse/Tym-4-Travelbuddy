@@ -77,6 +77,7 @@ class Messages extends Component {
                                     profilePhotoName = currentUser.composeProfilePhotoName(selectedConversationUser);
                                 }
                                 messages.push({
+                                    "id": message.id,
                                     "text": message.text,
                                     "time": message.date_time,
                                     "isIncoming": true,
@@ -88,6 +89,7 @@ class Messages extends Component {
                                     profilePhotoNameCU = currentUser.composeProfilePhotoName(localCurrentUser);
                                 }
                                 messages.push({
+                                    "id": message.id,
                                     "text": message.text,
                                     "time": message.date_time,
                                     "isIncoming": false,
@@ -136,6 +138,7 @@ class Messages extends Component {
 
     render() {
         const {selectedConversationUser} = this.state;
+        console.log(this.state.messages);
         return (
             <div className="row">
                 <div className="new_message_head">
