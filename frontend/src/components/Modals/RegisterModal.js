@@ -19,18 +19,6 @@ class RegisterModal extends Component {
         };
     }
 
-    closeModal = () => {
-        this.state.errors = {};
-        this.state.fields = {};
-        this.props.hideFn();
-    }
-
-    switchModal = () => {
-        this.state.errors = {};
-        this.state.fields = {};
-        this.props.switchFn();
-    }
-
     handleSearchChange = (e) => {
         var fields = this.state.fields;
         fields.city = e.target.value;
@@ -138,11 +126,11 @@ class RegisterModal extends Component {
     }
 
     render() {
-        const {showProp} = this.props;
+        const {showProp, hideFn, switchFn} = this.props;
         const {errors} = this.state;
         const title = "Sign Up";
         return (
-            <Modal show={showProp} onHide={this.closeModal}>
+            <Modal show={showProp} onHide={hideFn}>
                 <Modal.Header closeButton>
                     <Modal.Title>{title}</Modal.Title>
                 </Modal.Header>
@@ -252,7 +240,7 @@ class RegisterModal extends Component {
           						  Do you already have an account?
           					  </span>
                         <a href="#" className="modal-tlacitko" data-dismiss="modal"
-                           data-toggle="modal" data-target="#regmodal" onClick={this.switchModal}>Sign In
+                           data-toggle="modal" data-target="#regmodal" onClick={switchFn}>Sign In
                         </a>
                     </FormCheck>
                 </Modal.Footer>

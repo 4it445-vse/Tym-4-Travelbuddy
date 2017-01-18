@@ -18,13 +18,6 @@ class ResetPassModal extends Component {
         }
     }
 
-    closeModal = () => {
-        this.state.errors = {};
-        this.state.fields = {};
-        this.state.displayLoading = false;
-        this.props.hideFn();
-    }
-
     handleSubmitResetPass = (event) => {
         var email = this.state.fields.email;
         let obj = {
@@ -69,10 +62,10 @@ class ResetPassModal extends Component {
     }
 
     render() {
-        const {showProp} = this.props;
+        const {showProp, hideFn} = this.props;
         const {errors} = this.state;
         return (
-            <Modal show={showProp} onHide={this.closeModal}>
+            <Modal show={showProp} onHide={hideFn}>
                 <Modal.Header closeButton>
                     <Modal.Title>I forgot my password</Modal.Title>
                 </Modal.Header>

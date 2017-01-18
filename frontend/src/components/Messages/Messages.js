@@ -46,7 +46,7 @@ class Messages extends Component {
     }
 
     findMessages = (selectedConversationUser) => {
-        this.state.messages = [];
+        var messages = [];
         if (selectedConversationUser && selectedConversationUser.lastMessageTime) {
             axios.get('messages', {
                 params: {
@@ -76,7 +76,7 @@ class Messages extends Component {
                                 if (!profilePhotoName) {
                                     profilePhotoName = currentUser.composeProfilePhotoName(selectedConversationUser);
                                 }
-                                this.state.messages.push({
+                                messages.push({
                                     "text": message.text,
                                     "time": message.date_time,
                                     "isIncoming": true,
@@ -87,7 +87,7 @@ class Messages extends Component {
                                 if (!profilePhotoNameCU) {
                                     profilePhotoNameCU = currentUser.composeProfilePhotoName(localCurrentUser);
                                 }
-                                this.state.messages.push({
+                                messages.push({
                                     "text": message.text,
                                     "time": message.date_time,
                                     "isIncoming": false,
@@ -97,12 +97,13 @@ class Messages extends Component {
                             }
                         }
                     );
-                    this.state.messages.sort(function (a, b) {
+                    messages.sort(function (a, b) {
                         return new Date(a.time) - new Date(b.time);
                     });
-                    let state = this.state;
-                    state.selectedConversationUser = selectedConversationUser;
-                    this.setState(state);
+                    this.setState({
+                        messages,
+                        selectedConversationUser
+                    });
                 } else {
                     this.setState({
                         messages: [],
