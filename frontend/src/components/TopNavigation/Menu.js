@@ -35,7 +35,6 @@ class Menu extends Component {
     }
 
     countMeetUpAndRatingAllerts = () => {
-        console.log("in countMeetUpAndRatingAllerts");
         axios.get('Meetups', {
             params: {
                 filter: {

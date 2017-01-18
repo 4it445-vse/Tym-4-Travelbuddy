@@ -17,12 +17,6 @@ class NewMeetUpModal extends Component {
         }
     }
 
-    closeModal = () => {
-        this.state.errors = {};
-        this.state.date = new Date();
-        this.props.hideFn();
-    }
-
     handleSubmitMeetUp = () => {
         if (!this.state.date || this.state.errors.date) {
             return;
@@ -72,10 +66,10 @@ class NewMeetUpModal extends Component {
     }
 
     render() {
-        const {showProp, buddyTo} = this.props;
+        const {showProp, buddyTo, hideFn} = this.props;
         const title = "Meet up proposal for " + buddyTo.name + " " + buddyTo.surname;
         return (
-            <AbstractModal title={title} showProp={showProp} hideFn={this.closeModal}
+            <AbstractModal title={title} showProp={showProp} hideFn={hideFn}
                            submitFn={this.handleSubmitMeetUp} submitText={"Send"}>
                 <form>
                     <div className="form-group no-margin-bottom-bottom row">

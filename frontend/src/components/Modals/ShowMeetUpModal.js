@@ -18,15 +18,6 @@ export default class ShowMeetUpModal extends Component {
         };
     }
 
-    hideModal = () => {
-        this.state = {
-            errors: {}
-        };
-        this.rating = undefined;
-        this.ratingText = undefined;
-        this.props.hideFn();
-    }
-
     ratingChanged = (newRating) => {
         this.rating = newRating;
     }
@@ -61,19 +52,19 @@ export default class ShowMeetUpModal extends Component {
     acceptMeetUp = () => {
         axios.post('Meetups/update?where[id]=' + this.props.meetUp.id, {verified: true}).then(response => {
             this.props.meetUp.verified = true;
-            this.hideModal();
+            this.props.hideFn();
         });
     }
 
     setMeetUpAsDone = () => {
         axios.post('Meetups/update?where[id]=' + this.props.meetUp.id, {done: true}).then(response => {
             this.props.meetUp.done = true;
-            this.hideModal();
+            this.props.hideFn();
         });
     }
 
     render() {
-        const {showProp, buddy} = this.props;
+        const {showProp, buddy, hideFn} = this.props;
 
         const otherBuddyId = this.props.buddy.id;
         const {ratings} = this.props.meetUp;
@@ -101,7 +92,7 @@ export default class ShowMeetUpModal extends Component {
         }
 
         return (
-            <Modal show={showProp} onHide={this.hideModal}>
+            <Modal show={showProp} onHide={hideFn}>
                 <Modal.Header closeButton>
                     <Modal.Title>{"Meet up with " + buddy.name + " " + buddy.surname}</Modal.Title>
                 </Modal.Header>

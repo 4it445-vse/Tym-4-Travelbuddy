@@ -23,19 +23,6 @@ class NewRequestModal extends Component {
         };
     }
 
-    hideModal = () => {
-        this.state = {
-            errors: {},
-            fields: {
-                city: undefined,
-                text: undefined,
-                from: moment(new Date()).add(5, 'day').format('YYYY-MM-DD'),
-                to: moment(new Date()).add(5, 'day').format('YYYY-MM-DD')
-            }
-        };
-        this.props.hideFn();
-    }
-
     onChange = (e) => {
         let name = e.target.name;
         let value = e.target.value;
@@ -109,12 +96,12 @@ class NewRequestModal extends Component {
     }
 
     render() {
-        const {showProp} = this.props;
+        const {showProp, hideFn} = this.props;
         const {errors} = this.state;
         const title = "I want to go on a new trip!";
 
         return (
-            <AbstractModal title={title} showProp={showProp} hideFn={this.hideModal}
+            <AbstractModal title={title} showProp={showProp} hideFn={hideFn}
                            submitFn={this.handleSubmitRequest} submitText={"Save Request"}>
                 <form>
                     <div className="form-group row text-xs-center">

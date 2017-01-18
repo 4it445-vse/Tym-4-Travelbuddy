@@ -15,11 +15,6 @@ class ContactBuddyModal extends Component {
         }
     }
 
-    closeModal = () => {
-        this.state.showValidation = false;
-        this.props.hideFn();
-    }
-
     validate = (e) => {
         var value = e.target.value;
         if (value) {
@@ -59,10 +54,10 @@ class ContactBuddyModal extends Component {
     }
 
     render() {
-        const {showProp, buddyTo} = this.props;
+        const {showProp, buddyTo, hideFn} = this.props;
         const title = "Contact Buddy - " + buddyTo.name + " " + buddyTo.surname;
         return (
-            <AbstractModal title={title} showProp={showProp} hideFn={this.closeModal}
+            <AbstractModal title={title} showProp={showProp} hideFn={hideFn}
                            submitFn={this.handleSubmitContactBuddy} submitText={"Send"}>
                 <form>
                     <div className="form-group no-margin-bottom-bottom row">

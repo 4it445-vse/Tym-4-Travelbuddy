@@ -41,21 +41,6 @@ class EditProfileModal extends Component {
         });
     }
 
-    hideModal = () => {
-        var fields = {};
-        const currentUserLocal = this.props.user;
-        fields.city = currentUserLocal.city;
-        fields.about_me = currentUserLocal.about_me;
-
-        this.state = {
-            errors: {},
-            fields: fields,
-            avatarSrc: this.state.avatarSrc,
-            displayCitySuggest: false
-        };
-        this.props.hideFn();
-    }
-
     onChangeImg = (e) => {
         //const fileInput = e.target.files[0];
         //var filesize = (fileInput.size / 1024 / 1024).toFixed(2);
@@ -150,7 +135,7 @@ class EditProfileModal extends Component {
         };
         let _this = this;
         axios.post('buddies/update?where[id]=' + currentUserLocal.id, constructedBuddy).then(response => {
-            this.hideModal();
+            this.props.hideFn();
         });
     }
 
@@ -165,12 +150,12 @@ class EditProfileModal extends Component {
     }
 
     render() {
-        const {showProp} = this.props;
+        const {showProp,hideFn} = this.props;
         const {errors} = this.state;
         const loggedUser = this.props.user;
         const title = "Edit Profile: " + loggedUser.name + " " + loggedUser.surname;
         return (
-            <AbstractModal title={title} showProp={showProp} hideFn={this.hideModal}
+            <AbstractModal title={title} showProp={showProp} hideFn={hideFn}
                            submitFn={this.handleSubmitEdit} submitText={"Save"}>
                 <form>
                     <div className="form-group no-margin-bottom row">

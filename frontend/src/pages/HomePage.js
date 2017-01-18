@@ -39,7 +39,6 @@ class HomePage extends Component {
     }
 
     findRelevantBuddies = () => {
-        console.log("searchedTown: ", this.state.searchedTown);
         axios.get('buddies', {
             params: {
                 filter: {
@@ -53,7 +52,6 @@ class HomePage extends Component {
                 },
             }
         }).then(response => {
-            console.log("buddies are: ", response.data);
             this.setState({
                 budies: response.data,
             });

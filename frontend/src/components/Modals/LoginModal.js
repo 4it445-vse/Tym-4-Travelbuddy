@@ -15,16 +15,6 @@ class LoginModal extends Component {
         }
     }
 
-    closeModal = () => {
-        this.state.errors = {};
-        this.props.hideFn();
-    }
-
-    switchModal = () => {
-        this.state.errors = {};
-        this.props.switchFn();
-    }
-
     handleSubmitLogIn = (event) => {
         event.preventDefault();
         var email = document.getElementById("email-l").value;
@@ -46,7 +36,7 @@ class LoginModal extends Component {
             }).then(response => {
                 if (response.data[0].emailVerified) {
                     this.props.logInUser(response.data[0], rememberUser);
-                    this.closeModal();
+                    this.props.hideFn();
                 } else {
                     let errors = this.state.errors;
                     errors.notLogged = "Please verify your e-mail, before first login, by clicking on the link we have send you on provided e-mail.";
@@ -61,10 +51,10 @@ class LoginModal extends Component {
     }
 
     render() {
-        const {showProp, restorePassFn} = this.props;
+        const {showProp, restorePassFn, hideFn, switchFn} = this.props;
         const {errors} = this.state;
         return (
-            <Modal show={showProp} onHide={this.closeModal}>
+            <Modal show={showProp} onHide={hideFn}>
                 <Modal.Header closeButton>
                     <Modal.Title>Sign In</Modal.Title>
                 </Modal.Header>
@@ -114,7 +104,7 @@ class LoginModal extends Component {
 							  You don't have account yet?
 						  </span>
                         <a href="#" className="modal-tlacitko"
-                           data-toggle="modal" data-target="#regmodal" onClick={this.switchModal}>Sign Up</a>
+                           data-toggle="modal" data-target="#regmodal" onClick={switchFn}>Sign Up</a>
                     </FormCheck>
                 </Modal.Footer>
             </Modal>

@@ -19,7 +19,7 @@ class MessagesPage extends Component {
     }
 
     componentDidMount() {
-        setInterval(this.setUpObserver, 5000);
+        //setInterval(this.setUpObserver, 5000);
     }
 
     setRefreshUsers = (fn) => {
