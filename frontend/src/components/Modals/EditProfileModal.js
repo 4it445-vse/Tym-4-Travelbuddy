@@ -61,25 +61,21 @@ class EditProfileModal extends Component {
         this.props.hideFn();
     }
 
-    storePhoto = (photo) => {
-        var canvas = document.createElement('canvas');
-        canvas.toBlob((blob)=>{
-            var form = new FormData();
-            const name = "filename.jpg";
-            form.append("image", blob, name);
-
-            const currentUserLocal = this.props.user;
-            const containerName = 'container_' + currentUserLocal.id;
-            axios.post('containers/' + containerName + '/upload', form).then(data => {
-                axios.post('buddies/update?where[id]=' + currentUserLocal.id, {"profile_photo_name": undefined})
-                    .then(response => {
-                        this.setState({
-                            avatarSrc: name
-                        });
+    storePhoto = (dataUri) => {
+        var data = new FormData();
+        let photo = new File([dataUri], "filename.jpg");
+        const name = photo.name;
+        const currentUserLocal = this.props.user;
+        data.append("file", photo);
+        const containerName = 'container_' + currentUserLocal.id;
+        axios.post('containers/' + containerName + '/upload', data).then(data => {
+            axios.post('buddies/update?where[id]=' + currentUserLocal.id, {"profile_photo_name": name})
+                .then(response => {
+                    this.setState({
+                        avatarSrc: name
                     });
-            });
-        }, "image/png");
-
+                });
+        });
     }
 
     onChange = (e) => {
@@ -192,6 +188,7 @@ class EditProfileModal extends Component {
     }
 
     render() {
+        console.log(this.state.avatarSrc);
         const {showProp} = this.props;
         const {errors} = this.state;
         const loggedUser = this.props.user;
