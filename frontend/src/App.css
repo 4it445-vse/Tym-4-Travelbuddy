@@ -6,6 +6,10 @@ body {
   background-size: cover;
 }
 
+.react-tabs [role=tablist] {
+    margin:0 !important;
+}
+
 .modal-open .container-fluid{
     padding-right: 0px !important;
     padding-left: 0px !important;

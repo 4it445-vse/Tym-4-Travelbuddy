@@ -38,7 +38,7 @@ export default class MeetUps extends Component {
 
 
                         <div className="row">
-                            <div className="card v-o-25">
+                            <div className="card">
                                 <div className="card-block">
                                     <h4 className="card-title">{meetUps.length} {meetUps.length === 1 ? "meet up" : "meet ups"} found.</h4>
                                 </div>
