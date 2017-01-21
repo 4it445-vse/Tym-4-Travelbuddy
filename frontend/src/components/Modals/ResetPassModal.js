@@ -2,9 +2,9 @@ import React, {Component} from "react";
 import {Modal} from "react-bootstrap";
 import axios from "../../api";
 import validation from "../../Validation/Validation";
-import { connect } from "react-redux";
-import { openAlert } from "../../actions/modals";
-import Loading from '../Images/Loading';
+import {connect} from "react-redux";
+import {openAlert} from "../../actions/modals";
+import Loading from "../Images/Loading";
 
 class ResetPassModal extends Component {
 
@@ -43,7 +43,7 @@ class ResetPassModal extends Component {
                 this.setState({showErrorMessage: "There is no user with this e-mail."});
             }
         });
-    }
+    };;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
     onChange = (e) => {
         let name = e.target.name;
@@ -59,7 +59,7 @@ class ResetPassModal extends Component {
             errors: errors,
             fields: fields
         });
-    }
+    };;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
     render() {
         const {showProp, hideFn} = this.props;

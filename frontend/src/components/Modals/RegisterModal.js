@@ -23,14 +23,14 @@ class RegisterModal extends Component {
         var fields = this.state.fields;
         fields.city = e.target.value;
         this.setState({fields: fields})
-    }
+    };;;;;;;;;;;;;;;;;;;;
 
     handleSelectSuggest = (suggestName, coordinate, placeId) => {
         var fields = this.state.fields;
         fields.city = suggestName;
         fields.placeId = placeId;
         this.setState({fields: fields});
-    }
+    };;;;;;;;;;;;;;;;;;;;
 
     componentDidMount() {
         axios.get('buddies')
@@ -97,7 +97,7 @@ class RegisterModal extends Component {
                 });
             }
         });
-    }
+    };;;;;;;;;;;;;;;;;;;;
 
     onChange = (e) => {
         let name = e.target.name;
@@ -123,7 +123,7 @@ class RegisterModal extends Component {
             errors: errors,
             fields: fields
         });
-    }
+    };;;;;;;;;;;;;;;;;;;;
 
     render() {
         const {showProp, hideFn, switchFn} = this.props;

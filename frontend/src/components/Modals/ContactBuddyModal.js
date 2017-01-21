@@ -1,8 +1,8 @@
 import React, {Component} from "react";
 import AbstractModal from "./AbstractModal";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import axios from "../../api";
-import { openAlert } from "../../actions/modals";
+import {openAlert} from "../../actions/modals";
 
 class ContactBuddyModal extends Component {
 

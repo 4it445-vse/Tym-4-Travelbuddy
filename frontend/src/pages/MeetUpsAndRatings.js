@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import MeetUps from "../components/MeetUps/MeetUps";
 import axios from "../api";
 import {connect} from "react-redux";
-import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
+import {Tab, Tabs, TabList, TabPanel} from "react-tabs";
 
 class MeetUpsAndRatings extends Component {
     constructor(props) {
@@ -42,7 +42,7 @@ class MeetUpsAndRatings extends Component {
         }, error => {
             console.log("error: ", error);
         });
-    }
+    };;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
     render() {
         return (

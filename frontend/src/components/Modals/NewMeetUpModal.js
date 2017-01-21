@@ -1,8 +1,8 @@
 import React, {Component} from "react";
 import AbstractModal from "./AbstractModal";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import axios from "../../api";
-import { openAlert } from "../../actions/modals";
+import {openAlert} from "../../actions/modals";
 import moment from "moment";
 import currentUser from "../../actions/CurrentUser";
 
@@ -35,7 +35,7 @@ class NewMeetUpModal extends Component {
                 "message": "Meet up proposal has been successfuly send."
             })
         });
-    }
+    };;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
     onChange = (e) => {
         const date = e.target.value;
@@ -63,7 +63,7 @@ class NewMeetUpModal extends Component {
                 date
             });
         }
-    }
+    };;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
     render() {
         const {showProp, buddyTo, hideFn} = this.props;

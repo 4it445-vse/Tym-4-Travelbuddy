@@ -1,8 +1,8 @@
 import React, {Component} from "react";
 import {Modal} from "react-bootstrap";
-import moment from 'moment';
+import moment from "moment";
 import axios from "../../api";
-import ReactStars from 'react-stars';
+import ReactStars from "react-stars";
 import currentUser from "../../actions/CurrentUser";
 
 export default class ShowMeetUpModal extends Component {
@@ -20,11 +20,11 @@ export default class ShowMeetUpModal extends Component {
 
     ratingChanged = (newRating) => {
         this.rating = newRating;
-    }
+    };;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
     onChange = (e) => {
         this.ratingText = e.target.value;
-    }
+    };;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
     saveRating = () => {
         if (!this.rating) {
@@ -47,21 +47,21 @@ export default class ShowMeetUpModal extends Component {
                 outcomingRatingExist: true
             });
         });
-    }
+    };;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
     acceptMeetUp = () => {
         axios.post('Meetups/update?where[id]=' + this.props.meetUp.id, {verified: true}).then(response => {
             this.props.meetUp.verified = true;
             this.props.hideFn();
         });
-    }
+    };;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
     setMeetUpAsDone = () => {
         axios.post('Meetups/update?where[id]=' + this.props.meetUp.id, {done: true}).then(response => {
             this.props.meetUp.done = true;
             this.props.hideFn();
         });
-    }
+    };;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
     render() {
         const {showProp, buddy, hideFn} = this.props;

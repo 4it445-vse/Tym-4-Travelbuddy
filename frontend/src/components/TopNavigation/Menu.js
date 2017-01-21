@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Link} from "react-router";
 import {Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavDropdown, DropdownToggle, DropdownMenu, DropdownItem} from "reactstrap";
-import axios from "../../api"
+import axios from "../../api";
 import {connect} from "react-redux";
 import {logOutUser} from "../../actions/user";
 class Menu extends Component {
@@ -16,17 +16,17 @@ class Menu extends Component {
 
     setCollapsedMyTravelling = () => {
         this.setState({collapsedMyTravelling: (this.state.collapsedMyTravelling === false)});
-    }
+    };;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
     logOut = () => {
         this.props.logOutUser();
-    }
+    };;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
     toggleNavbar = () => {
         this.setState({
             collapsed: !this.state.collapsed
         });
-    }
+    };;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
     toggleDropdown() {
       this.setState({
@@ -72,7 +72,7 @@ class Menu extends Component {
                 });
             }
         });
-    }
+    };;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
     countIncomingUnreadMessages = () => {
         axios.get('messages', {
@@ -97,7 +97,7 @@ class Menu extends Component {
                 });
             }
         });
-    }
+    };;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
     render() {
         const {openEdit, openRegister, openLogin, openNewRequest, openEditRequests} = this.props;

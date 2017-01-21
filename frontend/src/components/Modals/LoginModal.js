@@ -3,8 +3,8 @@ import {Modal} from "react-bootstrap";
 import FormCheck from "./FormCheck";
 import currentUser from "../../actions/CurrentUser";
 import axios from "../../api";
-import { connect } from "react-redux";
-import { logInUser } from "../../actions/user";
+import {connect} from "react-redux";
+import {logInUser} from "../../actions/user";
 class LoginModal extends Component {
 
     constructor(props) {

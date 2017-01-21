@@ -1,7 +1,7 @@
 export const logInUserSuccess = (payload) => ({
     type: 'LOGIN_USER_SUCCESS',
     payload
-})
+});
 
 export const logInUser = (data, rememberUser) => {
     if(rememberUser === true){
@@ -12,11 +12,11 @@ export const logInUser = (data, rememberUser) => {
     return (dispatch) => {
         return dispatch(logInUserSuccess(data));
     }
-}
+};
 
 export const logOutUserSuccess = () => ({
     type: 'LOGOUT_USER_SUCCESS'
-})
+});
 
 export const logOutUser = () => {
     return (dispatch) => {
@@ -24,4 +24,4 @@ export const logOutUser = () => {
         localStorage.removeItem('user');
         return dispatch(logOutUserSuccess());
     }
-}
+};
