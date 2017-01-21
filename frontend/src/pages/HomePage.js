@@ -4,6 +4,8 @@ import SearchForm from "../components/Search/SearchForm";
 import FontAwesome from "react-fontawesome";
 import axios from "../api";
 import {connect} from "react-redux";
+import {openAlert} from "../actions/modals";
+import {browserHistory} from "react-router";
 
 class HomePage extends Component {
     constructor(props) {
@@ -13,6 +15,11 @@ class HomePage extends Component {
             setSearchedTown: this.setSearchedTown.bind(this),
             budies: []
         };
+        console.log(this.props.location.query.verified);
+        if(this.props.location.query.verified && this.props.location.query.verified === '35df3789cb62966050236441690ba476'){
+            this.props.openAlert({"type":"success", "message":"Thank you! You can login now."});
+            browserHistory.push("/");
+        }
     }
 
     componentDidMount() {
@@ -157,5 +164,8 @@ class HomePage extends Component {
 export default connect(
     (state) => ({
         user: state.user
-    })
+    }),
+    {
+        openAlert
+    }
 )(HomePage);

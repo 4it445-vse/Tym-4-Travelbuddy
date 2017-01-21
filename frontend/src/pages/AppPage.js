@@ -4,6 +4,7 @@ import TopNavigation from "../components/TopNavigation/TopNavigation";
 export class AppPage extends Component {
 
     render() {
+        console.log(this.props.location.query.hi);
         const {children} = this.props;
         return (
             <div>
