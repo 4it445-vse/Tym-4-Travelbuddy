@@ -2,11 +2,9 @@ import React, {Component} from "react";
 import currentUser from "../../actions/CurrentUser";
 import FontAwesome from "react-fontawesome";
 import axios from "../../api";
-import { connect } from "react-redux";
-import { openLogin } from "../../actions/modals";
-import { openProfile } from "../../actions/modals";
-import { openContactBuddy } from "../../actions/modals";
-import Loading from '../Images/Loading';
+import {connect} from "react-redux";
+import {openLogin, openProfile, openContactBuddy} from "../../actions/modals";
+import Loading from "../Images/Loading";
 
 class User extends Component {
     constructor(props) {
@@ -27,11 +25,12 @@ class User extends Component {
     componentDidMount() {
         axios.get('buddies/' + this.props.buddyId).then(response => {
             const buddy = response.data;
-            const profilePhotoName = currentUser.composeProfilePhotoName(buddy);
-            this.setState({
-                buddy: buddy,
-                render: true,
-                avatarSrc: profilePhotoName
+            currentUser.composeProfilePhotoName(buddy, (avatarSrcResult) => {
+                this.setState({
+                    buddy: buddy,
+                    render: true,
+                    avatarSrc: avatarSrcResult
+                });
             });
         });
     }

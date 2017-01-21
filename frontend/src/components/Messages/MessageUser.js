@@ -1,6 +1,5 @@
 import React, {Component} from "react";
-import moment from 'moment';
-import currentUser from '../../actions/CurrentUser';
+import moment from "moment";
 
 export default class MessageUser extends Component {
 
@@ -23,7 +22,7 @@ export default class MessageUser extends Component {
 
     render() {
         const {user, selectedConversationUser} = this.props;
-        const avatarSrc = currentUser.composeProfilePhotoName(user);
+        const avatarSrc = user.avatarSrc;
 
         return (
             <li className={"left clearfix" + (!!selectedConversationUser && selectedConversationUser.id === user.id ? ' selected-conversation-user' : '')} onClick={this.setSelectedConversationUser}>

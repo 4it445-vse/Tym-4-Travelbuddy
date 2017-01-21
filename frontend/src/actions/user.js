@@ -15,7 +15,6 @@ export const logInUser = (data, rememberUser) => {
     }
 }
 
-
 export const logOutUserSuccess = () => ({
     type: 'LOGOUT_USER_SUCCESS'
 })

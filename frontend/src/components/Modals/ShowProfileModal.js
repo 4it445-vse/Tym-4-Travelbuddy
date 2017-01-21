@@ -6,6 +6,22 @@ import {openContactBuddy, openNewMeetUp} from "../../actions/modals";
 
 class ShowProfileModal extends Component {
 
+    constructor(props){
+        super(props);
+
+        this.state = {
+            avatarSrc: undefined
+        }
+    }
+
+    componentDidMount(){
+        currentUser.composeProfilePhotoName(this.props.requestShowModalContent.buddy, (avatarSrcResult) => {
+            this.setState({
+                avatarSrc: avatarSrcResult
+            });
+        });
+    }
+
     openContactBuddy = () => {
         this.setState({
             showRequestShowModal: false
@@ -22,7 +38,6 @@ class ShowProfileModal extends Component {
 
     render() {
         const {showProp, hideFn, buddy, showContactButton} = this.props;
-        const profilePhotoName = currentUser.composeProfilePhotoName(buddy);
         return (
             <Modal show={showProp} onHide={hideFn}>
                 <Modal.Header closeButton>
@@ -31,7 +46,7 @@ class ShowProfileModal extends Component {
                 <Modal.Body>
                     <div className="row">
                         <div className="row hidden-sm-up text-xs-center">
-                            <img src={ profilePhotoName } alt={ buddy.name + " " + buddy.surname } className="profil_img rounded"/>
+                            <img src={ this.state.avatarSrc } alt={ buddy.name + " " + buddy.surname } className="profil_img rounded"/>
                         </div>
                         <hr className="hidden-sm-up"></hr>
                         <div className="col-xs-12 col-sm-6">
@@ -69,7 +84,7 @@ class ShowProfileModal extends Component {
                             </div>
                         </div>
                         <div className="col-sm-6 hidden-xs-down text-sm-center">
-                            <img src={ profilePhotoName } alt={ buddy.name + " " + buddy.surname } className="profil_img rounded"/>
+                            <img src={ this.state.avatarSrc } alt={ buddy.name + " " + buddy.surname } className="profil_img rounded"/>
                         </div>
                     </div>
                     <div className="row">

@@ -3,11 +3,9 @@ import currentUser from "../../actions/CurrentUser";
 import FontAwesome from "react-fontawesome";
 import axios from "../../api";
 import {connect} from "react-redux";
-import {openLogin} from "../../actions/modals";
-import {openMeetUp} from "../../actions/modals";
-import {openContactBuddy} from "../../actions/modals";
-import Loading from '../Images/Loading';
-import moment from 'moment';
+import {openLogin, openMeetUp, openContactBuddy} from "../../actions/modals";
+import Loading from "../Images/Loading";
+import moment from "moment";
 
 class MeetUp extends Component {
     constructor(props) {
@@ -29,11 +27,12 @@ class MeetUp extends Component {
     componentDidMount() {
         axios.get('buddies/' + this.props.buddyId).then(response => {
             const buddy = response.data;
-            const profilePhotoName = currentUser.composeProfilePhotoName(buddy);
-            this.setState({
-                buddy: buddy,
-                render: true,
-                avatarSrc: profilePhotoName
+            currentUser.composeProfilePhotoName(buddy, (avatarSrcResult) => {
+                this.setState({
+                    buddy: buddy,
+                    render: true,
+                    avatarSrc: avatarSrcResult
+                });
             });
         });
     }

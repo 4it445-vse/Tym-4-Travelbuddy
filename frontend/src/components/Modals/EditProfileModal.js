@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import currentUser from "../../actions/CurrentUser";
 import AbstractModal from "./AbstractModal";
 import FormGroup from "./FormGroup";
 import axios from "../../api";
@@ -9,7 +8,6 @@ import {connect} from "react-redux";
 import {logInUser} from "../../actions/user";
 import AvatarCropper from "react-avatar-cropper";
 import FileUpload from "../Images/FileUpload";
-import DataUrlToBlog from "../Images/DataUrlToBlob";
 class EditProfileModal extends Component {
 
     constructor(props) {
@@ -36,13 +34,10 @@ class EditProfileModal extends Component {
             fields.city = currentUserLocal.city;
             fields.about_me = currentUserLocal.about_me;
             fields.is_hosting = currentUserLocal.is_hosting;
-            const profilePhotoName = currentUser.composeProfilePhotoName(currentUserLocal);
-            if (profilePhotoName) {
-                this.setState({
-                    fields: fields,
-                    avatarSrc: profilePhotoName
-                });
-            }
+            this.setState({
+                fields: fields,
+                avatarSrc: this.props.user.avatarSrc
+            });
         });
     }
 
@@ -63,7 +58,7 @@ class EditProfileModal extends Component {
 
     storePhoto = (dataUri) => {
         var data = new FormData();
-        let photo = new File([dataUri], "filename.jpg");
+        let photo = new File([dataUri], "filename");
         const name = photo.name;
         const currentUserLocal = this.props.user;
         data.append("file", photo);
@@ -72,7 +67,7 @@ class EditProfileModal extends Component {
             axios.post('buddies/update?where[id]=' + currentUserLocal.id, {"profile_photo_name": name})
                 .then(response => {
                     this.setState({
-                        avatarSrc: name
+                        avatarSrc: dataUri
                     });
                 });
         });
@@ -173,11 +168,11 @@ class EditProfileModal extends Component {
     }
 
     handleCrop = (dataURI) => {
-        this.storePhoto(dataURI);//ZDE JE DATAURL NIKOLI IMAGE..!
+        this.storePhoto(dataURI);
         this.setState({
             cropperOpen: false,
             img: null,
-            avatarSrc: dataURI
+            avatarSrc: require("../../images/lazyload.gif")
         });
     }
 

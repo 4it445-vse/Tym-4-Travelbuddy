@@ -1,9 +1,9 @@
 import React, {Component} from "react";
 import MessageUsers from "./MessageUsers";
 import MessageSearch from "./MessageSearch";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import axios from "../../api";
-
+import currentUser from "../../actions/CurrentUser";
 
 class MessagesUserPart extends Component {
 
@@ -119,18 +119,22 @@ class MessagesUserPart extends Component {
                                 }
                             }
                         }).then(response => {
-                            let obj = messages.get(key);
-                            obj.fullname = response.data[0].name + " " + response.data[0].surname;
-                            obj.profile_photo_name = response.data[0].profile_photo_name;
-                            this.state.usersWithMessages.push(obj);
+                            let buddy = response.data[0];
+                            currentUser.composeProfilePhotoName(buddy, (avatarSrcResult) => {
+                                let obj = messages.get(key);
+                                obj.fullname = response.data[0].name + " " + response.data[0].surname;
+                                obj.profile_photo_name = response.data[0].profile_photo_name;
+                                obj.avatarSrc = avatarSrcResult;
+                                this.state.usersWithMessages.push(obj);
 
-                            this.state.usersWithMessages.sort(function (a, b) {
-                                return new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime();
+                                this.state.usersWithMessages.sort(function (a, b) {
+                                    return new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime();
+                                });
+                                if (this.props.selectedConversationUser && this.props.selectedConversationUser.id === obj.id) {
+                                    this.props.findUserMessages(value);
+                                }
+                                this.setState(this.state);
                             });
-                            if (this.props.selectedConversationUser && this.props.selectedConversationUser.id === obj.id) {
-                                this.props.findUserMessages(value);
-                            }
-                            this.setState(this.state);
                         });
                     }
                 }

@@ -1,11 +1,10 @@
 import React, {Component} from "react";
 import Message from "./Message";
 import MessageSend from "./MessageSend";
-import currentUser from "../../actions/CurrentUser";
 import axios from "../../api";
-import ReactDOM from 'react-dom';
-import { connect } from "react-redux";
-import { openProfile } from "../../actions/modals";
+import ReactDOM from "react-dom";
+import {connect} from "react-redux";
+import {openProfile} from "../../actions/modals";
 
 class Messages extends Component {
 
@@ -74,7 +73,7 @@ class Messages extends Component {
                     buddyMessages.map(message => {
                             if (message.buddy_id_to === localCurrentUser.id) {
                                 if (!profilePhotoName) {
-                                    profilePhotoName = currentUser.composeProfilePhotoName(selectedConversationUser);
+                                    profilePhotoName = selectedConversationUser.avatarSrc;
                                 }
                                 this.state.messages.push({
                                     "text": message.text,
@@ -85,7 +84,7 @@ class Messages extends Component {
                                 });
                             } else {
                                 if (!profilePhotoNameCU) {
-                                    profilePhotoNameCU = currentUser.composeProfilePhotoName(localCurrentUser);
+                                    profilePhotoNameCU = this.props.user.avatarSrc;
                                 }
                                 this.state.messages.push({
                                     "text": message.text,

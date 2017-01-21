@@ -3,8 +3,8 @@ import {Modal} from "react-bootstrap";
 import FormCheck from "./FormCheck";
 import currentUser from "../../actions/CurrentUser";
 import axios from "../../api";
-import { connect } from "react-redux";
-import { logInUser } from "../../actions/user";
+import {connect} from "react-redux";
+import {logInUser} from "../../actions/user";
 class LoginModal extends Component {
 
     constructor(props) {
@@ -44,9 +44,13 @@ class LoginModal extends Component {
                     },
                 }
             }).then(response => {
-                if (response.data[0].emailVerified) {
-                    this.props.logInUser(response.data[0], rememberUser);
-                    this.closeModal();
+                let buddy = response.data[0];
+                if (buddy.emailVerified) {
+                    currentUser.composeProfilePhotoName(buddy, (avatarSrcResult) => {
+                        buddy.avatarSrc = avatarSrcResult;
+                        this.props.logInUser(buddy, rememberUser);
+                        this.closeModal();
+                    });
                 } else {
                     let errors = this.state.errors;
                     errors.notLogged = "Please verify your e-mail, before first login, by clicking on the link we have send you on provided e-mail.";
