@@ -1,9 +1,9 @@
 import React, {Component} from "react";
 import MessageUsers from "./MessageUsers";
 import MessageSearch from "./MessageSearch";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import axios from "../../api";
-
+import currentUser from "../../actions/CurrentUser";
 
 class MessagesUserPart extends Component {
 
@@ -21,9 +21,9 @@ class MessagesUserPart extends Component {
     }
 
     refreshUsers = () => {
-        this.findUsers();
+        this.findUsersAndMessages();
         this.restrictUsers("");
-    }
+    };
 
     restrictUsers = (value) => {
         let usersWithMessagesChosen = [];
@@ -39,110 +39,131 @@ class MessagesUserPart extends Component {
         this.setState({
             usersWithMessagesChosen: usersWithMessagesChosen
         });
-    }
+    };
 
-    findUsers = () => {
+    findUsersAndMessages = () => {
         this.state.usersWithMessages = [];
-        let currentU = this.props.user;
-        axios.get('messages/count', {
-            params: {
-                filter: {
-                    where: {
-                        buddy_id_to: currentU.id
-                    }
-                }
-            }
-        }).then(response => {
-            this.props.setCheckPoint(response.data.count);
+        this.setIncomingMessageCountCheckpoint(this.props.user.id, (currentUserId) => {
             axios.get('messages', {
                 params: {
                     filter: {
                         where: {
                             or: [
-                                {"buddy_id_to": currentU.id},
-                                {"buddy_id_from": currentU.id}
+                                {"buddy_id_to": currentUserId},
+                                {"buddy_id_from": currentUserId}
                             ]
                         }
                     }
                 }
             }).then(response => {
-                let buddyMessages = response.data;
-                let messages = new Map();
-                if (buddyMessages && buddyMessages[0]) {
-                    let currentUserId = currentU.id;
-                    buddyMessages.map(message => {
-                        if (message.buddy_id_to === currentUserId) {
-                            let cbm = messages.get(message.buddy_id_from);
-                            let obj = {
-                                unreadIncomingMessagesNum: 0,
-                                lastMessageTime: message.date_time,
-                                id: message.buddy_id_from
-                            };
-                            if (cbm) {
-                                obj.unreadIncomingMessagesNum = cbm.unreadIncomingMessagesNum;
-                                if ((new Date(cbm.lastMessageTime) - new Date(message.date_time)) < 0) {
-                                    obj.lastMessageTime = message.date_time;
-                                } else {
-                                    obj.lastMessageTime = cbm.lastMessageTime;
-                                }
-                            }
-                            if (message.displayed === false) {
-                                obj.unreadIncomingMessagesNum++;
-                            }
-                            messages.set(message.buddy_id_from, obj);
-                        } else {
-                            let cbm = messages.get(message.buddy_id_to);
-                            let obj = {
-                                unreadIncomingMessagesNum: 0,
-                                lastMessageTime: message.date_time,
-                                id: message.buddy_id_to
-                            };
-                            if (cbm) {
-                                obj.unreadIncomingMessagesNum = cbm.unreadIncomingMessagesNum;
-                                if ((new Date(cbm.lastMessageTime) - new Date(message.date_time)) < 0) {
-                                    obj.lastMessageTime = message.date_time;
-                                } else {
-                                    obj.lastMessageTime = cbm.lastMessageTime;
-                                }
-                            }
-                            messages.set(message.buddy_id_to, obj);
-                        }
-                    });
-                    for (let [key, value] of messages) {
-                        axios.get('buddies', {
-                            params: {
-                                filter: {
-                                    where: {
-                                        id: key
-                                    }
-                                }
-                            }
-                        }).then(response => {
-                            let obj = messages.get(key);
-                            obj.fullname = response.data[0].name + " " + response.data[0].surname;
-                            obj.profile_photo_name = response.data[0].profile_photo_name;
-                            this.state.usersWithMessages.push(obj);
-
-                            this.state.usersWithMessages.sort(function (a, b) {
-                                return new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime();
-                            });
-                            if (this.props.selectedConversationUser && this.props.selectedConversationUser.id === obj.id) {
-                                this.props.findUserMessages(value);
-                            }
-                            this.setState(this.state);
-                        });
-                    }
+                let allMessagesAssociatedToCurrentUser = response.data;
+                if (allMessagesAssociatedToCurrentUser && allMessagesAssociatedToCurrentUser[0]) {
+                    let messages = new Map();
+                    this.fillMapByMessagesSortedByUsers(allMessagesAssociatedToCurrentUser, currentUserId, messages);
+                    this.queryBuddiesAndFillUserMessagesAndRefresh(messages);
                 }
             });
         });
-    }
+    };
+
+    setIncomingMessageCountCheckpoint = (currentUserId, cb) => {
+        axios.get('messages/count', {
+            params: {
+                filter: {
+                    where: {
+                        buddy_id_to: currentUserId
+                    }
+                }
+            }
+        }).then(response => {
+            this.props.setCheckPoint(response.data.count);
+            cb(currentUserId);
+        });
+    };
+
+    fillMapByMessagesSortedByUsers = (allMessagesAssociatedToCurrentUser, currentUserId, messages) => {
+        allMessagesAssociatedToCurrentUser.map(message => {
+            if (message.buddy_id_to === currentUserId) {
+                this.addIncomingMessage(messages, message);
+            } else {
+                this.addOutgoingMessage(messages, message);
+            }
+        });
+    };
+
+    addOutgoingMessage = (messages, message) => {
+        this.addMessage(messages, message, message.buddy_id_to, false);
+    };
+
+    addIncomingMessage = (messages, message) => {
+        this.addMessage(messages, message, message.buddy_id_from, true);
+    };
+
+    addMessage = (messages, message, buddyId, isIncoming) => {
+        let userMessageDetails = messages.get(buddyId);
+        if (userMessageDetails) {
+            if ((new Date(userMessageDetails.lastMessageTime) - new Date(message.date_time)) < 0) {
+                userMessageDetails.lastMessageTime = message.date_time;
+            }
+        } else {
+            userMessageDetails = {
+                unreadIncomingMessagesNum: 0,
+                lastMessageTime: message.date_time,
+                id: buddyId
+            };
+        }
+        if (isIncoming && message.displayed === false) {
+            userMessageDetails.unreadIncomingMessagesNum++;
+        }
+        messages.set(buddyId, userMessageDetails);
+    };
+
+    queryBuddiesAndFillUserMessagesAndRefresh = (messages) => {
+        for (let [key, value] of messages) {
+            axios.get('buddies', {
+                params: {
+                    filter: {
+                        where: {
+                            id: key
+                        }
+                    }
+                }
+            }).then(response => {
+                this.fillUserMessagesAndRefresh(response, messages, key, value);
+            });
+        }
+    };
+
+    fillUserMessagesAndRefresh = (response, messages, key, value) => {
+        let buddy = response.data[0];
+        currentUser.composeProfilePhotoName(buddy, (avatarSrcResult) => {
+            let userMessageObj = this.createUserMessage(messages, key, response, avatarSrcResult);
+            this.state.usersWithMessages.push(userMessageObj);
+
+            this.state.usersWithMessages.sort(function (a, b) {
+                return new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime();
+            });
+            if (this.props.selectedConversationUser && this.props.selectedConversationUser.id === userMessageObj.id) {
+                this.props.findUserMessages(value);
+            }
+            this.setState(this.state);
+        });
+    };
+
+    createUserMessage = (messages, key, response, avatarSrcResult) => {
+        let obj = messages.get(key);
+        obj.fullname = response.data[0].name + " " + response.data[0].surname;
+        obj.profile_photo_name = response.data[0].profile_photo_name;
+        obj.avatarSrc = avatarSrcResult;
+        return obj;
+    };
 
     render() {
         const {selectedConversationUser, setSelectedConversationUser} = this.props;
         return (
             <div className="row">
                 <div className="dropdown-toggle1">
-                    All conversations: <span className="caret float-right"></span>
+                    All conversations: <span className="caret float-right"/>
                 </div>
                 <MessageSearch refreshUsersList={this.restrictUsers}/>
                 <div className="member_list"
@@ -159,6 +180,6 @@ class MessagesUserPart extends Component {
 }
 export default connect(
     (state) => ({
-        user: state
+        user: state.user
     })
 )(MessagesUserPart)

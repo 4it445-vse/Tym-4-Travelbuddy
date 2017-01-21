@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import MessagesUserPart from "../components/Messages/MessagesUserPart";
 import Messages from "../components/Messages/Messages";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import axios from "../api";
 
 
@@ -24,15 +24,15 @@ class MessagesPage extends Component {
 
     setRefreshUsers = (fn) => {
         this.refreshUsers = fn;
-    }
+    };
 
     setCheckPoint = (val) => {
         this.checkpoint = val;
-    }
+    };
 
     incrementCheckPoint = () => {
         this.checkpoint++;
-    }
+    };
 
     setUpObserver = () => {
         if(this.checkpoint){
@@ -50,11 +50,11 @@ class MessagesPage extends Component {
                 }
             });
         }
-    }
+    };
 
     setFindUserMessages = (fn) => {
         this.findUserMessages = fn;
-    }
+    };
 
     setSelectedConversationUser = (value, fn) => {
         if (this.findUserMessages) {
@@ -64,7 +64,7 @@ class MessagesPage extends Component {
             selectedConversationUser: value,
             updateSelectedUserInUserViewFn: fn
         });
-    }
+    };
 
     render() {
         return (

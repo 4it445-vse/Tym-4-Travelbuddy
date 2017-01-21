@@ -2,11 +2,11 @@ import React, {Component} from "react";
 import AbstractModal from "./AbstractModal";
 import Select from "react-select";
 import axios from "../../api";
-import moment from 'moment';
+import moment from "moment";
 import GooglePlacesSuggest from "../Autosuggest/SuggestCity";
 import validation from "../../Validation/Validation";
-import { connect } from "react-redux";
-import { openAlert, openQuestion } from "../../actions/modals";
+import {connect} from "react-redux";
+import {openAlert, openQuestion} from "../../actions/modals";
 import currentUser from "../../actions/CurrentUser";
 class RequestModal extends Component {
 

@@ -3,7 +3,7 @@ import FindUser from "../components/Search/FindUser";
 import SearchForm from "../components/Search/SearchForm";
 import FontAwesome from "react-fontawesome";
 import axios from "../api";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 
 class HomePage extends Component {
     constructor(props) {
