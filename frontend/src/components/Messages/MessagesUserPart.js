@@ -45,16 +45,7 @@ class MessagesUserPart extends Component {
     findUsers = () => {
         this.state.usersWithMessages = [];
         let currentU = this.props.user;
-        axios.get('messages/count', {
-            params: {
-                filter: {
-                    where: {
-                        buddy_id_to: currentU.id
-                    }
-                }
-            }
-        }).then(response => {
-            this.props.setCheckPoint(response.data.count);
+        this.setIncomingMessageCountCheckpoint(currentU, (currentU) => {
             axios.get('messages', {
                 params: {
                     filter: {
@@ -71,75 +62,107 @@ class MessagesUserPart extends Component {
                 let messages = new Map();
                 if (buddyMessages && buddyMessages[0]) {
                     let currentUserId = currentU.id;
-                    buddyMessages.map(message => {
-                        if (message.buddy_id_to === currentUserId) {
-                            let cbm = messages.get(message.buddy_id_from);
-                            let obj = {
-                                unreadIncomingMessagesNum: 0,
-                                lastMessageTime: message.date_time,
-                                id: message.buddy_id_from
-                            };
-                            if (cbm) {
-                                obj.unreadIncomingMessagesNum = cbm.unreadIncomingMessagesNum;
-                                if ((new Date(cbm.lastMessageTime) - new Date(message.date_time)) < 0) {
-                                    obj.lastMessageTime = message.date_time;
-                                } else {
-                                    obj.lastMessageTime = cbm.lastMessageTime;
-                                }
-                            }
-                            if (message.displayed === false) {
-                                obj.unreadIncomingMessagesNum++;
-                            }
-                            messages.set(message.buddy_id_from, obj);
-                        } else {
-                            let cbm = messages.get(message.buddy_id_to);
-                            let obj = {
-                                unreadIncomingMessagesNum: 0,
-                                lastMessageTime: message.date_time,
-                                id: message.buddy_id_to
-                            };
-                            if (cbm) {
-                                obj.unreadIncomingMessagesNum = cbm.unreadIncomingMessagesNum;
-                                if ((new Date(cbm.lastMessageTime) - new Date(message.date_time)) < 0) {
-                                    obj.lastMessageTime = message.date_time;
-                                } else {
-                                    obj.lastMessageTime = cbm.lastMessageTime;
-                                }
-                            }
-                            messages.set(message.buddy_id_to, obj);
-                        }
-                    });
-                    for (let [key, value] of messages) {
-                        axios.get('buddies', {
-                            params: {
-                                filter: {
-                                    where: {
-                                        id: key
-                                    }
-                                }
-                            }
-                        }).then(response => {
-                            let buddy = response.data[0];
-                            currentUser.composeProfilePhotoName(buddy, (avatarSrcResult) => {
-                                let obj = messages.get(key);
-                                obj.fullname = response.data[0].name + " " + response.data[0].surname;
-                                obj.profile_photo_name = response.data[0].profile_photo_name;
-                                obj.avatarSrc = avatarSrcResult;
-                                this.state.usersWithMessages.push(obj);
-
-                                this.state.usersWithMessages.sort(function (a, b) {
-                                    return new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime();
-                                });
-                                if (this.props.selectedConversationUser && this.props.selectedConversationUser.id === obj.id) {
-                                    this.props.findUserMessages(value);
-                                }
-                                this.setState(this.state);
-                            });
-                        });
-                    }
+                    this.fillMapByMessagesSortedByUsers(buddyMessages, currentUserId, messages);
+                    this.queryBuddiesAndFillUserMessagesAndRefresh(messages);
                 }
             });
         });
+    }
+
+    setIncomingMessageCountCheckpoint = (currentU, cb) => {
+        axios.get('messages/count', {
+            params: {
+                filter: {
+                    where: {
+                        buddy_id_to: currentU.id
+                    }
+                }
+            }
+        }).then(response => {
+            this.props.setCheckPoint(response.data.count);
+            cb(currentU);
+        });
+    }
+
+    fillMapByMessagesSortedByUsers = (buddyMessages, currentUserId, messages) => {
+        buddyMessages.map(message => {
+            if (message.buddy_id_to === currentUserId) {
+                let cbm = messages.get(message.buddy_id_from);
+                let obj = {
+                    unreadIncomingMessagesNum: 0,
+                    lastMessageTime: message.date_time,
+                    id: message.buddy_id_from
+                };
+                if (cbm) {
+                    obj.unreadIncomingMessagesNum = cbm.unreadIncomingMessagesNum;
+                    if ((new Date(cbm.lastMessageTime) - new Date(message.date_time)) < 0) {
+                        obj.lastMessageTime = message.date_time;
+                    } else {
+                        obj.lastMessageTime = cbm.lastMessageTime;
+                    }
+                }
+                if (message.displayed === false) {
+                    obj.unreadIncomingMessagesNum++;
+                }
+                messages.set(message.buddy_id_from, obj);
+            } else {
+                let cbm = messages.get(message.buddy_id_to);
+                let obj = {
+                    unreadIncomingMessagesNum: 0,
+                    lastMessageTime: message.date_time,
+                    id: message.buddy_id_to
+                };
+                if (cbm) {
+                    obj.unreadIncomingMessagesNum = cbm.unreadIncomingMessagesNum;
+                    if ((new Date(cbm.lastMessageTime) - new Date(message.date_time)) < 0) {
+                        obj.lastMessageTime = message.date_time;
+                    } else {
+                        obj.lastMessageTime = cbm.lastMessageTime;
+                    }
+                }
+                messages.set(message.buddy_id_to, obj);
+            }
+        });
+    }
+
+    queryBuddiesAndFillUserMessagesAndRefresh = (messages) => {
+        for (let [key, value] of messages) {
+            axios.get('buddies', {
+                params: {
+                    filter: {
+                        where: {
+                            id: key
+                        }
+                    }
+                }
+            }).then(response => {
+                this.fillUserMessagesAndRefresh(response, messages, key, value);
+            });
+        }
+    }
+
+    fillUserMessagesAndRefresh = (response, messages, key, value) => {
+        let buddy = response.data[0];
+        currentUser.composeProfilePhotoName(buddy, (avatarSrcResult) => {
+            let userMessageObj = this.createUserMessage(messages, key, response, avatarSrcResult);
+            this.state.usersWithMessages.push(userMessageObj);
+
+            this.state.usersWithMessages.sort(function (a, b) {
+                return new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime();
+            });
+            if (this.props.selectedConversationUser && this.props.selectedConversationUser.id === userMessageObj.id) {
+                this.props.findUserMessages(value);
+            }
+            this.setState(this.state);
+        });
+    }
+
+    createUserMessage = (messages, key, response, avatarSrcResult) => {
+        let obj = messages.get(key);
+        obj.fullname = response.data[0].name + " " + response.data[0].surname;
+        obj.profile_photo_name = response.data[0].profile_photo_name;
+        obj.avatarSrc = avatarSrcResult;
+        return obj;
     }
 
     render() {
