@@ -52,7 +52,7 @@ export class ResetPassword extends Component {
                 this.props.openAlert({"type": "success", "message": "Password has been successfully changed, you can login now."});
                 browserHistory.push("/");
             } else {
-                this.props.openAlert({"type": "error", "message": "Password reset failed! Please go through whole process again."});
+                this.props.openAlert({"type": "danger", "message": "Password reset failed! Please go through whole process again."});
             }
         });
     }
