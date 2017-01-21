@@ -236,7 +236,7 @@ class EditProfileModal extends Component {
                         <div className="col-xs-6">
                             <img src={this.state.avatarSrc}/>
                             {this.state.cropperOpen &&
-                            <AvatarCropper
+                            <AvatarCropper id="avatar-croper"
                                 onRequestHide={this.handleRequestHide}
                                 cropperOpen={this.state.cropperOpen}
                                 onCrop={this.handleCrop}

@@ -492,6 +492,9 @@ color: #ff8d7a;
 .member_list li:last-child {
     border-bottom:none;
 }
+.fade.in.modal{
+    background-color: rgba(10,10,10,0.5);
+}
 .member_list {
     background: white;
     height: 454px;
