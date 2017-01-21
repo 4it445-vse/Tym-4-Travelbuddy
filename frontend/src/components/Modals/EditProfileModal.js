@@ -39,9 +39,9 @@ class EditProfileModal extends Component {
                 avatarSrc: this.props.user.avatarSrc
             });
         });
-    }
+    };
 
-    onClick = () => {
+    storePhoto = (dataUri) => {
         var data = new FormData();
         let photo = new File([dataUri], "filename");
         const name = photo.name;
@@ -56,7 +56,7 @@ class EditProfileModal extends Component {
                     });
                 });
         });
-    }
+    };
 
     onChange = (e) => {
         const {name, value} = e.target;
@@ -66,13 +66,13 @@ class EditProfileModal extends Component {
         } else {
             this.validate(name, value);
         }
-    }
+    };
 
     onBlur = (e) => {
         const {name, value} = e.target;
 
         this.validate(name, value);
-    }
+    };
 
     validate = (name, value, displayCitySug) => {
         var is_hosting = document.getElementById("is_hosting").checked;
@@ -89,7 +89,7 @@ class EditProfileModal extends Component {
             fields: fields,
             displayCitySuggest: displayCitySuggest
         });
-    }
+    };
 
     handleSubmitEdit = () => {
         const {city, about_me} = this.state.fields;
@@ -128,21 +128,20 @@ class EditProfileModal extends Component {
             "is_hosting": is_hosting,
             "about_me": about_me
         };
-        let _this = this;
         axios.post('buddies/update?where[id]=' + currentUserLocal.id, constructedBuddy).then(response => {
             this.props.hideFn();
         });
-    }
+    };
 
     handleSearchChange = (e) => {
         this.setState({city: e.target.value})
-    }
+    };
 
     handleSelectSuggest = (suggestName, coordinate) => {
         var fields = this.state.fields;
         fields.city = suggestName;
         this.setState({fields: fields});
-    }
+    };
 
     handleFileChange = (dataURI) => {
         this.setState({
@@ -150,7 +149,7 @@ class EditProfileModal extends Component {
             avatarSrc: this.state.avatarSrc,
             cropperOpen: true
         });
-    }
+    };
 
     handleCrop = (dataURI) => {
         this.storePhoto(dataURI);
@@ -159,13 +158,13 @@ class EditProfileModal extends Component {
             img: null,
             avatarSrc: require("../../images/lazyload.gif")
         });
-    }
+    };
 
     handleRequestHide = () => {
         this.setState({
             cropperOpen: false
         });
-    }
+    };
 
     render() {
         const {showProp,hideFn} = this.props;
