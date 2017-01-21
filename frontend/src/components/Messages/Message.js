@@ -13,10 +13,10 @@ export default class Message extends Component {
 					   <img src={ message.avatarSrc } alt="User Avatar" className="img-circle"/>
 				 </span>
                 <div className={"chat-body1 clearfix" + (message.isIncoming ? '' : ' my-message')}>
-                    <p><b
+                    <div><b
                         className={message.isIncoming ? "" : "float-right"}>{isTodayMessage ? moment(message.time).format('LT') : moment(message.time).format('lll')}</b><br/>
                         <div dangerouslySetInnerHTML={{__html: message.text}}/>
-                    </p>
+                    </div>
                 </div>
             </li>
         );

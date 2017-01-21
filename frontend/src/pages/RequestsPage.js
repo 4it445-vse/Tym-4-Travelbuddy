@@ -82,7 +82,6 @@ class RequestsPage extends Component {
     };
 
     render() {
-        console.log(this.props.user);
         const {requests} = this.state;
         return (
           <div>

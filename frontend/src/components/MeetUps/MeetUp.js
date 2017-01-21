@@ -59,7 +59,6 @@ class MeetUp extends Component {
 
     isHighlighted = () => {
         let currentUserGaveRating = false;
-        console.log("meetUp", this.props.meetUp);
         this.props.meetUp.ratings.map(rating => {
             if (rating.buddy_id_from === this.props.user.id) {
                 currentUserGaveRating = true;

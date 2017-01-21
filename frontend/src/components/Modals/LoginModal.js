@@ -3,8 +3,8 @@ import {Modal} from "react-bootstrap";
 import FormCheck from "./FormCheck";
 import currentUser from "../../actions/CurrentUser";
 import axios from "../../api";
-import {connect} from "react-redux";
-import {logInUser} from "../../actions/user";
+import { connect } from "react-redux";
+import { logInUser } from "../../actions/user";
 class LoginModal extends Component {
 
     constructor(props) {
@@ -13,16 +13,6 @@ class LoginModal extends Component {
         this.state = {
             errors: {}
         }
-    }
-
-    closeModal = () => {
-        this.state.errors = {};
-        this.props.hideFn();
-    }
-
-    switchModal = () => {
-        this.state.errors = {};
-        this.props.switchFn();
     }
 
     handleSubmitLogIn = (event) => {
@@ -49,7 +39,7 @@ class LoginModal extends Component {
                     currentUser.composeProfilePhotoName(buddy, (avatarSrcResult) => {
                         buddy.avatarSrc = avatarSrcResult;
                         this.props.logInUser(buddy, rememberUser);
-                        this.closeModal();
+                        this.props.hideFn();
                     });
                 } else {
                     let errors = this.state.errors;
@@ -65,10 +55,10 @@ class LoginModal extends Component {
     }
 
     render() {
-        const {showProp, restorePassFn} = this.props;
+        const {showProp, restorePassFn, hideFn, switchFn} = this.props;
         const {errors} = this.state;
         return (
-            <Modal show={showProp} onHide={this.closeModal}>
+            <Modal show={showProp} onHide={hideFn}>
                 <Modal.Header closeButton>
                     <Modal.Title>Sign In</Modal.Title>
                 </Modal.Header>
@@ -118,7 +108,7 @@ class LoginModal extends Component {
 							  You don't have account yet?
 						  </span>
                         <a href="#" className="modal-tlacitko"
-                           data-toggle="modal" data-target="#regmodal" onClick={this.switchModal}>Sign Up</a>
+                           data-toggle="modal" data-target="#regmodal" onClick={switchFn}>Sign Up</a>
                     </FormCheck>
                 </Modal.Footer>
             </Modal>

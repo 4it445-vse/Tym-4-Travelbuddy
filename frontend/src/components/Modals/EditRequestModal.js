@@ -21,17 +21,6 @@ class RequestModal extends Component {
         };
     }
 
-    hideModal = () => {
-        this.state = {
-            errors: {},
-            requests: [],
-            fields: {},
-            selectedRequest: null,
-            displayCitySuggest: true
-        };
-        this.props.hideFn();
-    }
-
     prepareRemoveRequest = () => {
         this.props.openQuestion({
             text: "Are you sure, you want to delete this request?",
@@ -194,7 +183,7 @@ class RequestModal extends Component {
             );
         }
         return (
-            <AbstractModal title={title} showProp={showProp} hideFn={this.hideModal}
+            <AbstractModal title={title} showProp={showProp} hideFn={hideFn}
                            submitFn={this.handleSubmitEdit} submitText={"Save Request"}>
                 <form>
                     <div className="form-group row text-xs-center">

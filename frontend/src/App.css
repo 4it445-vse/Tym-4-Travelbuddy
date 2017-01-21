@@ -560,17 +560,13 @@ color: #ff8d7a;
     margin-left: 50px;
 }
 
-.chat-body2 p {
-    background: #deedfb none repeat scroll 0 0;
-    padding: 10px;
-}
-.chat-body1 p {
+.chat-body1 div {
     background: #fbebde none repeat scroll 0 0;
     padding: 10px;
     margin-right: 50px;
     word-break: break-all;
 }
-.my-message p {
+.my-message div {
     background-color: #a6bddb;
 }
 .selected-conversation-user {
