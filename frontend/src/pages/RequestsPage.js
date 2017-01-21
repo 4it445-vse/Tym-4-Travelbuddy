@@ -2,10 +2,9 @@ import React, {Component} from "react";
 import {RequestsList} from "../components/Requests/RequestsList.js";
 import lodash from "lodash";
 import axios from "../api";
-import ShowRequestModal from "../components/Modals/ShowRequestModal";
 import GooglePlacesSuggest from "../components/Autosuggest/SuggestCity";
 import {connect} from "react-redux";
-import {openAlert, openContactBuddy} from "../actions/modals";
+import {openAlert, openContactBuddy, openShowRequestDetails} from "../actions/modals";
 
 class RequestsPage extends Component {
     constructor(props) {
@@ -41,8 +40,7 @@ class RequestsPage extends Component {
     };
 
     openShowRequestShowModal = (buddy, request) => {
-        this.setState({
-            showRequestShowModal: true,
+        this.props.openShowRequestDetails({
             requestShowModalContent: {
                 buddy: buddy,
                 request: request
@@ -88,9 +86,7 @@ class RequestsPage extends Component {
         <div className="row pad-t-5 colarose">
             <div className="container white">
               <h1 className="v-o-4">Find yours Requests</h1>
-                <ShowRequestModal showProp={this.state.showRequestShowModal} hideFn={this.closeShowRequestShowModal}
-                                  requestShowModalContent={this.state.requestShowModalContent}
-                                  contactBuddy={this.openContactBuddy}/>
+
 
                 <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.search } display={true}>
                     <div className="input-group">
@@ -127,6 +123,7 @@ export default connect(
     }),
     {
         openAlert,
-        openContactBuddy
+        openContactBuddy,
+        openShowRequestDetails
     }
 )(RequestsPage)

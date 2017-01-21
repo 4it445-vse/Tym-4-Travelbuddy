@@ -130,6 +130,17 @@ export const openEditRequest = () => {
     }
 }
 
+export const openShowRequestDetailsSuccess = (payload) => ({
+    type: 'OPEN_SHOW_REQUEST_DETAILS_SUCCESS',
+    payload
+})
+
+export const openShowRequestDetails = (data) => {
+    return (dispatch) => {
+        return dispatch(openShowRequestDetailsSuccess({modal: 'openShowRequestDetails', data: data}));
+    }
+}
+
 export const closeModalSuccess = (payload) => ({
     type: 'CLOSE_MODAL_SUCCESS',
     payload

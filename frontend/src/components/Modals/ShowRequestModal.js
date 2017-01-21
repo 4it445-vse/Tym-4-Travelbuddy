@@ -2,8 +2,10 @@
 import moment from "moment";
 import AbstractModal from "./AbstractModal";
 import currentUser from "../../actions/CurrentUser";
+import {connect} from "react-redux";
+import {openContactBuddy} from "../../actions/modals";
 
-export default class ShowRequestModal extends Component {
+class ShowRequestModal extends Component {
 
     constructor(props){
         super(props);
@@ -21,8 +23,8 @@ export default class ShowRequestModal extends Component {
         });
     }
 
-    constactBuddy = () => {
-        this.props.contactBuddy(this.props.requestShowModalContent.buddy);
+    contactBuddy = () => {
+        this.props.openContactBuddy(this.props.requestShowModalContent.buddy);
     };
 
     render() {
@@ -31,7 +33,7 @@ export default class ShowRequestModal extends Component {
         const title = buddy.name + " " + buddy.surname + " looking for buddies in " + request.city;
         return (
             <AbstractModal title={title} showProp={showProp} hideFn={hideFn}
-                           submitFn={this.constactBuddy} submitText={"Message"}>
+                           submitFn={this.contactBuddy} submitText={"Message"}>
               <div className="row">
                 <div className="row hidden-sm-up text-xs-center">
                   <img src={ this.state.avatarSrc } alt={ buddy.name + " " + buddy.surname } className="profil_img rounded"/>
@@ -101,3 +103,9 @@ export default class ShowRequestModal extends Component {
         );
     }
 }
+export default connect(
+    null,
+    {
+        openContactBuddy
+    }
+)(ShowRequestModal)

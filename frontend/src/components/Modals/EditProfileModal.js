@@ -42,15 +42,15 @@ class EditProfileModal extends Component {
     };
 
     storePhoto = (dataUri) => {
-        var data = new FormData();
+        let data = new FormData();
         let photo = new File([dataUri], "filename");
         const name = photo.name;
         const currentUserLocal = this.props.user;
         data.append("file", photo);
         const containerName = 'container_' + currentUserLocal.id;
-        axios.post('containers/' + containerName + '/upload', data).then(data => {
+        axios.post('containers/' + containerName + '/upload', data).then(() => {
             axios.post('buddies/update?where[id]=' + currentUserLocal.id, {"profile_photo_name": name})
-                .then(response => {
+                .then(() => {
                     this.setState({
                         avatarSrc: dataUri
                     });
@@ -75,7 +75,7 @@ class EditProfileModal extends Component {
     };
 
     validate = (name, value, displayCitySug) => {
-        var is_hosting = document.getElementById("is_hosting").checked;
+        let is_hosting = document.getElementById("is_hosting").checked;
         let {errors, fields, displayCitySuggest} = this.state;
         errors[name] = validation.validate(name, value, is_hosting);
         fields[name] = value;
@@ -93,8 +93,8 @@ class EditProfileModal extends Component {
 
     handleSubmitEdit = () => {
         const {city, about_me} = this.state.fields;
-        var is_hosting = document.getElementById("is_hosting").checked;
-        var sex;
+        let is_hosting = document.getElementById("is_hosting").checked;
+        let sex;
         if (this.props.user.sex === 'na') {
             let e = document.getElementById("sex");
             sex = e.options[e.selectedIndex].value;
@@ -128,7 +128,7 @@ class EditProfileModal extends Component {
             "is_hosting": is_hosting,
             "about_me": about_me
         };
-        axios.post('buddies/update?where[id]=' + currentUserLocal.id, constructedBuddy).then(response => {
+        axios.post('buddies/update?where[id]=' + currentUserLocal.id, constructedBuddy).then(() => {
             this.props.hideFn();
         });
     };
@@ -138,7 +138,7 @@ class EditProfileModal extends Component {
     };
 
     handleSelectSuggest = (suggestName, coordinate) => {
-        var fields = this.state.fields;
+        let fields = this.state.fields;
         fields.city = suggestName;
         this.setState({fields: fields});
     };
