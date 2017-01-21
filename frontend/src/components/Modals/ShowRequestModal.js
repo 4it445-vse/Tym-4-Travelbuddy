@@ -23,7 +23,7 @@ export default class ShowRequestModal extends Component {
 
     constactBuddy = () => {
         this.props.contactBuddy(this.props.requestShowModalContent.buddy);
-    }
+    };
 
     render() {
         const {showProp, hideFn, requestShowModalContent} = this.props;
@@ -36,7 +36,7 @@ export default class ShowRequestModal extends Component {
                 <div className="row hidden-sm-up text-xs-center">
                   <img src={ this.state.avatarSrc } alt={ buddy.name + " " + buddy.surname } className="profil_img rounded"/>
                 </div>
-                <hr className="hidden-sm-up"></hr>
+                <hr className="hidden-sm-up"/>
                 <div className="col-xs-12 col-sm-6">
                   <div className="row text-xs-left">
                     <div className="col-xs-3 no-padding-right">
@@ -92,7 +92,7 @@ export default class ShowRequestModal extends Component {
                 </div>
               </div>
               <div className="row">
-                <hr className="col-xs-12"></hr>
+                <hr className="col-xs-12"/>
                 <div className="col-xs-12">
                   <p className="no-margin-bottom">{request.text}</p>
                 </div>
