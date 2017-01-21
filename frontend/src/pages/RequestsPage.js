@@ -52,7 +52,7 @@ class RequestsPage extends Component {
         if (!searchString) {
             return {};
         }
-        return {filter: {fields: {id:true},where: {city: {like: `%${searchString}%`}}}}
+        return {filter: {fields: {id: true}, where: {city: {like: `%${searchString}%`}}}}
     }
 
     fetchRequests(searchString) {
@@ -72,7 +72,7 @@ class RequestsPage extends Component {
     };
 
     handleSelectSuggest = (suggestName, coordinate) => {
-      this.fetchRequestsDebounced(suggestName);
+        this.fetchRequestsDebounced(suggestName);
     };
 
     updateSearchString = () => {
@@ -82,44 +82,42 @@ class RequestsPage extends Component {
     render() {
         const {requests} = this.state;
         return (
-          <div>
-        <div className="row pad-t-5 colarose">
-            <div className="container white">
-              <h1 className="v-o-4">Find yours Requests</h1>
-
-
-                <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.search } display={true}>
-                    <div className="input-group">
-                        <input id="search-town" type="search"
-                               className="form-control SearchBar SearchHeight SearchBorder"
-                               placeholder="Enter destination..." onChange={this.updateSearchString}
-                               autoComplete="off"
-                               value={this.state.search}/>
-                        <span className="input-group-btn">
-              <button className="btn btn-defaul SearchButton SearchHeight text-white" type="button"
-                      onClick={this.handleSearchChange}>
-                  <i className="fa fa-search SearchIcon" aria-hidden="true"></i> Search
-              </button>
-            </span>
+            <div>
+                <div className="row pad-t-5 colarose">
+                    <div className="container white">
+                        <h1 className="v-o-4">Find yours Requests</h1>
+                        <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.search } display={true}>
+                            <div className="input-group">
+                                <input id="search-town" type="search"
+                                       className="form-control SearchBar SearchHeight SearchBorder"
+                                       placeholder="Enter destination..." onChange={this.updateSearchString}
+                                       autoComplete="off"
+                                       value={this.state.search}/>
+                                <span className="input-group-btn">
+                                    <button className="btn btn-defaul SearchButton SearchHeight text-white" type="button"
+                                        onClick={this.handleSearchChange}>
+                                        <i className="fa fa-search SearchIcon" aria-hidden="true"/> Search
+                                    </button>
+                                </span>
+                            </div>
+                        </GooglePlacesSuggest>
                     </div>
-                </GooglePlacesSuggest>
-
-            </div></div>
+                </div>
                 {requests === null ?
 
                     <div className="container">
-                         </div> :
+                    </div> :
                     <div className="container"><RequestsList requests={requests} openShowRequestShowModal={this.openShowRequestShowModal}
-                                  openContactBuddy={this.openContactBuddy} city={this.state.searchedCity}/></div>
+                                                             openContactBuddy={this.openContactBuddy} city={this.state.searchedCity}/></div>
                 }
-          </div>
+            </div>
         );
     }
 }
 
 export default connect(
     (state) => ({
-        user : state.user
+        user: state.user
     }),
     {
         openAlert,
