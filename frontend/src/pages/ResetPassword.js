@@ -3,8 +3,8 @@ import {browserHistory} from "react-router";
 import FormGroup from "../components/Modals/FormGroup";
 import axios from "../api";
 import validation from "../Validation/Validation";
-import { connect } from "react-redux";
-import { openAlert } from "../actions/modals";
+import {connect} from "react-redux";
+import {openAlert} from "../actions/modals";
 
 export class ResetPassword extends Component {
 
@@ -52,7 +52,7 @@ export class ResetPassword extends Component {
                 this.props.openAlert({"type": "success", "message": "Password has been successfully changed, you can login now."});
                 browserHistory.push("/");
             } else {
-                console.error(response);
+                this.props.openAlert({"type": "error", "message": "Password reset failed! Please go through whole process again."});
             }
         });
     }
