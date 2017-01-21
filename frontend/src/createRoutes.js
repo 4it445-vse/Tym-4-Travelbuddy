@@ -5,15 +5,15 @@ import HomePage from "./pages/HomePage.js";
 import MessagesPage from "./pages/MessagesPage.js";
 import MeetUpsAndRatings from "./pages/MeetUpsAndRatings.js";
 import RequestsPage from "./pages/RequestsPage.js";
-import VerifiedPage from './pages/VerifiedPage.js';
-import ResetPassword from './pages/ResetPassword.js';
-import TermsAndCondtionsPage from './pages/TermsAndCondtitionsPage.js';
-import PageNotFound from './pages/PageNotFound.js';
+import ResetPassword from "./pages/ResetPassword.js";
+import TermsAndCondtionsPage from "./pages/TermsAndCondtitionsPage.js";
+import PageNotFound from "./pages/PageNotFound.js";
 
 export function createRoutes(store) {
 
     const requireAuth = (nextState, replace) => {
         const { user } = store.getState();
+        console.log("in routes",user);
         if ( !user ) {
             replace('/');
         }
@@ -25,7 +25,6 @@ export function createRoutes(store) {
             <Route path="/messages" component={MessagesPage} onEnter={requireAuth}/>
             <Route path="/meetups-and-ratings" component={MeetUpsAndRatings} onEnter={requireAuth}/>
             <Route path="/requests" component={RequestsPage} onEnter={requireAuth}/>
-            <Route path="/verified" component={VerifiedPage}/>
             <Route path="/reset-password" component={ResetPassword}/>
             <Route path="/terms-and-conditions" component={TermsAndCondtionsPage}/>
             <Route path='*' component={PageNotFound} />

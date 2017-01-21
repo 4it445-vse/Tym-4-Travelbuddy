@@ -40,7 +40,7 @@ module.exports = function (Buddy) {
             from: 'noreply@travelbuddy.com',
             subject: 'Travel Buddy | Verify email',
             template: 'server/views/verify.ejs',
-            redirect: API_PROTOCOL + '://' + API_HOST_FRONTEND + ':' + API_PORT_FRONTEND + '/verified',
+            redirect: API_PROTOCOL + '://' + API_HOST_FRONTEND + ':' + API_PORT_FRONTEND + '?verified=35df3789cb62966050236441690ba476',
             user: currentBuddy,
             host: API_HOST,
             port: API_PORT,
