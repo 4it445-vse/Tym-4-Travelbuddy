@@ -21,7 +21,7 @@ class MessagesUserPart extends Component {
     }
 
     refreshUsers = () => {
-        this.findUsers();
+        this.findUsersAndMessages();
         this.restrictUsers("");
     };
 
@@ -42,87 +42,81 @@ class MessagesUserPart extends Component {
         });
     };
 
-    findUsers = () => {
+    findUsersAndMessages = () => {
         this.state.usersWithMessages = [];
-        let currentU = this.props.user;
-        this.setIncomingMessageCountCheckpoint(currentU, (currentU) => {
+        this.setIncomingMessageCountCheckpoint(this.props.user.id, (currentUserId) => {
             axios.get('messages', {
                 params: {
                     filter: {
                         where: {
                             or: [
-                                {"buddy_id_to": currentU.id},
-                                {"buddy_id_from": currentU.id}
+                                {"buddy_id_to": currentUserId},
+                                {"buddy_id_from": currentUserId}
                             ]
                         }
                     }
                 }
             }).then(response => {
-                let buddyMessages = response.data;
-                let messages = new Map();
-                if (buddyMessages && buddyMessages[0]) {
-                    let currentUserId = currentU.id;
-                    this.fillMapByMessagesSortedByUsers(buddyMessages, currentUserId, messages);
+                let allMessagesAssociatedToCurrentUser = response.data;
+                if (allMessagesAssociatedToCurrentUser && allMessagesAssociatedToCurrentUser[0]) {
+                    let messages = new Map();
+                    this.fillMapByMessagesSortedByUsers(allMessagesAssociatedToCurrentUser, currentUserId, messages);
                     this.queryBuddiesAndFillUserMessagesAndRefresh(messages);
                 }
             });
         });
     };
 
-    setIncomingMessageCountCheckpoint = (currentU, cb) => {
+    setIncomingMessageCountCheckpoint = (currentUserId, cb) => {
         axios.get('messages/count', {
             params: {
                 filter: {
                     where: {
-                        buddy_id_to: currentU.id
+                        buddy_id_to: currentUserId
                     }
                 }
             }
         }).then(response => {
             this.props.setCheckPoint(response.data.count);
-            cb(currentU);
+            cb(currentUserId);
         });
     };
 
-    fillMapByMessagesSortedByUsers = (buddyMessages, currentUserId, messages) => {
-        buddyMessages.map(message => {
+    fillMapByMessagesSortedByUsers = (allMessagesAssociatedToCurrentUser, currentUserId, messages) => {
+        allMessagesAssociatedToCurrentUser.map(message => {
             if (message.buddy_id_to === currentUserId) {
-                let cbm = messages.get(message.buddy_id_from);
-                let obj = {
-                    unreadIncomingMessagesNum: 0,
-                    lastMessageTime: message.date_time,
-                    id: message.buddy_id_from
-                };
-                if (cbm) {
-                    obj.unreadIncomingMessagesNum = cbm.unreadIncomingMessagesNum;
-                    if ((new Date(cbm.lastMessageTime) - new Date(message.date_time)) < 0) {
-                        obj.lastMessageTime = message.date_time;
-                    } else {
-                        obj.lastMessageTime = cbm.lastMessageTime;
-                    }
-                }
-                if (message.displayed === false) {
-                    obj.unreadIncomingMessagesNum++;
-                }
-                messages.set(message.buddy_id_from, obj);
+                this.addIncomingMessage(messages, message);
             } else {
-                let cbm = messages.get(message.buddy_id_to);
-                let obj = {
-                    unreadIncomingMessagesNum: 0,
-                    lastMessageTime: message.date_time,
-                    id: message.buddy_id_to
-                };
-                if (cbm) {
-                    obj.unreadIncomingMessagesNum = cbm.unreadIncomingMessagesNum;
-                    if ((new Date(cbm.lastMessageTime) - new Date(message.date_time)) < 0) {
-                        obj.lastMessageTime = message.date_time;
-                    } else {
-                        obj.lastMessageTime = cbm.lastMessageTime;
-                    }
-                }
-                messages.set(message.buddy_id_to, obj);
+                this.addOutgoingMessage(messages, message);
             }
         });
+    };
+
+    addOutgoingMessage = (messages, message) => {
+        this.addMessage(messages, message, message.buddy_id_to, false);
+    };
+
+    addIncomingMessage = (messages, message) => {
+        this.addMessage(messages, message, message.buddy_id_from, true);
+    };
+
+    addMessage = (messages, message, buddyId, isIncoming) => {
+        let userMessageDetails = messages.get(buddyId);
+        if (userMessageDetails) {
+            if ((new Date(userMessageDetails.lastMessageTime) - new Date(message.date_time)) < 0) {
+                userMessageDetails.lastMessageTime = message.date_time;
+            }
+        } else {
+            userMessageDetails = {
+                unreadIncomingMessagesNum: 0,
+                lastMessageTime: message.date_time,
+                id: buddyId
+            };
+        }
+        if (isIncoming && message.displayed === false) {
+            userMessageDetails.unreadIncomingMessagesNum++;
+        }
+        messages.set(buddyId, userMessageDetails);
     };
 
     queryBuddiesAndFillUserMessagesAndRefresh = (messages) => {
@@ -187,6 +181,6 @@ class MessagesUserPart extends Component {
 }
 export default connect(
     (state) => ({
-        user: state
+        user: state.user
     })
 )(MessagesUserPart)
