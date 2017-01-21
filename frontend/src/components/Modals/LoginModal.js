@@ -51,7 +51,7 @@ class LoginModal extends Component {
             let errors = this.state.errors;
             errors.notLogged = "Wrong e-mail or password!";
             this.setState({errors: errors});
-        });;
+        });
     }
 
     render() {

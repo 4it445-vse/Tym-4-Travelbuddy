@@ -29,7 +29,7 @@ class RequestsPage extends Component {
         this.setState({
             showRequestShowModal: false
         });
-    };;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    };
 
     openContactBuddy = (buddyTo) => {
         if (buddyTo && buddyTo.name) {
@@ -38,7 +38,7 @@ class RequestsPage extends Component {
             });
             this.props.openContactBuddy({buddy: buddyTo});
         }
-    };;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    };
 
     openShowRequestShowModal = (buddy, request) => {
         this.setState({
@@ -48,7 +48,7 @@ class RequestsPage extends Component {
                 request: request
             }
         });
-    };;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    };
 
     paramsForSerchString(searchString) {
         if (!searchString) {
@@ -71,7 +71,7 @@ class RequestsPage extends Component {
     handleSearchChange = () => {
         const searchString = document.getElementById('search-town').value;
         this.fetchRequestsDebounced(searchString);
-    };;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    };
 
     handleSelectSuggest = (suggestName, coordinate) => {
       this.fetchRequestsDebounced(suggestName);

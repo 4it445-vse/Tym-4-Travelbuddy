@@ -35,7 +35,7 @@ class NewMeetUpModal extends Component {
                 "message": "Meet up proposal has been successfuly send."
             })
         });
-    };;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    };
 
     onChange = (e) => {
         const date = e.target.value;
@@ -63,7 +63,7 @@ class NewMeetUpModal extends Component {
                 date
             });
         }
-    };;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    };
 
     render() {
         const {showProp, buddyTo, hideFn} = this.props;

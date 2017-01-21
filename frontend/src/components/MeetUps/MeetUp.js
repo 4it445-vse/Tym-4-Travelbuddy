@@ -75,7 +75,7 @@ class MeetUp extends Component {
             return true;
         }
         return false;
-    };;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    };
 
     render() {
         const {render} = this.state;
@@ -112,7 +112,7 @@ class MeetUp extends Component {
                     </div>
                 </div>
             </a>
-        );;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+        );
         else return (<div className="card-block text-xs-center" id="buddy-row"><Loading/></div>)
     }
 }

@@ -42,7 +42,7 @@ class NewRequestModal extends Component {
             errors: errors,
             fields: fields
         });
-    };;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    };
 
     handleSubmitRequest = () => {
         var city = this.state.fields.city;
@@ -76,24 +76,24 @@ class NewRequestModal extends Component {
             "to": to,
             "text": text,
             "buddy_id": buddy_id
-        };;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+        };
         axios.put('Requests', request).then(response => {
             this.props.openAlert({"type": "success", "message": "Request has been successfuly saved."});
             this.hideModal();
         });
-    };;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    };
 
     handleSearchChange = (e) => {
         var fields = this.state.fields;
         fields.city = e.target.value;
         this.setState({fields: fields});
-    };;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    };
 
     handleSelectSuggest = (suggestName, coordinate) => {
         var fields = this.state.fields;
         fields.city = suggestName;
         this.setState({fields: fields});
-    };;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    };
 
     render() {
         const {showProp, hideFn} = this.props;

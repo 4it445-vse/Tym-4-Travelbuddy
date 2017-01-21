@@ -43,7 +43,7 @@ class ResetPassModal extends Component {
                 this.setState({showErrorMessage: "There is no user with this e-mail."});
             }
         });
-    };;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    };
 
     onChange = (e) => {
         let name = e.target.name;
@@ -59,7 +59,7 @@ class ResetPassModal extends Component {
             errors: errors,
             fields: fields
         });
-    };;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    };
 
     render() {
         const {showProp, hideFn} = this.props;
