@@ -6,7 +6,7 @@ import axios from "../api";
 import {connect} from "react-redux";
 import {openAlert} from "../actions/modals";
 import {browserHistory} from "react-router";
-
+import ax, {CancelToken} from "axios";
 class HomePage extends Component {
     constructor(props) {
         super(props);
@@ -23,6 +23,13 @@ class HomePage extends Component {
     }
 
     componentDidMount() {
+        ax.get('/auth/account', {
+
+        }).then(response => {
+            console.log(response);
+        }, err => {
+            console.log(err);
+        });
         this.findAllBuddies();
     }
 

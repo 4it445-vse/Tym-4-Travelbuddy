@@ -43,6 +43,21 @@
   },
   "validations": [],
   "relations": {
+    "accessTokens": {
+      "type": "hasMany",
+      "model": "accessToken",
+      "foreignKey": "userId"
+    },
+    "identities": {
+      "type": "hasMany",
+      "model": "userIdentity",
+      "foreignKey": "userId"
+    },
+    "credentials": {
+      "type": "hasMany",
+      "model": "userCredential",
+      "foreignKey": "userId"
+    },
     "requests": {
       "type": "hasMany",
       "model": "Request",

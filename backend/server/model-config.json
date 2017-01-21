@@ -20,6 +20,14 @@
     "dataSource": "db",
     "public": false
   },
+  "userCredential": {
+    "dataSource": "db",
+    "public": false
+  },
+  "userIdentity": {
+    "dataSource": "db",
+    "public": false
+  },
   "ACL": {
     "dataSource": "db",
     "public": false
