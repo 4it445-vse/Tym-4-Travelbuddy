@@ -23,7 +23,7 @@ class MessagesUserPart extends Component {
     refreshUsers = () => {
         this.findUsers();
         this.restrictUsers("");
-    }
+    };
 
     restrictUsers = (value) => {
         let usersWithMessagesChosen = [];
@@ -40,7 +40,7 @@ class MessagesUserPart extends Component {
         this.setState({
             usersWithMessagesChosen: usersWithMessagesChosen
         });
-    }
+    };
 
     findUsers = () => {
         this.state.usersWithMessages = [];
@@ -67,7 +67,7 @@ class MessagesUserPart extends Component {
                 }
             });
         });
-    }
+    };
 
     setIncomingMessageCountCheckpoint = (currentU, cb) => {
         axios.get('messages/count', {
@@ -82,7 +82,7 @@ class MessagesUserPart extends Component {
             this.props.setCheckPoint(response.data.count);
             cb(currentU);
         });
-    }
+    };
 
     fillMapByMessagesSortedByUsers = (buddyMessages, currentUserId, messages) => {
         buddyMessages.map(message => {
@@ -123,7 +123,7 @@ class MessagesUserPart extends Component {
                 messages.set(message.buddy_id_to, obj);
             }
         });
-    }
+    };
 
     queryBuddiesAndFillUserMessagesAndRefresh = (messages) => {
         for (let [key, value] of messages) {
@@ -139,7 +139,7 @@ class MessagesUserPart extends Component {
                 this.fillUserMessagesAndRefresh(response, messages, key, value);
             });
         }
-    }
+    };
 
     fillUserMessagesAndRefresh = (response, messages, key, value) => {
         let buddy = response.data[0];
@@ -155,7 +155,7 @@ class MessagesUserPart extends Component {
             }
             this.setState(this.state);
         });
-    }
+    };
 
     createUserMessage = (messages, key, response, avatarSrcResult) => {
         let obj = messages.get(key);
@@ -163,14 +163,14 @@ class MessagesUserPart extends Component {
         obj.profile_photo_name = response.data[0].profile_photo_name;
         obj.avatarSrc = avatarSrcResult;
         return obj;
-    }
+    };
 
     render() {
         const {selectedConversationUser, setSelectedConversationUser} = this.props;
         return (
             <div className="row">
                 <div className="dropdown-toggle1">
-                    All conversations: <span className="caret float-right"></span>
+                    All conversations: <span className="caret float-right"/>
                 </div>
                 <MessageSearch refreshUsersList={this.restrictUsers}/>
                 <div className="member_list"
