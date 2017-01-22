@@ -1,7 +1,9 @@
 import React, {Component} from "react";
 import moment from "moment";
+import {connect} from "react-redux";
+import {refreshMessagesMenu} from "../../actions/messagesMenu";
 
-export default class MessageUser extends Component {
+class MessageUser extends Component {
 
     constructor(props) {
         super(props);
@@ -17,6 +19,9 @@ export default class MessageUser extends Component {
     }
 
     setSelectedConversationUser = () => {
+        if(this.props.user.unreadIncomingMessagesNum && this.props.user.unreadIncomingMessagesNum > 0) {
+            this.props.refreshMessagesMenu();
+        }
         this.props.setSelectedConversationUser(this.props.user, this.setUserChanged);
     }
 
@@ -45,6 +50,10 @@ export default class MessageUser extends Component {
             </li>
         );
     }
-
-
 }
+export default connect(
+    null,
+    {
+        refreshMessagesMenu
+    }
+)(MessageUser)

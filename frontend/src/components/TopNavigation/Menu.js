@@ -43,7 +43,6 @@ class Menu extends Component {
     }
 
     countMeetUpAndRatingAllerts = () => {
-        console.log(this.props.messages);
         axios.get('Meetups', {
             params: {
                 filter: {
@@ -192,7 +191,8 @@ class Menu extends Component {
 export default connect(
     (state) => ({
         user: state.user,
-        messages: state.messages
+        messages: state.messages,
+        messagesMenu: state.messagesMenu
     }),
     {
         logOutUser,

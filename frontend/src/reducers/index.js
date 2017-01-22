@@ -72,9 +72,23 @@ const messages = (state = initialStateMessages, action) => {
     }
 };
 
+const messagesMenu = (state = initialStateMessages, action) => {
+
+    switch (action.type) {
+        case 'REFRESH_MESSAGES_MENU_SUCCESS':
+            return {
+                ...state,
+                ...action.payload
+            };
+        default:
+            return state;
+    }
+};
+
 
 export const rootReducer = combineReducers({
     user,
     modals,
-    messages
+    messages,
+    messagesMenu
 });
