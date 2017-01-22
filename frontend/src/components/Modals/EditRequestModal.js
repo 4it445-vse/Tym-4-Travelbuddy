@@ -1,12 +1,12 @@
 import React, {Component} from "react";
 import AbstractModal from "./AbstractModal";
-import Select from "react-select";
 import axios from "../../api";
 import moment from "moment";
 import GooglePlacesSuggest from "../Autosuggest/SuggestCity";
 import validation from "../../Validation/Validation";
 import {connect} from "react-redux";
 import {openAlert, openQuestion} from "../../actions/modals";
+import {refreshRequests} from "../../actions/reloadRequests";
 import currentUser from "../../actions/CurrentUser";
 class RequestModal extends Component {
 
@@ -14,8 +14,13 @@ class RequestModal extends Component {
         super(props);
         this.state = {
             errors: {},
-            requests: [],
-            fields: {},
+            fields: {
+                id: this.props.request.id,
+                city: this.props.request.city,
+                from:this.props.request.from,
+                to:this.props.request.to,
+                text: this.props.request.text
+            },
             selectedRequest: null,
             displayCitySuggest: true
         };
@@ -31,6 +36,7 @@ class RequestModal extends Component {
     removeRequest = () => {
         var id = this.state.selectedRequest
         axios.delete('Requests/' + id).then(response => {
+            this.props.refreshRequests();
             this.props.openAlert({"type": "success", "message": "Request has been successfully deleted."});
         });
     }
@@ -75,30 +81,6 @@ class RequestModal extends Component {
         });
     }
 
-    findBuddysRequests = (suggest) => {
-        axios.get('Requests', {
-            params: {filter: {where: {buddy_id: this.props.user.id}}}
-        })
-            .then(response => {
-                //Remapping response beacuase of Select component
-                var requestsFormated = response.data.map(function (object) {
-                    var remappedObj = {value: object.id, label: object.city};
-                    return remappedObj;
-                })
-                this.setState({
-                    requests: requestsFormated, selectedRequest: requestsFormated[0],
-                    fields: {
-                        city: requestsFormated[0].city,
-                        from: requestsFormated[0].from,
-                        to: requestsFormated[0].to,
-                        text: requestsFormated[0].text
-                    },
-                    displayCitySuggest: suggest
-                });
-                this.handleSelectChange(this.state.selectedRequest);
-            })
-    }
-
     handleSubmitEdit = () => {
         var id = this.state.fields.id;
         var city = this.state.fields.city;
@@ -134,27 +116,15 @@ class RequestModal extends Component {
             "buddy_id": buddy_id
         }
         axios.patch('Requests/' + id, updatedRequest).then(response => {
+            this.props.refreshRequests();
             this.props.openAlert({"type": "success", "message": "Request has been successfully updated."});
         })
             .then(() => {
-                this.findBuddysRequests(true);
             })
             .catch(error => {
                 const {response} = error;
                 this.setState({errors: response.data.error.details.messages});
             });
-    }
-
-    handleSelectChange = (requestFormated) => {
-        axios.get('Requests/' + requestFormated.value)
-            .then(response => {
-                this.setState({fields: response.data, displayCitySuggest: false});
-            });
-        this.setState({selectedRequest: requestFormated.value});
-    }
-
-    componentDidMount() {
-        this.findBuddysRequests(false);
     }
 
     handleSelectSuggest = (suggestName, coordinate) => {
@@ -173,28 +143,10 @@ class RequestModal extends Component {
         var fromFormated = moment(this.state.fields.from).format(dateFormat);
         var toFormated = moment(this.state.fields.to).format(dateFormat);
 
-        if (this.state.requests.length === 0) {
-            return (
-                <AbstractModal title={title} showProp={showProp} hideFn={hideFn} submitFn={switchFn}
-                               submitText={"I want to go somewhere!"}>
-                    <p>Unfortunately, you have not created any requests, so you can not edit them.</p>
-                    <p>You can create new request in section: New Request.</p>
-                </AbstractModal>
-            );
-        }
         return (
             <AbstractModal title={title} showProp={showProp} hideFn={hideFn}
                            submitFn={this.handleSubmitEdit} submitText={"Save Request"}>
                 <form>
-                    <div className="form-group row text-xs-center">
-                        <label htmlFor="rides" className="col-xs-6 col-form-label text-xs-right">Choose a request, which
-                            you want to edit.</label>
-                        <div className="col-xs-6">
-                            <Select name="form-field-name" value={this.state.selectedRequest}
-                                    options={this.state.requests} onChange={this.handleSelectChange}/>
-                        </div>
-                    </div>
-                    <hr/>
                     <div className="form-group row text-xs-center">
                         <label htmlFor="city" className="col-xs-3 col-sm-2 col-form-label text-xs-right">City: </label>
                         <div className="col-xs-9 col-sm-10 text-xs-left">
@@ -260,6 +212,7 @@ export default connect(
     }),
     {
         openAlert,
-        openQuestion
+        openQuestion,
+        refreshRequests
     }
 )(RequestModal)

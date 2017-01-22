@@ -7,7 +7,7 @@ module.exports = function(Request) {
   Request.validateAsync('city', function cityValidator(errorCallback, doneCallback) {
     if (!this.city) {
       errorCallback('cityIsMandatory');
-    } else if (this.city.length > 30) {
+    } else if (this.city.length > 70) {
       errorCallback('cityTooLong');
     }
 
@@ -15,7 +15,7 @@ module.exports = function(Request) {
   }, {
     message: {
       cityIsMandatory: 'Město je povinné pole, to abychom Vás mohli najít.',
-      cityTooLong: 'Název města je příliš dlouhý. Maximální počet znaků je 30.',
+      cityTooLong: 'Název města je příliš dlouhý. Maximální počet znaků je 70.',
     },
   });
 

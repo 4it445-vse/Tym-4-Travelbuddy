@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {RequestListItem} from "./RequestListItem.js";
-import LazyLoad from 'react-lazyload';
-import Loading from '../Images/Loading';
+import LazyLoad from "react-lazyload";
+import Loading from "../Images/Loading";
 
 export class RequestsList extends Component {
 
@@ -10,7 +10,7 @@ export class RequestsList extends Component {
     const placeholder = (<div className="col-lg-4 col-md-6 col-xs-12"><div className="request lazyloadReq"><Loading/></div></div>)
     var render = []
     for(var i = 0; i < requests.length; i++) {
-      render.push(<LazyLoad placeholder={placeholder} key={requests[i].id} height="50px" ><RequestListItem requestId={requests[i].id}
+      render.push(<LazyLoad placeholder={placeholder} key={requests[i].id} height="50px" ><RequestListItem mine={this.props.mine} requestId={requests[i].id} request={requests[i]}
                        openShowRequestShowModal={openShowRequestShowModal} openContactBuddy={openContactBuddy}/></LazyLoad>)
     }
 

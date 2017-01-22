@@ -46,6 +46,16 @@ color: #ff8d7a;
     margin-right: 30px;
 }
 
+.a-dropdown {
+     text-decoration: none;
+     color: black;
+ }
+
+.a-dropdown:hover {
+    text-decoration: none;
+    color: black;
+}
+
 .margin-right-10 {
     margin-right: 10px;
 }

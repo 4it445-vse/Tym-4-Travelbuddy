@@ -1,11 +1,11 @@
 import React, {Component} from "react";
 import GeneralRequests from "./GeneralRequests";
 
-export default class RequestsPage extends Component {
+export default class MyRequestsPage extends Component {
 
     render() {
         return (
-            <GeneralRequests mine={false}/>
+            <GeneralRequests mine={true}/>
         );
     }
 }

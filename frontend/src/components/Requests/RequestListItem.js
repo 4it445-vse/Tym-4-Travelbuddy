@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import moment from 'moment';
+import React, {Component} from "react";
+import moment from "moment";
 import axios from "../../api";
-import Loading from '../Images/Loading';
+import Loading from "../Images/Loading";
 import currentUser from "../../actions/CurrentUser";
 
 export class RequestListItem extends Component {
@@ -16,7 +16,11 @@ export class RequestListItem extends Component {
   }
 
   openContactBuddy = () => {
-    this.props.openContactBuddy(this.state.buddy);
+    if(this.props.mine){
+        this.props.openContactBuddy(this.state.request);
+    }else{
+        this.props.openContactBuddy(this.state.buddy);
+    }
   }
 
   showRequestDetails = () => {
@@ -39,7 +43,7 @@ export class RequestListItem extends Component {
   }
 
   render() {
-    const { city, from, to } = this.state.request;
+    const { city, from, to } = this.props.request;
     return (
       <div className="col-lg-4 col-md-6 col-xs-12">
         { this.state.render ? (
@@ -81,11 +85,13 @@ export class RequestListItem extends Component {
           </div>
           <hr/>
           <div className="row">
+              {this.props.mine ? "" :
+                  <div className="col-xs-6">
+                    <button className="btn btn-defaul SearchButton text-white" type="button" onClick={this.showRequestDetails}>Detail</button>
+                  </div>
+              }
             <div className="col-xs-6">
-              <button className="btn btn-defaul SearchButton text-white" type="button" onClick={this.showRequestDetails}>Detail</button>
-            </div>
-            <div className="col-xs-6">
-              <button className="btn btn-defaul SearchButton text-white" type="button" onClick={this.openContactBuddy}>Message</button>
+              <button className="btn btn-defaul SearchButton text-white" type="button" onClick={this.openContactBuddy}>Edit</button>
             </div>
           </div>
         </div> ) :
