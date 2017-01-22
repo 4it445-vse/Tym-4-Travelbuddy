@@ -30,7 +30,7 @@ function composeProfilePhotoName(buddy, cb){
     const profilePhotoName = buddy.profile_photo_name;
     if (profilePhotoName) {
         const containerName = 'container_' + buddy.id;
-        let path = '/api/containers/' + containerName + '/download/' + profilePhotoName;
+        let path = '/api/containers/' + containerName + '/download/filename';
         let client = new XMLHttpRequest();
         client.open('GET', path);
         console.log("in will be send");

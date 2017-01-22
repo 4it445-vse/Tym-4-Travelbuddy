@@ -5,9 +5,10 @@ import axios from "../../api";
 import GooglePlacesSuggest from "../Autosuggest/SuggestCity";
 import validation from "../../Validation/Validation";
 import {connect} from "react-redux";
-import {logInUser} from "../../actions/user";
+import {logInUser, updateUser} from "../../actions/user";
 import AvatarCropper from "react-avatar-cropper";
 import FileUpload from "../Images/FileUpload";
+import currentUser from "../../actions/CurrentUser";
 class EditProfileModal extends Component {
 
     constructor(props) {
@@ -34,9 +35,11 @@ class EditProfileModal extends Component {
             fields.city = currentUserLocal.city;
             fields.about_me = currentUserLocal.about_me;
             fields.is_hosting = currentUserLocal.is_hosting;
-            this.setState({
-                fields: fields,
-                avatarSrc: this.props.user.avatarSrc
+            currentUser.composeProfilePhotoName(currentUserLocal, (avatarSrcResult) => {
+                this.setState({
+                    fields: fields,
+                    avatarSrc: avatarSrcResult
+                });
             });
         });
     };
@@ -51,6 +54,11 @@ class EditProfileModal extends Component {
         axios.post('containers/' + containerName + '/upload', data).then(() => {
             axios.post('buddies/update?where[id]=' + currentUserLocal.id, {"profile_photo_name": name})
                 .then(() => {
+                    let currentUserLocal = this.props.user;
+                    if(!currentUserLocal.profile_photo_name){
+                        currentUserLocal.profile_photo_name = name;
+                        this.props.updateUser(currentUserLocal);
+                    }
                     this.setState({
                         avatarSrc: dataUri
                     });
@@ -129,6 +137,11 @@ class EditProfileModal extends Component {
             "about_me": about_me
         };
         axios.post('buddies/update?where[id]=' + currentUserLocal.id, constructedBuddy).then(() => {
+            currentUserLocal.sex = sex;
+            currentUserLocal.city = city;
+            currentUserLocal.is_hosting = is_hosting;
+            currentUserLocal.about_me = about_me;
+            this.props.updateUser(currentUserLocal);
             this.props.hideFn();
         });
     };
@@ -262,6 +275,7 @@ export default connect(
         user: state.user
     }),
     {
-        logInUser
+        logInUser,
+        updateUser
     }
 )(EditProfileModal);

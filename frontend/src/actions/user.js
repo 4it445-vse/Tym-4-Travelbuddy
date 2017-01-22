@@ -1,4 +1,4 @@
-import serverEvents from "./serverEvents"
+import serverEvents from "./serverEvents";
 
 const LOGIN_USER = 'LOGIN_USER';
 export const logInUserSuccess = (payload) => ({
@@ -29,5 +29,16 @@ export const logOutUser = () => {
         sessionStorage.removeItem('user');
         localStorage.removeItem('user');
         return dispatch(logOutUserSuccess());
+    }
+};
+
+export const updateUserSuccess = (payload) => ({
+    type: 'UPDATE_USER_SUCCESS',
+    payload
+});
+
+export const updateUser = (data) => {
+    return (dispatch) => {
+        return dispatch(updateUserSuccess(data));
     }
 };
