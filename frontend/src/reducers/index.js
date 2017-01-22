@@ -1,11 +1,15 @@
 import {combineReducers} from "redux";
-import {browserHistory} from "react-router";
+import { browserHistory } from "react-router";
+import serverEvents from "../actions/serverEvents";
 
 const initialState = (() => {
     let currentUser = JSON.parse(sessionStorage.getItem('user'));
     if (!currentUser) {
         currentUser = JSON.parse(localStorage.getItem('user'));
     }
+
+    if(currentUser) serverEvents.newMessage(currentUser.id);
+
     return currentUser;
 
 })();

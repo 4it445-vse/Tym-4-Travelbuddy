@@ -18,6 +18,7 @@ export class App extends Component {
     render() {
         const {store} = this.props;
         const routes = createRoutes(store);
+
         return (
             <Provider store={store}>
                 <Router history={browserHistory} render={applyRouterMiddleware(useScroll())}>

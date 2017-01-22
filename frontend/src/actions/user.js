@@ -1,3 +1,6 @@
+import serverEvents from "./serverEvents"
+
+const LOGIN_USER = 'LOGIN_USER';
 export const logInUserSuccess = (payload) => ({
     type: 'LOGIN_USER_SUCCESS',
     payload
@@ -9,6 +12,9 @@ export const logInUser = (data, rememberUser) => {
     }else{
         sessionStorage.setItem('user', JSON.stringify(data));
     }
+
+    serverEvents.newMessage(data.id);
+
     return (dispatch) => {
         return dispatch(logInUserSuccess(data));
     }

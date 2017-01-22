@@ -58,5 +58,9 @@
   "Container": {
     "dataSource": "avatars",
     "public": true
+  },
+  "Messanger": {
+    "dataSource": "db",
+    "public": false
   }
 }
