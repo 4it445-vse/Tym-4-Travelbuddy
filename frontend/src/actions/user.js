@@ -1,3 +1,5 @@
+import serverEvents from "./serverEvents"
+
 const LOGIN_USER = 'LOGIN_USER';
 export const logInUser = (data, rememberUser) => {
     console.log("login user: ", data);
@@ -6,6 +8,9 @@ export const logInUser = (data, rememberUser) => {
     }else{
         sessionStorage.setItem('user', JSON.stringify(data));
     }
+
+    serverEvents.newMessage(data.id);
+
     return (dispatch) => {
         return dispatch(logInUserSuccess(data));
     }

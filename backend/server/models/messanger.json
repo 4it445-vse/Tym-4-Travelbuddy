@@ -1,0 +1,24 @@
+{
+  "name": "Messanger",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "rooms": {
+      "type": [
+        "string"
+      ]
+    },
+    "users": {
+      "type": [
+        "string"
+      ]
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

@@ -28,7 +28,9 @@
     "react-tabs": "^0.8.2",
     "reactstrap": "^3.8.1",
     "redux": "^3.6.0",
-    "redux-thunk": "^2.1.0"
+    "redux-thunk": "^2.1.0",
+    "socket.io": "^1.7.2",
+    "socket.io-client": "^1.7.2"
   },
   "scripts": {
     "start": "react-scripts start",
