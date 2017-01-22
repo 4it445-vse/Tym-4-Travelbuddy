@@ -30,7 +30,7 @@ class ShowMeetUpModal extends Component {
 
     saveRating = () => {
         console.log("saving rating");
-        if (!this.rating) {
+        if (!this.ratingValue) {
             let errors = this.state.errors;
             errors.noRating = "Choose the rating please!";
             this.setState({errors: errors});
@@ -38,7 +38,7 @@ class ShowMeetUpModal extends Component {
         }
         const rating = {
             text: this.ratingText ? this.ratingText.replace(/\r?\n/g, '</br>') : "",
-            rating: this.rating,
+            ratingValue: this.ratingValue,
             date_time: new Date(),
             buddy_id_from: this.props.currentUserId,
             buddy_id_to: this.props.buddy.id,
@@ -159,7 +159,7 @@ class ShowMeetUpModal extends Component {
                                             </div>
                                             <div className="row text-xs-left">
                                                 <div className="col-xs-9 ellipsis">
-                                                    <ReactStars count={5} value={incomingRating.rating} half={true} edit={false} onChange={this.ratingChanged} size={24} color2={'#ffd700'}/>
+                                                    <ReactStars count={5} value={incomingRating.ratingValue} half={true} edit={false} onChange={this.ratingChanged} size={24} color2={'#ffd700'}/>
                                                 </div>
                                             </div>
                                             <div className="row text-xs-left">
@@ -200,7 +200,7 @@ class ShowMeetUpModal extends Component {
                                             </div>
                                             <div className="row text-xs-left">
                                                 <div className="col-xs-9 ellipsis">
-                                                    <ReactStars count={5} value={outcomingRating.rating} half={true} edit={false} onChange={this.ratingChanged} size={24} color2={'#ffd700'}/>
+                                                    <ReactStars count={5} value={outcomingRating.ratingValue} half={true} edit={false} onChange={this.ratingChanged} size={24} color2={'#ffd700'}/>
                                                 </div>
                                             </div>
                                             <div className="row text-xs-left">
