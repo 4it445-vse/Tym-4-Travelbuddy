@@ -42,6 +42,7 @@ class MessagesUserPart extends Component {
     };
 
     findUsersAndMessages = () => {
+        console.log(this.props.messages);
         this.state.usersWithMessages = [];
         this.setIncomingMessageCountCheckpoint(this.props.user.id, (currentUserId) => {
             axios.get('messages', {
@@ -180,6 +181,7 @@ class MessagesUserPart extends Component {
 }
 export default connect(
     (state) => ({
-        user: state.user
+        user: state.user,
+        messages: state.messages
     })
 )(MessagesUserPart)

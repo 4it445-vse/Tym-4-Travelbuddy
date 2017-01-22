@@ -4,6 +4,8 @@ import {Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavDropdown,
 import axios from "../../api";
 import {connect} from "react-redux";
 import {logOutUser} from "../../actions/user";
+import {refreshMessages} from "../../actions/messages";
+import currentUser from "../../actions/CurrentUser";
 class Menu extends Component {
 
     constructor(props) {
@@ -12,6 +14,8 @@ class Menu extends Component {
             collapsed: true,
             collapsedMyTravelling: true
         };
+
+        currentUser.setRefreshMessagesFn(this.refreshMessages);
     }
 
     setCollapsedMyTravelling = () => {
@@ -22,6 +26,10 @@ class Menu extends Component {
         this.props.logOutUser();
     };
 
+    refreshMessages = (data) => {
+        this.props.refreshMessages(data);
+    }
+
     toggleNavbar = () => {
         this.setState({
             collapsed: !this.state.collapsed
@@ -29,12 +37,13 @@ class Menu extends Component {
     };
 
     toggleDropdown() {
-      this.setState({
-        collapsedMyTravelling: !this.state.collapsedMyTravelling
-      });
+        this.setState({
+            collapsedMyTravelling: !this.state.collapsedMyTravelling
+        });
     }
 
     countMeetUpAndRatingAllerts = () => {
+        console.log(this.props.messages);
         axios.get('Meetups', {
             params: {
                 filter: {
@@ -52,8 +61,8 @@ class Menu extends Component {
             let meetAndRatingsAlertsNum = 0;
             meetUps.map(meetUp => {
                 let currentUserGaveRating = false;
-                meetUp.ratings.map(rating =>{
-                    if(rating.buddy_id_from === this.props.user.id){
+                meetUp.ratings.map(rating => {
+                    if (rating.buddy_id_from === this.props.user.id) {
                         currentUserGaveRating = true;
                     }
                 });
@@ -144,13 +153,13 @@ class Menu extends Component {
                                 </NavItem>
                                 <hr className="hidden-lg-up"/>
                                 <NavDropdown className="margin-right-30" isOpen={!this.state.collapsedMyTravelling} toggle={this.setCollapsedMyTravelling}>
-                                  <DropdownToggle className="dropdown-toggle nav-link">
-                                    My Traveling
-                                  </DropdownToggle>
-                                  <DropdownMenu>
-                                    <DropdownItem><a onClick={openNewRequest}>Create New Request</a></DropdownItem>
-                                    <DropdownItem><a onClick={openEditRequests}>Edit My Requests</a></DropdownItem>
-                                  </DropdownMenu>
+                                    <DropdownToggle className="dropdown-toggle nav-link">
+                                        My Traveling
+                                    </DropdownToggle>
+                                    <DropdownMenu>
+                                        <DropdownItem><a onClick={openNewRequest}>Create New Request</a></DropdownItem>
+                                        <DropdownItem><a onClick={openEditRequests}>Edit My Requests</a></DropdownItem>
+                                    </DropdownMenu>
                                 </NavDropdown>
                                 <hr className="hidden-lg-up"/>
                                 <NavItem className="margin-right-30">
@@ -182,9 +191,11 @@ class Menu extends Component {
 
 export default connect(
     (state) => ({
-        user: state.user
+        user: state.user,
+        messages: state.messages
     }),
     {
-        logOutUser
+        logOutUser,
+        refreshMessages
     }
 )(Menu);
