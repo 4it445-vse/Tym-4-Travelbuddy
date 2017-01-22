@@ -60,6 +60,7 @@ class TopNavigation extends Component {
                                          meetUp={this.props.modals.data.meetUp}
                                          isBuddyView={this.props.modals.data.isBuddyView}
                                           showContactButton={this.props.modals.data.flag}
+                                         refresh={this.props.modals.data.refresh}
                         currentUserId={this.props.user.id}/>
                         : ""
                 }

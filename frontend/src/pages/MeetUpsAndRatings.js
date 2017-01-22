@@ -17,6 +17,10 @@ class MeetUpsAndRatings extends Component {
         this.handleSelect(0);
     }
 
+    refresh = () => {
+        this.handleSelect(this.state.isBuddyView ? 0 : 1);
+    }
+
     handleSelect = (index) => {
         let where = {};
         let isBuddyView;
@@ -59,10 +63,10 @@ class MeetUpsAndRatings extends Component {
                         <Tab>Traveller</Tab>
                     </TabList>
                     <TabPanel>
-                        <MeetUps meetUps={this.state.meetUps} isBuddyView={this.state.isBuddyView}/>
+                        <MeetUps meetUps={this.state.meetUps} isBuddyView={this.state.isBuddyView} refresh={this.refresh}/>
                     </TabPanel>
                     <TabPanel>
-                        <MeetUps meetUps={this.state.meetUps} isBuddyView={this.state.isBuddyView}/>
+                        <MeetUps meetUps={this.state.meetUps} isBuddyView={this.state.isBuddyView} refresh={this.refresh}/>
                     </TabPanel>
                 </Tabs>
             </div>

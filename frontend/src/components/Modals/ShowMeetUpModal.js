@@ -4,8 +4,10 @@ import moment from "moment";
 import axios from "../../api";
 import ReactStars from "react-stars";
 import currentUser from "../../actions/CurrentUser";
+import {connect} from "react-redux";
+import {refreshMessagesMenu} from "../../actions/messagesMenu";
 
-export default class ShowMeetUpModal extends Component {
+class ShowMeetUpModal extends Component {
 
     constructor(props) {
         super(props);
@@ -27,6 +29,7 @@ export default class ShowMeetUpModal extends Component {
     };
 
     saveRating = () => {
+        console.log("saving rating");
         if (!this.rating) {
             let errors = this.state.errors;
             errors.noRating = "Choose the rating please!";
@@ -34,7 +37,7 @@ export default class ShowMeetUpModal extends Component {
             return;
         }
         const rating = {
-            text: this.ratingText.replace(/\r?\n/g, '</br>'),
+            text: this.ratingText ? this.ratingText.replace(/\r?\n/g, '</br>') : "",
             rating: this.rating,
             date_time: new Date(),
             buddy_id_from: this.props.currentUserId,
@@ -42,6 +45,8 @@ export default class ShowMeetUpModal extends Component {
             meetup_id: this.props.meetUp.id
         };
         axios.put('BuddyRatings', rating).then(response => {
+            this.props.refresh();
+            this.props.refreshMessagesMenu();
             this.setState({
                 outcomingRating: rating,
                 outcomingRatingExist: true
@@ -51,14 +56,18 @@ export default class ShowMeetUpModal extends Component {
 
     acceptMeetUp = () => {
         axios.post('Meetups/update?where[id]=' + this.props.meetUp.id, {verified: true}).then(response => {
+            this.props.refresh();
             this.props.meetUp.verified = true;
+            this.props.refreshMessagesMenu();
             this.props.hideFn();
         });
     };
 
     setMeetUpAsDone = () => {
         axios.post('Meetups/update?where[id]=' + this.props.meetUp.id, {done: true}).then(response => {
+            this.props.refresh();
             this.props.meetUp.done = true;
+            this.props.refreshMessagesMenu();
             this.props.hideFn();
         });
     };
@@ -89,6 +98,10 @@ export default class ShowMeetUpModal extends Component {
                 outcomingRating = ratings[1];
                 outcomingRatingExist = true;
             }
+        }
+        if(!outcomingRatingExist && this.state.outcomingRatingExist){
+            outcomingRatingExist = this.state.outcomingRatingExist;
+            outcomingRating = this.state.outcomingRating;
         }
 
         return (
@@ -203,3 +216,9 @@ export default class ShowMeetUpModal extends Component {
         );
     }
 }
+export default connect(
+    null,
+    {
+        refreshMessagesMenu
+    }
+)(ShowMeetUpModal)
