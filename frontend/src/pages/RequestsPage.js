@@ -50,9 +50,15 @@ class RequestsPage extends Component {
 
     paramsForSerchString(searchString) {
         if (!searchString) {
-            return {};
+            return {
+                filter: {
+                    where: {
+                        buddy_id: {nin: [this.props.user.id]}
+                    }
+                }
+            };
         }
-        return {filter: {fields: {id: true}, where: {city: {like: `%${searchString}%`}}}}
+        return {filter: {fields: {id: true}, where: {city: {like: `%${searchString}%`}}, buddy_id: {nin: [this.props.user.id]}}}
     }
 
     fetchRequests(searchString) {
@@ -85,7 +91,7 @@ class RequestsPage extends Component {
             <div>
                 <div className="row pad-t-5 colarose">
                     <div className="container white">
-                        <h1 className="v-o-4">Find yours Requests</h1>
+                        <h1 className="v-o-4">Find Requests</h1>
                         <GooglePlacesSuggest onSelectSuggest={ this.handleSelectSuggest } search={ this.state.search } display={true}>
                             <div className="input-group">
                                 <input id="search-town" type="search"
