@@ -121,10 +121,10 @@ class ShowMeetUpModal extends Component {
                                 </div>
                             </div>
                             <div className="row text-xs-left">
-                                <div className="col-xs-3 no-padding-right">
+                                <div className="col-xs-4 no-padding-right">
                                     <b>When? </b>
                                 </div>
-                                <div className="col-xs-9">
+                                <div className="col-xs-8">
                                     { moment(this.props.meetUp.date_time).format(currentUser.dateFormat) }
                                 </div>
                             </div>
