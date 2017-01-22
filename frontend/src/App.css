@@ -46,6 +46,10 @@ color: #ff8d7a;
     margin-right: 30px;
 }
 
+.margin-right-10 {
+    margin-right: 10px;
+}
+
 .PaginateButton:hover {
     background-color: #0275d8;
 }

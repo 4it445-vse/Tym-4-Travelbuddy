@@ -15,7 +15,7 @@ class ShowProfileModal extends Component {
     }
 
     componentDidMount(){
-        currentUser.composeProfilePhotoName(this.props.requestShowModalContent.buddy, (avatarSrcResult) => {
+        currentUser.composeProfilePhotoName(this.props.buddy, (avatarSrcResult) => {
             this.setState({
                 avatarSrc: avatarSrcResult
             });
