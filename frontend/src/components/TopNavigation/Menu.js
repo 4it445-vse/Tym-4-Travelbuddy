@@ -147,17 +147,14 @@ class Menu extends Component {
                                     <Link href="/" className="nav-link">Buddies</Link>
                                 </NavItem>
                                 <hr className="hidden-lg-up"/>
-                                <NavItem className="margin-right-30">
-                                    <Link href="/requests" className="nav-link">Requests</Link>
-                                </NavItem>
-                                <hr className="hidden-lg-up"/>
                                 <NavDropdown className="margin-right-30" isOpen={!this.state.collapsedMyTravelling} toggle={this.setCollapsedMyTravelling}>
                                     <DropdownToggle className="dropdown-toggle nav-link">
-                                        My Traveling
+                                        Requests
                                     </DropdownToggle>
                                     <DropdownMenu>
                                         <DropdownItem><a onClick={openNewRequest}>Create New Request</a></DropdownItem>
-                                        <DropdownItem><a onClick={openEditRequests}>Edit My Requests</a></DropdownItem>
+                                        <DropdownItem><a href="/requests" className="a-dropdown">Find Requests</a></DropdownItem>
+                                        <DropdownItem><a href="/my-requests" className="a-dropdown">My Requests</a></DropdownItem>
                                     </DropdownMenu>
                                 </NavDropdown>
                                 <hr className="hidden-lg-up"/>

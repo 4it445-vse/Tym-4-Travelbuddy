@@ -124,9 +124,9 @@ export const openEditRequestSuccess = (payload) => ({
     payload
 })
 
-export const openEditRequest = () => {
+export const openEditRequest = (data) => {
     return (dispatch) => {
-        return dispatch(openEditRequestSuccess({modal: 'openEditRequest', data: null}));
+        return dispatch(openEditRequestSuccess({modal: 'openEditRequest', data: data}));
     }
 }
 

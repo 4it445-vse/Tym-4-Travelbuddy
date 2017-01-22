@@ -105,7 +105,7 @@ class TopNavigation extends Component {
                 {
                     this.props.modals.modal === 'openEditRequest' ?
                         <EditRequestModal showProp={true} hideFn={this.props.closeModal}
-                                          switchFn={this.props.openCreateRequest}/>
+                                          switchFn={this.props.openCreateRequest} request={this.props.modals.data.request}/>
                         : ""
                 }
                 {
