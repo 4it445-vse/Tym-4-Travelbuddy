@@ -45,6 +45,7 @@ class Messages extends Component {
     };
 
     findMessages = (selectedConversationUser) => {
+        console.log(this.props.messages);
         var messages = [];
         if (selectedConversationUser && selectedConversationUser.lastMessageTime) {
             axios.get('messages', {
@@ -163,7 +164,8 @@ class Messages extends Component {
 }
 export default connect(
     (state) => ({
-        user: state.user
+        user: state.user,
+        messages: state.messages
     }),
     {
         openProfile

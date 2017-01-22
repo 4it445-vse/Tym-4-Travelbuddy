@@ -1,5 +1,5 @@
 import {combineReducers} from "redux";
-import { browserHistory } from "react-router";
+import {browserHistory} from "react-router";
 import serverEvents from "../actions/serverEvents";
 
 const initialState = (() => {
@@ -8,7 +8,7 @@ const initialState = (() => {
         currentUser = JSON.parse(localStorage.getItem('user'));
     }
 
-    if(currentUser) serverEvents.newMessage(currentUser.id);
+    if(currentUser) serverEvents.newMessage(currentUser.id, messages);
 
     return currentUser;
 
@@ -20,14 +20,14 @@ const user = (state = initialState, action) => {
             return {
                 ...state,
                 ...action.payload
-            }
+            };
         case 'LOGOUT_USER_SUCCESS':
             browserHistory.push("/");
             return null;
         default:
             return state;
     }
-}
+};
 
 const initialStateModals = {};
 
@@ -49,16 +49,32 @@ const modals = (state = initialStateModals, action) => {
             return {
                 ...state,
                 ...action.payload
-            }
+            };
         case 'CLOSE_MODAL_SUCCESS':
             return initialStateModals;
         default:
             return state;
     }
-}
+};
+
+const initialStateMessages = {};
+
+const messages = (state = initialStateMessages, action) => {
+
+    switch (action.type) {
+        case 'REFRESH_MESSAGES_SUCCESS':
+            return {
+                ...state,
+                ...action.payload
+            };
+        default:
+            return state;
+    }
+};
 
 
 export const rootReducer = combineReducers({
     user,
-    modals
+    modals,
+    messages
 });

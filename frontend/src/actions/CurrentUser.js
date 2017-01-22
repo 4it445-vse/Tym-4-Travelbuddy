@@ -1,5 +1,15 @@
 import axios from "../api";
 
+var refreshMessagesFn = undefined;
+
+function setRefreshMessagesFn(fn) {
+    refreshMessagesFn = fn;
+}
+
+function refreshMessages(data) {
+    refreshMessagesFn(data);
+}
+
 function setAuthToken(token){
     if(token){
         sessionStorage.setItem('token', token);
@@ -39,5 +49,7 @@ export default {
     setAuthToken,
     loadAuthToken,
     composeProfilePhotoName,
+    setRefreshMessagesFn,
+    refreshMessages,
     dateFormat
 }
