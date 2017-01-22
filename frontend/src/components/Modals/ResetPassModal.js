@@ -19,15 +19,16 @@ class ResetPassModal extends Component {
     }
 
     handleSubmitResetPass = (event) => {
-        var email = this.state.fields.email;
+        const email = this.state.fields.email;
         let obj = {
             target: {
                 value: email,
                 name: 'email'
             }
         };
-        this.onChange(obj);
-        if (this.state.errors['email'] !== undefined) {
+        let errors = this.validate(obj);
+        if (errors['email'] !== undefined) {
+            this.setState({errors});
             return;
         }
         this.setState({displayLoading: true});
@@ -45,7 +46,7 @@ class ResetPassModal extends Component {
         });
     };
 
-    onChange = (e) => {
+    validate = (e) => {
         let name = e.target.name;
         let value = e.target.value;
         let errors = this.state.errors;
@@ -55,11 +56,17 @@ class ResetPassModal extends Component {
 
         fields[name] = value;
 
-        this.setState({
-            errors: errors,
-            fields: fields
-        });
+        return errors;
     };
+
+    onChange = (e) => {
+        let name = e.target.name;
+        let value = e.target.value;
+        let fields = this.state.fields;
+
+        fields[name] = value;
+        this.setState({fields});
+    }
 
     render() {
         const {showProp, hideFn} = this.props;
