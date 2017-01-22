@@ -27,12 +27,21 @@ class HomePage extends Component {
     }
 
     findAllBuddies = () => {
+        let where;
+        if(this.props.user){
+            where= {
+                is_hosting: true,
+                    id: {nin: [this.props.user.id]}
+            }
+        }else{
+            where= {
+                is_hosting: true
+            }
+        }
         axios.get('buddies', {
             params: {
                 filter: {
-                    where: {
-                        is_hosting: true
-                    },
+                    where: where,
                     fields: {
                         id: true
                     }
@@ -46,13 +55,23 @@ class HomePage extends Component {
     }
 
     findRelevantBuddies = () => {
+        let where;
+        if(this.props.user){
+            where= {
+                city: this.state.searchedTown,
+                is_hosting: true,
+                id: {nin: [this.props.user.id]}
+            }
+        }else{
+            where= {
+                city: this.state.searchedTown,
+                is_hosting: true,
+            }
+        }
         axios.get('buddies', {
             params: {
                 filter: {
-                    where: {
-                        city: this.state.searchedTown,
-                        is_hosting: true
-                    },
+                    where: where,
                     fields: {
                         id: true
                     }
