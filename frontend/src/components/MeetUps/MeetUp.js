@@ -50,7 +50,7 @@ class MeetUp extends Component {
     }
 
     openMeetUp = () => {
-        this.props.openMeetUp({buddy: this.state.buddy, meetUp: this.props.meetUp, isBuddyView: this.props.isBuddyView});
+        this.props.openMeetUp({buddy: this.state.buddy, meetUp: this.props.meetUp, isBuddyView: this.props.isBuddyView, refresh: this.props.refresh});
     }
 
     openContactBuddy = () => {

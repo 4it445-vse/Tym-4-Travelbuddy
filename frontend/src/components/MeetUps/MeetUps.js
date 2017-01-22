@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import MeetUp from "./MeetUp";
-import LazyLoad from 'react-lazyload';
-import Loading from '../Images/Loading';
+import LazyLoad from "react-lazyload";
+import Loading from "../Images/Loading";
 
 export default class MeetUps extends Component {
 
@@ -19,9 +19,9 @@ export default class MeetUps extends Component {
       var render = [];
       for(var i = 0; i < meetUps.length; i++) {
           if(this.props.isBuddyView === true){
-              render.push(<LazyLoad placeholder={placeholder} key={meetUps[i].id} height="50px" ><MeetUp  buddyId={meetUps[i].buddy_id_from} meetUp={meetUps[i]} isBuddyView={this.props.isBuddyView}/></LazyLoad>)
+              render.push(<LazyLoad placeholder={placeholder} key={meetUps[i].id} height="50px" ><MeetUp  buddyId={meetUps[i].buddy_id_from} meetUp={meetUps[i]} isBuddyView={this.props.isBuddyView} refresh={this.props.refresh}/></LazyLoad>)
           }else{
-              render.push(<LazyLoad placeholder={placeholder} key={meetUps[i].id} height="50px" ><MeetUp  buddyId={meetUps[i].buddy_id_to} meetUp={meetUps[i]} isBuddyView={this.props.isBuddyView}/></LazyLoad>)
+              render.push(<LazyLoad placeholder={placeholder} key={meetUps[i].id} height="50px" ><MeetUp  buddyId={meetUps[i].buddy_id_to} meetUp={meetUps[i]} isBuddyView={this.props.isBuddyView} refresh={this.props.refresh}/></LazyLoad>)
           }
       }
       return render;
