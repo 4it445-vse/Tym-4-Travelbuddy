@@ -2,10 +2,9 @@ import React, {Component} from "react";
 import currentUser from "../../actions/CurrentUser";
 import FontAwesome from "react-fontawesome";
 import axios from "../../api";
-import { connect } from "react-redux";
-import { openLogin } from "../../actions/modals";
-import { openProfile } from "../../actions/modals";
-import { openContactBuddy } from "../../actions/modals";
+import {connect} from "react-redux";
+import {openLogin, openProfile, openContactBuddy} from "../../actions/modals";
+import Loading from "../Images/Loading";
 
 class User extends Component {
     constructor(props) {
@@ -21,25 +20,22 @@ class User extends Component {
             render: false,
             avatarSrc: "http://images.megaupload.cz/mystery-man.png"
         }
-
-        this.openProfile = this.openProfile.bind(this);
-        this.openContactBuddy = this.openContactBuddy.bind(this);
-        this.onClick = this.onClick.bind(this);
     }
 
     componentDidMount() {
         axios.get('buddies/' + this.props.buddyId).then(response => {
             const buddy = response.data;
-            const profilePhotoName = currentUser.composeProfilePhotoName(buddy);
-            this.setState({
-                buddy: buddy,
-                render: true,
-                avatarSrc: profilePhotoName
+            currentUser.composeProfilePhotoName(buddy, (avatarSrcResult) => {
+                this.setState({
+                    buddy: buddy,
+                    render: true,
+                    avatarSrc: avatarSrcResult
+                });
             });
         });
     }
 
-    onClick(e) {
+    onClick = (e) => {
         if (this.props.user) {
             if (e.target.id === 'envelope') {
                 this.openContactBuddy();
@@ -51,18 +47,17 @@ class User extends Component {
         }
     }
 
-    openProfile() {
+    openProfile = () => {
         this.props.openProfile({buddy: this.state.buddy, flag:true});
     }
 
-    openContactBuddy() {
+    openContactBuddy = () => {
         this.props.openContactBuddy({buddy: this.state.buddy});
     }
 
     render() {
 
         const {render} = this.state;
-        const loader = require('../../images/lazyload.gif');
 
         if (render) return (
             <a href="#" onClick={this.onClick} className="profil_vypis">
@@ -93,15 +88,15 @@ class User extends Component {
                         <p className="no-margin ellipsis2">{this.state.buddy.about_me}</p>
                     </div>
                     <div className="col-md-1 col-xs-2 m-t-05">
-                        <a href="#" onClick={this.onClick} className="profil_vypis" name="envelope">
-                            <FontAwesome className="sexIcon" name="envelope" size="2x" id="envelope"
+
+                            <FontAwesome onClick={this.onClick} className="sexIcon" name="envelope" size="2x" id="envelope"
                                          style={{color: '#0275d8'}}></FontAwesome>
-                        </a>
+
                     </div>
                 </div>
             </a>
         )
-        else return (<div className="card-block text-xs-center" id="buddy-row"><img src={loader}/></div>)
+        else return (<div className="card-block text-xs-center" id="buddy-row"><Loading/></div>)
     }
 }
 export default connect(

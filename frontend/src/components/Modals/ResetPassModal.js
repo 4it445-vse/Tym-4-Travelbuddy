@@ -2,8 +2,9 @@ import React, {Component} from "react";
 import {Modal} from "react-bootstrap";
 import axios from "../../api";
 import validation from "../../Validation/Validation";
-import { connect } from "react-redux";
-import { openAlert } from "../../actions/modals";
+import {connect} from "react-redux";
+import {openAlert} from "../../actions/modals";
+import Loading from "../Images/Loading";
 
 class ResetPassModal extends Component {
 
@@ -15,20 +16,9 @@ class ResetPassModal extends Component {
             fields: {},
             displayLoading: false
         }
-
-        this.handleSubmitResetPass = this.handleSubmitResetPass.bind(this);
-        this.closeModal = this.closeModal.bind(this);
-        this.onChange = this.onChange.bind(this);
     }
 
-    closeModal() {
-        this.state.errors = {};
-        this.state.fields = {};
-        this.state.displayLoading = false;
-        this.props.hideFn();
-    }
-
-    handleSubmitResetPass(event) {
+    handleSubmitResetPass = (event) => {
         var email = this.state.fields.email;
         let obj = {
             target: {
@@ -53,9 +43,9 @@ class ResetPassModal extends Component {
                 this.setState({showErrorMessage: "There is no user with this e-mail."});
             }
         });
-    }
+    };
 
-    onChange(e) {
+    onChange = (e) => {
         let name = e.target.name;
         let value = e.target.value;
         let errors = this.state.errors;
@@ -69,14 +59,13 @@ class ResetPassModal extends Component {
             errors: errors,
             fields: fields
         });
-    }
+    };
 
     render() {
-        const {showProp} = this.props;
+        const {showProp, hideFn} = this.props;
         const {errors} = this.state;
-        const loader = require('../../images/lazyload.gif');
         return (
-            <Modal show={showProp} onHide={this.closeModal}>
+            <Modal show={showProp} onHide={hideFn}>
                 <Modal.Header closeButton>
                     <Modal.Title>I forgot my password</Modal.Title>
                 </Modal.Header>
@@ -98,7 +87,7 @@ class ResetPassModal extends Component {
                         </div>
                         <hr/>
                         {
-                            this.state.displayLoading? <img src={loader}/> : ""
+                            this.state.displayLoading? <Loading/> : ""
                         }
                         <a onClick={this.handleSubmitResetPass}
                                 className="btn btn-primary fullsize white">Reset password

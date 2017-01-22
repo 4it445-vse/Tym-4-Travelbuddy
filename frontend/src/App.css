@@ -6,6 +6,15 @@ body {
   background-size: cover;
 }
 
+.react-tabs [role=tablist] {
+    margin:0 !important;
+}
+
+.modal-open .container-fluid{
+    padding-right: 0px !important;
+    padding-left: 0px !important;
+}
+
 h1{
   margin-bottom: 15px;
 }
@@ -22,13 +31,23 @@ h1{
 .highlight-text{
     font-weight: bold;
 }
+.odkaz{
+    font-weight: bold;
+    text-decoration: underline !important;
+color: #ff8d7a;
+}
+ .odkaz:hover{
+    font-weight: bold;
+    text-decoration: underline !important;
+    color: #ff3724;
+}
 
 .btn-margin-right-30 {
     margin-right: 30px;
 }
 
 .PaginateButton:hover {
-    background-color: #50a1ee;
+    background-color: #0275d8;
 }
 
 .PaginateRibbon {
@@ -49,6 +68,16 @@ h1{
         margin-right: 50px;
     }
 }
+.dropdown-toggle {
+  border: none;
+  margin: auto;
+  margin-top: 2px;
+}
+.dropdown-item:focus, .dropdown-item:hover {
+  color: #2b2d2f;
+  text-decoration: none;
+  background-color: transparent;
+}
 
 /** Vyhled�vac� li�ta**/
 .SearchIcon {
@@ -62,6 +91,10 @@ h1{
 
 .SearchButton:hover {
     background-color: #50a1ee;
+}
+
+.logo {
+    width: 10%;
 }
 
 .SearchBorder {
@@ -84,7 +117,9 @@ h1{
 .v-p-25 {
     padding-top: 25px;
 }
-
+.v-o-1 {
+    margin-top: 20px;
+}
 .v-o-5 {
     margin-top: 100px;
 }
@@ -202,7 +237,7 @@ h1{
     color: #a94442;
 }
 .iconContainer {
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(47, 47, 47, .7);
   border-radius: 8px 8px 8px 8px;
   padding: 10px 10px 10px 10px;
   border: 2px solid #0275d8 ;
@@ -463,6 +498,9 @@ h1{
 .member_list li:last-child {
     border-bottom:none;
 }
+.fade.in.modal{
+    background-color: rgba(10,10,10,0.5);
+}
 .member_list {
     background: white;
     height: 454px;
@@ -531,17 +569,13 @@ h1{
     margin-left: 50px;
 }
 
-.chat-body2 p {
-    background: #deedfb none repeat scroll 0 0;
-    padding: 10px;
-}
-.chat-body1 p {
+.chat-body1 div {
     background: #fbebde none repeat scroll 0 0;
     padding: 10px;
     margin-right: 50px;
     word-break: break-all;
 }
-.my-message p {
+.my-message div {
     background-color: #a6bddb;
 }
 .selected-conversation-user {
@@ -626,8 +660,16 @@ h1{
     font-size: 12px;
     line-height: 3;
 }
-
-
+.pad-t-5 {
+   padding-top: 5px;
+   padding-bottom: 20px;
+}
+.pad-d-20 {
+    padding-bottom: 20px;
+}
+.colarose {
+    background: rgba(99, 99, 99, 0.82);
+}
 
 
 @media (max-width: 575px) {
@@ -813,6 +855,9 @@ h1{
     border-color: #0275d8;
 }
 
+
+
+
 @media (max-width: 991px) {
     .dropdown-menu {
         cursor: pointer;
@@ -847,14 +892,14 @@ h1{
 }
 
 .modal-open nav{
-    position: relative !important;
+    position: absolute !important;
 }
 .modal-open .container{
-    margin-top: -55px !important;
+    margin-top: 0px !important;
 }
 @media (max-width: 991px) {
     .modal-open nav{
-        position: fixed !important;
+        position: absolute !important;
     }
     .modal-open .container{
         margin-top: 0px !important;

@@ -53,6 +53,8 @@ function validatePass(pass, pass_repeated, errors, name){
                 }
             }
             break;
+        default:
+            throw new Error("Such field validation is not defined, for field with name: "+name);
     }
     return errors;
 
@@ -96,6 +98,8 @@ function validate(name, value, otherValue) {
         case "surname":
             errorMessage = checkNotEmpty(value, "Enter your surname please.");
             break;
+        default:
+            throw new Error("Such field validation is not defined, for field with name: "+name);
     }
     return errorMessage;
 }

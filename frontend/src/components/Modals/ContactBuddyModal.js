@@ -1,8 +1,8 @@
 import React, {Component} from "react";
 import AbstractModal from "./AbstractModal";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import axios from "../../api";
-import { openAlert } from "../../actions/modals";
+import {openAlert} from "../../actions/modals";
 
 class ContactBuddyModal extends Component {
 
@@ -13,17 +13,9 @@ class ContactBuddyModal extends Component {
             showValidation: false,
             text: ""
         }
-        this.handleSubmitContactBuddy = this.handleSubmitContactBuddy.bind(this);
-        this.validate = this.validate.bind(this);
-        this.closeModal = this.closeModal.bind(this);
     }
 
-    closeModal() {
-        this.state.showValidation = false;
-        this.props.hideFn();
-    }
-
-    validate(e) {
+    validate = (e) => {
         var value = e.target.value;
         if (value) {
             this.setState({
@@ -37,7 +29,7 @@ class ContactBuddyModal extends Component {
         }
     }
 
-    handleSubmitContactBuddy() {
+    handleSubmitContactBuddy = () => {
         if (!this.state.text) {
             this.setState({
                 showValidation: true
@@ -62,10 +54,10 @@ class ContactBuddyModal extends Component {
     }
 
     render() {
-        const {showProp, buddyTo} = this.props;
+        const {showProp, buddyTo, hideFn} = this.props;
         const title = "Contact Buddy - " + buddyTo.name + " " + buddyTo.surname;
         return (
-            <AbstractModal title={title} showProp={showProp} hideFn={this.closeModal}
+            <AbstractModal title={title} showProp={showProp} hideFn={hideFn}
                            submitFn={this.handleSubmitContactBuddy} submitText={"Send"}>
                 <form>
                     <div className="form-group no-margin-bottom-bottom row">

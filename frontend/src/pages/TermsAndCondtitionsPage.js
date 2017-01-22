@@ -2,11 +2,6 @@ import React, {Component} from "react";
 
 export default class TermsAndCondtionsPage extends Component {
 
-    constructor(props) {
-        super(props);
-    }
-
-    // https://termsandcondiitionssample.com
     render() {
         return (
             <div className="row">

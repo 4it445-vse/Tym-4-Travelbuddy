@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Modal} from "react-bootstrap";
+import {Modal, Alert} from "react-bootstrap";
 import LoginModal from "../Modals/LoginModal";
 import RegisterModal from "../Modals/RegisterModal";
 import ResetPassModal from "../Modals/ResetPassModal";
@@ -10,8 +10,8 @@ import ShowMeetUpModal from "../Modals/ShowMeetUpModal";
 import EditRequestModal from "../Modals/EditRequestModal";
 import ContactBuddyModal from "../Modals/ContactBuddyModal";
 import NewMeetUpModal from "../Modals/NewMeetUpModal";
+import ShowRequestModal from "../Modals/ShowRequestModal";
 import Menu from "./Menu";
-import {Alert} from 'react-bootstrap';
 import {connect} from "react-redux";
 import {closeModal, openEditRequest, openLogin, openRegistration, openCreateRequest, openEditProfile, openResetPassword} from "../../actions/modals";
 
@@ -106,6 +106,13 @@ class TopNavigation extends Component {
                         <EditRequestModal showProp={true} hideFn={this.props.closeModal}
                                           switchFn={this.props.openCreateRequest}/>
                         : ""
+                }
+                {
+                    this.props.modals.modal === 'openShowRequestDetails' ?
+                        <ShowRequestModal showProp={true} hideFn={this.props.closeModal}
+                                          buddy={this.props.modals.data.buddy}
+                                  requestShowModalContent={this.props.modals.data.requestShowModalContent}
+                                  contactBuddy={this.openContactBuddy}/>: ""
                 }
                 {
                     this.props.modals.modal === 'openResetPassword' ?

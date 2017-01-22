@@ -5,12 +5,12 @@ ALTER TABLE `Request` ADD FOREIGN KEY (buddy_id) REFERENCES Buddy(id);
 ALTER TABLE `Buddy` MODIFY COLUMN `about_me` TEXT;
 ALTER TABLE `Request` MODIFY COLUMN `text` TEXT;
 ALTER TABLE `Message` MODIFY COLUMN `text` TEXT;
-ALTER TABLE `Buddyrating` MODIFY COLUMN `text` TEXT;
-ALTER TABLE `Buddyrating` ADD FOREIGN KEY (buddy_id_from) REFERENCES Buddy(id);
-ALTER TABLE `Buddyrating` ADD FOREIGN KEY (buddy_id_to) REFERENCES Buddy(id);
+ALTER TABLE `BuddyRating` MODIFY COLUMN `text` TEXT;
+ALTER TABLE `BuddyRating` ADD FOREIGN KEY (buddy_id_from) REFERENCES Buddy(id);
+ALTER TABLE `BuddyRating` ADD FOREIGN KEY (buddy_id_to) REFERENCES Buddy(id);
 ALTER TABLE `Meetup` ADD FOREIGN KEY (buddy_id_to) REFERENCES Buddy(id);
 ALTER TABLE `Meetup` ADD FOREIGN KEY (buddy_id_from) REFERENCES Buddy(id);
-ALTER TABLE `Meetup` ADD FOREIGN KEY (meetup_id) REFERENCES Buddyrating(id);
+ALTER TABLE `BuddyRating` ADD FOREIGN KEY (meetup_id) REFERENCES Meetup(id);
 ALTER TABLE `Message` MODIFY COLUMN `displayed` tinyint(1)	DEFAULT 0;
 
 INSERT INTO `Buddy` (`id`, `email`, `password`, `sex`, `name`, `surname`, `city`, `about_me`, `is_hosting`, `emailVerified`) VALUES
@@ -88,27 +88,46 @@ INSERT INTO `Message` (`text`, `displayed`, `date_time`, `buddy_id_from`, `buddy
 ('Hi, this is sample message. FROM', 1, '2016-11-24 21:39:48', 31, 4),
 ('Hi, this is sample message. FROM', 1, '2016-11-24 16:39:48', 31, 4);
 
-INSERT INTO `meetup` (`id`, `verified`, `done`, `date_time`, `buddy_id_from`, `buddy_id_to`) VALUES
-(1, '1', '1', '2016-11-22 00:00:00', '31', '1'),
-(2, '1', '1', '2016-11-21 00:00:00', '31', '1'),
-(3, '1', '1', '2016-11-20 00:00:00', '31', '1'),
-(4, '1', '1', '2016-11-19 00:00:00', '31', '1'),
-(5, '1', '0', '2016-11-18 00:00:00', '31', '1'),
-(6, '0', '0', '2016-11-18 00:00:00', '31', '2'),
-(7, '0', '0', '2016-11-18 00:00:00', '3', '31'),
-(8, '1', '1', '2016-11-22 00:00:00', '3', '31'),
-(9, '1', '1', '2016-11-21 00:00:00', '3', '31'),
-(10, '1', '1', '2016-11-20 00:00:00', '3', '31'),
-(11, '1', '1', '2016-11-19 00:00:00', '3', '31'),
-(12, '1', '0', '2016-11-18 00:00:00', '3', '31'),
-(13, '0', '0', '2016-11-18 00:00:00', '4', '31');
+INSERT INTO `Meetup` (`id`, `verified`, `done`, `date_time`, `buddy_id_from`, `buddy_id_to`) VALUES
+(1, 1, 1, '2016-11-22 00:00:00', 31, 1),
+(2, 1, 1, '2016-11-21 00:00:00', 31, 1),
+(3, 1, 1, '2016-11-20 00:00:00', 31, 1),
+(4, 1, 1, '2016-11-19 00:00:00', 31, 1),
+(5, 1, 1, '2016-11-18 00:00:00', 31, 1),
+(6, 1, 1, '2016-11-18 00:00:00', 31, 2),
+(7, 1, 1, '2016-11-18 00:00:00', 3, 31),
+(8, 1, 1, '2016-11-22 00:00:00', 3, 31),
+(9, 1, 1, '2016-11-21 00:00:00', 3, 31),
+(10, 1, 1, '2016-11-20 00:00:00', 3, 31),
+(11, 1, 1, '2016-11-19 00:00:00', 3, 31),
+(12, 1, 1, '2016-11-18 00:00:00', 3, 31),
+(13, 1, 1, '2016-11-18 00:00:00', 4, 31),
+(14, 1, 1, '2017-01-13 00:00:00', 31, 4),
+(18, 0, 0, '2017-01-15 00:00:00', 31, 5),
+(19, 1, 0, '2017-01-15 00:00:00', 31, 5),
+(20, 0, 0, '2017-01-31 00:00:00', 31, 5),
+(21, 1, 0, '2017-01-31 00:00:00', 31, 5),
+(22, 1, 1, '2017-01-15 00:00:00', 31, 5),
+(23, 1, 1, '2017-01-15 00:00:00', 31, 5);
 
-INSERT INTO `buddyrating` (`id`, `text`, `rating`, `date_time`, `buddy_id_from`, `buddy_id_to`, `meetup_id`) VALUES
-(1, 'Hodnocení od 1', '4.5', '2016-11-24 05:30:48', '1', '31', '1'),
-(2, 'Hodnocení od 31', '4.4', '2016-11-26 05:30:48', '31', '1', '1'),
-(3, 'Hodnocení od 1', '3', '2016-11-28 05:30:48', '1', '31', '2'),
-(4, 'Hodnocení od 31', '5', '2016-12-01 05:30:48', '31', '1', '3'),
-(5, 'Hodnocení od 1', '4.5', '2016-11-24 05:30:48', '3', '31', '7'),
-(6, 'Hodnocení od 31', '4.4', '2016-11-26 05:30:48', '31', '3', '7'),
-(7, 'Hodnocení od 1', '3', '2016-11-28 05:30:48', '3', '31', '8'),
-(8, 'Hodnocení od 31', '5', '2016-12-01 05:30:48', '31', '3', '9');
+INSERT INTO `BuddyRating` (`id`, `text`, `rating`, `date_time`, `buddy_id_from`, `buddy_id_to`, `meetup_id`) VALUES
+(1, 'Hodnocení od 1', 5, '2016-11-24 05:30:48', 1, 31, 1),
+(2, 'Hodnocení od 31', 4, '2016-11-26 05:30:48', 31, 1, 1),
+(3, 'Hodnocení od 1', 3, '2016-11-28 05:30:48', 1, 31, 2),
+(5, 'Hodnocení od 1', 5, '2016-11-24 05:30:48', 3, 31, 7),
+(6, 'Hodnocení od 31', 4, '2016-11-26 05:30:48', 31, 3, 7),
+(7, 'Hodnocení od 1', 3, '2016-11-28 05:30:48', 3, 31, 8),
+(8, 'Hodnocení od 31', 5, '2016-12-01 05:30:48', 31, 3, 9),
+(9, 'Moje nove hodnoceni', 4, '2017-01-13 18:39:48', 31, 1, 2),
+(10, 'ddfs', 4, '2017-01-13 18:53:31', 31, 1, 4),
+(14, 'edsfz', 4, '2017-01-13 18:56:38', 31, 1, 5),
+(15, 'ssf\nsdf\ns\ndfs\nfs', 4, '2017-01-13 18:57:14', 31, 2, 6),
+(16, 'sf</br>sf</br>as</br>f', 3, '2017-01-13 19:01:31', 31, 3, 8),
+(17, 'sdv', 0, '2017-01-13 19:06:30', 31, 3, 10),
+(18, 'd', 3, '2017-01-13 19:10:24', 31, 3, 11),
+(19, 'sf', 3, '2017-01-13 21:17:26', 31, 4, 13),
+(20, 'sd', 2, '2017-01-13 21:18:56', 31, 3, 12),
+(22, 'da', 3, '2017-01-14 08:31:32', 31, 1, 3),
+(23, 'sss', 3, '2017-01-14 11:27:49', 31, 4, 14),
+(24, 'sss', 3, '2017-01-16 11:27:49', 31, 5, 22),
+(25, 'sss', 3, '2017-01-16 11:27:49', 5, 31, 23);

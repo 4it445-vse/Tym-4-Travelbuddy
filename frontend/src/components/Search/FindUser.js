@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import User from "./User";
 import LazyLoad from 'react-lazyload';
+import Loading from '../Images/Loading';
 
 export default class FindUser extends Component {
 
@@ -13,10 +14,9 @@ export default class FindUser extends Component {
         };
     }
 
-    renderBuddies(){
-      const {budies} = this.props
-      const loader = require('../../images/lazyload.gif');
-      const placeholder = (<div className="card-block text-xs-center" id="buddy-row"><img src={loader}/></div>)
+    renderBuddies = () => {
+      const {budies} = this.props;
+      const placeholder = (<div className="card-block text-xs-center" id="buddy-row"><Loading/></div>);
       var render = []
       for(var i = 0; i < budies.length; i++) {
         render.push(<LazyLoad placeholder={placeholder} key={budies[i].id} height="50px" ><User  buddyId={budies[i].id}/></LazyLoad>)

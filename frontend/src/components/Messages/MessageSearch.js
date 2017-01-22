@@ -1,13 +1,8 @@
 import React, {Component} from "react";
 
 export default class MessageSearch extends Component {
-	constructor(props){
-		super(props);
-		
-		this.refreshUsersList = this.refreshUsersList.bind(this);
-	}
 	
-	refreshUsersList(e){
+	refreshUsersList = (e) => {
 		this.props.refreshUsersList(e.target.value);
 	}
 	

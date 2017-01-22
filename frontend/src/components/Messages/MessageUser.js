@@ -1,6 +1,5 @@
 import React, {Component} from "react";
-import moment from 'moment';
-import currentUser from '../../actions/CurrentUser';
+import moment from "moment";
 
 export default class MessageUser extends Component {
 
@@ -9,23 +8,21 @@ export default class MessageUser extends Component {
         this.state = {
             isChanged: false
         };
-        this.setSelectedConversationUser = this.setSelectedConversationUser.bind(this);
-        this.setUserChanged = this.setUserChanged.bind(this);
     }
 
-    setUserChanged() {
+    setUserChanged = () => {
         this.setState({
             isChanged: true
         });
     }
 
-    setSelectedConversationUser() {
+    setSelectedConversationUser = () => {
         this.props.setSelectedConversationUser(this.props.user, this.setUserChanged);
     }
 
     render() {
         const {user, selectedConversationUser} = this.props;
-        const avatarSrc = currentUser.composeProfilePhotoName(user);
+        const avatarSrc = user.avatarSrc;
 
         return (
             <li className={"left clearfix" + (!!selectedConversationUser && selectedConversationUser.id === user.id ? ' selected-conversation-user' : '')} onClick={this.setSelectedConversationUser}>

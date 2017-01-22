@@ -4,8 +4,9 @@ import moment from "moment";
 import axios from "../../api";
 import GooglePlacesSuggest from "../Autosuggest/SuggestCity";
 import validation from "../../Validation/Validation";
-import { connect } from "react-redux";
-import { openAlert } from "../../actions/modals";
+import {connect} from "react-redux";
+import {openAlert} from "../../actions/modals";
+import currentUser from "../../actions/CurrentUser";
 
 class NewRequestModal extends Component {
 
@@ -20,26 +21,9 @@ class NewRequestModal extends Component {
                 to: moment(new Date()).add(5, 'day').format('YYYY-MM-DD')
             }
         };
-
-        this.handleSubmitRequest = this.handleSubmitRequest.bind(this);
-        this.onChange = this.onChange.bind(this);
-        this.hideModal = this.hideModal.bind(this);
     }
 
-    hideModal() {
-        this.state = {
-            errors: {},
-            fields: {
-                city: undefined,
-                text: undefined,
-                from: moment(new Date()).add(5, 'day').format('YYYY-MM-DD'),
-                to: moment(new Date()).add(5, 'day').format('YYYY-MM-DD')
-            }
-        };
-        this.props.hideFn();
-    }
-
-    onChange(e) {
+    onChange = (e) => {
         let name = e.target.name;
         let value = e.target.value;
 
@@ -58,16 +42,16 @@ class NewRequestModal extends Component {
             errors: errors,
             fields: fields
         });
-    }
+    };
 
-    handleSubmitRequest() {
+    handleSubmitRequest = () => {
         var city = this.state.fields.city;
         var from = this.state.fields.from;
         var to = this.state.fields.to;
         var text = this.state.fields.text;
         var buddy_id = this.props.user.id;
 
-        for (var name of ["city", "from", "to", "text"]) {
+        for (let name of ["city", "from", "to", "text"]) {
             let obj = {
                 target: {
                     value: this.state.fields[name],
@@ -77,7 +61,7 @@ class NewRequestModal extends Component {
             this.onChange(obj);
         }
         let fieldsAreValid = true;
-        for (var name of ["city", "from", "to", "text"]) {
+        for (let name of ["city", "from", "to", "text"]) {
             if(this.state.errors[name] !== undefined){
                 fieldsAreValid = false;
             }
@@ -92,24 +76,24 @@ class NewRequestModal extends Component {
             "to": to,
             "text": text,
             "buddy_id": buddy_id
-        }
+        };
         axios.put('Requests', request).then(response => {
             this.props.openAlert({"type": "success", "message": "Request has been successfuly saved."});
             this.hideModal();
         });
-    }
+    };
 
     handleSearchChange = (e) => {
         var fields = this.state.fields;
         fields.city = e.target.value;
         this.setState({fields: fields});
-    }
+    };
 
     handleSelectSuggest = (suggestName, coordinate) => {
         var fields = this.state.fields;
         fields.city = suggestName;
         this.setState({fields: fields});
-    }
+    };
 
     render() {
         const {showProp, hideFn} = this.props;
@@ -117,7 +101,7 @@ class NewRequestModal extends Component {
         const title = "I want to go on a new trip!";
 
         return (
-            <AbstractModal title={title} showProp={showProp} hideFn={this.hideModal}
+            <AbstractModal title={title} showProp={showProp} hideFn={hideFn}
                            submitFn={this.handleSubmitRequest} submitText={"Save Request"}>
                 <form>
                     <div className="form-group row text-xs-center">
@@ -149,7 +133,7 @@ class NewRequestModal extends Component {
                             <input className={ "form-control" + ( errors.from ? ' alert-danger' : '' ) }
                                    onChange={this.onChange}
                                    defaultValue={moment(new Date()).add(1, 'day').format('YYYY-MM-DD')} type="date"
-                                   name="from" placeholder="MM/DD/YYYY"/>
+                                   name="from" placeholder={currentUser.dateFormat}/>
                             { errors.from ? <span className="validation-error">{errors.from}</span> : ""}
                         </div>
                         <label htmlFor="to" className="col-xs-2 col-form-label text-xs-right">To: </label>
@@ -157,7 +141,7 @@ class NewRequestModal extends Component {
                             <input className={ "form-control" + ( errors.to ? ' alert-danger' : '' ) }
                                    onChange={this.onChange}
                                    defaultValue={moment(new Date()).add(5, 'day').format('YYYY-MM-DD')} type="date"
-                                   name="to" placeholder="MM/DD/YYYY"/>
+                                   name="to" placeholder={currentUser.dateFormat}/>
                             { errors.to ? <span className="validation-error">{errors.to}</span> : ""}
                         </div>
                     </div>

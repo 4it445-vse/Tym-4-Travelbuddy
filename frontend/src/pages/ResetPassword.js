@@ -3,8 +3,8 @@ import {browserHistory} from "react-router";
 import FormGroup from "../components/Modals/FormGroup";
 import axios from "../api";
 import validation from "../Validation/Validation";
-import { connect } from "react-redux";
-import { openAlert } from "../actions/modals";
+import {connect} from "react-redux";
+import {openAlert} from "../actions/modals";
 
 export class ResetPassword extends Component {
 
@@ -14,13 +14,12 @@ export class ResetPassword extends Component {
             errors: {},
             fields: {}
         };
-        this.handleSubmitPassReset = this.handleSubmitPassReset.bind(this);
         this.onChange = this.onChange.bind(this);
     }
 
-    handleSubmitPassReset(event) {
+    handleSubmitPassReset = (event) => {
         const fieldsArray = ["pass", "pass_repeated"];
-        for (var name of fieldsArray) {
+        for (let name of fieldsArray) {
             let obj = {
                 target: {
                     value: this.state.fields[name],
@@ -31,7 +30,7 @@ export class ResetPassword extends Component {
             this.onChange(obj);
         }
         let fieldsAreValid = true;
-        for (var name of fieldsArray) {
+        for (let name of fieldsArray) {
             if (this.state.errors[name] !== undefined) {
                 fieldsAreValid = false;
             }
@@ -53,12 +52,12 @@ export class ResetPassword extends Component {
                 this.props.openAlert({"type": "success", "message": "Password has been successfully changed, you can login now."});
                 browserHistory.push("/");
             } else {
-                console.error(response);
+                this.props.openAlert({"type": "danger", "message": "Password reset failed! Please go through whole process again."});
             }
         });
     }
 
-    onChange(e) {
+    onChange = (e) => {
         let name = e.target.name;
         let value = e.target.value;
         let errors = this.state.errors;
@@ -81,56 +80,58 @@ export class ResetPassword extends Component {
     render() {
         const {errors} = this.state;
         return (
-            <div>
+            <div className="container">
                 <div className="row">
-                    <div className="card v-o-5">
-                        <div className="card-block">
-                            <form>
-                                <FormGroup>
-                                    {
-                                        !!errors.pass ?
-                                            <span className="validation-error">{errors.pass}</span>
-                                            : ""
-                                    }
-                                    <input
-                                        onBlur={this.onChange}
-                                        type="password"
-                                        className={
-                                            "form-control"
-                                            + (
-                                                !!errors.pass ? ' alert-danger' : ' no-validation-error-1st'
-                                            )
+                    <div className="requests m-t-10">
+                        <div className="card v-o-5">
+                            <div className="card-block">
+                                <form>
+                                    <FormGroup>
+                                        {
+                                            !!errors.pass ?
+                                                <span className="validation-error">{errors.pass}</span>
+                                                : ""
                                         }
-                                        name="pass"
-                                        placeholder="Password"
-                                    />
-                                </FormGroup>
-                                <FormGroup>
-                                    {
-                                        !!errors.pass_repeated
-                                            ? <span className="validation-error">{errors.pass_repeated}</span>
-                                            : ""
-                                    }
-                                    <input
-                                        onBlur={this.onChange}
-                                        type="password"
-                                        className={
-                                            "form-control"
-                                            + (
-                                                !!errors.pass_repeated ? ' alert-danger'
-                                                    : ' no-validation-error-rest'
-                                            )
+                                        <input
+                                            onBlur={this.onChange}
+                                            type="password"
+                                            className={
+                                                "form-control"
+                                                + (
+                                                    !!errors.pass ? ' alert-danger' : ' no-validation-error-1st'
+                                                )
+                                            }
+                                            name="pass"
+                                            placeholder="Password"
+                                        />
+                                    </FormGroup>
+                                    <FormGroup>
+                                        {
+                                            !!errors.pass_repeated
+                                                ? <span className="validation-error">{errors.pass_repeated}</span>
+                                                : ""
                                         }
-                                        name="pass_repeated"
-                                        placeholder="Repeat your password"
-                                    />
-                                </FormGroup>
-                                <FormGroup>
-                                    <button onClick={this.handleSubmitPassReset} type="button"
-                                            className="btn btn-primary fullsize v-o-5">Reset password
-                                    </button>
-                                </FormGroup>
-                            </form>
+                                        <input
+                                            onBlur={this.onChange}
+                                            type="password"
+                                            className={
+                                                "form-control"
+                                                + (
+                                                    !!errors.pass_repeated ? ' alert-danger'
+                                                        : ' no-validation-error-rest'
+                                                )
+                                            }
+                                            name="pass_repeated"
+                                            placeholder="Repeat your password"
+                                        />
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <button onClick={this.handleSubmitPassReset} type="button"
+                                                className="btn btn-primary fullsize v-o-1">Reset password
+                                        </button>
+                                    </FormGroup>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

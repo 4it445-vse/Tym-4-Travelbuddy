@@ -3,10 +3,9 @@ import currentUser from "../../actions/CurrentUser";
 import FontAwesome from "react-fontawesome";
 import axios from "../../api";
 import {connect} from "react-redux";
-import {openLogin} from "../../actions/modals";
-import {openMeetUp} from "../../actions/modals";
-import {openContactBuddy} from "../../actions/modals";
-import moment from 'moment';
+import {openLogin, openMeetUp, openContactBuddy} from "../../actions/modals";
+import Loading from "../Images/Loading";
+import moment from "moment";
 
 class MeetUp extends Component {
     constructor(props) {
@@ -23,24 +22,22 @@ class MeetUp extends Component {
             avatarSrc: "http://images.megaupload.cz/mystery-man.png"
         }
 
-        this.openMeetUp = this.openMeetUp.bind(this);
-        this.openContactBuddy = this.openContactBuddy.bind(this);
-        this.onClick = this.onClick.bind(this);
     }
 
     componentDidMount() {
         axios.get('buddies/' + this.props.buddyId).then(response => {
             const buddy = response.data;
-            const profilePhotoName = currentUser.composeProfilePhotoName(buddy);
-            this.setState({
-                buddy: buddy,
-                render: true,
-                avatarSrc: profilePhotoName
+            currentUser.composeProfilePhotoName(buddy, (avatarSrcResult) => {
+                this.setState({
+                    buddy: buddy,
+                    render: true,
+                    avatarSrc: avatarSrcResult
+                });
             });
         });
     }
 
-    onClick(e) {
+    onClick = (e) => {
         if (this.props.user) {
             if (e.target.id === 'envelope') {
                 this.openContactBuddy();
@@ -52,17 +49,16 @@ class MeetUp extends Component {
         }
     }
 
-    openMeetUp() {
+    openMeetUp = () => {
         this.props.openMeetUp({buddy: this.state.buddy, meetUp: this.props.meetUp, isBuddyView: this.props.isBuddyView});
     }
 
-    openContactBuddy() {
+    openContactBuddy = () => {
         this.props.openContactBuddy({buddy: this.state.buddy});
     }
 
     isHighlighted = () => {
         let currentUserGaveRating = false;
-        console.log("meetUp", this.props.meetUp);
         this.props.meetUp.ratings.map(rating => {
             if (rating.buddy_id_from === this.props.user.id) {
                 currentUserGaveRating = true;
@@ -79,12 +75,10 @@ class MeetUp extends Component {
             return true;
         }
         return false;
-    }
+    };
 
     render() {
         const {render} = this.state;
-        const loader = require('../../images/lazyload.gif');
-        const dateFormat = "MM/DD/YYYY";
         const highlight = this.isHighlighted();
         if (render) return (
             <a href="#" onClick={this.onClick} className="profil_vypis">
@@ -104,7 +98,7 @@ class MeetUp extends Component {
                     </div>
                     <div className="col-md-1 col-xs-2 m-t-05">
                         {
-                            moment(this.props.meetUp.date_time).format(dateFormat)
+                            moment(this.props.meetUp.date_time).format(currentUser.dateFormat)
                         }
                     </div>
                     <div className="col-md-6 hidden-sm-down m-t-05">
@@ -118,8 +112,8 @@ class MeetUp extends Component {
                     </div>
                 </div>
             </a>
-        )
-        else return (<div className="card-block text-xs-center" id="buddy-row"><img src={loader}/></div>)
+        );
+        else return (<div className="card-block text-xs-center" id="buddy-row"><Loading/></div>)
     }
 }
 export default connect(

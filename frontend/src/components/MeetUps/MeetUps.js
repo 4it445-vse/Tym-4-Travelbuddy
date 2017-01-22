@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import MeetUp from "./MeetUp";
 import LazyLoad from 'react-lazyload';
+import Loading from '../Images/Loading';
 
 export default class MeetUps extends Component {
 
@@ -14,10 +15,8 @@ export default class MeetUps extends Component {
 
     renderMeetUps(){
       const {meetUps} = this.props;
-      const loader = require('../../images/lazyload.gif');
-      const placeholder = (<div className="card-block text-xs-center"><img src={loader}/></div>);
+      const placeholder = (<div className="card-block text-xs-center"><Loading/></div>);
       var render = [];
-      console.log(meetUps);
       for(var i = 0; i < meetUps.length; i++) {
           if(this.props.isBuddyView === true){
               render.push(<LazyLoad placeholder={placeholder} key={meetUps[i].id} height="50px" ><MeetUp  buddyId={meetUps[i].buddy_id_from} meetUp={meetUps[i]} isBuddyView={this.props.isBuddyView}/></LazyLoad>)
@@ -39,7 +38,7 @@ export default class MeetUps extends Component {
 
 
                         <div className="row">
-                            <div className="card v-o-25">
+                            <div className="card">
                                 <div className="card-block">
                                     <h4 className="card-title">{meetUps.length} {meetUps.length === 1 ? "meet up" : "meet ups"} found.</h4>
                                 </div>

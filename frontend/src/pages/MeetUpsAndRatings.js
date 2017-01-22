@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import MeetUps from "../components/MeetUps/MeetUps";
 import axios from "../api";
 import {connect} from "react-redux";
-import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
+import {Tab, Tabs, TabList, TabPanel} from "react-tabs";
 
 class MeetUpsAndRatings extends Component {
     constructor(props) {
@@ -18,7 +18,6 @@ class MeetUpsAndRatings extends Component {
     }
 
     handleSelect = (index) => {
-        console.log(index);
         let where = {};
         let isBuddyView;
         if(index === 0){
@@ -43,12 +42,17 @@ class MeetUpsAndRatings extends Component {
         }, error => {
             console.log("error: ", error);
         });
-    }
+    };
 
     render() {
         return (
             <div>
+        <div className="row pad-t-5 colarose">
+            <div className="container white">
                 <h1 className="v-o-4">Meet ups</h1>
+            </div>
+        </div>
+                <div className="container m-t-10">
                 <Tabs onSelect={this.handleSelect}>
                     <TabList>
                         <Tab>Buddy</Tab>
@@ -61,6 +65,7 @@ class MeetUpsAndRatings extends Component {
                         <MeetUps meetUps={this.state.meetUps} isBuddyView={this.state.isBuddyView}/>
                     </TabPanel>
                 </Tabs>
+            </div>
             </div>
         );
     }

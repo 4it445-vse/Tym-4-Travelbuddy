@@ -17,37 +17,20 @@ class RegisterModal extends Component {
             errors: {},
             fields: {}
         };
-
-        this.handleSubmitRegistration = this.handleSubmitRegistration.bind(this);
-        this.onChange = this.onChange.bind(this);
-        this.closeModal = this.closeModal.bind(this);
-        this.switchModal = this.switchModal.bind(this);
-    }
-
-    closeModal() {
-        this.state.errors = {};
-        this.state.fields = {};
-        this.props.hideFn();
-    }
-
-    switchModal() {
-        this.state.errors = {};
-        this.state.fields = {};
-        this.props.switchFn();
     }
 
     handleSearchChange = (e) => {
         var fields = this.state.fields;
         fields.city = e.target.value;
         this.setState({fields: fields})
-    }
+    };
 
     handleSelectSuggest = (suggestName, coordinate, placeId) => {
         var fields = this.state.fields;
         fields.city = suggestName;
         fields.placeId = placeId;
         this.setState({fields: fields});
-    }
+    };
 
     componentDidMount() {
         axios.get('buddies')
@@ -58,9 +41,9 @@ class RegisterModal extends Component {
             });
     }
 
-    handleSubmitRegistration(event) {
+    handleSubmitRegistration = (event) => {
         const fieldsArray = ["name", "surname", "city", "email", "pass", "pass_repeated", "agreed_with_conditions"];
-        for (var name of fieldsArray) {
+        for (let name of fieldsArray) {
             let obj = {
                 target: {
                     value: this.state.fields[name],
@@ -71,7 +54,7 @@ class RegisterModal extends Component {
             this.onChange(obj);
         }
         let fieldsAreValid = true;
-        for (var name of fieldsArray) {
+        for (let name of fieldsArray) {
             if (this.state.errors[name] !== undefined) {
                 fieldsAreValid = false;
             }
@@ -114,9 +97,9 @@ class RegisterModal extends Component {
                 });
             }
         });
-    }
+    };
 
-    onChange(e) {
+    onChange = (e) => {
         let name = e.target.name;
         let value = e.target.value;
         let errors = this.state.errors;
@@ -140,14 +123,14 @@ class RegisterModal extends Component {
             errors: errors,
             fields: fields
         });
-    }
+    };
 
     render() {
-        const {showProp} = this.props;
+        const {showProp, hideFn, switchFn} = this.props;
         const {errors} = this.state;
         const title = "Sign Up";
         return (
-            <Modal show={showProp} onHide={this.closeModal}>
+            <Modal show={showProp} onHide={hideFn}>
                 <Modal.Header closeButton>
                     <Modal.Title>{title}</Modal.Title>
                 </Modal.Header>
@@ -257,7 +240,7 @@ class RegisterModal extends Component {
           						  Do you already have an account?
           					  </span>
                         <a href="#" className="modal-tlacitko" data-dismiss="modal"
-                           data-toggle="modal" data-target="#regmodal" onClick={this.switchModal}>Sign In
+                           data-toggle="modal" data-target="#regmodal" onClick={switchFn}>Sign In
                         </a>
                     </FormCheck>
                 </Modal.Footer>

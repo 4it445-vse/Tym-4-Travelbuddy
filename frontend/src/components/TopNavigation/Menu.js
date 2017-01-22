@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Link} from "react-router";
-import {Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem} from "reactstrap";
-import axios from "../../api"
+import {Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavDropdown, DropdownToggle, DropdownMenu, DropdownItem} from "reactstrap";
+import axios from "../../api";
 import {connect} from "react-redux";
 import {logOutUser} from "../../actions/user";
 class Menu extends Component {
@@ -12,29 +12,29 @@ class Menu extends Component {
             collapsed: true,
             collapsedMyTravelling: true
         };
-
-        this.toggleNavbar = this.toggleNavbar.bind(this);
-        this.logOut = this.logOut.bind(this);
-        this.countIncomingUnreadMessages = this.countIncomingUnreadMessages.bind(this);
-        this.setCollapsedMyTravelling = this.setCollapsedMyTravelling.bind(this);
     }
 
-    setCollapsedMyTravelling() {
+    setCollapsedMyTravelling = () => {
         this.setState({collapsedMyTravelling: (this.state.collapsedMyTravelling === false)});
-    }
+    };
 
-    logOut() {
+    logOut = () => {
         this.props.logOutUser();
-    }
+    };
 
-    toggleNavbar() {
+    toggleNavbar = () => {
         this.setState({
             collapsed: !this.state.collapsed
         });
+    };
+
+    toggleDropdown() {
+      this.setState({
+        collapsedMyTravelling: !this.state.collapsedMyTravelling
+      });
     }
 
     countMeetUpAndRatingAllerts = () => {
-        console.log("in countMeetUpAndRatingAllerts");
         axios.get('Meetups', {
             params: {
                 filter: {
@@ -72,9 +72,9 @@ class Menu extends Component {
                 });
             }
         });
-    }
+    };
 
-    countIncomingUnreadMessages() {
+    countIncomingUnreadMessages = () => {
         axios.get('messages', {
             params: {
                 filter: {
@@ -97,7 +97,7 @@ class Menu extends Component {
                 });
             }
         });
-    }
+    };
 
     render() {
         const {openEdit, openRegister, openLogin, openNewRequest, openEditRequests} = this.props;
@@ -111,7 +111,8 @@ class Menu extends Component {
         return (
             <Navbar className="navbar-fixed-top bg-primary row" dark>
                 <div className="col-xs-9 col-md-3 text-xs-left">
-                    <NavbarBrand href="/">Travel Buddy</NavbarBrand>
+
+                    <NavbarBrand href="/"><img src="http://images.megaupload.cz/Bez_nazvu-5ey4Z7.png" alt="logo" width="15%"/> Travel Buddy</NavbarBrand>
                 </div>
                 <div className="col-xs-3 col-md-9 text-xs-right">
                     <NavbarToggler className="hidden-lg-up collapsed pointer" onClick={this.toggleNavbar}/>
@@ -126,39 +127,36 @@ class Menu extends Component {
                                         : ""}
                                     </Link>
                                 </NavItem>
+                                <hr className="hidden-lg-up"/>
                                 <NavItem className="margin-right-30">
                                     <Link href="/messages" className="nav-link" role="tab" data-toggle="tab">Messages {this.state.incomingUnreadMessagesNum > 0 ?
                                         <span className="label label-success"> {this.state.incomingUnreadMessagesNum}</span>
                                         : ""}
                                     </Link>
                                 </NavItem>
-                                <hr className="xs-visible sm-visible hidden-md-up hidden-lg-up"/>
+                                <hr className="hidden-lg-up"/>
                                 <NavItem className="margin-right-30">
                                     <Link href="/" className="nav-link">Buddies</Link>
                                 </NavItem>
-                                <hr className="xs-visible sm-visible hidden-md-up hidden-lg-up"/>
+                                <hr className="hidden-lg-up"/>
                                 <NavItem className="margin-right-30">
                                     <Link href="/requests" className="nav-link">Requests</Link>
                                 </NavItem>
-                                <hr className="xs-visible sm-visible hidden-md-up hidden-lg-up"/>
-                                <NavItem className="margin-right-30">
-                                    <li className={this.state.collapsedMyTravelling ? "nav-item dropdown" : "nav-item dropdown open"}>
-                                        <a className="nav-link dropdown-toggle"
-                                           href="#" id="supportedContentDropdown"
-                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                           onClick={this.setCollapsedMyTravelling}
-                                        >My traveling</a>
-                                        <div className="dropdown-menu">
-                                            <a className="dropdown-item" onClick={openNewRequest}>Create New Request</a>
-                                            <a className="dropdown-item" onClick={openEditRequests}>Edit My Requests</a>
-                                        </div>
-                                    </li>
-                                </NavItem>
-                                <hr className="xs-visible sm-visible hidden-md-up hidden-lg-up"/>
+                                <hr className="hidden-lg-up"/>
+                                <NavDropdown className="margin-right-30" isOpen={!this.state.collapsedMyTravelling} toggle={this.setCollapsedMyTravelling}>
+                                  <DropdownToggle className="dropdown-toggle nav-link">
+                                    My Traveling
+                                  </DropdownToggle>
+                                  <DropdownMenu>
+                                    <DropdownItem><a onClick={openNewRequest}>Create New Request</a></DropdownItem>
+                                    <DropdownItem><a onClick={openEditRequests}>Edit My Requests</a></DropdownItem>
+                                  </DropdownMenu>
+                                </NavDropdown>
+                                <hr className="hidden-lg-up"/>
                                 <NavItem className="margin-right-30">
                                     <Link href="#" className="nav-link" onClick={openEdit}>Edit Profile</Link>
                                 </NavItem>
-                                <hr className="xs-visible sm-visible hidden-md-up hidden-lg-up"/>
+                                <hr className="hidden-lg-up"/>
                                 <NavItem>
                                     <Link href="#" className="nav-link" onClick={this.logOut}>Log Out</Link>
                                 </NavItem>

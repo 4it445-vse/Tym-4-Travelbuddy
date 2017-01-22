@@ -3,8 +3,8 @@ import {Modal} from "react-bootstrap";
 import FormCheck from "./FormCheck";
 import currentUser from "../../actions/CurrentUser";
 import axios from "../../api";
-import { connect } from "react-redux";
-import { logInUser } from "../../actions/user";
+import {connect} from "react-redux";
+import {logInUser} from "../../actions/user";
 class LoginModal extends Component {
 
     constructor(props) {
@@ -13,23 +13,9 @@ class LoginModal extends Component {
         this.state = {
             errors: {}
         }
-
-        this.handleSubmitLogIn = this.handleSubmitLogIn.bind(this);
-        this.closeModal = this.closeModal.bind(this);
-        this.switchModal = this.switchModal.bind(this);
     }
 
-    closeModal() {
-        this.state.errors = {};
-        this.props.hideFn();
-    }
-
-    switchModal() {
-        this.state.errors = {};
-        this.props.switchFn();
-    }
-
-    handleSubmitLogIn(event) {
+    handleSubmitLogIn = (event) => {
         event.preventDefault();
         var email = document.getElementById("email-l").value;
         var pass = document.getElementById("pass-l").value;
@@ -48,9 +34,13 @@ class LoginModal extends Component {
                     },
                 }
             }).then(response => {
-                if (response.data[0].emailVerified) {
-                    this.props.logInUser(response.data[0], rememberUser);
-                    this.closeModal();
+                let buddy = response.data[0];
+                if (buddy.emailVerified) {
+                    currentUser.composeProfilePhotoName(buddy, (avatarSrcResult) => {
+                        buddy.avatarSrc = avatarSrcResult;
+                        this.props.logInUser(buddy, rememberUser);
+                        this.props.hideFn();
+                    });
                 } else {
                     let errors = this.state.errors;
                     errors.notLogged = "Please verify your e-mail, before first login, by clicking on the link we have send you on provided e-mail.";
@@ -61,14 +51,14 @@ class LoginModal extends Component {
             let errors = this.state.errors;
             errors.notLogged = "Wrong e-mail or password!";
             this.setState({errors: errors});
-        });;
+        });
     }
 
     render() {
-        const {showProp, restorePassFn} = this.props;
+        const {showProp, restorePassFn, hideFn, switchFn} = this.props;
         const {errors} = this.state;
         return (
-            <Modal show={showProp} onHide={this.closeModal}>
+            <Modal show={showProp} onHide={hideFn}>
                 <Modal.Header closeButton>
                     <Modal.Title>Sign In</Modal.Title>
                 </Modal.Header>
@@ -118,7 +108,7 @@ class LoginModal extends Component {
 							  You don't have account yet?
 						  </span>
                         <a href="#" className="modal-tlacitko"
-                           data-toggle="modal" data-target="#regmodal" onClick={this.switchModal}>Sign Up</a>
+                           data-toggle="modal" data-target="#regmodal" onClick={switchFn}>Sign Up</a>
                     </FormCheck>
                 </Modal.Footer>
             </Modal>

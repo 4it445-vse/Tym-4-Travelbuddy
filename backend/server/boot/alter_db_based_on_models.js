@@ -35,7 +35,7 @@ module.exports = function (app) {
       console.log("email in resetPassRequest: ", email);
     Buddy.resetPassword({
       email: email
-    }, function(err) {
+    }, function(err, sss) {
       if (err) return cb(null, "FAIL");
 
       cb(null, "OK");
@@ -60,11 +60,11 @@ module.exports = function (app) {
   );
 
   Message.resetPassword = function(body, cb) {
-    console.log("here in reset password method");
     if (!body.accessToken) return cb(null, "Access token not supplied!");
+    let tokenParts = body.accessToken.split('---');
+    if ((new Date().getTime() - new Date(tokenParts[1]).getTime()) >0)  return cb(null, "Access token expired!");
     Buddy.update({email: body.email, verificationToken: body.accessToken}, {password: Buddy.hashPassword(body.password), verificationToken:null}, function (err, user) {
-      console.log(err);
-      if (err) return cb(null, "Password update failed!");
+      if (err || user.count === 0) return cb(null, "Password update failed!");
       console.log('> password reset processed successfully');
       cb(null, "OK");
     });

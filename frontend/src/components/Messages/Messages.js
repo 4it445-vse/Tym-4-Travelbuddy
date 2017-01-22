@@ -1,11 +1,10 @@
 import React, {Component} from "react";
 import Message from "./Message";
 import MessageSend from "./MessageSend";
-import currentUser from "../../actions/CurrentUser";
 import axios from "../../api";
-import ReactDOM from 'react-dom';
-import { connect } from "react-redux";
-import { openProfile } from "../../actions/modals";
+import ReactDOM from "react-dom";
+import {connect} from "react-redux";
+import {openProfile} from "../../actions/modals";
 
 class Messages extends Component {
 
@@ -15,9 +14,6 @@ class Messages extends Component {
             messages: [],
             selectedConversationUser: undefined
         };
-        this.findMessages = this.findMessages.bind(this);
-        this.sendMessage = this.sendMessage.bind(this);
-        this.openProfile = this.openProfile.bind(this);
     }
 
     componentDidMount() {
@@ -32,7 +28,7 @@ class Messages extends Component {
         }
     }
 
-    sendMessage(message) {
+    sendMessage = (message) => {
         var obj = {
             'text': message,
             'displayed': false,
@@ -46,10 +42,10 @@ class Messages extends Component {
             this.findMessages(this.state.selectedConversationUser);
             this.props.refreshUsers();
         });
-    }
+    };
 
-    findMessages(selectedConversationUser) {
-        this.state.messages = [];
+    findMessages = (selectedConversationUser) => {
+        var messages = [];
         if (selectedConversationUser && selectedConversationUser.lastMessageTime) {
             axios.get('messages', {
                 params: {
@@ -77,9 +73,10 @@ class Messages extends Component {
                     buddyMessages.map(message => {
                             if (message.buddy_id_to === localCurrentUser.id) {
                                 if (!profilePhotoName) {
-                                    profilePhotoName = currentUser.composeProfilePhotoName(selectedConversationUser);
+                                    profilePhotoName = selectedConversationUser.avatarSrc;
                                 }
-                                this.state.messages.push({
+                                messages.push({
+                                    "id": message.id,
                                     "text": message.text,
                                     "time": message.date_time,
                                     "isIncoming": true,
@@ -88,9 +85,10 @@ class Messages extends Component {
                                 });
                             } else {
                                 if (!profilePhotoNameCU) {
-                                    profilePhotoNameCU = currentUser.composeProfilePhotoName(localCurrentUser);
+                                    profilePhotoNameCU = this.props.user.avatarSrc;
                                 }
-                                this.state.messages.push({
+                                messages.push({
+                                    "id": message.id,
                                     "text": message.text,
                                     "time": message.date_time,
                                     "isIncoming": false,
@@ -100,12 +98,13 @@ class Messages extends Component {
                             }
                         }
                     );
-                    this.state.messages.sort(function (a, b) {
+                    messages.sort(function (a, b) {
                         return new Date(a.time) - new Date(b.time);
                     });
-                    let state = this.state;
-                    state.selectedConversationUser = selectedConversationUser;
-                    this.setState(state);
+                    this.setState({
+                        messages,
+                        selectedConversationUser
+                    });
                 } else {
                     this.setState({
                         messages: [],
@@ -128,13 +127,13 @@ class Messages extends Component {
                 selectedConversationUser: selectedConversationUser
             });
         }
-    }
+    };
 
-    openProfile() {
+    openProfile = () => {
         axios.get('buddies/' + this.state.selectedConversationUser.id).then(response => {
             this.props.openProfile({buddy: response.data, flag:true});
         });
-    }
+    };
 
     render() {
         const {selectedConversationUser} = this.state;

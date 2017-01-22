@@ -1,12 +1,13 @@
 import React, {Component} from "react";
-import currentUser from "../../actions/CurrentUser";
 import AbstractModal from "./AbstractModal";
 import FormGroup from "./FormGroup";
 import axios from "../../api";
 import GooglePlacesSuggest from "../Autosuggest/SuggestCity";
 import validation from "../../Validation/Validation";
-import { connect } from "react-redux";
-import { logInUser } from "../../actions/user";
+import {connect} from "react-redux";
+import {logInUser} from "../../actions/user";
+import AvatarCropper from "react-avatar-cropper";
+import FileUpload from "../Images/FileUpload";
 class EditProfileModal extends Component {
 
     constructor(props) {
@@ -16,104 +17,70 @@ class EditProfileModal extends Component {
             errors: {},
             fields: {},
             avatarSrc: undefined,
-            displayCitySuggest: false
+            displayCitySuggest: false,
+            cropperOpen: false,
+            img: null
         }
-
-        this.handleSubmitEdit = this.handleSubmitEdit.bind(this);
-        this.handleSearchChange = this.handleSearchChange.bind(this);
-        this.onChange = this.onChange.bind(this);
-        this.validate = this.validate.bind(this);
-        this.onBlur = this.onBlur.bind(this);
-        this.onClick = this.onClick.bind(this);
-        this.onChangeImg = this.onChangeImg.bind(this);
-        this.hideModal = this.hideModal.bind(this);
-        this.loadUserData = this.loadUserData.bind(this);
     }
 
     componentDidMount() {
         this.loadUserData();
     }
 
-    loadUserData() {
-        axios.get('buddies/'+this.props.user.id).then(response =>{
+    loadUserData = () => {
+        axios.get('buddies/' + this.props.user.id).then(response => {
             let fields = this.state.fields;
             let currentUserLocal = response.data;
             fields.city = currentUserLocal.city;
             fields.about_me = currentUserLocal.about_me;
             fields.is_hosting = currentUserLocal.is_hosting;
-            const profilePhotoName = currentUser.composeProfilePhotoName(currentUserLocal);
-            if (profilePhotoName) {
-                this.setState({
-                    fields: fields,
-                    avatarSrc: profilePhotoName
-                });
-            }
+            this.setState({
+                fields: fields,
+                avatarSrc: this.props.user.avatarSrc
+            });
         });
-    }
+    };
 
-    hideModal() {
-        var fields = {};
-        const currentUserLocal = this.props.user;
-        fields.city = currentUserLocal.city;
-        fields.about_me = currentUserLocal.about_me;
-
-        this.state = {
-            errors: {},
-            fields: fields,
-            avatarSrc: this.state.avatarSrc,
-            displayCitySuggest: false
-        };
-        this.props.hideFn();
-    }
-
-    onChangeImg(e) {
-        const fileInput = e.target.files[0];
-        var filesize = (fileInput.size / 1024 / 1024).toFixed(2);
-    }
-
-    onClick() {
-        var data = new FormData();
-        var photo = this.refs.File.files[0];
+    storePhoto = (dataUri) => {
+        let data = new FormData();
+        let photo = new File([dataUri], "filename");
         const name = photo.name;
         const currentUserLocal = this.props.user;
         data.append("file", photo);
         const containerName = 'container_' + currentUserLocal.id;
-        axios.post('containers/' + containerName + '/upload', data).then(data => {
-            let constructedBuddy = {
-                "profile_photo_name": name
-            };
+        axios.post('containers/' + containerName + '/upload', data).then(() => {
             axios.post('buddies/update?where[id]=' + currentUserLocal.id, {"profile_photo_name": name})
-                .then(response => {
+                .then(() => {
                     this.setState({
-                        avatarSrc: name
+                        avatarSrc: dataUri
                     });
                 });
         });
-    }
+    };
 
-    onChange(e) {
+    onChange = (e) => {
         const {name, value} = e.target;
 
-        if(name === 'city' && value){
+        if (name === 'city' && value) {
             this.validate(name, value, true);
-        }else{
+        } else {
             this.validate(name, value);
         }
-    }
+    };
 
-    onBlur(e) {
+    onBlur = (e) => {
         const {name, value} = e.target;
 
         this.validate(name, value);
-    }
+    };
 
-    validate(name, value, displayCitySug) {
-        var is_hosting = document.getElementById("is_hosting").checked;
-        let { errors, fields, displayCitySuggest } = this.state;
+    validate = (name, value, displayCitySug) => {
+        let is_hosting = document.getElementById("is_hosting").checked;
+        let {errors, fields, displayCitySuggest} = this.state;
         errors[name] = validation.validate(name, value, is_hosting);
         fields[name] = value;
 
-        if(displayCitySug){
+        if (displayCitySug) {
             displayCitySuggest = true;
         }
 
@@ -122,12 +89,12 @@ class EditProfileModal extends Component {
             fields: fields,
             displayCitySuggest: displayCitySuggest
         });
-    }
+    };
 
-    handleSubmitEdit() {
+    handleSubmitEdit = () => {
         const {city, about_me} = this.state.fields;
-        var is_hosting = document.getElementById("is_hosting").checked;
-        var sex;
+        let is_hosting = document.getElementById("is_hosting").checked;
+        let sex;
         if (this.props.user.sex === 'na') {
             let e = document.getElementById("sex");
             sex = e.options[e.selectedIndex].value;
@@ -135,7 +102,7 @@ class EditProfileModal extends Component {
             sex = this.props.user.sex;
         }
 
-        for (var name of ["city", "about_me"]) {
+        for (let name of ["city", "about_me"]) {
             let obj = {
                 target: {
                     value: this.state.fields[name],
@@ -145,7 +112,7 @@ class EditProfileModal extends Component {
             this.onChange(obj);
         }
         let fieldsAreValid = true;
-        for (var name of ["city", "about_me"]) {
+        for (let name of ["city", "about_me"]) {
             if (this.state.errors[name] !== undefined) {
                 fieldsAreValid = false;
             }
@@ -161,29 +128,51 @@ class EditProfileModal extends Component {
             "is_hosting": is_hosting,
             "about_me": about_me
         };
-        let _this = this;
-        axios.post('buddies/update?where[id]=' + currentUserLocal.id, constructedBuddy).then(response => {
-            this.hideModal();
+        axios.post('buddies/update?where[id]=' + currentUserLocal.id, constructedBuddy).then(() => {
+            this.props.hideFn();
         });
-    }
+    };
 
     handleSearchChange = (e) => {
         this.setState({city: e.target.value})
-    }
+    };
 
     handleSelectSuggest = (suggestName, coordinate) => {
-        var fields = this.state.fields;
+        let fields = this.state.fields;
         fields.city = suggestName;
         this.setState({fields: fields});
-    }
+    };
+
+    handleFileChange = (dataURI) => {
+        this.setState({
+            img: dataURI,
+            avatarSrc: this.state.avatarSrc,
+            cropperOpen: true
+        });
+    };
+
+    handleCrop = (dataURI) => {
+        this.storePhoto(dataURI);
+        this.setState({
+            cropperOpen: false,
+            img: null,
+            avatarSrc: require("../../images/lazyload.gif")
+        });
+    };
+
+    handleRequestHide = () => {
+        this.setState({
+            cropperOpen: false
+        });
+    };
 
     render() {
-        const {showProp} = this.props;
+        const {showProp,hideFn} = this.props;
         const {errors} = this.state;
         const loggedUser = this.props.user;
         const title = "Edit Profile: " + loggedUser.name + " " + loggedUser.surname;
         return (
-            <AbstractModal title={title} showProp={showProp} hideFn={this.hideModal}
+            <AbstractModal title={title} showProp={showProp} hideFn={hideFn}
                            submitFn={this.handleSubmitEdit} submitText={"Save"}>
                 <form>
                     <div className="form-group no-margin-bottom row">
@@ -245,21 +234,20 @@ class EditProfileModal extends Component {
                     <hr/>
                     <div className="form-group no-margin row">
                         <div className="col-xs-6">
-                            <img src={ this.state.avatarSrc } alt="..." className="editProfile_Avatar rounded"/>
+                            <img src={this.state.avatarSrc}/>
+                            {this.state.cropperOpen &&
+                            <AvatarCropper id="avatar-croper"
+                                onRequestHide={this.handleRequestHide}
+                                cropperOpen={this.state.cropperOpen}
+                                onCrop={this.handleCrop}
+                                image={this.state.img}
+                                width={300}
+                                height={300}
+                            />
+                            }
                         </div>
                         <div className="col-xs-6 text-xs-left">
-                            <input
-                                type="file"
-                                placeholder="Vybrat soubor"
-                                accept="image/*"
-                                ref="File"
-                                onChange={this.onChangeImg}
-                            />
-                            <input
-                                type="button"
-                                value="Nahrát"
-                                onClick={this.onClick}
-                            />
+                            <FileUpload handleFileChange={this.handleFileChange}/>
                         </div>
                     </div>
                 </form>
@@ -271,7 +259,7 @@ class EditProfileModal extends Component {
 }
 export default connect(
     (state) => ({
-        user : state.user
+        user: state.user
     }),
     {
         logInUser

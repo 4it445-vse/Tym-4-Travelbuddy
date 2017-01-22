@@ -1,19 +1,11 @@
-const OPEN_LOGIN = 'OPEN_LOGIN';
-export const openLogin = (data) => {
-    return (dispatch) => {
-        return dispatch(openLoginSuccess({modal: 'openLogin', data: null}));
-    }
-}
-
 export const openLoginSuccess = (payload) => ({
     type: 'OPEN_LOGIN_SUCCESS',
     payload
 })
 
-const OPEN_REGISTRATION = 'OPEN_REGISTRATION';
-export const openRegistration = (data) => {
+export const openLogin = (data) => {
     return (dispatch) => {
-        return dispatch(openRegistrationSuccess({modal: 'openRegistration', data: null}));
+        return dispatch(openLoginSuccess({modal: 'openLogin', data: null}));
     }
 }
 
@@ -22,10 +14,9 @@ export const openRegistrationSuccess = (payload) => ({
     payload
 })
 
-const OPEN_PROFILE = 'OPEN_PROFILE';
-export const openProfile = (data) => {
+export const openRegistration = (data) => {
     return (dispatch) => {
-        return dispatch(openProfileSuccess({modal: 'openProfile', data: data}));
+        return dispatch(openRegistrationSuccess({modal: 'openRegistration', data: null}));
     }
 }
 
@@ -34,10 +25,9 @@ export const openProfileSuccess = (payload) => ({
     payload
 })
 
-const OPEN_MEET_UP = 'OPEN_PROFILE';
-export const openMeetUp = (data) => {
+export const openProfile = (data) => {
     return (dispatch) => {
-        return dispatch(openMeetUpSuccess({modal: 'openShowMeetUp', data: data}));
+        return dispatch(openProfileSuccess({modal: 'openProfile', data: data}));
     }
 }
 
@@ -46,10 +36,9 @@ export const openMeetUpSuccess = (payload) => ({
     payload
 })
 
-const OPEN_CONTACT_BUDDY = 'OPEN_CONTACT_BUDDY';
-export const openContactBuddy = (data) => {
+export const openMeetUp = (data) => {
     return (dispatch) => {
-        return dispatch(openContactBuddySuccess({modal: 'openContactBuddy', data: data}));
+        return dispatch(openMeetUpSuccess({modal: 'openShowMeetUp', data: data}));
     }
 }
 
@@ -58,10 +47,9 @@ export const openContactBuddySuccess = (payload) => ({
     payload
 })
 
-const OPEN_NEW_MEET_UP = 'OPEN_NEW_MEET_UP';
-export const openNewMeetUp = (data) => {
+export const openContactBuddy = (data) => {
     return (dispatch) => {
-        return dispatch(openNewMeetUpSuccess({modal: 'openNewMeetUp', data: data}));
+        return dispatch(openContactBuddySuccess({modal: 'openContactBuddy', data: data}));
     }
 }
 
@@ -70,10 +58,9 @@ export const openNewMeetUpSuccess = (payload) => ({
     payload
 })
 
-const OPEN_ALERT = 'OPEN_ALERT';
-export const openAlert = (data) => {
+export const openNewMeetUp = (data) => {
     return (dispatch) => {
-        return dispatch(openAlertSuccess({modal: 'alert', data: data}));
+        return dispatch(openNewMeetUpSuccess({modal: 'openNewMeetUp', data: data}));
     }
 }
 
@@ -82,10 +69,9 @@ export const openAlertSuccess = (payload) => ({
     payload
 })
 
-const OPEN_QUESTION = 'OPEN_QUESTION';
-export const openQuestion = (data) => {
+export const openAlert = (data) => {
     return (dispatch) => {
-        return dispatch(openQuestionSuccess({modal: 'question', data: data}));
+        return dispatch(openAlertSuccess({modal: 'alert', data: data}));
     }
 }
 
@@ -94,10 +80,9 @@ export const openQuestionSuccess = (payload) => ({
     payload
 })
 
-const OPEN_EDIT_PROFILE = 'OPEN_EDIT_PROFILE';
-export const openEditProfile = () => {
+export const openQuestion = (data) => {
     return (dispatch) => {
-        return dispatch(openEditProfileSuccess({modal: 'openEditProfile', data: null}));
+        return dispatch(openQuestionSuccess({modal: 'question', data: data}));
     }
 }
 
@@ -106,10 +91,9 @@ export const openEditProfileSuccess = (payload) => ({
     payload
 })
 
-const OPEN_CREATE_REQUEST = 'OPEN_CREATE_REQUEST';
-export const openCreateRequest = () => {
+export const openEditProfile = () => {
     return (dispatch) => {
-        return dispatch(openCreateRequestSuccess({modal: 'openCreateRequest', data: null}));
+        return dispatch(openEditProfileSuccess({modal: 'openEditProfile', data: null}));
     }
 }
 
@@ -118,10 +102,9 @@ export const openCreateRequestSuccess = (payload) => ({
     payload
 })
 
-const OPEN_RESET_PASSWORD = 'OPEN_RESET_PASSWORD';
-export const openResetPassword = () => {
+export const openCreateRequest = () => {
     return (dispatch) => {
-        return dispatch(openResetPasswordSuccess({modal: 'openResetPassword', data: null}));
+        return dispatch(openCreateRequestSuccess({modal: 'openCreateRequest', data: null}));
     }
 }
 
@@ -130,10 +113,9 @@ export const openResetPasswordSuccess = (payload) => ({
     payload
 })
 
-const OPEN_EDIT_REQUEST = 'OPEN_EDIT_REQUEST';
-export const openEditRequest = () => {
+export const openResetPassword = () => {
     return (dispatch) => {
-        return dispatch(openEditRequestSuccess({modal: 'openEditRequest', data: null}));
+        return dispatch(openResetPasswordSuccess({modal: 'openResetPassword', data: null}));
     }
 }
 
@@ -142,10 +124,20 @@ export const openEditRequestSuccess = (payload) => ({
     payload
 })
 
-const CLOSE_MODAL = 'CLOSE_MODAL';
-export const closeModal = () => {
+export const openEditRequest = () => {
     return (dispatch) => {
-        return dispatch(closeModalSuccess({}));
+        return dispatch(openEditRequestSuccess({modal: 'openEditRequest', data: null}));
+    }
+}
+
+export const openShowRequestDetailsSuccess = (payload) => ({
+    type: 'OPEN_SHOW_REQUEST_DETAILS_SUCCESS',
+    payload
+})
+
+export const openShowRequestDetails = (data) => {
+    return (dispatch) => {
+        return dispatch(openShowRequestDetailsSuccess({modal: 'openShowRequestDetails', data: data}));
     }
 }
 
@@ -153,3 +145,9 @@ export const closeModalSuccess = (payload) => ({
     type: 'CLOSE_MODAL_SUCCESS',
     payload
 })
+
+export const closeModal = () => {
+    return (dispatch) => {
+        return dispatch(closeModalSuccess({}));
+    }
+}

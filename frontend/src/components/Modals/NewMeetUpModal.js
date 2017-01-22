@@ -1,9 +1,10 @@
 import React, {Component} from "react";
 import AbstractModal from "./AbstractModal";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import axios from "../../api";
-import { openAlert } from "../../actions/modals";
+import {openAlert} from "../../actions/modals";
 import moment from "moment";
+import currentUser from "../../actions/CurrentUser";
 
 class NewMeetUpModal extends Component {
 
@@ -14,13 +15,6 @@ class NewMeetUpModal extends Component {
             errors: {},
             date: moment(new Date()).add(1, 'day').format('YYYY-MM-DD')
         }
-        this.closeModal = this.closeModal.bind(this);
-    }
-
-    closeModal() {
-        this.state.errors = {};
-        this.state.date = new Date();
-        this.props.hideFn();
     }
 
     handleSubmitMeetUp = () => {
@@ -41,7 +35,7 @@ class NewMeetUpModal extends Component {
                 "message": "Meet up proposal has been successfuly send."
             })
         });
-    }
+    };
 
     onChange = (e) => {
         const date = e.target.value;
@@ -69,13 +63,13 @@ class NewMeetUpModal extends Component {
                 date
             });
         }
-    }
+    };
 
     render() {
-        const {showProp, buddyTo} = this.props;
+        const {showProp, buddyTo, hideFn} = this.props;
         const title = "Meet up proposal for " + buddyTo.name + " " + buddyTo.surname;
         return (
-            <AbstractModal title={title} showProp={showProp} hideFn={this.closeModal}
+            <AbstractModal title={title} showProp={showProp} hideFn={hideFn}
                            submitFn={this.handleSubmitMeetUp} submitText={"Send"}>
                 <form>
                     <div className="form-group no-margin-bottom-bottom row">
@@ -84,7 +78,7 @@ class NewMeetUpModal extends Component {
                                 <input className={ "form-control" + ( this.state.errors.date ? ' alert-danger' : '' ) }
                                        onChange={this.onChange}
                                        defaultValue={this.state.date} type="date"
-                                       name="from" placeholder="MM/DD/YYYY"/>
+                                       name="from" placeholder={currentUser.dateFormat}/>
                             {
                                 this.state.errors.date
                                     ? <span className="validation-error">{this.state.errors.date}</span>
