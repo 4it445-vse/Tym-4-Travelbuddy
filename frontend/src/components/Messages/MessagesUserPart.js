@@ -20,6 +20,14 @@ class MessagesUserPart extends Component {
         this.refreshUsers();
     }
 
+    componentDidUpdate() {
+        if(this.props.messages.time !== this.time){
+            this.time = this.props.messages.time;
+            this.props.setRefreshUsers(this.refreshUsers);
+            this.refreshUsers();
+        }
+    }
+
     refreshUsers = () => {
         this.findUsersAndMessages();
         this.restrictUsers("");
@@ -42,7 +50,6 @@ class MessagesUserPart extends Component {
     };
 
     findUsersAndMessages = () => {
-        console.log(this.props.messages);
         this.state.usersWithMessages = [];
         this.setIncomingMessageCountCheckpoint(this.props.user.id, (currentUserId) => {
             axios.get('messages', {
