@@ -3,21 +3,52 @@ import {Modal} from "react-bootstrap";
 import currentUser from "../../actions/CurrentUser";
 import {connect} from "react-redux";
 import {openContactBuddy, openNewMeetUp} from "../../actions/modals";
+import axios from "../../api";
+import ReactStars from "react-stars";
 
 class ShowProfileModal extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.state = {
-            avatarSrc: undefined
+            avatarSrc: undefined,
+            ratingValue: undefined,
+            ratings: []
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         currentUser.composeProfilePhotoName(this.props.buddy, (avatarSrcResult) => {
             this.setState({
                 avatarSrc: avatarSrcResult
+            });
+        });
+        axios.get('BuddyRatings', {
+            params: {
+                filter: {
+                    where: {
+                        buddy_id_to: this.props.buddy.id
+                    },
+                    order: "date_time DESC"
+                },
+            }
+        }).then((response) => {
+            const ratings = response.data;
+            const numOfRatings = ratings.length;
+            let ratingsSum = 0;
+            let ratingTexts = [];
+            for(let i = 0; i < numOfRatings; i++){
+                const rating = ratings[i];
+                ratingsSum += rating.rating;
+                if(ratingTexts.length <= 5 && rating.text){
+                    ratingTexts[i] = rating;
+                }
+            }
+            const ratingValue = Math.round(ratingsSum / numOfRatings);
+            this.setState({
+                ratingValue,
+                ratings
             });
         });
     }
@@ -38,6 +69,7 @@ class ShowProfileModal extends Component {
 
     render() {
         const {showProp, hideFn, buddy, showContactButton} = this.props;
+        console.log("texts: ", this.state.ratings, this.state.ratingValue);
         return (
             <Modal show={showProp} onHide={hideFn}>
                 <Modal.Header closeButton>
@@ -93,6 +125,20 @@ class ShowProfileModal extends Component {
                             <p className="no-margin-bottom">{buddy.about_me}</p>
                         </div>
                     </div>
+                    { !!this.state.ratingValue ?
+                        <div className="row">
+                            <hr className="col-xs-12"></hr>
+                            <div className="col-xs-12">
+                                <ReactStars count={5} value={this.state.ratingValue} half={true} edit={false} size={24} color2={'#ffd700'}/>
+                                {
+                                    this.state.ratings.map(rating => {
+                                        return(<p key={rating.id}>{rating.text}</p>);
+                                    })
+                                }
+                            </div>
+                        </div>
+                        : ""
+                    }
                 </Modal.Body>
                 <Modal.Footer>
                     <div className="form-check">

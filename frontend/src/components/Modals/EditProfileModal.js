@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import AbstractModal from "./AbstractModal";
 import FormGroup from "./FormGroup";
 import axios from "../../api";
+import ReactStars from "react-stars";
 import GooglePlacesSuggest from "../Autosuggest/SuggestCity";
 import validation from "../../Validation/Validation";
 import {connect} from "react-redux";
@@ -20,12 +21,35 @@ class EditProfileModal extends Component {
             avatarSrc: undefined,
             displayCitySuggest: false,
             cropperOpen: false,
-            img: null
+            img: null,
+            ratingValue: undefined
         }
     }
 
     componentDidMount() {
         this.loadUserData();
+
+        axios.get('BuddyRatings', {
+            params: {
+                filter: {
+                    where: {
+                        buddy_id_to: this.props.user.id
+                    }
+                },
+            }
+        }).then((response) => {
+            const ratings = response.data;
+            const numOfRatings = ratings.length;
+            let ratingsSum = 0;
+            for(let i = 0; i < numOfRatings; i++){
+                const rating = ratings[i];
+                ratingsSum += rating.rating;
+            }
+            const ratingValue = Math.round(ratingsSum / numOfRatings);
+            this.setState({
+                ratingValue
+            });
+        });
     }
 
     loadUserData = () => {
@@ -195,6 +219,16 @@ class EditProfileModal extends Component {
                     <div className="form-group no-margin-bottom row">
                         <label className="col-xs-12 col-form-label">Email: {loggedUser.email}</label>
                     </div>
+
+                    { !!this.state.ratingValue ?
+                        <div className="form-group no-margin-bottom row">
+                            <div className="col-xs-12">
+                                <ReactStars count={5} value={this.state.ratingValue} half={true} edit={false} size={24} color2={'#ffd700'}/>
+                            </div>
+                        </div>
+                        : ""
+                    }
+
                     <hr/>
                     { loggedUser.sex === "na" ?
                         <FormGroup>
