@@ -246,7 +246,7 @@ class EditProfileModal extends Component {
                             />
                             }
                         </div>
-                        <div className="col-xs-6 text-xs-left">
+                        <div className="col-xs-12 text-xs-left">
                             <FileUpload handleFileChange={this.handleFileChange}/>
                         </div>
                     </div>

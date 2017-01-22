@@ -43,7 +43,7 @@ class MessageUser extends Component {
                     </div>
                     <div className="contact_sec">
                         {user.unreadIncomingMessagesNum && !this.state.isChanged > 0 ?
-                            <span className="badge float-right">{user.unreadIncomingMessagesNum}</span> : ""
+                            <span className="badge float-right label label-success margin-right-10">{user.unreadIncomingMessagesNum}</span> : ""
                         }
                     </div>
                 </div>

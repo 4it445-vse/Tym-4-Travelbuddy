@@ -131,7 +131,7 @@ class Messages extends Component {
 
     openProfile = () => {
         axios.get('buddies/' + this.state.selectedConversationUser.id).then(response => {
-            this.props.openProfile({buddy: response.data, flag:true});
+            this.props.openProfile({buddy: response.data, flag:false});
         });
     };
 
