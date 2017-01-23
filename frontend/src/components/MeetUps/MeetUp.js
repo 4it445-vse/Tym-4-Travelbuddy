@@ -88,21 +88,18 @@ class MeetUp extends Component {
                              alt={this.state.buddy.name + " " + this.state.buddy.surname}
                              className="profil_img rounded"/>
                     </div>
-                    <div className="col-md-3 col-xs-5 m-t-05">
-                        <div className="row">
+                    <div className="col-md-10 col-xs-5 m-t-05 no-padding">
+                        <div className="col-xs-12 col-md-6 no-padding">
                             <p className={"no-margin ellipsis" + (highlight ? " highlight-text" : "")}>{this.state.buddy.name + " " + this.state.buddy.surname}</p>
                         </div>
-                        <div className="row">
+                        <div className="col-xs-12 col-md-6 no-padding">
                             <span className="no-margin ellipsis">{this.state.buddy.city}</span>
                         </div>
-                    </div>
-                    <div className="col-md-1 col-xs-2 m-t-05">
-                        {
-                            moment(this.props.meetUp.date_time).format(currentUser.dateFormat)
-                        }
-                    </div>
-                    <div className="col-md-6 hidden-sm-down m-t-05">
-                        <p className="no-margin ellipsis2">{this.state.buddy.about_me}</p>
+                        <div className="col-xs-12 no-padding">
+                            <span className="no-margin ellipsis">{
+                                moment(this.props.meetUp.date_time).format(currentUser.dateFormat)
+                            }</span>
+                        </div>
                     </div>
                     <div className="col-md-1 col-xs-2 m-t-05">
                         <a href="#" onClick={this.onClick} className="profil_vypis" name="envelope">

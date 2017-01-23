@@ -72,7 +72,7 @@ class User extends Component {
                             <p className="no-margin ellipsis">{this.state.buddy.name + " " + this.state.buddy.surname}</p>
                         </div>
                         <div className="row">
-                            <span className="no-margin ellipsis">{this.state.buddy.city}</span>
+                            <p className="no-margin ellipsis">{this.state.buddy.city}</p>
                         </div>
                     </div>
                     <div className="col-md-1 col-xs-2 m-t-05">
