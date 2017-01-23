@@ -11,7 +11,7 @@
       "type": "string",
       "required": true
     },
-    "ratingValue": {
+    "rating": {
       "type": "number",
       "required": true
     },
