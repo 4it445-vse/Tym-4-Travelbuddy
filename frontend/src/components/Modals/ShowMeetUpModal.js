@@ -38,7 +38,7 @@ class ShowMeetUpModal extends Component {
         }
         const rating = {
             text: this.ratingText ? this.ratingText.replace(/\r?\n/g, '</br>') : "",
-            ratingValue: this.ratingValue,
+            rating: this.ratingValue,
             date_time: new Date(),
             buddy_id_from: this.props.currentUserId,
             buddy_id_to: this.props.buddy.id,
