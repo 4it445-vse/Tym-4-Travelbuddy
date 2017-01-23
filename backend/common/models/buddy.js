@@ -81,7 +81,7 @@ module.exports = function (Buddy) {
                     Buddy.app.models.Email.send({
                         to: info.email,
                         from: info.email,
-                        subject: 'Obnova hesla',
+                        subject: 'Travel Buddy | Password reset',
                         html: html
                     }, function (err) {
                         if (err) return console.log('> error sending password reset email');
