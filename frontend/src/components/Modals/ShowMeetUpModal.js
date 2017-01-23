@@ -21,7 +21,7 @@ class ShowMeetUpModal extends Component {
     }
 
     ratingChanged = (newRating) => {
-        this.rating = newRating;
+        this.ratingValue = newRating;
     };
 
     onChange = (e) => {
