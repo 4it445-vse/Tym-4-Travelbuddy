@@ -90,9 +90,14 @@ class MeetUp extends Component {
                     </div>
                     <div className="col-md-10 col-xs-5 m-t-05 no-padding">
                         <div className="col-xs-12 col-md-6 no-padding">
-                            <p className={"no-margin ellipsis" + (highlight ? " highlight-text" : "")}>{this.state.buddy.name + " " + this.state.buddy.surname}</p>
+                            <p className={"no-margin ellipsis" + (highlight ? " highlight-text" : "")}>
+                                {this.state.buddy.name + " " + this.state.buddy.surname}
+                                </p>
+
                         </div>
                         <div className="col-xs-12 col-md-6 no-padding">
+
+                            {highlight ? <span className="label label-success  margin-right-5">1</span>:""}
                             <span className="no-margin ellipsis">{this.state.buddy.city}</span>
                         </div>
                         <div className="col-xs-12 no-padding">

@@ -5,6 +5,7 @@ import axios from "../../api";
 import {connect} from "react-redux";
 import {logOutUser} from "../../actions/user";
 import {refreshMessages} from "../../actions/messages";
+import {updateRequestNotificationCount} from "../../actions/requestNotification";
 import currentUser from "../../actions/CurrentUser";
 class Menu extends Component {
 
@@ -57,7 +58,8 @@ class Menu extends Component {
             }
         }).then(response => {
             let meetUps = response.data;
-            let meetAndRatingsAlertsNum = 0;
+            let meetAndRatingsAlertsNumBuddy = 0;
+            let meetAndRatingsAlertsNumTraveller = 0;
             meetUps.map(meetUp => {
                 let currentUserGaveRating = false;
                 meetUp.ratings.map(rating => {
@@ -66,14 +68,28 @@ class Menu extends Component {
                     }
                 });
                 if (meetUp.verified && meetUp.done && !currentUserGaveRating) {
-                    meetAndRatingsAlertsNum++;
+                    if(meetUp.buddy_id_from === this.props.user.id){
+                        meetAndRatingsAlertsNumTraveller++;
+                    }else{
+                        meetAndRatingsAlertsNumBuddy++;
+                    }
                 } else if (meetUp.buddy_id_to === this.props.user.id && !meetUp.verified) {
-                    meetAndRatingsAlertsNum++;
+                    if(meetUp.buddy_id_from === this.props.user.id){
+                        meetAndRatingsAlertsNumTraveller++;
+                    }else{
+                        meetAndRatingsAlertsNumBuddy++;
+                    }
                 } else if (meetUp.verified && !meetUp.done &&
                     (new Date(meetUp.date_time).getTime() - new Date().getTime()) <= 0) {
-                    meetAndRatingsAlertsNum++;
+                    if(meetUp.buddy_id_from === this.props.user.id){
+                        meetAndRatingsAlertsNumTraveller++;
+                    }else{
+                        meetAndRatingsAlertsNumBuddy++;
+                    }
                 }
             });
+            let meetAndRatingsAlertsNum = meetAndRatingsAlertsNumTraveller + meetAndRatingsAlertsNumBuddy;
+            this.props.updateRequestNotificationCount({countBuddy: meetAndRatingsAlertsNumBuddy, countTraveller: meetAndRatingsAlertsNumTraveller});
             if (this.state.meetAndRatingsAlertsNum !== meetAndRatingsAlertsNum) {
                 this.setState({
                     meetAndRatingsAlertsNum: meetAndRatingsAlertsNum
@@ -193,6 +209,7 @@ export default connect(
     }),
     {
         logOutUser,
-        refreshMessages
+        refreshMessages,
+        updateRequestNotificationCount
     }
 )(Menu);

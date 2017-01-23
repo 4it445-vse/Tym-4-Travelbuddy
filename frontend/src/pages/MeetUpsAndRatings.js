@@ -49,6 +49,7 @@ class MeetUpsAndRatings extends Component {
     };
 
     render() {
+        console.log("in meetups: ", this.props.requestNotification);
         return (
             <div>
         <div className="row pad-t-5 colarose">
@@ -59,8 +60,8 @@ class MeetUpsAndRatings extends Component {
                 <div className="container m-t-10">
                 <Tabs onSelect={this.handleSelect}>
                     <TabList>
-                        <Tab>Buddy</Tab>
-                        <Tab>Traveller</Tab>
+                        <Tab>Buddy{this.props.requestNotification.countBuddy > 0 ? <span className="label label-success margin-left-5">{this.props.requestNotification.countBuddy}</span> : ""}</Tab>
+                        <Tab>Traveller{this.props.requestNotification.countTraveller > 0 ? <span className="label label-success margin-left-5">{this.props.requestNotification.countTraveller}</span> : ""}</Tab>
                     </TabList>
                     <TabPanel>
                         <MeetUps meetUps={this.state.meetUps} isBuddyView={this.state.isBuddyView} refresh={this.refresh}/>
@@ -76,6 +77,7 @@ class MeetUpsAndRatings extends Component {
 }
 export default connect(
     (state) => ({
-        user: state.user
+        user: state.user,
+        requestNotification: state.requestNotification
     })
 )(MeetUpsAndRatings);

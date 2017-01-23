@@ -99,10 +99,29 @@ const reloadRequests = (state = initialStateMessages, action) => {
     }
 };
 
+const initialStateRequestNotification = {
+    countBuddy: 0,
+    countTraveller:0
+};
+
+const requestNotification = (state = initialStateRequestNotification, action) => {
+
+    switch (action.type) {
+        case 'UPDATE_REQUEST_NOTIFICATION_COUNT_SUCCESS':
+            return {
+                ...state,
+                ...action.payload
+            };
+        default:
+            return state;
+    }
+};
+
 export const rootReducer = combineReducers({
     user,
     modals,
     messages,
     messagesMenu,
-    reloadRequests
+    reloadRequests,
+    requestNotification
 });
