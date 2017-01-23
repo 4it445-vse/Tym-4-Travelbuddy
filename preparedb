@@ -14,120 +14,32 @@ ALTER TABLE `BuddyRating` ADD FOREIGN KEY (meetup_id) REFERENCES Meetup(id);
 ALTER TABLE `Message` MODIFY COLUMN `displayed` tinyint(1)	DEFAULT 0;
 
 INSERT INTO `Buddy` (`id`, `email`, `password`, `sex`, `name`, `surname`, `city`, `about_me`, `is_hosting`, `emailVerified`) VALUES
-(1, 'karel.pacovsky@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'male', 'Karel', 'Pacovský', 'Olomouc (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 1, 1),
-(2, 'tobias.seborsky@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'male', 'Tobiáš', 'Seborský', 'Olomouc (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 1, 1),
-(3, 'lukas.kouba@email.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'male', 'Lukáš', 'Kouba', 'Liberec (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 1, 1),
-(4, 'karolina.kebova@gmail.com', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'female', 'Karolína', 'Kebová', 'Prague (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 1, 1),
-(5, 'patrik.strnad@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'male', 'Patrik', 'Strnad', 'Prague (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 1, 1),
-(6, 'tests@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'Evžen', 'Radkovský', 'Ostrava (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 0, 1),
-(7, 'user226@monitoring.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'Lucie', 'Radlicka', 'Ostrava (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 0, 1),
-(8, 'lol00@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'Jaroslava', 'Krejcová', 'Prague (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 0, 1),
-(9, 'lukisjama@gmail.com', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'Lukáš', 'Marek', 'Prague (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 0, 1),
-(10, 'anonym@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'Evžen', 'Ctiborský', 'Brno (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 0, 1),
-(11, '1karel.pacovsky@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'male', 'David', 'Pacovský', 'Olomouc (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 1, 1),
-(12, '1tobias.seborsky@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'male', 'David', 'Seborský', 'Liberec (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 1, 1),
-(13, '1lukas.kouba@email.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'male', 'Lukáš', 'David', 'Liberec (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 1, 1),
-(14, '1karolina.kebova@gmail.com', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'female', 'Eliška', 'Kebová', 'Prague (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 1, 1),
-(15, '1patrik.strnad@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'male', 'David', 'Strnad', 'Prague (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 1, 1),
-(16, '1tests@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'David', 'Radkovský', 'Ostrava (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 0, 1),
-(17, '1user226@monitoring.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'Eliška', 'Radlicka', 'Ostrava (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 0, 1),
-(18, '1lol00@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'Eliška', 'Krejcová', 'Prague (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 0, 1),
-(19, '1lukisjama@gmail.com', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'David', 'Marek', 'Prague (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 0, 1),
-(20, '1anonym@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'David', 'Ctiborský', 'Brno (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 0, 1),
-(21, '2karel.pacovsky@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'male', 'Martin', 'Pacovský', 'Olomouc (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 1, 1),
-(22, '2tobias.seborsky@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'male', 'Martin', 'Seborský', 'Liberec (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 1, 1),
-(23, '2lukas.kouba@email.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'male', 'Martin', 'Kouba', 'Liberec (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 1, 1),
-(24, '2karolina.kebova@gmail.com', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'female', 'Monika', 'Kebová', 'Prague (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 1, 1),
-(25, '2patrik.strnad@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'male', 'Martin', 'Strnad', 'Prague (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 1, 1),
-(26, '2tests@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'Evžen', 'Radkovský', 'Ostrava (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 0, 1),
-(27, '2user226@monitoring.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'Monika', 'Radlicka', 'Ostrava (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 0, 1),
-(28, '2lol00@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'Monika', 'Krejcová', 'Prague (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 0, 1),
-(29, '2lukisjama@gmail.com', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'Aleš', 'Marek', 'Prague (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 0, 1),
-(30, '2anonym@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'Aleš', 'Ctiborský', 'Brno (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 0, 1),
-(31, 'j.draslar@gmail.com', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'Jordan', 'Karlovsky', 'Ostrava (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 0, 1),
-(32, 'eee@email.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'female', 'Jožorář', 'ěščřžýáíé', 'Kroměříž (Czechia)', 'áéčířžěéščřéíábé áétýšéíčátyéw ', 1, 1),
-(33, 'a@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'male', 'Patrik', 'Kouba', 'Liberec (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 1, 1),
-(34, 'b@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'female', 'Stanislava', 'Kebová', 'Prague (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 1, 1),
-(35, 'c@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'male', 'Radomír', 'Strnad', 'Prague (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 1, 1),
-(36, 'd@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'Francis', 'Radkovský', 'Ostrava (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 0, 1),
-(37, 'e@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'Alžběta', 'Radlicka', 'Ostrava (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 0, 1),
-(38, 'f@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'Josefína', 'Krejcová', 'Prague (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 0, 1),
-(39, 'g@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'Jan', 'Marek', 'Prague (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 0, 1),
-(40, 'h@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'Evžen', 'Ctiborský', 'Brno (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 0, 1),
-(41, 'i@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'male', 'David', 'Pacovský', 'Olomouc (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 1, 1),
-(42, 'j@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'male', 'David', 'Seborský', 'Liberec (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 1, 1),
-(43, 'k@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'male', 'Lukáš', 'David', 'Liberec (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 1, 1),
-(44, 'l@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'female', 'Eliška', 'Kebová', 'Prague (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 1, 1),
-(45, 'm@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'male', 'David', 'Strnad', 'Prague (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 1, 1),
-(46, 'n@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'David', 'Radkovský', 'Ostrava (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 0, 1),
-(47, 'o@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'Eliška', 'Radlicka', 'Ostrava (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 0, 1),
-(48, 'p@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'Eliška', 'Krejcová', 'Prague (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 0, 1),
-(49, 'q@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'David', 'Marek', 'Prague (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 0, 1),
-(50, 'r@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'David', 'Ctiborský', 'Brno (Czechia)', 'Lorem Ipsum je demonstrativní výplňový text používaný v tiskařském a knihařském průmyslu. Lorem Ipsum je považováno za standard v této oblasti už od začátku 16. století, kdy dnes neznámý tiskař vzal kusy textu a na jejich', 0, 1);
+(1, 'karel.pacovsky@seznam.cz', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'male', 'Karel', 'Pacovský', 'Olomouc (Czechia)', 'Ahoj, jmenuji se Karel a rád poznávám nová místa a nové lidi. Procestoval jsem už půlku života a nechci s tím přestat!', 1, 1),
+(2, 'romain.hoogmoed@gmail.com', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'male', 'Romain', 'Hoogmoed', 'Barcelona (Spain)', 'Hi! My name is Romain and I am just typical spanish student in his 4th semester at University of Barcelona.', 1, 1),
+(3, 'marian.welch@aol.com', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'female', 'Marian', 'Welch', 'London (United Kingdom)', 'Sup guys?! I am Marian and I am 23 years old. I like pizza and traveling. Currently not hosting because of small apartment', 0, 1),
+(4, 'karolina.kebova@gmail.com', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'female', 'Karolína', 'Kebová', 'Prague (Czechia)', 'I love my family and my little dog Bobo. I offer hosting for girls only! ', 1, 1),
+(5, 'bryant@myego.com', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'male', 'Ben', 'Bryant', 'Sydney (New South Wales, Australia)', 'Hi, My name is Ben. As you can see, I am normal aussie guy who likes beers, girls and music. I would loved to měět anyone interested in same hobbies!', 0, 1),
+(6, 'jackie@red.com', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'female', 'Jackie', 'Red', 'Birmingham (United Kingdom)', 'Hello world! My name is Jackie. For now, I have been into 14 countries. Where should I go next? ', 1, 1),
+(7, 'sof@copyrocks.com', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'Sophie', 'Cooper', 'Berlin (Germany)', 'British girl living in Germany. Check my facebook page! https://www.facebook.com/TehLurdOfTehReingsOfficial/', 1, 1),
+(8, 'a.brooks@gmail.com', '$2a$10$QRz.DxbJljYwbaXj.lanquccH62wIrFyQqGP1UPRBQ1c4Ljad53/u', 'na', 'Alex', 'Brooks', 'Frankfurt (Germany)', 'Guys, Germany sucks! Really, do not go there. That\' why I travell so much', 0, 1);
 
 INSERT INTO `Message` (`id`, `text`, `displayed`, `date_time`, `buddy_id_from`, `buddy_id_to`) VALUES
-(1, 'Hi, this is sample message.', 0, '2016-11-24 12:39:48', 1, 2);
+(1, 'Hi.', 0, '2016-11-24 12:39:48', 1, 2),
+(2, 'Hey.', 0, '2016-11-24 12:40:41', 2, 1),
+(3, 'Whats up?', 0, '2016-11-24 12:41:00', 2, 1),
+(4, 'Wanna meet?', 0, '2016-11-24 12:42:18', 1, 2),
+(5, 'Yeah, sure!', 0, '2016-11-24 12:42:30', 2, 1),
+(6, 'Hi Marien!', 0, '2016-11-24 12:17:48', 1, 3);
 
 
 INSERT INTO `Request` (`id`, `text`, `city`, `from`, `to`, `buddy_id`) VALUES
-(1, 'Nechtěl by mě někdo provést Prahou, jsem uživatel 1?', 'Prague (Czechia)', '2016-11-24 12:38:35', '2016-11-24 12:38:35', 1),
-(3, 'Nechtěl by mě někdo provést Prahou, jsem uživatel 1?', 'Prague (Czechia)', '2016-11-24 12:39:48', '2016-11-24 12:39:48', 1);
-
-INSERT INTO `Message` (`text`, `displayed`, `date_time`, `buddy_id_from`, `buddy_id_to`) VALUES
-('Hi, this is sample message. TO', 0, '2016-11-24 05:30:48', 1, 31),
-('Hi, this is sample message. FROM', 1, '2016-11-24 01:39:48', 31, 1),
-('Hi, this is sample message. TO', 1, '2016-11-24 03:39:48', 1, 31),
-('Hi, this is sample message. TO', 0, '2016-11-24 06:39:48', 1, 31),
-
-('Hi, this is sample message. TO', 0, '2016-11-24 05:39:48', 2, 31),
-('Hi, this is sample message. TO', 1, '2016-11-24 04:39:48', 2, 31),
-
-('Hi, this is sample message. TO', 1, '2016-11-24 09:39:48', 3, 31),
-
-('Hi, this is sample message. FROM', 1, '2016-11-24 17:39:48', 31, 4),
-('Hi, this is sample message. FROM', 1, '2016-11-24 21:39:48', 31, 4),
-('Hi, this is sample message. FROM', 1, '2016-11-24 16:39:48', 31, 4);
+(1, 'Hi, I would like to visit Barcelona? Anyone interested?', 'Barcelona (Spain)', '2017-11-24 12:38:35', '2017-12-24 12:38:35', 3),
+(5, 'Hello Me & my 2 frnds are planning a trip to prague from 14th feb to 18th feb Can anyone host us?? ', 'Prague (Czechia)', '2017-02-14 12:39:48', '2017-02-18 12:39:48', 3);
 
 INSERT INTO `Meetup` (`id`, `verified`, `done`, `date_time`, `buddy_id_from`, `buddy_id_to`) VALUES
-(1, 1, 1, '2016-11-22 00:00:00', 31, 1),
-(2, 1, 1, '2016-11-21 00:00:00', 31, 1),
-(3, 1, 1, '2016-11-20 00:00:00', 31, 1),
-(4, 1, 1, '2016-11-19 00:00:00', 31, 1),
-(5, 1, 1, '2016-11-18 00:00:00', 31, 1),
-(6, 1, 1, '2016-11-18 00:00:00', 31, 2),
-(7, 1, 1, '2016-11-18 00:00:00', 3, 31),
-(8, 1, 1, '2016-11-22 00:00:00', 3, 31),
-(9, 1, 1, '2016-11-21 00:00:00', 3, 31),
-(10, 1, 1, '2016-11-20 00:00:00', 3, 31),
-(11, 1, 1, '2016-11-19 00:00:00', 3, 31),
-(12, 1, 1, '2016-11-18 00:00:00', 3, 31),
-(13, 1, 1, '2016-11-18 00:00:00', 4, 31),
-(14, 1, 1, '2017-01-13 00:00:00', 31, 4),
-(18, 0, 0, '2017-01-15 00:00:00', 31, 5),
-(19, 1, 0, '2017-01-15 00:00:00', 31, 5),
-(20, 0, 0, '2017-01-31 00:00:00', 31, 5),
-(21, 1, 0, '2017-01-31 00:00:00', 31, 5),
-(22, 1, 1, '2017-01-15 00:00:00', 31, 5),
-(23, 1, 1, '2017-01-15 00:00:00', 31, 5);
+(1, 1, 1, '2017-01-20 16:00:00', 1, 2),
+(2, 1, 0, '2017-02-14 15:30:00', 3, 1);
 
 INSERT INTO `BuddyRating` (`id`, `text`, `rating`, `date_time`, `buddy_id_from`, `buddy_id_to`, `meetup_id`) VALUES
-(1, 'Hodnocení od 1', 5, '2016-11-24 05:30:48', 1, 31, 1),
-(2, 'Hodnocení od 31', 4, '2016-11-26 05:30:48', 31, 1, 1),
-(3, 'Hodnocení od 1', 3, '2016-11-28 05:30:48', 1, 31, 2),
-(5, 'Hodnocení od 1', 5, '2016-11-24 05:30:48', 3, 31, 7),
-(6, 'Hodnocení od 31', 4, '2016-11-26 05:30:48', 31, 3, 7),
-(7, 'Hodnocení od 1', 3, '2016-11-28 05:30:48', 3, 31, 8),
-(8, 'Hodnocení od 31', 5, '2016-12-01 05:30:48', 31, 3, 9),
-(9, 'Moje nove hodnoceni', 4, '2017-01-13 18:39:48', 31, 1, 2),
-(10, 'ddfs', 4, '2017-01-13 18:53:31', 31, 1, 4),
-(14, 'edsfz', 4, '2017-01-13 18:56:38', 31, 1, 5),
-(15, 'ssf\nsdf\ns\ndfs\nfs', 4, '2017-01-13 18:57:14', 31, 2, 6),
-(16, 'sf</br>sf</br>as</br>f', 3, '2017-01-13 19:01:31', 31, 3, 8),
-(17, 'sdv', 0, '2017-01-13 19:06:30', 31, 3, 10),
-(18, 'd', 3, '2017-01-13 19:10:24', 31, 3, 11),
-(19, 'sf', 3, '2017-01-13 21:17:26', 31, 4, 13),
-(20, 'sd', 2, '2017-01-13 21:18:56', 31, 3, 12),
-(22, 'da', 3, '2017-01-14 08:31:32', 31, 1, 3),
-(23, 'sss', 3, '2017-01-14 11:27:49', 31, 4, 14),
-(24, 'sss', 3, '2017-01-16 11:27:49', 31, 5, 22),
-(25, 'sss', 3, '2017-01-16 11:27:49', 5, 31, 23);
+(1, 'Romain is relly cool guy :)', 5, '2017-01-21 05:30:48', 1, 2, 1),
+(2, 'Big up for Karel and all from his crew!', 4, '2017-01-21 15:30:48', 31, 2, 1);
