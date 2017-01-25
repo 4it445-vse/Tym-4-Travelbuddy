@@ -145,6 +145,7 @@ class MessagesUserPart extends Component {
     fillUserMessagesAndRefresh = (response, messages, key, value) => {
         let buddy = response.data[0];
         currentUser.composeProfilePhotoName(buddy, (avatarSrcResult) => {
+            console.log("in composeProfilePhotoName", buddy.surname);
             let userMessageObj = this.createUserMessage(messages, key, response, avatarSrcResult);
             this.state.usersWithMessages.push(userMessageObj);
 

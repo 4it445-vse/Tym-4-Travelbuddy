@@ -33,10 +33,15 @@ function composeProfilePhotoName(buddy, cb){
         let path = '/api/containers/' + containerName + '/download/filename';
         let client = new XMLHttpRequest();
         client.open('GET', path);
-        console.log("in will be send");
+        console.log("in will be send", buddy.surname);
         client.onreadystatechange = () => {
-            cb(client.responseText);
+            console.log("before condition", buddy.surname);
+            if ((client.status == 200) && (client.readyState == 4)) {
+                console.log("before callback", buddy.surname);
+                cb(client.responseText);
+            }
         }
+        console.log("before send", buddy.surname);
         client.send();
     }else{
         cb('http://images.megaupload.cz/mystery-man.png');
